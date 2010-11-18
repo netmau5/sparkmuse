@@ -30,6 +30,7 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   }
 
   public SparkVO findById(final Long id) {
+    //a simple test commit
     return helper.load(SparkVO.class, id);
   }
 
