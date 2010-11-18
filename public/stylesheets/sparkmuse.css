@@ -1,0 +1,609 @@
+/*
+    Glossary
+    <LIBRARY> common stuff
+    <HEADER>
+    <MENU>
+    <BODY>
+    <FOOTER>
+    <TAGS>
+    <MODALS>
+    <POST-TYPES>
+    <BUTTONS>
+    <TWITTER>
+*/
+$LOGO_LIGHT_YELLOW: #fdf9d2;
+$LOGO_YELLOW: #f5e21f;
+$LOGO_DARK_YELLOW: #FFC91F;
+$LOGO_BLUE: #69D2E7;
+$LOGO_LIGHT_BLUE: #A7DBD8;
+$LOGO_DARK_BLUE: #007160;
+$LOGO_ORANGE: #FA6900;
+$LOGO_LIGHT_ORANGE: #F38630;
+$COLOR_NEUTRAL: #E0E4CC;
+$COLOR_LIGHT_NEUTRAL: #fefffa;
+$COLOR_DARK_NEUTRAL: #d1d9a9;
+
+$FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+
+
+/* BEGIN <LIBRARY> */
+
+label {
+  color: $LOGO_LIGHT_ORANGE;
+  text-shadow: 0 1px 0 white;
+  display: block;
+}
+
+
+a {
+  color: $LOGO_DARK_BLUE;
+  text-decoration: none;
+}
+
+a:hover {
+  color: $LOGO_ORANGE;
+  text-decoration: underline;
+}
+
+a:active {
+  color: $LOGO_YELLOW;
+}
+
+/* END <LIBRARY> */
+
+/* BEGIN <HEADER> */
+
+#message-container {
+  background: url("../images/horizontal-rainbow.gif") repeat-x 0 -4px;
+  height: 6px;
+  position: relative;
+  z-index:2;
+}
+
+#header-container-wrapper {
+  background: url("../images/sky.jpg") repeat-x scroll 50% 0 white;
+  border-bottom: 4px solid #ff7c42;
+}
+
+#header-container {
+  background: url("../images/gradients/opacity-white-0.85.png") repeat 0 0;
+}
+
+#header {
+  padding-top: 6px;
+  height: 58px;
+  line-height: 58px;
+}
+
+#header * {
+  z-index: 2;
+  position: relative;
+}
+
+#header ul {
+  font-size: 16px;
+  font-variant: small-caps;
+  letter-spacing: 1px;
+  text-transform: lowercase;
+  list-style-type: none;
+  float: right;
+  height: 50px;
+  margin: 0;
+}
+
+#header ul li {
+  float: right;
+  padding-left: 1em;
+}
+
+#logo {
+  padding-top: 3px;
+}
+
+
+/* END <HEADER> */
+
+/* BEGIN <BODY> */
+
+.page-container {
+  margin: 0 auto;
+  width: 1022px;
+}
+
+#mountain-bg {
+  width:100%;
+  z-index: -1;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+#body-container-wrapper {
+  background: url("../images/mountains.jpg") repeat-x scroll 50% 100% white;
+  width: 100%;
+  border-bottom: 3px solid #ff7c42;
+}
+
+#body-container { 
+  background: url("../images/sky.jpg") repeat-x scroll 50% 0;
+  width: 100%;
+}
+
+#header .cloud {
+  position: absolute;
+  z-index: 1;
+  left: 180px;
+}
+
+#body {
+  z-index: 3;
+  margin: 15px 0 40px 0;
+  position: relative;
+}
+
+#city {
+  position: absolute;
+  bottom: -40px;
+  left: 700px;
+}
+
+.sidebox {
+  padding: 8px;
+  color: #f3f3f3;
+}
+
+.blurb {
+  background-color: $COLOR_LIGHT_NEUTRAL;
+  border-bottom: 5px solid $LOGO_LIGHT_BLUE;
+
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+  -moz-box-shadow: 1px 1px 3px #b2b2b2;
+  -webkit-box-shadow: 1px 1px 3px #b2b2b2;
+  box-shadow: 1px 1px 3px #b2b2b2;
+
+  font-family: $FONT_FAMILY_STANDARD;
+
+  color: #373a29;
+
+  margin-bottom: 1em;
+}
+
+  .blurb-inner {
+    padding: 1em;
+  }
+
+  .blurb h4 {
+    font-size: 1.2em;
+    display: block;
+    font-weight: normal;
+    color: #adb780;
+  }
+
+  .blurb p {
+    margin-bottom: 0.5em;
+    font-size: 1.1em; 
+  }
+
+.page-title, .page-canvas {
+  padding-top: 1em;
+  background: url("../images/textures/transparent-squares-neutral.png");
+}
+
+.page-canvas { padding-bottom: 1em; }
+
+  .page-title h2, .page-canvas h2 { margin-top: 5px; }
+
+
+  .page-title.left {
+    margin-right: 0 !important;
+  }
+
+
+/* only give left border/radius if spans entire width */
+.content-wrapper.right {
+  -webkit-border-top-left-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -moz-border-radius-topleft: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+.right > .content-container {
+  -webkit-border-top-left-radius: 0px;
+  -webkit-border-bottom-left-radius: 0px;
+  -moz-border-radius-topleft: 0px;
+  -moz-border-radius-bottomleft: 0px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+}
+
+/* only give right border/radius if last in row */
+.content-wrapper.left {
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+
+  margin-right: 0 !important;
+}
+
+.left > .content-container {
+  -webkit-border-top-right-radius: 0px;
+  -webkit-border-bottom-right-radius: 0px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+}
+
+.content-wrapper {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+
+  -moz-box-shadow: 1px 1px 3px #b2b2b2;
+  -webkit-box-shadow: 1px 1px 3px #b2b2b2;
+  box-shadow: 1px 1px 3px #b2b2b2;
+
+  background: $COLOR_LIGHT_NEUTRAL;
+}
+
+  .content-inner {
+    border: 1px solid #999;
+  }
+
+  .content-container {
+    border: 1px solid white;
+
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+  }
+
+    .content-container .wrapper .inner {
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
+
+/* END <BODY> */
+
+
+/* BEGIN <FOOTER> */
+
+#footer-container {
+  height: 46px;
+  font-size: 16px;
+  line-height: 40px;
+  border-top: 6px solid #52aba4;
+  background-color: #c2f6ec;
+} 
+
+#footer ul {
+  padding: 0;
+  list-style-type: none;
+  margin: 0;
+}
+
+#footer ul li {
+  float: left;
+  padding: 0 15px 4px 0;
+}
+
+#footer ul li a {
+}
+
+#copyright {
+  background: url("../images/eraser.png");
+  margin: -50px 0 -5px 900px;
+}
+
+/* END <FOOTER> */
+
+/* BEGIN <TAGS> */
+
+.tagsinput {
+  margin: 0.5em 0;
+  background: transparent url("../images/input-bg.png") no-repeat 0px 0px;
+  -webkit-box-shadow: 0px 1px 0px white;
+  -moz-box-shadow: 0px 1px 0px white;
+  box-shadow: 0px 1px 0px white;
+  background-color:#fff;
+  border:1px solid #bbb; 
+  padding: 3px 4px;
+}
+
+.tag {
+  font-variant: small-caps;
+  font-family: Helvetica, sans-serif;
+  text-transform: lowercase;
+  font-size: 0.8em;
+  line-height: 0.8em;
+  font-weight: bold;
+  padding: 5px 5px 5px 26px;
+  background: url("../images/icons/silk/tag_blue.png") 5px 50% no-repeat #f5f5f5;
+  cursor: pointer;
+  display: block;
+  float: left;
+  color: $LOGO_BLUE;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border:1px solid #dedede;
+  border-top:1px solid #eee;
+  border-left:1px solid #eee;
+}
+
+  .tag:hover{
+    text-decoration: none;
+    background-color: #e7f3f5;
+    border:1px solid #8bd6e4;
+  }
+
+  .tag:active{
+    text-decoration: none;
+    background-color: #8bd6e4;
+    color:#fff;
+  }
+
+  .tag a {
+    font-weight: bold;
+    text-decoration:none;
+    font-size: 1em;
+    color: #666;
+  }
+
+    .tag a:hover {
+      color: red;
+    }
+
+/* END <TAGS> */
+
+
+/* BEGIN <MODALS> */
+
+.simplemodal-overlay {
+  background: url("../images/textures/stars-black.gif");
+}
+
+.simplemodal-container {
+  -moz-box-shadow: 1px 1px 3px #b2b2b2;
+  -webkit-box-shadow: 1px 1px 3px #b2b2b2;
+  box-shadow: 1px 1px 3px #b2b2b2;
+
+  background: $COLOR_LIGHT_NEUTRAL;
+
+}
+
+.simplemodal-inner {
+  border: 1px solid white;
+}
+
+  .simplemodal-inner .visual {
+    background: url("../images/blades_small.gif") center -10px no-repeat $COLOR_LIGHT_NEUTRAL;
+    height: 235px;
+    width: 250px;
+    border-bottom: 1px solid $COLOR_DARK_NEUTRAL;
+  }
+
+  .simplemodal-inner .message {
+    color: #666;
+    font-weight: bold;
+    text-transform: lowercase;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+    text-align: center;
+    border-top: 1px solid $COLOR_NEUTRAL;
+    text-shadow: 0 1px 0 white;
+    padding: 5px;
+    background: url("../images/textures/noise.png") top left repeat $COLOR_NEUTRAL;
+  }
+
+/* END <MODALS> */
+
+/* BEGIN <POST-TYPES> */
+
+a.button.leading-question:hover,
+.comment-container .leading-question { 
+  background-color:#dff4ff;
+  border:1px solid #c2e1ef;
+  color:#336699;
+}
+
+a.button.leading-question:active {
+  text-decoration: none;
+  background-color:#6299c5;
+  border:1px solid #6299c5;
+  color:#fff;
+}
+
+a.button.competitor:hover,
+.comment-container .competitor {
+  background-color:#fdf5ce;
+  border:1px solid #fbcb09;
+  color:#c77405; 
+}
+
+a.button.competitor:active {
+  text-decoration: none;
+  background-color:#c77405;
+  border:1px solid #c77405;
+  color:#fff;
+}
+
+a.button.resource:hover,
+.comment-container .resource {
+  background-color:#F5D9B5;
+  border:1px solid #EB8500;
+  color:#915200;
+}
+
+a.button.resource:active {
+  text-decoration: none;
+  background-color:#915200;
+  border:1px solid #915200;
+  color:#fff;
+}
+
+/* END <POST-TYPES> */
+
+/* BEGIN <BUTTONS> */
+
+a.button, button {
+  display:block;
+  float:left;
+  margin: 0.7em 0.5em 0.7em 0;
+
+  border:1px solid #dedede;
+  border-top:1px solid #eee;
+  border-left:1px solid #eee;
+
+  background-color: #f5f5f5;
+  font-family: $FONT_FAMILY_CONTROLS;
+  letter-spacing: 1px;
+  font-size: 12px;
+  line-height:130%;
+  text-decoration:none;
+  color:#565656;
+  cursor:pointer;
+}
+a.button span, button span {
+  display: block;
+  padding:5px 10px 5px 7px;   /* Links */
+}
+button {
+  width:auto;
+  overflow:visible;
+  padding:4px 10px 3px 7px;   /* IE6 */
+}
+button[type] {
+  padding:4px 10px 4px 7px;   /* Firefox */
+  line-height:17px;           /* Safari */
+}
+*:first-child+html button[type] {
+  padding:4px 10px 3px 7px;   /* IE7 */
+}
+button img, a.button img{
+  margin:0 3px -3px 0 !important;
+  padding:0;
+  border:none;
+  width:16px;
+  height:16px;
+  float:none;
+}
+
+.controls {
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 15px;
+  padding-bottom: 1em;
+}
+
+  .controls .button {
+    float: none;
+    display: inline-block;
+  }
+
+
+/* Button colors
+-------------------------------------------------------------- */
+
+/* Standard */
+
+button:hover, a.button:hover{
+  text-decoration: none;
+  background-color:#dff4ff;
+  border:1px solid #c2e1ef;
+  color:#336699;
+}
+a.button:active, button:active {
+  text-decoration: none;
+  background-color:#6299c5;
+  border:1px solid #6299c5;
+  color:#fff;
+}
+
+
+/* Positive */
+button.positive, a.positive {
+    color:#529214;
+}
+a.positive:hover, button.positive:hover {
+    background-color:#E6EFC2;
+    border:1px solid #C6D880;
+    color:#529214;
+}
+a.positive:active, button.positive:active {
+    background-color:#529214;
+    border:1px solid #529214;
+    color:#fff;
+}
+
+/* Negative */
+a.negative, button.negative {
+    color:#d12f19;
+}
+a.negative:hover, button.negative:hover {
+    background:#fbe3e4;
+    border:1px solid #fbc2c4;
+    color:#d12f19;
+}
+a.negative:active, button.negative:active {
+    background-color:#d12f19;
+    border:1px solid #d12f19;
+    color:#fff;
+}
+
+/* Spark */
+
+body a.create-spark span, body button.create-spark span {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+a.create-spark img { margin-bottom: -2px !important; }
+
+a.create-spark:hover, button.create-spark:hover {
+  background-color:#fdf5ce;
+  border:1px solid #fbcb09;
+  color:#c77405;
+}
+a.create-spark:active, button.create-spark:hover {
+  background-color:$LOGO_LIGHT_YELLOW;
+  border:1px solid $LOGO_YELLOW;
+  color:#fff;
+}
+
+/* END <BUTTONS> */
+
+
+/* BEGIN <TWITTER> */
+
+a.twitter-login {
+  display: block;
+  background: url("../images/twitter/twitter_signin.png");
+  width: 150px;
+  height: 24px;
+  text-indent: -9999px;
+  cursor: pointer;
+}
+
+a.twitter-login:hover {
+  background: url("../images/twitter/twitter_signin.png") 0 -24px;
+}
+
+a.twitter-login:active {
+  background: url("../images/twitter/twitter_signin.png") 0 -48px;
+}
+
+
+/* END <TWITTER> */

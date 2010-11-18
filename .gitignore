@@ -1,0 +1,9 @@
+*.iws
+*.ipr
+*.iml
+test-result/
+tmp/
+precompiled/
+logs/
+out/
+.svn/

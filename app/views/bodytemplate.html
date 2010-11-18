@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>#{get 'title' /}</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}"/>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/sparkmuse.css'}"/>
+  <!--[if IE 6]>
+  <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/ie.css'}"/>
+  <![endif]-->
+  <link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}"/>
+
+  <script type="text/javascript" src="@{'public/javascripts/jquery/jquery-1.4.2.min.js'}"></script>
+  <script type="text/javascript" src="@{'public/javascripts/jquery/jquery.simplemodal-1.3.5.min.js'}"></script>
+  <script type="text/javascript" src="@{'public/javascripts/sparkmuse.js'}"></script>
+  <script type="text/javascript" src="@{'public/javascripts/mustache.js'}"></script>
+</head>
+<body>
+
+<div id="message-container"></div>
+
+<div id="header-container-wrapper">
+<div id="header-container">
+  <div class="page-container clearfix" id="header">
+    <div class="span-6">
+      <a href="@{Home.index()}"><img src="@{'/public/images/logocomplete_v2.png'}" alt="Sparkmuse" id="logo"/></a>
+    </div>
+    <div class="span-18 last">
+      <ul>
+        <li><a href="@{Application.logout()}">Logout</a></li>
+        <li><a href="faq">FAQ</a></li>
+        <li><a href="about">About</a></li>
+        <li><a href="profile">netmau5</a> <img src="@{'public/images/icons/silk/lightbulb.png'}" alt="Reputation" />432</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</div>
+
+<div id="body-container-wrapper">
+<div id="body-container">
+  <div class="page-container clearfix">
+    <div id="body" class="span-24">
+      #{doLayout /}
+      <img src="@{'public/images/city-short.png'}" id="city"/>
+    </div>
+  </div>
+  <a href="http://www.twitter.com/netmau5"><img src="@{'public/images/eraser.png'}" id="copyright"/></a>
+</div>
+</div>
+
+<div id="footer-container">
+  <div class="page-container">
+    <div id="footer" class="clearfix">
+      <div class="span-24 last">
+        <ul>
+          <li><a href="http://blog.sparkmuse.com">Blog</a></li>
+          <li><a href="http://www.twitter.com/sparkmuse">Twitter</a></li>
+          <li><a href="#">About</a></li>
+          <li><a href="#">FAQ</a></li>
+          <li><a href="#">Feedback</a></li>
+          <li><a href="#">Credits</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  //clouds
+  $(document).ready(function(){
+    //cloud range is 0 to 860
+    var startingPositions = [0, 150, 350, 550, 750];
+    var newStartingPosition = function() {
+      //get a starting position index between 0 and 4
+      var left = startingPositions[parseInt(startingPositions.length * Math.random())];
+
+      //get a number between -25 and -50
+      var top = -25 * Math.random() - 25;
+      //get a number between .5 and .8
+      var opacity = .5 + .3 * Math.random();
+      return "left: " + left + "px; top: " + top + "px; opacity: " + opacity + "; display: none;";
+    };
+
+    var newDuration = function() {
+      //get a number between 50000 and 100000 (5s, 10s)
+      return 50000 * Math.random() + 50000;
+    }
+
+    var createCloud = function() {
+      var img = $('<img src="' + "@{'public/images/draft/cloud.png'}" + '" class="cloud" style="' + newStartingPosition() + '"/>');
+      $("#header").append(img);
+      var distance = 950 - parseInt(img.css("left"))
+      img.fadeIn(4000, 'linear')
+          .animate({left: "+=" + distance}, 60000 * distance/950, 'linear', function() {
+            img.fadeOut(2000, function() {
+              img.detach();
+            });
+          }).dequeue();
+    }
+
+    setTimeout(createCloud, 500);
+    setTimeout(createCloud, 2500);
+    setInterval(createCloud, 20000);
+
+  });
+</script>
+
+</body>
+</html>

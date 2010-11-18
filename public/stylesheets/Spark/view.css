@@ -1,0 +1,149 @@
+$LOGO_LIGHT_YELLOW: #fdf9d2;
+$LOGO_YELLOW: #f5e21f;
+$LOGO_DARK_YELLOW: #FFC91F;
+$LOGO_BLUE: #69D2E7;
+$LOGO_LIGHT_BLUE: #A7DBD8;
+$LOGO_DARK_BLUE: #007160;
+$LOGO_ORANGE: #FA6900;
+$LOGO_LIGHT_ORANGE: #F38630;
+$COLOR_NEUTRAL: #E0E4CC;
+$COLOR_LIGHT_NEUTRAL: #fefffa;
+$COLOR_DARK_NEUTRAL: #fefffa;
+
+$FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+
+.page-title .likes {
+  margin: 5px 5px 0 0;
+  cursor: pointer;
+  padding-top: 6px;
+  text-align: center;
+  background: url("../../images/likebulb_dim.png") 1px 0 no-repeat;
+  height: 26px;
+  width: 33px;
+  font-size: 9px;
+  float:left;
+  text-shadow: 1px white;
+}
+
+
+.spark-info-wrapper {
+  background-color: $COLOR_NEUTRAL;
+  border-right: 1px solid #999;
+  box-shadow: 1px 0px 3px #b2b2b2;
+}
+
+  .spark-info {
+    background: url("../../images/textures/circles.png");
+    padding-right: 1em;
+    padding-left: 1em;
+  }
+
+.comments-wrapper {
+  margin-left: 350px;
+}
+
+  .comments-wrapper .button {
+    margin: 1px 1px 0 0;
+    float: right;
+  }
+
+  .comments-wrapper .header-wrapper {
+      border-bottom: 1px solid $COLOR_NEUTRAL;
+      margin-bottom: 1em;
+    }
+
+      .comments-wrapper .header-wrapper .header {
+        border-bottom: 4px solid $LOGO_LIGHT_BLUE;
+      }
+
+        .comments-wrapper .header-wrapper .header h3 {
+          padding-left: 40px;
+          background: url("../../images/comment.png") 0 50% no-repeat;
+          height: 32px;
+          line-height: 32px;
+          margin-bottom: 0.2em;
+        }
+
+  .comments {
+    padding-right: 1em;
+  }
+
+  .comment-container {}
+
+    .comment-container .author {
+      position: relative;
+      bottom: -1px;
+      padding: 0 0 12px 4px;
+      margin-bottom: 0px;
+      font-size: 12px;
+      line-height: 1;
+      height: 20px;
+      background: url("../../images/comment_hook.png") 32px 22px no-repeat;
+    }
+
+      .comment-container .author cite {
+        display: block;
+        font-style: normal;
+      }
+
+        .comment-container .author cite img {
+          vertical-align: middle;
+          height: 16px;
+          width: 16px;
+          cursor: pointer;
+        }
+
+      .comment-container .author .likes {
+        background: url("../../images/icons/silk/lightbulb_off.png");
+        height: 16px;
+        width: 16px;
+        display: block;
+        float: left;
+        cursor: pointer;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+
+        .comment-container .author .likes.active,
+        .comment-container .author .likes:hover {
+          background: url("../../images/icons/silk/lightbulb.png");
+        }
+
+    .comment-container blockquote {
+      border: 1px solid #c9c2c1;
+      padding: 0.8em;
+      background-color: white;
+
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+
+      -moz-box-shadow: 1px 1px 1px #b2b2b2;
+      -webkit-box-shadow: 1px 1px 1px #b2b2b2;
+      box-shadow: 1px 1px 1px #b2b2b2;
+
+      font-family: $FONT_FAMILY_STANDARD;
+    }
+
+    .comment-container .button span {
+      padding: 4px 10px 4px 6px;
+    }
+
+
+#rss-link {
+  text-indent: -9999px;
+  float: right;
+  background-image: url("../../images/landing-sprite.png");
+  background-repeat: no-repeat;
+  width: 150px;
+  height: 50px;
+  display: block;
+
+  background-position: -1200px 0;
+}
+
+  #rss-link:hover, #rss-link.selected {
+    background-position: -1050px 0;
+  }

@@ -1,0 +1,15 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET			    /				                        Landing.index
+GET         /login                          Authorization.authenticate
+GET         /authorize                      Authorization.authorize
+POST        /verifyAuthorizationToken       Authorization.verifyAuthorizationToken
+*           /{action}                       Application.{action}
+
+# Map static resources from the /app/public folder to the /public path
+GET			/public/        		        staticDir:public
+
+# Catch all
+*			/{controller}/{action}		            {controller}.{action}

@@ -1,0 +1,9 @@
+#{selenium}
+    open('http://localhost:9000/')
+    waitForPageToLoad(5000)
+    type('userName', 'netmau5')
+    type('url', 'http://blog.sparkmuse.com')
+    click('//button[@type='submit']')
+    waitForText('//div[@id='application']/h3', 'Thank you!')
+    assertTextPresent('Thank you!')
+#{/selenium}

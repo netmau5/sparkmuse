@@ -1,0 +1,164 @@
+#{extends 'bodytemplate.html' /}
+#{set title:'Create a New Spark' /}
+
+<style type="text/css">
+  div.tagsinput { overflow-y: auto;}
+  div.tagsinput .tag { font-size: 1em; line-height: 1em; }
+  div.tagsinput input { width:240px; margin:0px; border:1px solid transparent; padding:5px; background: transparent; color: #000; outline:0px;  margin-right:5px; margin-bottom:5px; }
+  div.tagsinput div { display:block; float: left; } 
+  .tags_clear { clear: both; width: 100%; height: 0px; }
+
+
+  div.field {
+    margin-bottom: 1em;
+  }
+
+  fieldset {
+    border: none;
+    padding: 0 15px;
+  }
+
+  input, textarea, .tagsinput {
+    font-size: 16px;
+    width: 497px;
+  }
+</style>
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <h2>
+    Create Spark
+  </h2>
+
+  <div class="span-13 content-wrapper">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <form name="NewSparkForm" target="@{Spark.submit()}" method="POST">
+
+    <div>
+
+      <fieldset>
+        <div class="field">
+          <label><span>Title</span></label>
+          <input type="text" name="title" value="" maxlength="100" />
+         </div>
+      </fieldset>
+
+      <hr/>
+
+      <fieldset>
+        <div class="field">
+          <label><span>Stage</span></label>
+          <input type="text" name="stage" value="" />
+         </div>
+      </fieldset>
+
+      <hr/>
+
+      <fieldset>
+        <div class="field">
+          <label>Problem</label>
+          <textarea name="problem"></textarea>
+         </div>
+        <div class="field">
+          <label>Solution</label>
+          <textarea name="solution"></textarea>
+         </div>
+      </fieldset>
+
+      <hr/>
+
+      <fieldset>
+        <div class="field">
+          <label><span>Tags</span></label>
+          <input type="text" name="tagNames" value="" id="tag-entry"/>
+        </div>
+      </fieldset>
+
+    </div>
+
+    <div class="controls">
+      <a href="#" onclick="$(document.NewSparkForm).submit();" class="button positive">
+        <span>
+          <img src="@{'public/images/icons/silk/accept.png'}" alt="Create Spark"/>
+          Create Spark
+        </span>
+      </a>
+      <a href="@{Home.index()}" class="button negative">
+        <span>
+          <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel"/>
+          Cancel
+        </span>
+      </a>
+      <div class="clear"></div>
+    </div>
+
+    </form>
+
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 blurb last">
+  <div class="blurb-inner">
+
+    <h4>Make It Stick</h4>
+
+    <p>
+      I want to create a community where techies can throw out their ideas and get quality
+      feedback from a diverse community, find potential cofounders, brainstorm new directions,
+      and track their progress.
+    </p>
+
+  </div>
+  </div>
+
+</div>
+
+    
+<script type="text/javascript" src="@{'public/javascripts/markdown/showdown.js'}"></script>
+<script type="text/javascript" src="@{'public/javascripts/jquery/jquery.tagsinput.js'}"></script>
+
+<script type="text/javascript">
+//  var converter = new Attacklab.showdown.converter();
+//   var html = converter.makeHtml(text);
+
+  $(document).ready(function() {
+   $("#tag-entry").tagsInput({
+     defaultText: "Add comma-separated tags",
+     width: "497px"
+   });
+
+
+    var converter = new Attacklab.showdown.converter();
+
+    $(document.NewSparkForm).formHandler(function(){
+      return {
+        title: this.title.value,
+        stage: this.stage.value,
+        problem: converter.makeHtml(this.problem.value),
+        solution: converter.makeHtml(this.solution.value),
+        tags: this.tagNames.value
+      };
+    });
+
+    var fadeIn = function (dialog) {
+      dialog.overlay.fadeIn('fast');
+      dialog.container.fadeIn('fast');
+      dialog.data.fadeIn('fast');
+    }
+
+    $(document.NewSparkForm).one(SM.Events.Submit, function(){
+      $("#modal-submission").modal({
+        opacity: 50,
+        close: false,
+        onOpen: fadeIn,
+        onClose: undefined
+      });
+    });
+  });
+</script>
+
+#{submissionModal /}
+
