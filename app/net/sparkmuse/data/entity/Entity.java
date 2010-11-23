@@ -2,6 +2,7 @@ package net.sparkmuse.data.entity;
 
 import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.data.mapper.Model;
+import net.sparkmuse.data.mapper.Property;
 import net.sparkmuse.common.CacheKey;
 
 import java.io.Serializable;
@@ -18,6 +19,7 @@ import com.google.common.base.Preconditions;
  */
 public abstract class Entity<T> implements Cacheable<T>, Serializable {
 
+  @Property("id")
   private Long id;
 
   public Long getId() {

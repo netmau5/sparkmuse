@@ -19,12 +19,12 @@ import java.util.List;
 public class TwigSparkDao extends TwigDao implements SparkDao {
 
   @Inject
-  public TwigSparkDao(ObjectDatastore datastore, ObjectMapper map) {
-    super(datastore, map);
+  public TwigSparkDao(DatastoreService service) {
+    super(service);
   }
 
   public SparkVO findById(final Long id) {
-    return helper.load(SparkVO.class, id);
+    return helper.mergeOwnerFor(helper.load(SparkVO.class, id));
   }
 
   public SparkVO create(final SparkVO spark) {
@@ -32,11 +32,11 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   }
 
   public List<SparkVO> loadPopular() {
-    return helper.all(SparkVO.class, datastore.find()
+    return helper.mergeOwnersFor(helper.all(SparkVO.class, datastore.find()
         .type(Entity.modelClassFor(SparkVO.class))
         .addSort("rating")
         .fetchMaximum(50)
-    );
+    ));
   }
 
   public String transform(final Function<SparkVO, SparkVO> transformation, final String cursor) {

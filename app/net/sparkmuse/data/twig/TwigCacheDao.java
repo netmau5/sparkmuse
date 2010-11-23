@@ -24,8 +24,8 @@ import com.google.code.twig.ObjectDatastore;
 public class TwigCacheDao extends TwigDao implements CacheDao {
 
   @Inject
-  public TwigCacheDao(ObjectDatastore datastore, ObjectMapper map) {
-    super(datastore, map);
+  public TwigCacheDao(DatastoreService service) {
+    super(service);
   }
 
   public <T> StoredCacheEntry save(Cacheable<T> cacheable) {

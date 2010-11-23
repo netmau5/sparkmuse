@@ -12,6 +12,9 @@ import models.VoteModel;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import com.google.code.twig.ObjectDatastore;
 
+import java.util.Set;
+import java.util.Map;
+
 /**
  * Created by IntelliJ IDEA.
  *
@@ -21,8 +24,8 @@ import com.google.code.twig.ObjectDatastore;
 public class TwigUserDao extends TwigDao implements UserDao {
 
   @Inject
-  public TwigUserDao(ObjectDatastore datastore, ObjectMapper map) {
-    super(datastore, map);
+  public TwigUserDao(DatastoreService service) {
+    super(service);
   }
 
   public UserVO findOrCreateUserBy(final String authProviderUserId, final String userName) {
@@ -42,6 +45,10 @@ public class TwigUserDao extends TwigDao implements UserDao {
 
   public UserVO findUserBy(Long id) {
     return helper.load(UserVO.class, id);
+  }
+
+  public Map<Long, UserVO> findUsersBy(Set<Long> ids) {
+    return helper.loadAll(UserVO.class, ids);
   }
 
   public UserVO update(UserVO user) {

@@ -33,11 +33,13 @@ public class UserFacade {
 
   private final UserDao userDao;
   private final WriteThruCacheService cache;
+  private final UserProvider userProvider;
 
   @Inject
-  public UserFacade(UserDao userDao, WriteThruCacheService cache) {
+  public UserFacade(UserProvider userProvider, UserDao userDao, WriteThruCacheService cache) {
     this.userDao = userDao;
     this.cache = cache;
+    this.userProvider = userProvider;
   }
 
   public String beginAuthentication() {
@@ -96,12 +98,7 @@ public class UserFacade {
   }
 
   public UserVO findUserBy(final Long id) {
-    UserVO cachedUser = cache.get(CacheKeyFactory.newUserKey(id));
-    if (null != cachedUser) {
-      return cachedUser;
-    }
-
-    return userDao.findUserBy(id);
+    return this.userProvider.get(id);
   }
 
   public void applyForInvitation(final String userName, final String url) {

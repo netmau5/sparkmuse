@@ -25,8 +25,8 @@ import models.PostModel;
 public class TwigPostDao extends TwigDao implements PostDao {
 
   @Inject
-  public TwigPostDao(ObjectDatastore datastore, ObjectMapper map) {
-    super(datastore, map);
+  public TwigPostDao(DatastoreService service) {
+    super(service);
   }
 
   public Collection<PostVO> findPostsBySpark(final SparkVO spark) {

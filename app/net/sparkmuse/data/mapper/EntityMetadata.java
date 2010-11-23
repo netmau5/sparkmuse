@@ -22,12 +22,15 @@ public class EntityMetadata<T extends Entity> {
   Map<String, Method> gettersByPropertyName;
   Map<String, Method> settersByPropertyName;
   Map<String, FieldMapper> fieldMapperByPropertyName;
+  Iterable<Field> fields;
 
   public EntityMetadata(Class<T> clazz, FieldMapperFactory fieldMapperFactory) {
     final ImmutableMap.Builder<String, Method> getterBuilder = ImmutableMap.builder();
     final ImmutableMap.Builder<String, Method> setterBuilder = ImmutableMap.builder();
     final ImmutableMap.Builder<String, FieldMapper> mapperBuilder = ImmutableMap.builder();
-    for(final Field field: fieldsFor(clazz)) {
+
+    fields = fieldsFor(clazz);
+    for(final Field field: fields) {
       final String propertyName = propertyNameOf(field);
       getterBuilder.put(propertyName, getterFor(field, clazz));
       setterBuilder.put(propertyName, setterFor(field, clazz));
@@ -40,6 +43,10 @@ public class EntityMetadata<T extends Entity> {
 
   public Set<String> getPropertyNames(){
     return gettersByPropertyName.keySet();
+  }
+
+  public Iterable<Field> getFields() {
+    return fields;
   }
 
   public Method getterFor(final String propertyName){
@@ -64,16 +71,9 @@ public class EntityMetadata<T extends Entity> {
       }
     }
 
-    //get the id field
-    boolean found = false;
-    for (Field field: clazz.getSuperclass().getDeclaredFields()) {
-      if ("id".equals(field.getName())) {
-        field.setAccessible(true);
-        toReturn.add(field);
-        found = true;
-      }
+    if (null != clazz.getSuperclass()) {
+      toReturn.addAll(fieldsFor(clazz.getSuperclass()));
     }
-    if (!found) throw new RuntimeException("No id field found on entity [" + clazz + "]");
 
     return toReturn;
   }

@@ -20,12 +20,12 @@ public class TwigDao {
 
   protected final ObjectMapper map;
   protected final ObjectDatastore datastore;
-  protected final DatastoreHelper helper;
-
-  public TwigDao(ObjectDatastore datastore, ObjectMapper map) {
-    this.map = map;
-    this.helper = new DatastoreHelper(datastore, map);
-    this.datastore = datastore;
+  protected final DatastoreService helper;
+  
+  public TwigDao(DatastoreService service) {
+    this.map = service.getMapper();
+    this.helper = service;
+    this.datastore = service.getDatastore();
   }
 
   /**

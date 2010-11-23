@@ -13,6 +13,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.base.Predicate;
 import models.SparkModel;
 import models.PostModel;
+import models.UserModel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +21,7 @@ import models.PostModel;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public class SparkServiceTest extends PluginFunctionalTest {
+public class SparkFacadeTest extends PluginFunctionalTest {
 
   private SparkFacade sparkFacade;
   private Long sparkId;
@@ -35,6 +36,7 @@ public class SparkServiceTest extends PluginFunctionalTest {
 
     SparkModel sparkModel = new SparkModel();
     sparkModel.title = "Sup";
+    sparkModel.authorUserId = 123L;
     datastore.store(sparkModel);
     sparkId = sparkModel.id;
 
@@ -62,6 +64,10 @@ public class SparkServiceTest extends PluginFunctionalTest {
     p3.inReplyToId = p2.id;
     datastore.store(p3);
     post3Id = p3.id;
+
+    UserModel userModel = new UserModel();
+    userModel.id = 123L;
+    datastore.store(userModel);
   }
 
   @After
@@ -94,6 +100,11 @@ public class SparkServiceTest extends PluginFunctionalTest {
 
     assertTrue(p2.getReplies().size() == 1);
     assertTrue(posts.getPosts().iterator().next() == p2); //first post should be p2 (higher votes)
+  }
+
+  @Test
+  public void shouldHaveAuthorUser() {
+    assertTrue(sparkFacade.findSparkBy(sparkId).getAuthor() != null);
   }
 
 }

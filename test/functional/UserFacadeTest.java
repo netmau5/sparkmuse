@@ -13,7 +13,7 @@ import models.UserApplicationModel;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public class UserServiceTest extends PluginFunctionalTest {
+public class UserFacadeTest extends PluginFunctionalTest {
 
   private UserFacade userFacade;
 

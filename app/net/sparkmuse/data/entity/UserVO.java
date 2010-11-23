@@ -5,6 +5,7 @@ import net.sparkmuse.data.mapper.Model;
 import net.sparkmuse.data.mapper.Property;
 import net.sparkmuse.common.CacheKey;
 import models.UserModel;
+import com.google.common.base.Function;
 
 /**
  * Created by IntelliJ IDEA.
@@ -74,4 +75,10 @@ public class UserVO extends Entity<UserVO> {
   public String toString() {
     return userName;
   }
+
+  public static Function<UserVO, Long> asUserIds = new Function<UserVO, Long>(){
+    public Long apply(UserVO entity) {
+      return entity.getId();
+    }
+  };
 }

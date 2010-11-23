@@ -17,7 +17,7 @@ import models.SparkModel;
  * @created: Jul 5, 2010
  */
 @Model(SparkModel.class)
-public class SparkVO extends Entity<SparkVO> implements Votable {
+public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
 
   @Property("title") private String title;
   @Property("stage") private Stage stage;
@@ -27,7 +27,6 @@ public class SparkVO extends Entity<SparkVO> implements Votable {
   @Property("created") private DateTime created;
   @Property("votes") private int votes;
   @Property("rating") private double rating;
-  @Property("authorUserId") private UserVO author;
 
   public enum Stage {
     NEW,
@@ -44,7 +43,7 @@ public class SparkVO extends Entity<SparkVO> implements Votable {
       final String solution,
       final List<String> tags){
     final SparkVO spark = new SparkVO();
-    spark.author = author;
+    spark.setAuthor(author);
     spark.title = title;
     spark.stage = Stage.valueOf(stage);
     spark.problem = problem;
@@ -52,14 +51,6 @@ public class SparkVO extends Entity<SparkVO> implements Votable {
     spark.tags = tags;
     spark.created = new DateTime();
     return spark;
-  }
-
-  public UserVO getAuthor() {
-    return author;
-  }
-
-  public void setAuthor(UserVO author) {
-    this.author = author;
   }
 
   public void upVote() {
