@@ -8,6 +8,7 @@ import com.google.inject.Inject;
 import java.lang.reflect.Field;
 import java.util.Map;
 import java.util.List;
+import java.util.HashMap;
 
 import org.joda.time.DateTime;
 import play.Logger;
@@ -23,6 +24,20 @@ public class FieldMapperFactory {
 
   private final Map<Class, FieldMapper> entityFieldTypeClassToMapper;
 
+  private static Map<Class, Class> primitivesMap = new HashMap<Class, Class>();
+
+  static {
+       primitivesMap.put(Integer.TYPE, Integer.class);
+       primitivesMap.put(Long.TYPE, Long.class);
+       primitivesMap.put(Double.TYPE, Double.class);
+       primitivesMap.put(Float.TYPE, Float.class);
+       primitivesMap.put(Boolean.TYPE, Boolean.class);
+       primitivesMap.put(Character.TYPE, Character.class);
+       primitivesMap.put(Byte.TYPE, Byte.class);
+       primitivesMap.put(Void.TYPE, Void.class);
+       primitivesMap.put(Short.TYPE, Short.class);
+  }
+
   @Inject
   public FieldMapperFactory(List<FieldMapper> mappers) {
     this.entityFieldTypeClassToMapper = Maps.uniqueIndex(mappers, new Function<FieldMapper, Class>(){
@@ -33,11 +48,12 @@ public class FieldMapperFactory {
   }
 
   public FieldMapper getMapperFor(final Field entityField){
-    Class type = entityField.getType();
+    Class type = entityField.getType().isPrimitive() ? primitivesMap.get(entityField.getType()) : entityField.getType();
+    
     while(null != type) {
       final FieldMapper mapper = this.entityFieldTypeClassToMapper.get(type);
       if (null != mapper) return mapper;
-      type = type.getSuperclass();
+      type = type.isInterface() && null == type.getSuperclass() ? Object.class : type.getSuperclass();
     }
     throw new IllegalArgumentException("No mapper defined for type [" + entityField.getType() + "]");
   }

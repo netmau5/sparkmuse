@@ -1,6 +1,7 @@
 package models;
 
-import com.vercer.engine.persist.annotation.Key;
+import com.google.code.twig.annotation.Id;
+
 
 /**
  * A generic table for any attachment to a Spark.  This might
@@ -11,7 +12,7 @@ import com.vercer.engine.persist.annotation.Key;
  */
 public class AssetModel {
 
-  @Key
+  @Id
   public long id;
   public Long postId; //post where this asset was attached
   public Long sparkId; //spark that is the owner of this asset

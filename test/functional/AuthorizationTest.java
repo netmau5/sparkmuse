@@ -2,11 +2,8 @@ package functional;
 
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import org.junit.Test;
-import org.junit.After;
-import org.junit.Before;
 import models.UserApplicationModel;
 import play.mvc.Http.*;
-import com.vercer.engine.persist.ObjectDatastore;
 
 /**
  * Created by IntelliJ IDEA.
@@ -23,7 +20,7 @@ public class AuthorizationTest extends PluginFunctionalTest {
 
     UserApplicationModel model = datastore.find().type(UserApplicationModel.class)
         .addFilter("userName", EQUAL, "netmau5")
-        .returnResultsNow()
+        .now()
         .next();
     assertEquals(model.userName, "netmau5");
     datastore.delete(model);

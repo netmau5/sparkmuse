@@ -1,7 +1,6 @@
 package net.sparkmuse.data;
 
 import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.VoteVO;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,5 +13,5 @@ public interface UserDao {
   UserVO findUserBy(Long id);
   UserVO update(UserVO user);
   void saveApplication(String userName, String url);
-  VoteVO saveVote(VoteVO vote);
+  void vote(Votable voteable, UserVO voter);
 }

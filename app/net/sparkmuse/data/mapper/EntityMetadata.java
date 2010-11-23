@@ -23,7 +23,7 @@ public class EntityMetadata<T extends Entity> {
   Map<String, Method> settersByPropertyName;
   Map<String, FieldMapper> fieldMapperByPropertyName;
 
-  public EntityMetadata(Class<T> clazz) {
+  public EntityMetadata(Class<T> clazz, FieldMapperFactory fieldMapperFactory) {
     final ImmutableMap.Builder<String, Method> getterBuilder = ImmutableMap.builder();
     final ImmutableMap.Builder<String, Method> setterBuilder = ImmutableMap.builder();
     final ImmutableMap.Builder<String, FieldMapper> mapperBuilder = ImmutableMap.builder();
@@ -31,7 +31,7 @@ public class EntityMetadata<T extends Entity> {
       final String propertyName = propertyNameOf(field);
       getterBuilder.put(propertyName, getterFor(field, clazz));
       setterBuilder.put(propertyName, setterFor(field, clazz));
-      mapperBuilder.put(propertyName, FieldMapperFactory.newMapperFor(field));
+      mapperBuilder.put(propertyName, fieldMapperFactory.getMapperFor(field));
     }
     gettersByPropertyName = getterBuilder.build();
     settersByPropertyName = setterBuilder.build();

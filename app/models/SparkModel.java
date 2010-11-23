@@ -1,8 +1,9 @@
 package models;
 
+import com.google.code.twig.annotation.Id;
+
 import java.util.List;
 
-import com.vercer.engine.persist.annotation.Key;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +13,8 @@ import com.vercer.engine.persist.annotation.Key;
  */
 public class SparkModel {
 
-  @Key public Long id;
+  @Id
+  public Long id;
   public Long authorUserId;
   public String title;
   public String stage;

@@ -8,7 +8,7 @@ import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.Cache;
 
 /**
- * Created by IntelliJ IDEA.
+ * presently unused, see ownedEntityProvider aspect
  *
  * @author neteller
  * @created: Nov 16, 2010

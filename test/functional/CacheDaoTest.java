@@ -46,7 +46,7 @@ public class CacheDaoTest extends PluginFunctionalTest {
     final QueryResultIterator<CacheModel> resultIterator = datastore.find()
         .type(CacheModel.class)
         .addFilter("key", EQUAL, user.getKey().toString())
-        .returnResultsNow();
+        .now();
     assertTrue(resultIterator.hasNext());
     datastore.delete(resultIterator.next());
   }
@@ -59,7 +59,7 @@ public class CacheDaoTest extends PluginFunctionalTest {
     final QueryResultIterator<CacheModel> resultIterator = datastore.find()
         .type(CacheModel.class)
         .addFilter("key", EQUAL, user.getKey().toString())
-        .returnResultsNow();
+        .now();
     assertTrue(resultIterator.hasNext());
     datastore.delete(resultIterator.next());
   }
@@ -74,7 +74,7 @@ public class CacheDaoTest extends PluginFunctionalTest {
     final QueryResultIterator<CacheModel> resultIterator = datastore.find()
         .type(CacheModel.class)
         .addFilter("key", EQUAL, user.getKey().toString())
-        .returnResultsNow();
+        .now();
     assertTrue(resultIterator.hasNext());
     datastore.delete(resultIterator.next());
   }

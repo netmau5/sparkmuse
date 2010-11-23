@@ -19,10 +19,10 @@ public class ObjectMapper {
 
   Map<Class<? extends Entity>, EntityMetadata> classToMetadataMap;
 
-  public ObjectMapper(Class<? extends Entity>... entityClasses) {
+  public ObjectMapper(FieldMapperFactory fieldMapperFactory, Class<? extends Entity>... entityClasses) {
     final ImmutableMap.Builder<Class<? extends Entity>, EntityMetadata> builder = ImmutableMap.builder();
     for (Class<? extends Entity> clazz: entityClasses) {
-      builder.put(clazz, new EntityMetadata(clazz)); //@todo add fieldmapperfactory here
+      builder.put(clazz, new EntityMetadata(clazz, fieldMapperFactory)); 
     }
     classToMetadataMap = builder.build();
   }

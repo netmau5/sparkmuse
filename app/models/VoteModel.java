@@ -1,6 +1,7 @@
 package models;
 
-import com.vercer.engine.persist.annotation.Key;
+import com.google.code.twig.annotation.Id;
+
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,11 +11,10 @@ import com.vercer.engine.persist.annotation.Key;
  */
 public class VoteModel {
 
-  @Key
-  public Long id;
+  @Id
+  public String key; //should be [entityClassName]|[entityId]
   public int voteWeight; //should generally be -1, 0, +1
   public String entityClassName;
   public Long entityId;
-  public Long userId;
 
 }

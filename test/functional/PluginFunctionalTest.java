@@ -6,8 +6,8 @@ import play.PlayPlugin;
 import play.modules.gae.GAEPlugin;
 import org.junit.Before;
 import org.junit.After;
-import com.vercer.engine.persist.ObjectDatastore;
 import com.google.apphosting.api.ApiProxy;
+import com.google.code.twig.ObjectDatastore;
 
 /**
  * Created by IntelliJ IDEA.

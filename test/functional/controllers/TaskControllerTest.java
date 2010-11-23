@@ -8,6 +8,7 @@ import org.hamcrest.Matchers;
 import org.hamcrest.MatcherAssert;
 import net.sparkmuse.data.WriteThruCacheService;
 import net.sparkmuse.data.mapper.ObjectMapper;
+import net.sparkmuse.data.mapper.FieldMapperFactory;
 import net.sparkmuse.data.entity.UserVO;
 import models.UserModel;
 import functional.PluginFunctionalTest;
@@ -24,7 +25,7 @@ public class TaskControllerTest extends PluginFunctionalTest {
   @Test
   public void shouldStoreEntity() {
     final WriteThruCacheService cache = FunctionalTestUtils.getInstance(WriteThruCacheService.class);
-    final ObjectMapper map = new ObjectMapper(UserVO.class);
+    final ObjectMapper map = new ObjectMapper(FunctionalTestUtils.getInstance(FieldMapperFactory.class), UserVO.class);
     final UserModel model = map.fromEntity(UserVO.newUser("authId", "Dave")).to(UserModel.class);
     datastore.store(model);
 

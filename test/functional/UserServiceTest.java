@@ -35,7 +35,7 @@ public class UserServiceTest extends PluginFunctionalTest {
 
     UserApplicationModel model = datastore.find().type(UserApplicationModel.class)
         .addFilter("userName", EQUAL, "netmau5")
-        .returnResultsNow()
+        .now()
         .next();
     assertEquals(model.userName, "netmau5");
     datastore.delete(model);

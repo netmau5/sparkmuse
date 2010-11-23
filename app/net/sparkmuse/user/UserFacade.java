@@ -16,7 +16,6 @@ import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.VoteVO;
 import net.sparkmuse.data.WriteThruCacheService;
 import net.sparkmuse.data.Votable;
 
@@ -110,9 +109,6 @@ public class UserFacade {
   }
 
   public void recordUpVote(final Votable votable, final long userId) {
-    userDao.saveVote(VoteVO.newUpVote(votable, userId));
-    final UserVO user = votable.getAuthor();
-    user.setReputation(user.getReputation() + votable.getVotes());
-    userDao.update(user);
+    userDao.vote(votable, findUserBy(userId));
   }
 }

@@ -1,6 +1,6 @@
 package models;
 
-import com.vercer.engine.persist.annotation.Key;
+import com.google.code.twig.annotation.Id;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +10,8 @@ import com.vercer.engine.persist.annotation.Key;
  */
 public class PostModel {
 
-  @Key public Long id;
+  @Id
+  public Long id;
   public Long inReplyToId;
   public Long sparkId;
 

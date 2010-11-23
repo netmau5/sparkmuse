@@ -1,18 +1,15 @@
 package net.sparkmuse.data.twig;
 
-import com.vercer.engine.persist.FindCommand;
-import com.vercer.engine.persist.ObjectDatastore;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.Cursor;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Iterators;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Functions;
+import com.google.code.twig.ObjectDatastore;
+import com.google.code.twig.FindCommand;
 
 import java.util.List;
-import java.lang.reflect.Field;
 
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.mapper.ObjectMapper;
@@ -35,7 +32,7 @@ public class DatastoreHelper {
   }
 
   public final <T> T only(FindCommand.RootFindCommand<T> findCommand) {
-    final QueryResultIterator<T> resultsIterator = findCommand.returnResultsNow();
+    final QueryResultIterator<T> resultsIterator = findCommand.now();
     if (resultsIterator.hasNext()) {
       final T toReturn = resultsIterator.next();
       Preconditions.checkState(!resultsIterator.hasNext(), "Only one result requested but more than one returned.");
@@ -53,7 +50,7 @@ public class DatastoreHelper {
   }
 
   public final <T, U extends Entity<U>> List<U> all(final Class<U> entityClass, FindCommand.RootFindCommand<T> findCommand) {
-    final QueryResultIterator<T> resultIterator = findCommand.returnResultsNow();
+    final QueryResultIterator<T> resultIterator = findCommand.now();
     return Lists.newArrayList(Iterators.transform(resultIterator, new Function<T, U>(){
       public U apply(T model) {
         return map.fromModel(model).to(entityClass);
@@ -66,10 +63,17 @@ public class DatastoreHelper {
     final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
 
     //this should set the key on the model object automatically
-    final Key key = datastore.store().instance(model).returnKeyNow();
+    final Key key = datastore.store().instance(model).now();
     entity.setId(key.getId());
 
     return entity;
+  }
+
+  public final <T, U extends Entity<U>> void storeLater(U entity) {
+    if (null == entity) return;
+    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
+
+    datastore.store().instance(model).later();
   }
 
   /**
@@ -85,7 +89,7 @@ public class DatastoreHelper {
   public <T, U extends Entity<U>> String execute(final Class<U> entityClass,
                                                  final Function<U, U> transformer,
                                                  final FindCommand.RootFindCommand<T> find) {
-    final QueryResultIterator<T> iterator = find.returnResultsNow();
+    final QueryResultIterator<T> iterator = find.now();
 
     final Function<T, U> modelToEntity = map.newModelToEntityFunction(entityClass);
     final Function<U, T> entityToModel = map.newEntityToModelFunction(Entity.modelClassFor(entityClass));

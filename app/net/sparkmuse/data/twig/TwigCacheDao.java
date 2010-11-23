@@ -10,10 +10,9 @@ import java.io.IOException;
 
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
-import com.vercer.engine.persist.ObjectDatastore;
 import net.sparkmuse.data.mapper.ObjectMapper;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
-import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.code.twig.ObjectDatastore;
 
 
 /**

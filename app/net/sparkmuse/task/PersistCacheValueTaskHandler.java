@@ -2,12 +2,11 @@ package net.sparkmuse.task;
 
 import com.google.inject.Inject;
 import com.google.common.base.Function;
-import com.vercer.engine.persist.ObjectDatastore;
+import com.google.code.twig.ObjectDatastore;
 import net.sparkmuse.data.WriteThruCacheService;
 import net.sparkmuse.data.CacheDao;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.mapper.ObjectMapper;
-import net.sparkmuse.data.mapper.Model;
 
 /**
  * Created by IntelliJ IDEA.

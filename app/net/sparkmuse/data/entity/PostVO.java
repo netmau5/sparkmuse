@@ -23,7 +23,7 @@ public class PostVO extends Entity<PostVO> implements Votable {
   @Property("created") private DateTime created;
   @Property("edited") private DateTime edited;
 
-  @Property("upvotes") private int votes;
+  @Property("votes") private int votes;
   @Property("postContent") private String postContent;
 
   private UserVO author;

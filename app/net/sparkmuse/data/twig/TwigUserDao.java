@@ -1,14 +1,16 @@
 package net.sparkmuse.data.twig;
 
 import net.sparkmuse.data.UserDao;
+import net.sparkmuse.data.Votable;
 import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.VoteVO;
+import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.mapper.ObjectMapper;
 import com.google.inject.Inject;
-import com.vercer.engine.persist.ObjectDatastore;
 import models.UserModel;
 import models.UserApplicationModel;
+import models.VoteModel;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
+import com.google.code.twig.ObjectDatastore;
 
 /**
  * Created by IntelliJ IDEA.
@@ -56,8 +58,32 @@ public class TwigUserDao extends TwigDao implements UserDao {
     datastore.store(model);
   }
 
-  public VoteVO saveVote(final VoteVO vote) {
-    return helper.store(vote);
+  public void vote(Votable votable, UserVO voter) {
+    //store vote so we can later determine if a user has voted on an entity
+    final UserModel voterUM = map.fromEntity(voter).to(UserModel.class);
+    datastore.associate(voterUM);
+    datastore.store().instance(newVoteModel(votable)).parent(voterUM).later();
+
+    //record aggregate vote count on entity
+    if (votable instanceof Entity) {
+      votable.upVote();
+      helper.store((Entity) votable);
+    }
+
+    //adjust reputation
+    final UserVO author = votable.getAuthor();
+    datastore.associate(author);
+    author.setReputation(author.getReputation() + 1);
+    helper.store(author);
+  }
+
+  private static VoteModel newVoteModel(Votable votable) {
+    final VoteModel vm = new VoteModel();
+    final String className = vm.entityClassName = votable.getClass().getName();
+    final Long id = vm.entityId = votable.getId();
+    vm.key = className + id;
+    vm.voteWeight = 1;
+    return vm;
   }
 
 }

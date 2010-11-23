@@ -9,6 +9,7 @@ import net.sparkmuse.data.mapper.ObjectMapper;
 import models.UserModel;
 import functional.PluginFunctionalTest;
 import play.test.UnitTest;
+import com.google.common.collect.Lists;
 
 /**
  * Tests the object mapper.
@@ -18,14 +19,24 @@ import play.test.UnitTest;
  */
 public class ObjectMapperTest extends UnitTest {
 
+  private static FieldMapperFactory newFieldMapperFactory() {
+    final FieldMapperFactory fieldMapperFactory = new FieldMapperFactory(Lists.newArrayList(
+        new FieldMapperFactory.StandardMapper(),
+        new FieldMapperFactory.EnumMapper(),
+        new FieldMapperFactory.DateTimeMapper(),
+        new FieldMapperFactory.ClassMapper()
+    ));
+    return fieldMapperFactory;
+  }
+
   @Test
   public void shouldInitializeMetadata() {
-    assertTrue(CollectionUtils.size(new ObjectMapper(UserVO.class).classToMetadataMap.keySet()) > 0);
+    assertTrue(CollectionUtils.size(new ObjectMapper(newFieldMapperFactory(), UserVO.class).classToMetadataMap.keySet()) > 0);
   }
 
   @Test
   public void shouldMapEntityToModel() {
-    final ObjectMapper mapper = new ObjectMapper(UserVO.class);
+    final ObjectMapper mapper = new ObjectMapper(newFieldMapperFactory(), UserVO.class);
 
     final UserVO vo = UserVO.newUser("userId", "userName");
     final UserModel userModel = mapper.fromEntity(vo).to(UserModel.class);
@@ -36,7 +47,7 @@ public class ObjectMapperTest extends UnitTest {
 
   @Test
   public void shouldMapModelToEntity() {
-    final ObjectMapper mapper = new ObjectMapper(UserVO.class);
+    final ObjectMapper mapper = new ObjectMapper(newFieldMapperFactory(), UserVO.class);
 
     final UserModel model = new UserModel();
     model.userId = "something";
@@ -51,13 +62,13 @@ public class ObjectMapperTest extends UnitTest {
 
   @Test
   public void shouldReturnNullEntityForNullModel() {
-    final ObjectMapper mapper = new ObjectMapper(UserVO.class);
+    final ObjectMapper mapper = new ObjectMapper(newFieldMapperFactory(), UserVO.class);
     assertTrue(mapper.fromModel(null).to(UserVO.class) == null);
   }
 
   @Test
   public void shouldReturnNullModelForNullEntity() {
-    final ObjectMapper mapper = new ObjectMapper(UserVO.class);
+    final ObjectMapper mapper = new ObjectMapper(newFieldMapperFactory(), UserVO.class);
     final UserVO user = null;
     assertTrue(mapper.fromEntity(user).to(UserModel.class) == null);
   }

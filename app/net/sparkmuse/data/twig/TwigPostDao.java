@@ -1,19 +1,17 @@
 package net.sparkmuse.data.twig;
 
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
-import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.inject.Inject;
 import com.google.common.collect.*;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.vercer.engine.persist.ObjectDatastore;
+import com.google.code.twig.ObjectDatastore;
 import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.PostVO;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.PostDao;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 
 import models.PostModel;

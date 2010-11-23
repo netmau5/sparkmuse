@@ -1,6 +1,7 @@
 package models;
 
-import com.vercer.engine.persist.annotation.Key;
+import com.google.code.twig.annotation.Id;
+
 
 /**
  * Represents a data-backed cache entry.
@@ -10,7 +11,8 @@ import com.vercer.engine.persist.annotation.Key;
  */
 public class CacheModel {
 
-  @Key public Long id;
+  @Id
+  public Long id;
   public String key;
   public String value;
 

@@ -2,7 +2,7 @@ package functional;
 
 import com.google.inject.Injector;
 import com.google.inject.Guice;
-import com.vercer.engine.persist.ObjectDatastore;
+import com.google.code.twig.ObjectDatastore;
 import models.UserModel;
 import models.PostModel;
 import models.SparkModel;

@@ -2,10 +2,10 @@ package net.sparkmuse.data.twig;
 
 import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.Entity;
-import com.vercer.engine.persist.ObjectDatastore;
-import com.vercer.engine.persist.FindCommand;
 import com.google.common.base.Function;
 import com.google.appengine.api.datastore.Cursor;
+import com.google.code.twig.ObjectDatastore;
+import com.google.code.twig.FindCommand;
 import models.SparkModel;
 import org.apache.commons.lang.StringUtils;
 

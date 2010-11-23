@@ -6,6 +6,7 @@ import net.sparkmuse.data.util.Posts;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.joda.time.DateTime;
 import static org.hamcrest.Matchers.*;
 import com.google.common.collect.Iterables;
@@ -41,7 +42,7 @@ public class SparkServiceTest extends PluginFunctionalTest {
     p1.created = new DateTime().getMillis();
     p1.postContent = "p1";
     p1.sparkId = sparkModel.id;
-    p1.upvotes = 3;
+    p1.votes = 3;
     datastore.store(p1);
     post1Id = p1.id;
 
@@ -49,7 +50,7 @@ public class SparkServiceTest extends PluginFunctionalTest {
     p2.created = new DateTime().getMillis();
     p2.postContent = "p2";
     p2.sparkId = sparkModel.id;
-    p2.upvotes = 6;
+    p2.votes = 6;
     datastore.store(p2);
     post2Id = p2.id;
 
@@ -57,7 +58,7 @@ public class SparkServiceTest extends PluginFunctionalTest {
     p3.created = new DateTime().getMillis();
     p3.postContent = "p3";
     p3.sparkId = sparkModel.id;
-    p3.upvotes = 6;
+    p3.votes = 6;
     p3.inReplyToId = p2.id;
     datastore.store(p3);
     post3Id = p3.id;
