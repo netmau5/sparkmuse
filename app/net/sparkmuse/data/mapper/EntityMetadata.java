@@ -1,13 +1,10 @@
 package net.sparkmuse.data.mapper;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import net.sparkmuse.data.entity.Entity;
 
@@ -17,48 +14,23 @@ import net.sparkmuse.data.entity.Entity;
  * @author neteller
  * @created: Jul 17, 2010
  */
-public class EntityMetadata<T extends Entity> {
+public class EntityMetadata<T extends Entity<T>> {
 
-  Map<String, Method> gettersByPropertyName;
-  Map<String, Method> settersByPropertyName;
-  Map<String, FieldMapper> fieldMapperByPropertyName;
-  Iterable<Field> fields;
+  private ImmutableSet<EntityField<T>> fields;
+  private FieldMapperFactory fieldMapperFactory;
 
   public EntityMetadata(Class<T> clazz, FieldMapperFactory fieldMapperFactory) {
-    final ImmutableMap.Builder<String, Method> getterBuilder = ImmutableMap.builder();
-    final ImmutableMap.Builder<String, Method> setterBuilder = ImmutableMap.builder();
-    final ImmutableMap.Builder<String, FieldMapper> mapperBuilder = ImmutableMap.builder();
+    this.fieldMapperFactory = fieldMapperFactory;
 
-    fields = fieldsFor(clazz);
-    for(final Field field: fields) {
-      final String propertyName = propertyNameOf(field);
-      getterBuilder.put(propertyName, getterFor(field, clazz));
-      setterBuilder.put(propertyName, setterFor(field, clazz));
-      mapperBuilder.put(propertyName, fieldMapperFactory.getMapperFor(field));
+    final ImmutableSet.Builder<EntityField<T>> fieldsBuilder = ImmutableSet.builder();
+    for(final Field field: fieldsFor(clazz)) {
+      fieldsBuilder.add(new EntityField<T>(field));
     }
-    gettersByPropertyName = getterBuilder.build();
-    settersByPropertyName = setterBuilder.build();
-    fieldMapperByPropertyName = mapperBuilder.build();
+    fields = fieldsBuilder.build();
   }
 
-  public Set<String> getPropertyNames(){
-    return gettersByPropertyName.keySet();
-  }
-
-  public Iterable<Field> getFields() {
+  public ImmutableSet<EntityField<T>> getFields() {
     return fields;
-  }
-
-  public Method getterFor(final String propertyName){
-    return gettersByPropertyName.get(propertyName);
-  }
-
-  public Method setterFor(final String propertyName){
-    return settersByPropertyName.get(propertyName);
-  }
-
-  public FieldMapper mapperFor(final String propertyName) {
-    return fieldMapperByPropertyName.get(propertyName);
   }
 
   private <T> List<Field> fieldsFor(Class<T> clazz) {
@@ -78,35 +50,42 @@ public class EntityMetadata<T extends Entity> {
     return toReturn;
   }
 
-  private String propertyNameOf(Field field) {
+  private static String propertyNameOf(Field field) {
     final Property annotation = field.getAnnotation(Property.class);
     if (null == annotation) return field.getName();
     else return annotation.value();
   }
 
-  private Method getterFor(Field field, Class clazz) {
-    String name = field.getName();
-    name = name.substring(0, 1).toUpperCase() + name.substring(1);
-    if (boolean.class == field.getType() || Boolean.class == field.getType()) {
-      name = "is" + name;
-    }
-    else {
-      name = "get" + name;
-    }
-    try {
-      return clazz.getMethod(name);
-    } catch (NoSuchMethodException e) {
-      throw new RuntimeException("No getter defined for field [" + field.getName() + "]");
-    }
-  }
+  public class EntityField<T extends Entity> {
 
-  private Method setterFor(Field field, Class clazz) {
-    String name = field.getName();
-    name = "set" + name.substring(0, 1).toUpperCase() + name.substring(1);
-    try {
-      return clazz.getMethod(name, field.getType());
-    } catch (NoSuchMethodException e) {
-      throw new RuntimeException("No setter defined for field [" + field.getName() + "]");
+    private final Field field;
+    private final FieldMapper fieldMapper;
+    private String property;
+
+    public EntityField(Field field) {
+      this.field = field;
+      this.property = propertyNameOf(field);
+      this.fieldMapper = fieldMapperFactory.getMapperFor(field);
+    }
+
+    public void setModelValue(Object modelObject, T entityObject) {
+      try {
+        final Field modelField = modelObject.getClass().getField(this.property);
+        final Object value = fieldMapper.toModelField(modelField.getType(), field.get(entityObject));
+        modelField.set(modelObject, value);
+      } catch (Throwable e) {
+        throw new RuntimeException(e);
+      }
+    }
+
+    public void setEntityValue(T entityObject, Object modelObject) {
+      try {
+        final Field modelField = modelObject.getClass().getField(this.property);
+        final Object value = fieldMapper.toEntityField(field.getType(), modelField.get(modelObject));
+        field.set(entityObject, value);
+      } catch (Throwable e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 }

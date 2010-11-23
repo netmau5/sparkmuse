@@ -7,12 +7,14 @@ import com.google.appengine.api.datastore.Key;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.collect.*;
+import com.google.inject.Inject;
 import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.OwnedEntity;
 import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.user.UserProvider;
+import net.sparkmuse.data.Cache;
 import net.sparkmuse.common.TimedTransformer;
+import net.sparkmuse.common.CacheKeyFactory;
 
 import java.util.List;
 import java.util.Map;
@@ -28,12 +30,13 @@ public class DatastoreService {
 
   private final ObjectDatastore datastore;
   private final ObjectMapper map;
-  private final UserProvider userProvider;
+  private final Cache cache;
 
-  public DatastoreService(ObjectDatastore datastore, ObjectMapper mapper, UserProvider userProvider) {
+  @Inject
+  public DatastoreService(ObjectDatastore datastore, ObjectMapper mapper, Cache cache) {
     this.datastore = datastore;
     this.map = mapper;
-    this.userProvider = userProvider;
+    this.cache = cache;
   }
 
   public ObjectDatastore getDatastore() {
@@ -44,10 +47,56 @@ public class DatastoreService {
     return this.map;
   }
 
+  /**
+   * Attempts to get a user from the cache.  Failing that, it will lookup the user and add it to
+   * the cache.
+   *
+   * @param id
+   * @return
+   */
+  public UserVO getUser(final Long id) {
+    UserVO cachedUser = cache.get(CacheKeyFactory.newUserKey(id).toString(), UserVO.class);
+    if (null != cachedUser) {
+      return cachedUser;
+    }
+
+    final UserVO userVO = load(UserVO.class, id);
+    cache.add(userVO.getKey().toString(), userVO, "30d");
+    return userVO;
+  }
+
+  /**
+   * Attempts to get a user from the cache.  Failing that, it will lookup the user and add it to
+   * the cache.
+   *
+   * @param userIds
+   * @return
+   */
+  public Map<Long, UserVO> getUsers(final Iterable<Long> userIds) {
+    Set<Long> toQuery = Sets.newHashSet();
+    Set<UserVO> cachedUsers = Sets.newHashSet();
+    for (Long userId: userIds) {
+      UserVO cachedUser = cache.get(CacheKeyFactory.newUserKey(userId).toString(), UserVO.class);
+      if (null != cachedUser) {
+        cachedUsers.add(cachedUser);
+      }
+      else {
+        toQuery.add(userId);
+      }
+    }
+
+    final Map<Long, UserVO> usersMap = loadAll(UserVO.class, toQuery);
+    usersMap.putAll(Maps.uniqueIndex(cachedUsers, UserVO.asUserIds));
+
+    //@todo put users in cache
+
+    return usersMap;
+  }
+
   //generified iterable so we preserve type (might be ordered List)
   public <T extends OwnedEntity, I extends Iterable<T>> I mergeOwnersFor(I entities) {
     final ImmutableMap<Long, T> ownedEntitiesToOwnersMap = Maps.uniqueIndex(entities, OwnedEntity.asOwnerIds);
-    final Map<Long, UserVO> userMap = this.userProvider.get(ownedEntitiesToOwnersMap.keySet());
+    final Map<Long, UserVO> userMap = this.getUsers(ownedEntitiesToOwnersMap.keySet());
 
     for (Map.Entry<Long, T> ownedEntityEntry: ownedEntitiesToOwnersMap.entrySet()) {
       ownedEntityEntry.getValue().setAuthor(userMap.get(ownedEntityEntry.getKey()));

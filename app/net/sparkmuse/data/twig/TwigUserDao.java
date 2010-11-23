@@ -44,11 +44,11 @@ public class TwigUserDao extends TwigDao implements UserDao {
   }
 
   public UserVO findUserBy(Long id) {
-    return helper.load(UserVO.class, id);
+    return helper.getUser(id);
   }
 
   public Map<Long, UserVO> findUsersBy(Set<Long> ids) {
-    return helper.loadAll(UserVO.class, ids);
+    return helper.getUsers(ids);
   }
 
   public UserVO update(UserVO user) {

@@ -14,14 +14,6 @@ public class OwnedEntity<T> extends Entity<T> {
   private UserVO author;
   @Property("authorUserId") private Long authorUserId;
 
-  Long getAuthorUserId() {
-    return authorUserId;
-  }
-
-  void setAuthorUserId(Long authorUserId) {
-    this.authorUserId = authorUserId;
-  }
-
   public UserVO getAuthor() {
     return author;
   }

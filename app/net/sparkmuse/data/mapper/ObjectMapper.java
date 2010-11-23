@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Field;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.base.Function;
 import net.sparkmuse.data.entity.Entity;
 
@@ -74,13 +75,11 @@ public class ObjectMapper {
     public <M> M to(final Class<M> target) {
       try {
         final M model = target.newInstance();
+        
         final EntityMetadata metadata = classToMetadataMap.get(source.getClass());
-        final Set<String> properties = metadata.getPropertyNames();
-        for (final String property: properties) {
-          final Field targetField = model.getClass().getField(property);
-          final Method method = metadata.getterFor(property);
-          final Object value = metadata.mapperFor(property).toModelField(targetField.getType(), method.invoke(source));
-          targetField.set(model, value);
+        final ImmutableSet<EntityMetadata.EntityField> entityFields = metadata.getFields();
+        for (EntityMetadata.EntityField entityField: entityFields) {
+          entityField.setModelValue(model, source);
         }
         return model;
       } catch (Throwable e) {
@@ -110,14 +109,13 @@ public class ObjectMapper {
     public <T extends Entity<T>> T to(final Class<T> target) {
       try {
         final T entity = target.newInstance();
-        final EntityMetadata metadata = classToMetadataMap.get(target);
-        final Set<String> properties = metadata.getPropertyNames();
-        for (final String property: properties) {
-          final Method entitySetter = metadata.setterFor(property);
-          final Field sourceField = source.getClass().getField(property);
-          final Object value = metadata.mapperFor(property).toEntityField(entitySetter.getParameterTypes()[0], sourceField.get(source));
-          entitySetter.invoke(entity, value);
+
+        final EntityMetadata metadata = classToMetadataMap.get(entity.getClass());
+        final ImmutableSet<EntityMetadata.EntityField> entityFields = metadata.getFields();
+        for (EntityMetadata.EntityField entityField: entityFields) {
+          entityField.setEntityValue(entity, source);
         }
+
         return entity;
       } catch (Throwable e) {
         throw new RuntimeException(e);

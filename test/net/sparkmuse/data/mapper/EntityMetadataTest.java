@@ -21,8 +21,8 @@ public class EntityMetadataTest extends UnitTest {
   public void shouldExtractMetadata() {
     final List<FieldMapper> mappers = Lists.<FieldMapper>newArrayList(new FieldMapperFactory.StandardMapper());
     final EntityMetadata metadata = new EntityMetadata(UserVO.class, new FieldMapperFactory(mappers));
-    assertTrue(CollectionUtils.size(metadata.gettersByPropertyName) > 0);
-    assertTrue(CollectionUtils.size(metadata.settersByPropertyName) > 0);
+    assertTrue(CollectionUtils.size(metadata.getFields()) > 0);
+    assertTrue(CollectionUtils.size(metadata.getFields()) > 0);
   }
 
 }
