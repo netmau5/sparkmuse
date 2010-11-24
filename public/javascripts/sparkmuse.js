@@ -132,47 +132,18 @@ SM.Events = {
   }
 })(jQuery);
 
-/**
- * tags: replaces the class a.tag-link with button-style tags;
- * add class "editable" to add a remove control; removal will fire SM.Events.TagRemoved
- */
-(function($){
-  //@required - tagName
-  //@optional - editable
-  $.tag = function(props) {
-    var tagTemplate = $("#tag-template").html(); //provided in main template via TagTemplate
-    var newTag = $(Mustache.to_html(
-        tagTemplate,
-        $.extend({editable: false}, props)
-    ));
-    newTag.find("a.tag-control").click(function(){
-      newTag.trigger(SM.Events.TagRemoved);
-      var a = $(this);
-      a.parent().remove();
-      return false;
-    });
-    return newTag;
-  };
-
-  $.fn.tag = function(editable) {
-    $(this).each(function(){
-      var tagLink = $(this),
-          newTag = $.tag({
-            tagName: tagLink.html(),
-            editable: editable
-          });
-
-      tagLink.parent().append(newTag);
-      tagLink.remove();
-
-      return newTag;
-    });
-  }
-})(jQuery);
 
 $(document).ready(function() {
-  $("a.tag-link").each(function() {
-    var tagLink = $(this);
-    tagLink.tag(tagLink.hasClass("editable"));
+  //tooltips
+  $("[title]").qtip({
+    style: {
+      classes: "ui-tooltip-sparkmuse"
+    },
+    position: {
+      my: "bottom center",
+      at: "top center",
+      target: 'mouse',
+      adjust: { y: -10 }
+    }
   });
 });

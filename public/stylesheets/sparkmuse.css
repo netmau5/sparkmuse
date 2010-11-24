@@ -6,6 +6,7 @@
     <BODY>
     <FOOTER>
     <TAGS>
+    <TOOLTIPS> jquery.qtip.css
     <MODALS>
     <POST-TYPES>
     <STAGES>
@@ -368,6 +369,159 @@ a:active {
     }
 
 /* END <TAGS> */
+
+/* BEGIN <TOOLTIPS> */
+
+.ui-tooltip-accessible{
+	left: -31000px;
+	display: block;
+	visibility: hidden;
+}
+
+	/* IE6 ONLY - Width detection fix */
+	* html .ui-tooltip-accessible{
+		position: static !important;
+		float: left !important;
+	}
+
+.ui-tooltip, .qtip{
+	position: absolute;
+	display: none;
+
+	max-width: 280px;
+	min-width: 50px;
+}
+
+	.ui-tooltip .ui-tooltip-wrapper{
+		position: relative;
+		overflow: hidden;
+
+		border-width: 3px;
+		border-style: solid;
+	}
+
+	.ui-tooltip .ui-tooltip-content{
+		position: relative;
+		padding: 5px 9px;
+
+		text-align: left;
+		word-wrap: break-word;
+		overflow: hidden;
+	}
+
+	.ui-tooltip .ui-tooltip-titlebar{
+		position: relative;
+		min-height: 19px;
+		padding: 6px 35px 6px 10px;
+
+		font-weight: bold;
+	}
+
+		/*! Default close button class */
+		.ui-tooltip .ui-tooltip-close{
+			position: absolute;
+			height: 16px;
+			width: 16px;
+			padding: 1px;
+			right: 5px;
+			top: 5px;
+
+			cursor: pointer;
+			line-height: 0px;
+			font-size: 0px;
+		}
+
+			.ui-tooltip .ui-tooltip-close .ui-icon{
+				height: 16px;
+				width: 16px;
+				display: block;
+
+				opacity: 0.8;
+				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+				filter: alpha(opacity=80);
+			}
+			.ui-tooltip .ui-tooltip-close:hover .ui-icon{
+				opacity: 1;
+				-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+				filter: alpha(opacity=100);
+			}
+
+		/*! Custom button class */
+		.ui-tooltip .ui-tooltip-button{
+			float: right;
+		}
+
+div.ui-tooltip-tip{
+	position: absolute;
+	margin: 0 auto;
+	overflow: hidden;
+
+	line-height: 0.1px;
+	font-size: 1px;
+
+	background: transparent !important;
+	border: 0px !important;
+	z-index: 10;
+}
+
+	div.ui-tooltip-tip *{
+		line-height: 0.1px;
+		font-size: 0.1px;
+	}
+
+	div.ui-tooltip-tip div{
+		background: transparent !important;
+		border: 0px dashed transparent;
+	}
+
+#qtip-overlay{
+	position: absolute;
+	left: -10000em;
+	top: -10000em;
+
+	background-color: black;
+	cursor: pointer;
+
+	opacity: 0.7;
+	filter:alpha(opacity=70);
+	-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+
+	/* Set this to any below 15000 (default starting z-index for qTips) */
+	z-index: 14999;
+}
+
+div.ui-tooltip-sparkmuse .ui-tooltip-wrapper{
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+
+	-webkit-box-shadow: 0 0 3px #333;
+	-moz-box-shadow: 0 0 3px #333;
+	box-shadow: 0 0 3px #333;
+
+	border-color: #F5D9B5;
+	border-width: 1px;
+
+	color: white;
+  font-family: $FONT_FAMILY_STANDARD;
+  font-size: 12px;
+}
+
+	div.ui-tooltip-sparkmuse .ui-tooltip-close .ui-icon{
+		background: #4D9FBF url('images/close-dark.png') no-repeat 50% 50%;
+	}
+
+	div.ui-tooltip-sparkmuse .ui-tooltip-titlebar,
+	div.ui-tooltip-sparkmuse .ui-tooltip-content{
+		background-color: rgba(145, 82, 0, 0.85);
+	}
+
+	/* IE6 Fallback */
+	* html div.ui-tooltip-sparkmuse-wrapper{
+		background-color: black;
+	}
+
+/* END <TOOLTIPS> */
 
 
 /* BEGIN <MODALS> */
