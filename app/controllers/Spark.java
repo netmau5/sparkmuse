@@ -5,6 +5,7 @@ import play.mvc.Router;
 import play.data.validation.Required;
 import play.data.validation.MinSize;
 import play.data.validation.Validation;
+import play.data.validation.Valid;
 
 import java.util.List;
 import java.util.HashMap;
@@ -34,28 +35,22 @@ public class Spark extends SparkmuseController {
     render();
   }
 
-  public static void submit(
-      @Required final String title,
-      @Required final String stage,
-      @Required final String problem,
-      @Required final String solution,
-      @Required final String tags
-  ) {
+//  public static void submit(
+//      @Required final String title,
+//      @Required final String stage,
+//      @Required final String problem,
+//      @Required final String solution,
+//      @Required final String tags
+//  ) {
+  public static void submit(@Valid @Required(message="Input is required.") SparkVO newSpark) {
     if (Validation.hasErrors()) {
       renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
     }
     else {
-      final SparkVO spark = sparkFacade.createSpark(SparkVO.newSpark(
-          Authorization.getUserFromSession(),
-          title,
-          stage,
-          problem,
-          solution,
-          Lists.newArrayList(Splitter.on(",").split(tags))
-      ));
-
+      newSpark.setAuthor(Authorization.getUserFromSession());
+      final SparkVO savedSpark = sparkFacade.createSpark(newSpark);
       final HashMap<String,Object> parameters = Maps.newHashMap();
-      parameters.put("sparkId", spark.getId());
+      parameters.put("sparkId", savedSpark.getId());
       renderJSON(new RedirectAjaxResponse(Router.reverse("Spark.view", parameters).url));
     }
   }

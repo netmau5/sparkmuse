@@ -39,9 +39,12 @@
 
     <div>
 
+      <div class="error-message" parameter="newSpark"></div>
+
       <fieldset>
         <div class="field">
-          <label><span>Title</span></label>
+          <label>Title</label>
+          <div class="error-message" parameter="newSpark.title"></div>
           <input type="text" name="title" value="" maxlength="100" />
          </div>
       </fieldset>
@@ -50,7 +53,8 @@
 
       <fieldset>
         <div class="field">
-          <label><span>Stage</span></label>
+          <label>Stage</label>
+          <div class="error-message" parameter="newSpark.stage"></div>
           <ol class="stages">
             <li class="stage-new">New</li>
             <li class="stage-prototype">Prototype</li>
@@ -67,10 +71,12 @@
       <fieldset>
         <div class="field">
           <label>Problem</label>
+          <div class="error-message" parameter="newSpark.problem"></div>
           <textarea name="problem"></textarea>
          </div>
         <div class="field">
           <label>Solution</label>
+          <div class="error-message" parameter="newSpark.solution"></div>
           <textarea name="solution"></textarea>
          </div>
       </fieldset>
@@ -79,7 +85,8 @@
 
       <fieldset>
         <div class="field">
-          <label><span>Tags</span></label>
+          <label>Tags</label>
+          <div class="error-message" parameter="newSpark.tags"></div>
           <input type="text" name="tagNames" value="" id="tag-entry"/>
         </div>
       </fieldset>
@@ -138,6 +145,7 @@
      width: "497px"
     });
 
+    //register stage buttons
     $('.stages li').click(function(){
       var el = $(this);
       document.NewSparkForm.stage.value = el.html().toUpperCase();
@@ -149,12 +157,15 @@
     var converter = new Attacklab.showdown.converter();
 
     $(document.NewSparkForm).formHandler(function(){
+      var tagNames = this.tagNames.value;
+      if (tagNames) { tagNames = tagNames.split(","); }
+
       return {
-        title: this.title.value,
-        stage: this.stage.value,
-        problem: converter.makeHtml(this.problem.value),
-        solution: converter.makeHtml(this.solution.value),
-        tags: this.tagNames.value
+        "newSpark.title": this.title.value,
+        "newSpark.stage": this.stage.value,
+        "newSpark.problem": converter.makeHtml(this.problem.value),
+        "newSpark.solution": converter.makeHtml(this.solution.value),
+        "newSpark.tags": tagNames
       };
     });
 

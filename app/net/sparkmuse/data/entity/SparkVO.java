@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.joda.time.DateTime;
 import models.SparkModel;
+import play.data.validation.Required;
 
 /**
  * Created by IntelliJ IDEA.
@@ -19,14 +20,34 @@ import models.SparkModel;
 @Model(SparkModel.class)
 public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
 
-  @Property("title") private String title;
-  @Property("stage") private Stage stage;
-  @Property("problem") private String problem;
-  @Property("solution") private String solution;
-  @Property("tags") private List<String> tags;
-  @Property("created") private DateTime created;
-  @Property("votes") private int votes;
-  @Property("rating") private double rating;
+  @Property("title")
+  @Required
+  private String title;
+
+  @Property("stage")
+  @Required
+  private Stage stage;
+
+  @Property("problem")
+  @Required
+  private String problem;
+
+  @Property("solution")
+  @Required
+  private String solution;
+
+  @Property("tags")
+  @Required(message="validation.required.tags")
+  private List<String> tags;
+
+  @Property("created")
+  private DateTime created;
+
+  @Property("votes")
+  private int votes;
+
+  @Property("rating")
+  private double rating;
 
   public enum Stage {
     NEW,

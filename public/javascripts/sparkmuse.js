@@ -15,9 +15,14 @@ SM.Events = {
 
       form.submit(function(){
         form.trigger(SM.Events.Submit);
+        var params = formParameterBuilder.call(this);
+        //dont send params that are falsey, ie empty string
+        for (var i in params) {
+          if (params.hasOwnProperty(i) && !params[i]) { delete params[i]; }
+        }
         var parms = {
           url: form.attr("target"),
-          data: formParameterBuilder.call(this),
+          data: params,
           type: form.attr("method"),
           success: FormHandler.responseHandler,
           error: FormHandler.handleSystemErrorResponse,
@@ -55,7 +60,20 @@ SM.Events = {
     },
 
     handleValidationErrorResponse: function(response) {
-      alert("validation error");
+      var validationErrors = response.validationErrors,
+          errorContainers = $(".error-message");
+      
+      errorContainers.removeClass("error").html("");
+
+      for (var parameterName in validationErrors) {
+        if (validationErrors.hasOwnProperty(parameterName)) {
+          var parameterValue = validationErrors[parameterName];
+          errorContainers.filter(".error-message[parameter='" + parameterName + "']")
+              .html(parameterValue.join("<br/>"))
+              .addClass("error");
+        }
+      }
+      
       $.modal.close();
     },
 
