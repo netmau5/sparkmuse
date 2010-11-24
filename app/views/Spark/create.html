@@ -22,6 +22,7 @@
     font-size: 16px;
     width: 497px;
   }
+
 </style>
 
 <div class="page-canvas prepend-1 span-22 append-1">
@@ -50,8 +51,15 @@
       <fieldset>
         <div class="field">
           <label><span>Stage</span></label>
-          <input type="text" name="stage" value="" />
-         </div>
+          <ol class="stages">
+            <li class="stage-new">New</li>
+            <li class="stage-prototype">Prototype</li>
+            <li class="stage-beta">Beta</li>
+            <li class="stage-launched">Launched</li>
+          </ol>
+          <input type="hidden" name="stage" value="" />
+          <div class="clear"></div>
+        </div>
       </fieldset>
 
       <hr/>
@@ -125,10 +133,17 @@
 //   var html = converter.makeHtml(text);
 
   $(document).ready(function() {
-   $("#tag-entry").tagsInput({
+    $("#tag-entry").tagsInput({
      defaultText: "Add comma-separated tags",
      width: "497px"
-   });
+    });
+
+    $('.stages li').click(function(){
+      var el = $(this);
+      document.NewSparkForm.stage.value = el.html().toUpperCase();
+      $('.stages li').removeClass('selected');
+      el.addClass('selected');
+    });
 
 
     var converter = new Attacklab.showdown.converter();

@@ -8,6 +8,7 @@
     <TAGS>
     <MODALS>
     <POST-TYPES>
+    <STAGES>
     <BUTTONS>
     <TWITTER>
 */
@@ -456,6 +457,92 @@ a.button.resource:active {
 
 /* END <POST-TYPES> */
 
+/* BEGIN <STAGES>*/
+
+ol.stages { padding: 0; margin-top: 5px; }
+
+.stages li {
+  float: left;
+  width: 114px;
+  padding-top: 72px;
+  margin: 0 10px 0 0;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #BBB;
+  color: #999;
+  list-style-type: none;
+  cursor: pointer;
+  font-family: $FONT_FAMILY_CONTROLS;
+  font-size: 12px;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-position: 21px 0;
+}
+
+.stages li:active { top: 2px; position: relative; }
+
+.stage-new {
+  background-image: url("../images/icons/stages/light-72.png");
+}
+.stage-new:hover, .stage-new.selected {
+  background-color:#fdf5ce;
+  border-color: #fbcb09;
+  color:#c77405;
+}
+
+.stage-new:active {
+  text-decoration: none;
+  background-color: #c77405;
+  border-color: #c77405;
+  color:#fff;
+}
+
+.stage-prototype {
+  background-image: url("../images/icons/stages/small-tiles-72.png");
+}
+.stage-prototype:hover, .stage-prototype.selected {
+  background-color:#F5D9B5;
+  border-color: #EB8500;
+  color:#915200;
+}
+.stage-prototype:active {
+  text-decoration: none;
+  background-color:#915200;
+  border-color: #915200;
+  color:#fff;
+}
+
+.stage-beta {
+  background-image: url("../images/icons/stages/monitor-72.png");
+}
+.stage-beta:hover, .stage-beta.selected {
+  background-color:#dff4ff;
+  border-color: #c2e1ef;
+  color:#336699;
+}
+.stage-beta:active {
+  text-decoration: none;
+  background-color:#6299c5;
+  border-color: #6299c5;
+  color:#fff;
+}
+
+.stage-launched {
+  background-image: url("../images/icons/stages/seal-72.png");
+}
+.stage-launched:hover, .stage-launched.selected {
+  background-color:#E6EFC2;
+  border-color: #C6D880;
+  color:#529214;
+}
+.stage-launched:active {
+  background-color:#529214;
+  border-color: #529214;
+  color:#fff;
+}
+
+/* END <STAGES> */
+
 /* BEGIN <BUTTONS> */
 
 a.button, button {
@@ -577,9 +664,9 @@ a.create-spark:hover, button.create-spark:hover {
   border:1px solid #fbcb09;
   color:#c77405;
 }
-a.create-spark:active, button.create-spark:hover {
-  background-color:$LOGO_LIGHT_YELLOW;
-  border:1px solid $LOGO_YELLOW;
+a.create-spark:active, button.create-spark:active {
+  background-color: #c77405;
+  border:1px solid #c77405;
   color:#fff;
 }
 
