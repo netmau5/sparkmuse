@@ -38,6 +38,7 @@ label {
   display: block;
 }
 
+  label img { vertical-align: middle; }
 
 a {
   color: $LOGO_DARK_BLUE;
@@ -371,6 +372,8 @@ a:active {
 /* END <TAGS> */
 
 /* BEGIN <TOOLTIPS> */
+
+.tooltip { cursor: help; }
 
 .ui-tooltip-accessible{
 	left: -31000px;

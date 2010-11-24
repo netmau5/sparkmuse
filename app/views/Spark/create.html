@@ -70,12 +70,25 @@
 
       <fieldset>
         <div class="field">
-          <label>Problem</label>
+          <label>
+            Problem
+            #{tip}
+              <p>Describe the problem you are trying to solve.  The first part of this section will be used as a summary for
+              your Spark.  This field accepts standard markdown syntax:</p>
+              #{markdownGuide /}
+            #{/tip}
+          </label>
           <div class="error-message" parameter="newSpark.problem"></div>
           <textarea name="problem"></textarea>
          </div>
         <div class="field">
-          <label>Solution</label>
+          <label>
+            Solution
+            #{tip}
+              <p>What is your solution and what value does it provide? This field accepts standard markdown syntax:</p>
+              #{markdownGuide /}
+            #{/tip}
+          </label>
           <div class="error-message" parameter="newSpark.solution"></div>
           <textarea name="solution"></textarea>
          </div>
@@ -85,7 +98,12 @@
 
       <fieldset>
         <div class="field">
-          <label title="Use tag names that are descriptive of the type of project you are working on.  Multiple tags can be separated with a comma.">Tags</label>
+          <label>
+            Tags
+            #{tip}
+              Use tag names that are descriptive of the type of project you are working on.  Multiple tags can be separated with a comma.
+            #{/tip}
+          </label>
           <div class="error-message" parameter="newSpark.tags"></div>
           <input type="text" name="tagNames" value="" id="tag-entry"/>
         </div>
@@ -121,9 +139,19 @@
     <h4>Make It Stick</h4>
 
     <p>
-      I want to create a community where techies can throw out their ideas and get quality
-      feedback from a diverse community, find potential cofounders, brainstorm new directions,
-      and track their progress.
+      The stickiness of your idea is not an abstract concept, it comes directly from the way
+      you express it.  Give a concrete example of your problem instead of a generalization.  Tell
+      a story about how a user would have been better off with your solution.  How is your idea
+      unexpected?  How does it emotionally connect with people?  These qualities are an excellent
+      heuristic to evaluate an idea yourself: if you cannot express these things, the idea
+      may not be sticky enough.
+    </p>
+    
+    <p>
+      You can think of your spark as a written version of an elevator pitch.
+      What is the single core problem you are trying to solve?  How is your solution
+      addressing the problem and providing value to users?  Be concise for both brevity
+      and poignancy.
     </p>
 
   </div>
