@@ -106,7 +106,7 @@
     border-image: url("@{'public/images/content-box.png'}") 102 53 26 48;
   }
   .clockframe-content {
-    margin-top: -10px;
+    margin-top: -15px;
     padding: 0 8px;
     text-align: justify;
   }
@@ -119,78 +119,76 @@
       text-indent: -9999px;
     }
 
-    .clockframe-content .buttons { padding: 0 0 0 60px;}
+    .clockframe-content .buttons { padding: 0 0 0 70px;}
 
 
 </style>
 
-<div class="span-24 last page-title">
-  <div class="span-16">
-    <a href="" id="discussed-link">Discussed</a>
-    <a href="" id="popular-link">Popular</a>
-    <a href="" id="recent-link">Recent</a>
+<div class="page-title prepend-1 span-22 append-1">
+
+  <div class="span-14">
+    <a href="@{Home.index("DISCUSSED")}" id="discussed-link" class='${"DISCUSSED".equalsIgnoreCase(sparkSearch.filter.toString()) ? "selected" : ""}'>Discussed</a>
+    <a href="@{Home.index("POPULAR")}" id="popular-link" class='${"POPULAR".equalsIgnoreCase(sparkSearch.filter.toString()) ? "selected" : ""}'>Popular</a>
+    <a href="@{Home.index("RECENT")}" id="recent-link" class='${"RECENT".equalsIgnoreCase(sparkSearch.filter.toString()) ? "selected" : ""}'>Recent</a>
     <h1>Sparks</h1>
   </div>
   <div class="span-8 last">
     <a href="" id="rss-link" title="Subscribe">Subscribe</a>
     <a href="#" id="twitter-link" title="Twitter subscription coming soon...">Follow</a>
   </div>
+
 </div>
 
-<div class="span-16">
-  %{
-  def spark = [
-    author: "Dave",
-    title: "Fantasy Football Pairings Generator Fantasy Football Pairings Generator Fantasy Football Pairings",
-    votes: 94,
-    tags: ["fantasy-football"],
-    date: "3 weeks ago",
-    stage: "Prototype"
-  ]
-  %}
-  #{list items: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], as: 'product'}
-  <a href="/spark/view">
-  <div class="spark-wrapper">
-    <div class="spark">
-      <div class="stage caps">${spark.stage}</div>
-      <div class="votes">${spark.votes}</div>
-      <h3>${spark.title}</h3>
-      <div class="alt">Posted ${spark.date} by ${spark.author}</div>
-      <div class="tags">#{list items: spark.tags, as: 'tag'}<a href="#" class="tag-link">${tag}</a>#{/list}</div>
-      <div class="clear"></div>
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <div class="span-14">
+
+    #{list items: sparkSearch.sparks, as: 'spark'}
+    <a href="/spark/view">
+    <div class="spark-wrapper">
+      <div class="spark">
+        <div class="stage caps">${spark.stage}</div>
+        <div class="votes">${spark.votes}</div>
+        <h3>${spark.title}</h3>
+        <div class="alt">Posted ${spark.created} by #{nameTag user: spark.author /}</div>
+        <div class="tags">#{list items: spark.tags, as: 'tag'}<a href="#" class="tag-link">${tag}</a>#{/list}</div>
+        <div class="clear"></div>
+      </div>
     </div>
+    </a>
+    #{/list}
+
   </div>
-  </a>
-  #{/list}
-</div>
-<div class="span-8 last">
-  <div class="clockframe-container">
-    <div class="clockframe" class="clearfix">
-      <div class="clockframe-content">
-        <div>
-          <h2>Welcome</h2>
-          <p>
-            Sparkmuse is an invite-only community where <strong>entrepreneurial technologists can share and refine
-            innovative ideas</strong> with
-            one another.
-            If you'd like to learn more, please check out our <a href="http://blog.sparkmuse.com/">blog</a>.
-            We're still in private alpha testing, but
-            <a href="http://sparkmuse.wufoo.com/forms/thank-you-for-giving-us-your-input/">we'd love to hear about what you think</a>!
-          </p>
-        </div>
-        <div class="buttons">
-          <a class="button create-spark" href="/spark/create">
-            <span>
-              <img src="@{'public/images/icons/silk/asterisk_yellow.png'}" alt=""/>
-              Create Spark
-            </span>
-          </a>
-          <div class="clear"></div>
+
+  <div class="span-8 last">
+    <div class="clockframe-container">
+      <div class="clockframe">
+        <div class="clockframe-content">
+          <div>
+            <h2>Welcome</h2>
+            <p>
+              Sparkmuse is an invite-only community where <strong>entrepreneurial technologists can share and refine
+              innovative ideas</strong> with
+              one another.
+              If you'd like to learn more, please check out our <a href="http://blog.sparkmuse.com/">blog</a>.
+              We're still in private alpha testing, but
+              <a href="http://sparkmuse.wufoo.com/forms/thank-you-for-giving-us-your-input/">we'd love to hear about what you think</a>!
+            </p>
+          </div>
+          <div class="buttons">
+            <a class="button create-spark" href="/spark/create">
+              <span>
+                <img src="@{'public/images/icons/silk/asterisk_yellow.png'}" alt=""/>
+                Create Spark
+              </span>
+            </a>
+            <div class="clear"></div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-</div>
+  <div class="clear"></div>
 
-<div class="clear"></div>
+</div>

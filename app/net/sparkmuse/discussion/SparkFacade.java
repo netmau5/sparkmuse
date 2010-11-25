@@ -40,10 +40,33 @@ public class SparkFacade {
     this.userFacade = userFacade;
   }
 
-  public PopularSparks getMostPopularSparks() {
+  public SparkSearchResponse search(final SparkSearchRequest.Filter filter) {
+    if (SparkSearchRequest.Filter.DISCUSSED == filter) return getMostDiscussedSparks();
+    else if (SparkSearchRequest.Filter.POPULAR == filter) return getPopularSparks();
+    else if (SparkSearchRequest.Filter.RECENT == filter) return getRecentSparks();
+    else throw new IllegalArgumentException("Unknown spark search request.");
+  }
+
+  private PopularSparks getPopularSparks() {
     PopularSparks sparks = cache.get(CacheKeyFactory.newPopularSparksKey());
     if (null == sparks) {
       sparks = cache.put(new PopularSparks(sparkDao.loadPopular()));
+    }
+    return sparks;
+  }
+
+  private MostDiscussedSparks getMostDiscussedSparks() {
+    MostDiscussedSparks sparks = cache.get(CacheKeyFactory.newMostDiscussedSparksKey());
+    if (null == sparks) {
+      sparks = cache.put(new MostDiscussedSparks(sparkDao.loadMostDiscussed()));
+    }
+    return sparks;
+  }
+
+  private RecentSparks getRecentSparks() {
+    RecentSparks sparks = cache.get(CacheKeyFactory.newRecentSparksKey());
+    if (null == sparks) {
+      sparks = cache.put(new RecentSparks(sparkDao.loadRecent()));
     }
     return sparks;
   }
@@ -64,20 +87,11 @@ public class SparkFacade {
     cache.put(newSparkVO);
 
     //author implicitly votes for spark; thus, they will not be able to vote for it again
-    upVote(newSparkVO.getId(), newSparkVO.getAuthor().getId());
+    userFacade.recordUpVote(newSparkVO, newSparkVO.getAuthor().getId());
+
+    //@todo update RecentSparks
 
     return newSparkVO;
   }
-
-  //@todo update popular sparks list
-  public SparkVO upVote(final long sparkId, final long userId) {
-    final SparkVO spark = findSparkBy(sparkId);
-    spark.upVote();
-    cache.putAndWrite(spark);
-    userFacade.recordUpVote(spark, userId);
-    return spark;
-  }
-
-
 
 }

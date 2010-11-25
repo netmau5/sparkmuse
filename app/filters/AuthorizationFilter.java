@@ -26,7 +26,7 @@ public class AuthorizationFilter extends Controller {
   public static void checkUserAuthorization() {
     if (!getAccessLevel().hasAuthorizationLevel(AccessLevel.USER)) {
       Logger.info("Unauthorized access: User [" + Authorization.getUserFromSession() + "] to Resource [" + request.path + "]");
-      if (Play.mode == Play.Mode.PROD) Landing.index();
+      Landing.index();
     }
   }
 

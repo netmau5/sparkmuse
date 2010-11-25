@@ -16,5 +16,7 @@ public interface SparkDao {
   SparkVO findById(Long id);
   SparkVO create(SparkVO spark);
   List<SparkVO> loadPopular();
+  List<SparkVO> loadRecent();
+  List<SparkVO> loadMostDiscussed();
   String transform(final Function<SparkVO, SparkVO> transformation, final String cursor);
 }

@@ -65,6 +65,13 @@ public class TwigUserDao extends TwigDao implements UserDao {
     datastore.store(model);
   }
 
+  /**
+   * Stores a record of the vote for the given user, upvotes the votable, stores
+   * it to the datastore, and adjusts the author's reputation.
+   *
+   * @param votable
+   * @param voter
+   */
   public void vote(Votable votable, UserVO voter) {
     //store vote so we can later determine if a user has voted on an entity
     final UserModel voterUM = map.fromEntity(voter).to(UserModel.class);
@@ -74,14 +81,14 @@ public class TwigUserDao extends TwigDao implements UserDao {
     //record aggregate vote count on entity
     if (votable instanceof Entity) {
       votable.upVote();
-      helper.store((Entity) votable);
+      helper.update((Entity) votable);
     }
 
     //adjust reputation
     final UserVO author = votable.getAuthor();
     helper.associate(author);
     author.setReputation(author.getReputation() + 1);
-    helper.store(author);
+    helper.update(author);
   }
 
   private static VoteModel newVoteModel(Votable votable) {

@@ -6,6 +6,8 @@ GET			    /				                        Landing.index
 GET         /login                          Authorization.authenticate
 GET         /authorize                      Authorization.authorize
 POST        /verifyAuthorizationToken       Authorization.verifyAuthorizationToken
+*           /home/index                     Home.index(filter:'RECENT')
+*           /home/index/{filter}            Home.index
 *           /{action}                       Application.{action}
 
 # Map static resources from the /app/public folder to the /public path

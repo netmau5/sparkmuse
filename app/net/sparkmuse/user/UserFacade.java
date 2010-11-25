@@ -16,8 +16,10 @@ import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.WriteThruCacheService;
 import net.sparkmuse.data.Votable;
+import net.sparkmuse.task.IssueTaskService;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,11 +35,13 @@ public class UserFacade {
 
   private final UserDao userDao;
   private final WriteThruCacheService cache;
+  private final IssueTaskService taskService;
 
   @Inject
-  public UserFacade(UserDao userDao, WriteThruCacheService cache) {
+  public UserFacade(UserDao userDao, WriteThruCacheService cache, IssueTaskService taskService) {
     this.userDao = userDao;
     this.cache = cache;
+    this.taskService = taskService;
   }
 
   public String beginAuthentication() {

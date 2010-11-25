@@ -7,23 +7,17 @@ import net.sparkmuse.common.CacheKeyFactory;
 
 import java.util.List;
 
-import controllers.Spark;
-
 /**
  * Created by IntelliJ IDEA.
  *
  * @author neteller
  * @created: Jul 18, 2010
  */
-public class PopularSparks implements Cacheable<PopularSparks> {
+public class PopularSparks extends AbstractSparkSearchResponse
+    implements Cacheable<PopularSparks>, SparkSearchResponse {
 
-  private final List<SparkVO> sparks;
-
-  /**
-   * @param sparks top 50 sparks as ranked by their rating field
-   */
   public PopularSparks(final List<SparkVO> sparks) {
-    this.sparks = sparks;
+    super(sparks, SparkSearchRequest.Filter.POPULAR);
   }
 
   public CacheKey<PopularSparks> getKey() {
@@ -32,10 +26,6 @@ public class PopularSparks implements Cacheable<PopularSparks> {
 
   public PopularSparks getInstance() {
     return this;
-  }
-
-  public List<SparkVO> getSparks() {
-    return sparks;
   }
   
 }

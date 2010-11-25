@@ -19,6 +19,9 @@ import net.sparkmuse.common.CacheKeyFactory;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.HashMap;
+
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -85,7 +88,7 @@ public class DatastoreService {
       }
     }
 
-    final Map<Long, UserVO> usersMap = loadAll(UserVO.class, toQuery);
+    final Map<Long, UserVO> usersMap = CollectionUtils.size(toQuery) > 0 ? loadAll(UserVO.class, toQuery) : Maps.<Long, UserVO>newHashMap();
     usersMap.putAll(Maps.uniqueIndex(cachedUsers, UserVO.asUserIds));
 
     //@todo put users in cache
@@ -95,11 +98,15 @@ public class DatastoreService {
 
   //generified iterable so we preserve type (might be ordered List)
   public <T extends OwnedEntity, I extends Iterable<T>> I mergeOwnersFor(I entities) {
-    final ImmutableMap<Long, T> ownedEntitiesToOwnersMap = Maps.uniqueIndex(entities, OwnedEntity.asOwnerIds);
-    final Map<Long, UserVO> userMap = this.getUsers(ownedEntitiesToOwnersMap.keySet());
+    final HashMap<T, Long> ownedEntitiesToOwnersMap = Maps.newHashMap();
+    for (T entity: entities) {
+      ownedEntitiesToOwnersMap.put(entity, OwnedEntity.asOwnerIds.apply(entity));
+    }
 
-    for (Map.Entry<Long, T> ownedEntityEntry: ownedEntitiesToOwnersMap.entrySet()) {
-      ownedEntityEntry.getValue().setAuthor(userMap.get(ownedEntityEntry.getKey()));
+    final Map<Long, UserVO> userMap = this.getUsers(ownedEntitiesToOwnersMap.values());
+
+    for (Map.Entry<T, Long> ownedEntityEntry: ownedEntitiesToOwnersMap.entrySet()) {
+      ownedEntityEntry.getKey().setAuthor(userMap.get(ownedEntityEntry.getValue()));
     }
 
     return entities;
@@ -154,6 +161,15 @@ public class DatastoreService {
     final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
 
     datastore.store().instance(model).later();
+  }
+
+  public final <T, U extends Entity<U>> U update(U entity) {
+    if (null == entity) return null;
+    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
+
+    datastore.update(model);
+
+    return entity;
   }
 
   public final <T, U extends Entity<U>> void associate(U entity) {

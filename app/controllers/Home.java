@@ -1,8 +1,12 @@
 package controllers;
 
-import play.mvc.Controller;
 import play.mvc.With;
 import filters.AuthorizationFilter;
+import net.sparkmuse.discussion.SparkSearchResponse;
+import net.sparkmuse.discussion.SparkFacade;
+import net.sparkmuse.discussion.SparkSearchRequest;
+
+import javax.inject.Inject;
 
 /**
  * Controller for the home page.  The home page is where
@@ -14,8 +18,11 @@ import filters.AuthorizationFilter;
 @With(AuthorizationFilter.class)
 public class Home extends SparkmuseController {
 
-  public static void index() {
-    render();
+  @Inject static SparkFacade sparkFacade;
+
+  public static void index(String filter) {
+    SparkSearchResponse sparkSearch = sparkFacade.search(SparkSearchRequest.Filter.valueOf(filter));
+    render(sparkSearch);
   }
 
 }

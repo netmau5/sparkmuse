@@ -25,5 +25,13 @@ public interface UserDao {
   Map<Long, UserVO> findUsersBy(Set<Long> ids);
   UserVO update(UserVO user);
   void saveApplication(String userName, String url);
-  void vote(Votable voteable, UserVO voter);
+
+  /**
+   * Stores a record of the vote for the given user, upvotes the votable, stores
+   * it to the datastore, and adjusts the author's reputation.
+   *
+   * @param votable
+   * @param voter
+   */
+  void vote(Votable votable, UserVO voter);
 }

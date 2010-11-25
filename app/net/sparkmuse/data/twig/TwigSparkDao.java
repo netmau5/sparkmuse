@@ -39,6 +39,22 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
     ));
   }
 
+  public List<SparkVO> loadRecent() {
+    return helper.mergeOwnersFor(helper.all(SparkVO.class, datastore.find()
+        .type(Entity.modelClassFor(SparkVO.class))
+        .addSort("created")
+        .fetchMaximum(50)
+    ));
+  }
+
+  public List<SparkVO> loadMostDiscussed() {
+    return helper.mergeOwnersFor(helper.all(SparkVO.class, datastore.find()
+        .type(Entity.modelClassFor(SparkVO.class))
+        .addSort("postCount")
+        .fetchMaximum(50)
+    ));
+  }
+
   public String transform(final Function<SparkVO, SparkVO> transformation, final String cursor) {
     return super.transformAll(SparkVO.class, transformation, cursor);
   }

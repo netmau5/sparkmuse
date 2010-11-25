@@ -24,5 +24,6 @@ public class SparkModel {
   public Long created;
   public int votes;
   public double rating;
+  public int postCount;
 
 }
