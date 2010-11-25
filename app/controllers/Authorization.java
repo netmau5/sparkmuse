@@ -1,6 +1,7 @@
 package controllers;
 
 import play.mvc.Controller;
+import play.mvc.Router;
 import play.data.validation.Required;
 import play.data.validation.Validation;
 
@@ -12,6 +13,8 @@ import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.ajax.AjaxResponse;
+import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
+import net.sparkmuse.ajax.RedirectAjaxResponse;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -28,6 +31,20 @@ public class Authorization extends SparkmuseController {
     String s = session.get(Constants.SESSION_USER_ID);
     if (StringUtils.isNotBlank(s)) {
       return userFacade.findUserBy(Long.parseLong(s));
+    }
+
+    return null;
+  }
+
+  public static UserVO getUserFromSessionOrAuthenticate(boolean isAjax) {
+    final UserVO user = getUserFromSession();
+    if (user != null) return user;
+
+    if (isAjax) {
+      renderJSON(new RedirectAjaxResponse(Router.reverse("Authorization.authenticate").url));
+    }
+    else {
+      authenticate();
     }
 
     return null;

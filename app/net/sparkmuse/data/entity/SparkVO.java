@@ -56,22 +56,8 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
     LAUNCHED
   }
 
-  public static SparkVO newSpark(
-      final UserVO author,
-      final String title,
-      final String stage,
-      final String problem,
-      final String solution,
-      final List<String> tags){
-    final SparkVO spark = new SparkVO();
-    spark.setAuthor(author);
-    spark.title = title;
-    spark.stage = Stage.valueOf(stage);
-    spark.problem = problem;
-    spark.solution = solution;
-    spark.tags = tags;
-    spark.created = new DateTime();
-    return spark;
+  public SparkVO() {
+    this.created = new DateTime();
   }
 
   public void upVote() {

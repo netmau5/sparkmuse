@@ -156,6 +156,14 @@ public class DatastoreService {
     datastore.store().instance(model).later();
   }
 
+  public final <T, U extends Entity<U>> void associate(U entity) {
+    if (null == entity) return;
+    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
+
+    //this should set the key on the model object automatically
+    datastore.associate(model);
+  }
+
   /**
    * Executes a timed job that will process a transformation over a given entity.  The transformation
    * logic is limited at approximately 15 seconds.  If the job doesn't complete in the allowed time, a

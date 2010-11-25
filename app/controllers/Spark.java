@@ -47,7 +47,7 @@ public class Spark extends SparkmuseController {
       renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
     }
     else {
-      newSpark.setAuthor(Authorization.getUserFromSession());
+      newSpark.setAuthor(Authorization.getUserFromSessionOrAuthenticate(true));
       final SparkVO savedSpark = sparkFacade.createSpark(newSpark);
       final HashMap<String,Object> parameters = Maps.newHashMap();
       parameters.put("sparkId", savedSpark.getId());

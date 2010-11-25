@@ -78,7 +78,7 @@ SM.Events = {
     },
 
     handleRedirectResponse: function(response) {
-      window.target = response.targetUrl;
+      window.location = response.targetUrl;
       $.modal.close();
     }
   }

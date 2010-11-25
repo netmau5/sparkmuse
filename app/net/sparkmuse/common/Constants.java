@@ -11,4 +11,6 @@ public class Constants {
   public static final String TWITTER_CALLBACK_URI = "TWITTER_CALLBACK_URI";
 
   public static final String SESSION_USER_ID = "SESSION_USER_ID";
+
+  public static final String LAST_REQUEST_URL = "LAST_REQUEST_URL";
 }

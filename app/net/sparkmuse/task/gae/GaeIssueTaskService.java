@@ -3,6 +3,7 @@ package net.sparkmuse.task.gae;
 import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.data.Cacheable;
 import com.google.appengine.api.labs.taskqueue.Queue;
+import com.google.appengine.api.labs.taskqueue.TaskOptions;
 import static com.google.appengine.api.labs.taskqueue.TaskOptions.Builder.*;
 import com.google.common.collect.Maps;
 import play.mvc.Router;
@@ -25,12 +26,10 @@ public class GaeIssueTaskService implements IssueTaskService {
 
   public <T extends Cacheable<T>> void issueCachePersistTask(Cacheable<T> cacheable) {
     final String key = cacheable.getKey().toString();
-    final Map<String,Object> parameters = Maps.newHashMap();
-    parameters.put("cacheKey", key);
-    queue.add(url(Router.reverse(
-        "Task.persistCacheValue",
-        parameters
-    ).url));
+
+    final TaskOptions taskOptions = url(Router.reverse("Task.persistCacheValue").url);
+    taskOptions.param("cacheKey", key);
+    queue.add(taskOptions);
   }
 
   public void issueSparkRatingUpdateTask(String cursor) {

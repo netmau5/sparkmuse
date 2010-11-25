@@ -79,7 +79,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
 
     //adjust reputation
     final UserVO author = votable.getAuthor();
-    datastore.associate(author);
+    helper.associate(author);
     author.setReputation(author.getReputation() + 1);
     helper.store(author);
   }
@@ -88,7 +88,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
     final VoteModel vm = new VoteModel();
     final String className = vm.entityClassName = votable.getClass().getName();
     final Long id = vm.entityId = votable.getId();
-    vm.key = className + id;
+    vm.key = className + "|" + id;
     vm.voteWeight = 1;
     return vm;
   }
