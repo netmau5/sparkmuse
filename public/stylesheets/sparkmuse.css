@@ -38,7 +38,7 @@ label {
   display: block;
 }
 
-  label img { vertical-align: middle; }
+img { vertical-align: middle; }
 
 a {
   color: $LOGO_DARK_BLUE;
@@ -50,9 +50,13 @@ a:hover {
   text-decoration: underline;
 }
 
+  a:hover img { text-decoration: none; }
+
 a:active {
   color: $LOGO_YELLOW;
 }
+
+
 
 input, textarea {
   font-family: $FONT_FAMILY_CONTROLS;
@@ -749,6 +753,7 @@ button img, a.button img{
   width:16px;
   height:16px;
   float:none;
+  vertical-align: baseline;
 }
 
 .controls {

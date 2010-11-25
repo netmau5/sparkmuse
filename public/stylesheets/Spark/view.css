@@ -78,7 +78,7 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
       padding: 0 0 12px 4px;
       margin-bottom: 0px;
       font-size: 12px;
-      line-height: 1;
+      line-height: 16px;
       height: 20px;
       background: url("../../images/comment_hook.png") 32px 22px no-repeat;
     }
@@ -89,10 +89,8 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
       }
 
         .comment-container .author cite img {
-          vertical-align: middle;
           height: 16px;
           width: 16px;
-          cursor: pointer;
         }
 
       .comment-container .author .likes {

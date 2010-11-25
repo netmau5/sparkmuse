@@ -73,6 +73,7 @@ public class UserFacade {
 
     try {
       AccessToken ac = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
+      
 
       UserVO user = userDao.findOrCreateUserBy(Integer.toString(ac.getUserId()), ac.getScreenName());
       cache.put(user);
@@ -95,6 +96,12 @@ public class UserFacade {
     return validToken;
   }
 
+  /**
+   * Finds a user in the cache.  If not present, the db is queried and the cache is updated.
+   *
+   * @param id
+   * @return
+   */
   public UserVO findUserBy(final Long id) {
     return userDao.findUserBy(id);
   }

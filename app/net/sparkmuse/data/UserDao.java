@@ -13,7 +13,15 @@ import java.util.Map;
  */
 public interface UserDao {
   UserVO findOrCreateUserBy(String authProviderUserId, String userName);
+
+  /**
+   * Finds a user in the cache.  If not present, the db is queried and the cache is updated.
+   *
+   * @param id
+   * @return
+   */
   UserVO findUserBy(Long id);
+
   Map<Long, UserVO> findUsersBy(Set<Long> ids);
   UserVO update(UserVO user);
   void saveApplication(String userName, String url);
