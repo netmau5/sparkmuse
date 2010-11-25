@@ -54,6 +54,12 @@ a:active {
   color: $LOGO_YELLOW;
 }
 
+input, textarea {
+  font-family: $FONT_FAMILY_CONTROLS;
+  line-height: 20px;
+  font-size: 12px;
+}
+
 /* END <LIBRARY> */
 
 /* BEGIN <HEADER> */
