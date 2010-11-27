@@ -64,6 +64,7 @@ public class DatastoreService {
     }
 
     final UserVO userVO = load(UserVO.class, id);
+    if (null == userVO) return null;
     cache.add(userVO.getKey().toString(), userVO, "30d");
     return userVO;
   }
@@ -167,6 +168,7 @@ public class DatastoreService {
     if (null == entity) return null;
     final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
 
+    datastore.associate(model);
     datastore.update(model);
 
     return entity;

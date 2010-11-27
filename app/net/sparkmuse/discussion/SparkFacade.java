@@ -89,7 +89,9 @@ public class SparkFacade {
     //author implicitly votes for spark; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newSparkVO, newSparkVO.getAuthor().getId());
 
-    //@todo update RecentSparks
+    final RecentSparks recentSparks = getRecentSparks();
+    recentSparks.addNew(newSparkVO);
+    cache.put(recentSparks);
 
     return newSparkVO;
   }

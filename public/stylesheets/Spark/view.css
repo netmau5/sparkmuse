@@ -14,19 +14,7 @@ $FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
 
-.page-title .likes {
-  margin: 5px 5px 0 0;
-  cursor: pointer;
-  padding-top: 6px;
-  text-align: center;
-  background: url("../../images/likebulb_dim.png") 1px 0 no-repeat;
-  height: 26px;
-  width: 33px;
-  font-size: 9px;
-  float:left;
-  text-shadow: 1px white;
-}
-
+.page-title h2 { display: inline-block; }
 
 .spark-info-wrapper {
   background-color: $COLOR_NEUTRAL;
@@ -75,39 +63,26 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
     .comment-container .author {
       position: relative;
       bottom: -1px;
-      padding: 0 0 12px 4px;
-      margin-bottom: 0px;
+      display: block;
+      padding: 0 0 14px 4px;
       font-size: 12px;
-      line-height: 16px;
-      height: 20px;
-      background: url("../../images/comment_hook.png") 32px 22px no-repeat;
+      line-height: 24px;
+      height: 24px;
+      background: url("../../images/comment_hook.png") 36px 28px no-repeat;
     }
 
       .comment-container .author cite {
-        display: block;
+        display: inline-block;
         font-style: normal;
       }
 
-        .comment-container .author cite img {
-          height: 16px;
-          width: 16px;
-        }
-
       .comment-container .author .likes {
-        background: url("../../images/icons/silk/lightbulb_off.png");
-        height: 16px;
-        width: 16px;
+        margin-right: 8px;
+        height: 24px;
+        background-position: 0 4px;
         display: block;
         float: left;
-        cursor: pointer;
-        margin-right: 10px;
-        vertical-align: middle;
       }
-
-        .comment-container .author .likes.active,
-        .comment-container .author .likes:hover {
-          background: url("../../images/icons/silk/lightbulb.png");
-        }
 
     .comment-container blockquote {
       border: 1px solid #c9c2c1;

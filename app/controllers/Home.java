@@ -20,8 +20,8 @@ public class Home extends SparkmuseController {
 
   @Inject static SparkFacade sparkFacade;
 
-  public static void index(String filter) {
-    SparkSearchResponse sparkSearch = sparkFacade.search(SparkSearchRequest.Filter.valueOf(filter));
+  public static void index(SparkSearchRequest.Filter filter) {
+    SparkSearchResponse sparkSearch = sparkFacade.search(filter);
     render(sparkSearch);
   }
 

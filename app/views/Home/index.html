@@ -57,37 +57,67 @@
         background-position: -1050px 0;
       }
 
-  .spark-wrapper {
+  .sparks-wrapper {
     width: 100%;
     padding: 0 10px 10px 0;
   }
 
-  .spark {
-    color: #666666;
+  .sparks {
     border: 1px solid #999999;
     border-bottom-width: 2px;
-    padding: 4px 8px;
-    cursor: pointer;
-    background: white url("@{'/public/images/gradients/trans_to_gray.png'}") bottom left repeat-x;
     -moz-border-radius: 6px;
     border-radius: 6px;
   }
 
-  .spark:hover {
-    color: black;
-    background: white;
+    .sparks .stage {
+      float: right;
+      text-indent: -9999px;
+      width: 48px;
+      height: 48px;
+    }
+
+    .sparks h3 {
+      font-size: 16px;
+      line-height: 28px;
+      margin-bottom: 0.25em;
+    }
+
+    .sparks .likes {
+      display: inline-block;
+      vertical-align: top;
+      margin-right: 5px;
+    }
+
+    .sparks .alt {
+      margin-bottom: 0.25em;
+    }
+
+    .sparks hr { margin: 0; }
+
+  .spark {
+    color: #666666;
+    cursor: pointer;
+    padding: 10px 10px;
+    background: white url("@{'/public/images/gradients/trans_to_gray.png'}") bottom left repeat-x;
   }
 
-    .spark .votes {
-      float: left;
-    }
+  .spark.first {
+    -moz-border-radius-topleft: 6px;
+    -moz-border-radius-topright: 6px;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+  }
 
-    .spark .stage {
-      float: right;
-    }
+  .spark.last {
+    -moz-border-radius-bottomright: 6px;
+    -moz-border-radius-bottomleft: 6px;
+    border-bottom-right-radius: 6px;
+    border-bottom-left-radius: 6px;
+  }
 
-    .spark h2 {
-      font-size: 16px;
+    .spark:hover {
+      color: black;
+      background: white;
     }
 
   <!-- side bar content frame -->
@@ -143,20 +173,25 @@
 
   <div class="span-14">
 
+    <div class="sparks-wrapper">
+    <div class="sparks">
+      
     #{list items: sparkSearch.sparks, as: 'spark'}
-    <a href="/spark/view">
-    <div class="spark-wrapper">
-      <div class="spark">
-        <div class="stage caps">${spark.stage}</div>
-        <div class="votes">${spark.votes}</div>
-        <h3>${spark.title}</h3>
-        <div class="alt">Posted ${spark.created} by #{nameTag user: spark.author /}</div>
-        <div class="tags">#{list items: spark.tags, as: 'tag'}<a href="#" class="tag-link">${tag}</a>#{/list}</div>
+      <div class='spark ${spark_isFirst ? "first" : ""} ${spark_isLast? "last" : ""}' onclick="window.location = '@{Spark.view(spark.id)}';">
+        <div class="stage stage-${spark.stage.toString().toLowerCase()}-small" title="<b>Stage:</b> ${spark.stage.toWords()}">${spark.stage}</div>
+        <h3>
+          <a href="#upvote" class="likes likes-big">${spark.votes}</a>
+          ${spark.title}
+        </h3>
+        <div class="alt">Posted ${spark.created.format()} by #{nameTag user: spark.author /}</div>
+        <div class="tags">#{list items: spark.tags, as: 'tag'}<span class="tag">${tag}</span>#{/list}</div>
         <div class="clear"></div>
       </div>
-    </div>
-    </a>
+      %{ if (!spark_isLast) { }%<hr/>%{ } }%
     #{/list}
+
+    </div>
+    </div>
 
   </div>
 

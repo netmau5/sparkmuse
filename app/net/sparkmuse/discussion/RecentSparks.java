@@ -6,6 +6,9 @@ import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.CacheKeyFactory;
 
 import java.util.List;
+import java.util.Collection;
+
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,6 +28,14 @@ public class RecentSparks extends AbstractSparkSearchResponse
   }
 
   public RecentSparks getInstance() {
+    return this;
+  }
+
+  public RecentSparks addNew(final SparkVO newSpark) {
+    if (CollectionUtils.size(this.getSparks()) > MAX_SIZE) {
+      this.getSparks().remove(this.getSparks().size() - 1);
+    }
+    this.getSparks().add(0, newSpark);
     return this;
   }
 }

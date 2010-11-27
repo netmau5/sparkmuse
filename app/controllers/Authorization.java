@@ -15,6 +15,7 @@ import net.sparkmuse.common.Constants;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
+import net.sparkmuse.discussion.SparkSearchRequest;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -61,7 +62,7 @@ public class Authorization extends SparkmuseController {
       session.put(Constants.SESSION_USER_ID, user.getId());
 
       if (user.isAuthorizedFor(AccessLevel.USER)) {
-        Home.index();
+        Home.index(SparkSearchRequest.Filter.RECENT);
       }
       else {
         enterInviteCode();
@@ -83,7 +84,7 @@ public class Authorization extends SparkmuseController {
     }
 
     if (StringUtils.isNotBlank(authorizationToken) && userFacade.verifyAuthorizationToken(Authorization.getUserFromSession(), authorizationToken)) {
-      Home.index(); //@todo tutorial window
+      Home.index(SparkSearchRequest.Filter.RECENT); //@todo tutorial window
     }
     else {
       flash.error("The code you entered is invalid.  If you mistyped it, please try again.");

@@ -62,7 +62,7 @@ SM.Events = {
     handleValidationErrorResponse: function(response) {
       var validationErrors = response.validationErrors,
           errorContainers = $(".error-message");
-      
+
       errorContainers.removeClass("error").html("");
 
       for (var parameterName in validationErrors) {
@@ -73,7 +73,7 @@ SM.Events = {
               .addClass("error");
         }
       }
-      
+
       $.modal.close();
     },
 
@@ -132,6 +132,18 @@ SM.Events = {
   }
 })(jQuery);
 
+/**
+ * Ajax links - scans anchor tags with an href value starting with "#" character and configures
+ * them to invoke a RESTful request ansychronously.  Until the response is received, the button
+ * will be issue additional requests.
+ *
+ * href:      #[url + query string]- a GET request is made to this address
+ * callback:  JS function to be called upon completion, will be passed three parameters:
+ *            a status code, a request parameters map, and a response object as json if given
+ */
+$(document).ready(function() {
+  
+});
 
 $(document).ready(function() {
   //tooltips
@@ -143,7 +155,7 @@ $(document).ready(function() {
       my: "bottom center",
       at: "top center",
       target: 'mouse',
-      adjust: { y: -10 }
+      adjust: { y: -15 }
     }
   });
 });

@@ -3,6 +3,7 @@ package controllers;
 import play.mvc.Controller;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.util.AccessLevel;
+import net.sparkmuse.discussion.SparkSearchRequest;
 
 /**
  * Controller for the landing pages.  The landing page
@@ -16,7 +17,7 @@ public class Landing extends SparkmuseController {
 
   public static void index() {
     UserVO userFromSession = Authorization.getUserFromSession();
-    if (null != userFromSession && userFromSession.isAuthorizedFor(AccessLevel.USER)) Home.index();
+    if (null != userFromSession && userFromSession.isAuthorizedFor(AccessLevel.USER)) Home.index(SparkSearchRequest.Filter.RECENT);
 		else render();
 	}
 
