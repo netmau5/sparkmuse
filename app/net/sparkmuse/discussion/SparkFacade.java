@@ -1,13 +1,8 @@
 package net.sparkmuse.discussion;
 
-import net.sparkmuse.data.PostDao;
-import net.sparkmuse.data.SparkDao;
-import net.sparkmuse.data.DaoProvider;
-import net.sparkmuse.data.WriteThruCacheService;
-import net.sparkmuse.discussion.Posts;
+import net.sparkmuse.data.*;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.PostVO;
-import net.sparkmuse.discussion.VoteSorter;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.user.UserFacade;
 
@@ -26,12 +21,12 @@ public class SparkFacade {
 
   private final SparkDao sparkDao;
   private final PostDao postDao;
-  private final WriteThruCacheService cache;
+  private final Cache cache;
   private final UserFacade userFacade;
 
   @Inject
   public SparkFacade(DaoProvider daoProvider,
-                     WriteThruCacheService cache,
+                     Cache cache,
                      UserFacade userFacade
   ) {
     this.sparkDao = daoProvider.getSparkDao();

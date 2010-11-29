@@ -9,7 +9,6 @@ import net.sparkmuse.data.mapper.FieldMapperFactory;
 import net.sparkmuse.data.twig.*;
 import net.sparkmuse.data.play.PlayCache;
 import net.sparkmuse.data.entity.*;
-import net.sparkmuse.data.gae.DatastoreWriteThruCacheService;
 
 import play.modules.twig.PlayAnnotationObjectDatastore;
 
@@ -27,7 +26,6 @@ public class DataModule extends AbstractModule {
     bind(SparkDao.class).to(TwigSparkDao.class);
     bind(UserDao.class).to(TwigUserDao.class);
     bind(CacheDao.class).to(TwigCacheDao.class);
-    bind(WriteThruCacheService.class).to(DatastoreWriteThruCacheService.class);
     bind(ObjectMapper.class).toInstance(newObjectMapper());
     bind(ObjectDatastore.class).to(PlayAnnotationObjectDatastore.class);
     bind(Cache.class).to(PlayCache.class);

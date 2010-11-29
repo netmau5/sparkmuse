@@ -7,20 +7,16 @@ import twitter4j.http.RequestToken;
 import twitter4j.http.AccessToken;
 
 import play.Logger;
-import play.cache.Cache;
 import com.google.common.base.Preconditions;
 import com.google.inject.name.Named;
 import com.google.inject.Inject;
-import com.google.inject.internal.Sets;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVote;
-import net.sparkmuse.data.WriteThruCacheService;
-import net.sparkmuse.user.Votable;
-import net.sparkmuse.task.IssueTaskService;
+import net.sparkmuse.data.Cache;
 
 import java.util.Set;
 
@@ -37,14 +33,12 @@ public class UserFacade {
   @Inject @Named(Constants.TWITTER_CALLBACK_URI) private String CALLBACK_URI;
 
   private final UserDao userDao;
-  private final WriteThruCacheService cache;
-  private final IssueTaskService taskService;
+  private final Cache cache;
 
   @Inject
-  public UserFacade(UserDao userDao, WriteThruCacheService cache, IssueTaskService taskService) {
+  public UserFacade(UserDao userDao, Cache cache) {
     this.userDao = userDao;
     this.cache = cache;
-    this.taskService = taskService;
   }
 
   public String beginAuthentication() {
@@ -60,7 +54,7 @@ public class UserFacade {
       throw new RuntimeException(e);
     }
 
-    Cache.set(rtoken.getToken(), rtoken, "5min");
+    play.cache.Cache.set(rtoken.getToken(), rtoken, "5min");
 
     return rtoken.getAuthorizationURL();
   }
@@ -73,7 +67,7 @@ public class UserFacade {
     TwitterFactory tf = new TwitterFactory();
     Twitter twitter = tf.getInstance();
 
-    RequestToken requestToken = Cache.get(oauth_token, RequestToken.class);
+    RequestToken requestToken = play.cache.Cache.get(oauth_token, RequestToken.class);
     if (null == requestToken) throw new InvalidOAuthRequestToken();
 
     twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);

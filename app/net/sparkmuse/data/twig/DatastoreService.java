@@ -14,8 +14,8 @@ import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.OwnedEntity;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.SparkVO;
-import net.sparkmuse.data.Cache;
 import net.sparkmuse.data.Cacheable;
+import net.sparkmuse.data.Cache;
 import net.sparkmuse.common.TimedTransformer;
 import net.sparkmuse.common.CacheKeyFactory;
 
@@ -58,7 +58,7 @@ public class DatastoreService {
    * @return
    */
   public UserVO getUser(final Long id) {
-    UserVO cachedUser = cache.get(CacheKeyFactory.newUserKey(id).toString(), UserVO.class);
+    UserVO cachedUser = cache.get(CacheKeyFactory.newUserKey(id));
     if (null != cachedUser) {
       return cachedUser;
     }
@@ -79,7 +79,7 @@ public class DatastoreService {
     Set<Long> toQuery = Sets.newHashSet();
     Set<UserVO> cachedUsers = Sets.newHashSet();
     for (Long userId: userIds) {
-      UserVO cachedUser = cache.get(CacheKeyFactory.newUserKey(userId).toString(), UserVO.class);
+      UserVO cachedUser = cache.get(CacheKeyFactory.newUserKey(userId));
       if (null != cachedUser) {
         cachedUsers.add(cachedUser);
       }
@@ -146,7 +146,7 @@ public class DatastoreService {
         toMergeOwners.add((OwnedEntity) object);
       }
       if (object instanceof SparkVO || object instanceof UserVO) {
-        cache.set(((Cacheable) object).getKey().toString(), object, "30d");
+        cache.put((Cacheable) object);
       }
     }
 

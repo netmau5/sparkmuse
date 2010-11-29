@@ -1,19 +1,28 @@
 package net.sparkmuse.data;
 
+import net.sparkmuse.common.CacheKey;
+
 /**
  * Created by IntelliJ IDEA.
  *
  * @author neteller
- * @created: Jul 18, 2010
+ * @created: Nov 28, 2010
  */
 public interface Cache {
 
-  void set(String key, Object o, String timeout);
+  /**
+   * Cannot cache a non-inserted entity, these do not have a unique pk yet.
+   *
+   * @param cacheable
+   * @param <T>
+   * @return
+   */
+  <T> T put(Cacheable<T> cacheable);
 
-  void add(String key, Object o, String timeout);
-
-  <T> T get(String key, Class<T> clazz);
+  <T> T get(CacheKey<T> key);
 
   Object get(String key);
+
+  <T> T put(String key, T value);
 
 }
