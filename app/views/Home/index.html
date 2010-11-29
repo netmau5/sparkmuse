@@ -180,7 +180,7 @@
       <div class='spark ${spark_isFirst ? "first" : ""} ${spark_isLast? "last" : ""}' onclick="window.location = '@{Spark.view(spark.id)}';">
         <div class="stage stage-${spark.stage.toString().toLowerCase()}-small" title="<b>Stage:</b> ${spark.stage.toWords()}">${spark.stage}</div>
         <h3>
-          <a href="#upvote" class="likes likes-big">${spark.votes}</a>
+          #{likeButton votable: spark, userVotes: userVotes, size: "big" /}
           ${spark.title}
         </h3>
         <div class="alt">Posted ${spark.created.format()} by #{nameTag user: spark.author /}</div>

@@ -1,5 +1,14 @@
 package net.sparkmuse.user;
 
+import net.sparkmuse.discussion.SparkSearchResponse;
+import net.sparkmuse.data.entity.SparkVO;
+
+import java.util.Set;
+
+import com.google.common.collect.Sets;
+import com.google.common.collect.Iterables;
+import com.google.common.base.Function;
+
 /**
  * Created by IntelliJ IDEA.
  *
@@ -7,7 +16,23 @@ package net.sparkmuse.user;
  * @created: Nov 28, 2010
  */
 public class Votables {
+
   public static String newKey(Votable votable) {
     return votable.getClass().getName() + "|" + votable.getId();
   }
+
+  public static Set<Votable> collect(SparkSearchResponse response) {
+    final Iterable<Set<Votable>> votableSets = Iterables.transform(response.getSparks(), new Function<SparkVO, Set<Votable>>() {
+      public Set<Votable> apply(SparkVO sparkVO) {
+        return collect(sparkVO);
+      }
+    });
+    final Iterable<Votable> votables = Iterables.concat(votableSets);
+    return Sets.newHashSet(votables);
+  }
+
+  public static Set<Votable> collect(SparkVO spark) {
+    return Sets.<Votable>newHashSet(spark);
+  }
+
 }

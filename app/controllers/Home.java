@@ -5,6 +5,9 @@ import filters.AuthorizationFilter;
 import net.sparkmuse.discussion.SparkSearchResponse;
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.SparkSearchRequest;
+import net.sparkmuse.user.UserFacade;
+import net.sparkmuse.user.Votables;
+import net.sparkmuse.user.UserVotes;
 
 import javax.inject.Inject;
 
@@ -19,10 +22,12 @@ import javax.inject.Inject;
 public class Home extends SparkmuseController {
 
   @Inject static SparkFacade sparkFacade;
+  @Inject static UserFacade userFacade;
 
   public static void index(SparkSearchRequest.Filter filter) {
     SparkSearchResponse sparkSearch = sparkFacade.search(filter);
-    render(sparkSearch);
+    final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(sparkSearch), Authorization.getUserFromSession());
+    render(sparkSearch, userVotes);
   }
 
 }

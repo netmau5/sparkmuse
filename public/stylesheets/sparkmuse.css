@@ -192,7 +192,7 @@ input, textarea {
 }
 
   .blurb-inner {
-    padding: 1em;
+    padding: 1em 1em 0 1em;
   }
 
   .blurb h4 {
@@ -203,8 +203,14 @@ input, textarea {
   }
 
   .blurb p {
-    margin-bottom: 0.5em;
-    font-size: 1.1em; 
+    font-size: 1.1em;
+  }
+
+  .blurb p,
+  .blurb h4,
+  .blurb .tag,
+  .blurb ol {
+    margin-bottom: 1em;
   }
 
 .page-title, .page-canvas {
@@ -583,14 +589,14 @@ a.button.leading-question:active {
   color:#fff;
 }
 
-a.button.competitor:hover,
-.comment-container .competitor {
+a.button.visual:hover,
+.comment-container .visual {
   background-color:#fdf5ce;
   border:1px solid #fbcb09;
   color:#c77405; 
 }
 
-a.button.competitor:active {
+a.button.visual:active {
   text-decoration: none;
   background-color:#c77405;
   border:1px solid #c77405;

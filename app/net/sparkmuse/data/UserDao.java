@@ -38,5 +38,5 @@ public interface UserDao {
    */
   void vote(Votable votable, UserVO voter);
   <T extends Entity<T>> void vote(Class<T> entityClass, Long id, UserVO voter);
-  <T extends Entity & Votable> Set<UserVote> findVotesFor(Set<T> votables, UserVO user);
+  Set<UserVote> findVotesFor(Set<Votable> votables, UserVO user);
 }

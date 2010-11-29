@@ -1,14 +1,11 @@
 package controllers;
 
-import play.mvc.Controller;
 import play.mvc.Router;
 import play.mvc.With;
 import play.data.validation.Required;
-import play.data.validation.MinSize;
 import play.data.validation.Validation;
 import play.data.validation.Valid;
 
-import java.util.List;
 import java.util.HashMap;
 
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
@@ -17,10 +14,8 @@ import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.SparkSearchRequest;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.user.UserVotes;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
+import net.sparkmuse.user.Votables;
 import com.google.common.collect.Maps;
-import com.google.common.base.Splitter;
 
 import javax.inject.Inject;
 
@@ -57,7 +52,7 @@ public class Spark extends SparkmuseController {
   public static void view(final Long sparkId) {
     if (null == sparkId) Home.index(SparkSearchRequest.Filter.RECENT);
     final SparkVO spark = sparkFacade.findSparkBy(sparkId);
-    final UserVotes userVotes = userFacade.findUserVotesFor(spark, Authorization.getUserFromSession());
+    final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(spark), Authorization.getUserFromSession());
     render(spark, userVotes);
   }
   

@@ -111,7 +111,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
     }
   }
 
-  public <T extends Entity & Votable> Set<UserVote> findVotesFor(Set<T> votables, UserVO user) {
+  public Set<UserVote> findVotesFor(Set<Votable> votables, UserVO user) {
     if (CollectionUtils.size(votables) == 0) return Sets.newHashSet();
 
     Set<String> ids = Sets.newHashSet();

@@ -132,10 +132,7 @@ public class UserFacade {
     }
   }
 
-  //@todo test
-  public <T extends Entity & Votable> UserVotes findUserVotesFor(T votable, UserVO user) {
-    final Set<T> votables = Sets.newHashSet();
-    votables.add(votable);
+  public UserVotes findUserVotesFor(Set<Votable> votables, UserVO user) {
     final Set<UserVote> userVotes = userDao.findVotesFor(votables, user);
     return new UserVotes(userVotes);
   }

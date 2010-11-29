@@ -6,7 +6,7 @@ UserModel(1):
 
 SparkModel(2):
   authorUserId: 1
-  title: Sparkmuse
+  title: Sparkmuse, an Application Idea Community
   stage: NEW
   problem: >
     There presently isn't a go-to site on the net for discussing new tech ideas.
