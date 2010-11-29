@@ -138,6 +138,7 @@ input, textarea {
   background: url("../images/mountains.jpg") repeat-x scroll 50% 100% white;
   width: 100%;
   border-bottom: 3px solid #ff7c42;
+  min-height: 500px;
 }
 
 #body-container { 
@@ -869,12 +870,14 @@ a.twitter-login:active {
   *float: left;
 }
 
-.likes:hover,
-.likes.liked {
-  text-decoration: none;
-  background-image: url("../images/icons/silk/lightbulb.png");
-}
+  .likes:hover,
+  .likes.liked {
+    text-decoration: none;
+    background-image: url("../images/icons/silk/lightbulb.png");
+  }
 
+  .likes.liked { cursor: default; }
+  
 
 .likes-big {
   height: 16px;
@@ -899,7 +902,8 @@ a.twitter-login:active {
   text-shadow: 0 1px 0 white;
 }
 
-  .likes-big:hover {
+  .likes-big:hover,
+  .likes-big.liked {
     background-color:#fdf5ce;
     border-color: #fbcb09;
     color:#c77405;

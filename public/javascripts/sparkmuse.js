@@ -139,10 +139,57 @@ SM.Events = {
  *
  * href:      #[url + query string]- a GET request is made to this address
  * callback:  JS function to be called upon completion, will be passed three parameters:
- *            a status code, a request parameters map, and a response object as json if given
+ *            a status code, a request query parameters map, and a response object as json if given
  */
 $(document).ready(function() {
-  
+  var queryStringToMap = function(url) {
+    var tokens = url.split("?"),
+        toReturn = {};
+    if (tokens.length == 2) {
+      var pairs = tokens[1].split("&");
+      for (var i in pairs) {
+        var pair = pairs[i].split("=");
+        toReturn[pair[0]] = pair[1];
+      }
+    }
+    return toReturn;
+  }
+
+  SM.LikedCallback = function(status, request, response){
+    if (status === 200) {
+      var el = $(this);
+      el.html(parseInt(el.html()) + 1);
+      el.addClass("liked");
+      el.attr("href", "#");
+    }
+  }
+
+  $("a[href^='#']").click(function(e){
+    e.stopPropagation();
+    var el = $(this);
+
+    if (!el.attr("active") || el.attr("active") === "false" &&
+        el.attr("href").length > 1) {
+      var request = queryStringToMap(el.attr("href"));
+      var callback = function(response, desc, xmlRequest) {
+        var callback = eval(el.attr("callback"));
+        if (callback && callback instanceof Function) {
+          callback.call(this, xmlRequest.status, request, response);
+        }
+        el.attr("active", "false");
+      };
+
+      el.attr("active", "true");
+      var parms = {
+        url: el.attr("href").substring(1),
+        success: callback,
+        error: callback,
+        dataType: "json",
+        context: this
+      };
+      $.ajax(parms);
+    }
+  });
 });
 
 $(document).ready(function() {

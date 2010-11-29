@@ -11,8 +11,7 @@ import com.google.code.twig.annotation.Id;
  */
 public class CacheModel {
 
-  @Id
-  public Long id;
+  @Id public Long id;
   public String key;
   public String value;
 

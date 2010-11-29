@@ -1,4 +1,4 @@
-package net.sparkmuse.data;
+package net.sparkmuse.user;
 
 import net.sparkmuse.data.entity.UserVO;
 

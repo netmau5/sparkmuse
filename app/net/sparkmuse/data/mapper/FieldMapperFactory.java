@@ -64,9 +64,11 @@ public class FieldMapperFactory {
     }
 
     public Object toModelField(Class targetClass, Object object) {
+      if (null == object) return null;
       return object;
     }
     public Object toEntityField(Class targetClass, Object object) {
+      if (null == object) return null;
       return object;
     }
   }

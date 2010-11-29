@@ -14,7 +14,7 @@ import net.sparkmuse.data.mapper.ObjectMapper;
  * @author neteller
  * @created: Jul 16, 2010
  */
-public class PersistCacheValueTaskHandler implements Function<String, Boolean> {
+public class PersistCacheValueTaskHandler<E extends Entity> implements Function<String, Boolean> {
 
   private final ObjectDatastore datastore;
   private final WriteThruCacheService writeThruCacheService;
@@ -36,7 +36,7 @@ public class PersistCacheValueTaskHandler implements Function<String, Boolean> {
     final Object o = writeThruCacheService.get(key);
 
     if (o instanceof Entity) {
-      final Entity e = (Entity) o;
+      final E e = (E) o;
       final Class modelClass = e.getModelClass();
       final Object model = map.fromEntity(e).to(modelClass);
       if (null == e.getId()) {

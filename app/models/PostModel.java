@@ -10,8 +10,7 @@ import com.google.code.twig.annotation.Id;
  */
 public class PostModel {
 
-  @Id
-  public Long id;
+  @Id public Long id;
   public Long inReplyToId;
   public Long sparkId;
 

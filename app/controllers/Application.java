@@ -1,7 +1,5 @@
 package controllers;
 
-import play.mvc.*;
-
 public class Application extends SparkmuseController {
 
   public static void logout() {

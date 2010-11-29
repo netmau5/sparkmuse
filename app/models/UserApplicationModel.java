@@ -11,8 +11,7 @@ import com.google.code.twig.annotation.Id;
  */
 public class UserApplicationModel {
 
-  @Id
-  public Long id;
+  @Id public Long id;
   public String userName;
   public String url;
 

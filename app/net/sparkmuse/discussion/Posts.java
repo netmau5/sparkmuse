@@ -1,4 +1,4 @@
-package net.sparkmuse.data.util;
+package net.sparkmuse.discussion;
 
 import com.google.common.collect.ImmutableList;
 import net.sparkmuse.data.entity.PostVO;

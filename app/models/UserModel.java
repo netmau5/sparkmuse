@@ -10,8 +10,7 @@ import com.google.code.twig.annotation.Id;
  */
 public class UserModel {
 
-  @Id
-  public Long id;
+  @Id public Long id;
   public String userName;
   public String userId;
   public int reputation;

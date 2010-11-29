@@ -11,15 +11,18 @@ import play.cache.Cache;
 import com.google.common.base.Preconditions;
 import com.google.inject.name.Named;
 import com.google.inject.Inject;
+import com.google.inject.internal.Sets;
 import net.sparkmuse.common.Constants;
-import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.data.entity.Entity;
+import net.sparkmuse.data.entity.UserVote;
 import net.sparkmuse.data.WriteThruCacheService;
-import net.sparkmuse.data.Votable;
+import net.sparkmuse.user.Votable;
 import net.sparkmuse.task.IssueTaskService;
+
+import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.
@@ -114,7 +117,26 @@ public class UserFacade {
     userDao.saveApplication(userName, url);
   }
 
-  public void recordUpVote(final Votable votable, final long userId) {
+  public void recordUpVote(final Votable votable, final Long userId) {
     userDao.vote(votable, findUserBy(userId));
+  }
+
+  public void recordUpVote(String className, Long id, UserVO voter) {
+    try {
+      final Class clazz = Class.forName(className);
+      if (Entity.class.isAssignableFrom(clazz)) {
+        userDao.vote((Class<Entity>) clazz, id, voter);
+      }
+    } catch (ClassNotFoundException e) {
+      return;
+    }
+  }
+
+  //@todo test
+  public <T extends Entity & Votable> UserVotes findUserVotesFor(T votable, UserVO user) {
+    final Set<T> votables = Sets.newHashSet();
+    votables.add(votable);
+    final Set<UserVote> userVotes = userDao.findVotesFor(votables, user);
+    return new UserVotes(userVotes);
   }
 }

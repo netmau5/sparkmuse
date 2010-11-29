@@ -2,8 +2,6 @@ package net.sparkmuse.data.twig;
 
 import com.google.inject.Inject;
 import com.google.common.base.Function;
-import com.google.code.twig.ObjectDatastore;
-import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.SparkDao;
@@ -24,7 +22,7 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   }
 
   public SparkVO findById(final Long id) {
-    return helper.mergeOwnerFor(helper.load(SparkVO.class, id));
+    return helper.load(SparkVO.class, id);
   }
 
   public SparkVO create(final SparkVO spark) {
@@ -32,27 +30,27 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   }
 
   public List<SparkVO> loadPopular() {
-    return helper.mergeOwnersFor(helper.all(SparkVO.class, datastore.find()
+    return helper.all(SparkVO.class, datastore.find()
         .type(Entity.modelClassFor(SparkVO.class))
         .addSort("rating")
         .fetchMaximum(50)
-    ));
+    );
   }
 
   public List<SparkVO> loadRecent() {
-    return helper.mergeOwnersFor(helper.all(SparkVO.class, datastore.find()
+    return helper.all(SparkVO.class, datastore.find()
         .type(Entity.modelClassFor(SparkVO.class))
         .addSort("created")
         .fetchMaximum(50)
-    ));
+    );
   }
 
   public List<SparkVO> loadMostDiscussed() {
-    return helper.mergeOwnersFor(helper.all(SparkVO.class, datastore.find()
+    return helper.all(SparkVO.class, datastore.find()
         .type(Entity.modelClassFor(SparkVO.class))
         .addSort("postCount")
         .fetchMaximum(50)
-    ));
+    );
   }
 
   public String transform(final Function<SparkVO, SparkVO> transformation, final String cursor) {

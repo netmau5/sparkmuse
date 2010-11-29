@@ -31,7 +31,7 @@ public class Authorization extends SparkmuseController {
   public static UserVO getUserFromSession(){
     String s = session.get(Constants.SESSION_USER_ID);
     if (StringUtils.isNotBlank(s)) {
-      return userFacade.findUserBy(Long.parseLong(s));
+      return userFacade.findUserBy(Long.valueOf(s));
     }
 
     return null;

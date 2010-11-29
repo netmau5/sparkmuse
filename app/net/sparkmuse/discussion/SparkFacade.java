@@ -4,7 +4,7 @@ import net.sparkmuse.data.PostDao;
 import net.sparkmuse.data.SparkDao;
 import net.sparkmuse.data.DaoProvider;
 import net.sparkmuse.data.WriteThruCacheService;
-import net.sparkmuse.data.util.Posts;
+import net.sparkmuse.discussion.Posts;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.PostVO;
 import net.sparkmuse.discussion.VoteSorter;

@@ -12,8 +12,7 @@ import com.google.code.twig.annotation.Id;
  */
 public class AssetModel {
 
-  @Id
-  public long id;
+  @Id public Long id;
   public Long postId; //post where this asset was attached
   public Long sparkId; //spark that is the owner of this asset
   public Long userId; //user who posted it

@@ -13,8 +13,7 @@ import java.util.List;
  */
 public class SparkModel {
 
-  @Id
-  public Long id;
+  @Id public Long id;
   public Long authorUserId;
   public String title;
   public String stage;

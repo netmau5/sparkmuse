@@ -2,11 +2,10 @@ package functional;
 
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.data.entity.PostVO;
-import net.sparkmuse.data.util.Posts;
+import net.sparkmuse.discussion.Posts;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.joda.time.DateTime;
 import static org.hamcrest.Matchers.*;
 import com.google.common.collect.Iterables;

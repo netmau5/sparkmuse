@@ -2,6 +2,7 @@ package net.sparkmuse.data.twig;
 
 import com.google.code.twig.ObjectDatastore;
 import com.google.code.twig.FindCommand;
+import com.google.code.twig.LoadCommand;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.Key;
 import com.google.common.base.Preconditions;
@@ -12,14 +13,13 @@ import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.OwnedEntity;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.Cache;
+import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.common.TimedTransformer;
 import net.sparkmuse.common.CacheKeyFactory;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashMap;
+import java.util.*;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -65,8 +65,7 @@ public class DatastoreService {
 
     final UserVO userVO = load(UserVO.class, id);
     if (null == userVO) return null;
-    cache.add(userVO.getKey().toString(), userVO, "30d");
-    return userVO;
+    else return userVO;
   }
 
   /**
@@ -76,7 +75,7 @@ public class DatastoreService {
    * @param userIds
    * @return
    */
-  public Map<Long, UserVO> getUsers(final Iterable<Long> userIds) {
+  public Map<Long, UserVO> getUsers(final Set<Long> userIds) {
     Set<Long> toQuery = Sets.newHashSet();
     Set<UserVO> cachedUsers = Sets.newHashSet();
     for (Long userId: userIds) {
@@ -92,32 +91,12 @@ public class DatastoreService {
     final Map<Long, UserVO> usersMap = CollectionUtils.size(toQuery) > 0 ? loadAll(UserVO.class, toQuery) : Maps.<Long, UserVO>newHashMap();
     usersMap.putAll(Maps.uniqueIndex(cachedUsers, UserVO.asUserIds));
 
-    //@todo put users in cache
-
     return usersMap;
   }
 
-  //generified iterable so we preserve type (might be ordered List)
-  public <T extends OwnedEntity, I extends Iterable<T>> I mergeOwnersFor(I entities) {
-    final HashMap<T, Long> ownedEntitiesToOwnersMap = Maps.newHashMap();
-    for (T entity: entities) {
-      ownedEntitiesToOwnersMap.put(entity, OwnedEntity.asOwnerIds.apply(entity));
-    }
+  //READ COMMANDS
 
-    final Map<Long, UserVO> userMap = this.getUsers(ownedEntitiesToOwnersMap.values());
-
-    for (Map.Entry<T, Long> ownedEntityEntry: ownedEntitiesToOwnersMap.entrySet()) {
-      ownedEntityEntry.getKey().setAuthor(userMap.get(ownedEntityEntry.getValue()));
-    }
-
-    return entities;
-  }
-
-  public <T extends OwnedEntity> T mergeOwnerFor(T ownedEntity) {
-    final Iterable<T> iterable = mergeOwnersFor(Lists.newArrayList(ownedEntity));
-    return Iterables.size(iterable) > 0 ? iterable.iterator().next() : null;
-  }
-
+  @Deprecated //("Inline after CacheDao call removed")
   public final <T> T only(FindCommand.RootFindCommand<T> findCommand) {
     final QueryResultIterator<T> resultsIterator = findCommand.now();
     if (resultsIterator.hasNext()) {
@@ -129,28 +108,76 @@ public class DatastoreService {
   }
 
   public final <T, U extends Entity<U>> U only(Class<U> entityClass, FindCommand.RootFindCommand<T> findCommand) {
-    return map.fromModel(only(findCommand)).to(entityClass);
+    final U u = map.fromModel(only(findCommand)).to(entityClass);
+    return afterRead(u);
   }
 
   public final <U extends Entity<U>> U load(Class<U> entityClass, Long id) {
-    return map.fromModel(datastore.load(Entity.modelClassFor(entityClass), id)).to(entityClass);
+    final U u = map.fromModel(datastore.load(Entity.modelClassFor(entityClass), id)).to(entityClass);
+    return afterRead(u);
   }
 
-  public final <U extends Entity<U>> Map<Long, U> loadAll(Class<U> entityClass, Set<Long> ids) {
-    final Map<Long, U> idsToModels = datastore.loadAll(Entity.modelClassFor(entityClass), ids);
-    return Maps.transformValues(idsToModels, map.newModelToEntityFunction(entityClass));
+  public final <I, U extends Entity<U>> Map<I, U> loadAll(Class<U> entityClass, Set<I> ids, Entity... parents) {
+    final LoadCommand.MultipleTypedLoadCommand command = datastore.load().type(Entity.modelClassFor(entityClass)).ids(ids);
+    for (Entity parent: parents) {
+      command.parent(map.fromEntity(parent).to(parent.getModelClass()));
+    }
+
+    final Map<I, Object> idsToModels = command.now();
+    final Map<I, U> toReturn = Maps.transformValues(idsToModels, map.newModelToEntityFunction(entityClass));
+    return afterRead(toReturn);
   }
 
   public final <T, U extends Entity<U>> List<U> all(final Class<U> entityClass, FindCommand.RootFindCommand<T> findCommand) {
     final QueryResultIterator<T> resultIterator = findCommand.now();
-    return Lists.newArrayList(Iterators.transform(resultIterator, map.newModelToEntityFunction(entityClass)));
+    final ArrayList<U> toReturn = Lists.newArrayList(Iterators.transform(resultIterator, map.newModelToEntityFunction(entityClass)));
+    return afterRead(toReturn);
   }
+
+  public <T> T afterRead(T object) {
+    if (null == object) return null;
+    else return afterRead(Lists.newArrayList(object)).get(0);
+  }
+
+  private <T> List<T> afterRead(List<T> objects) {
+    final List<OwnedEntity> toMergeOwners = Lists.newArrayList();
+    for (T object: objects) {
+      if (object instanceof OwnedEntity) {
+        toMergeOwners.add((OwnedEntity) object);
+      }
+      if (object instanceof SparkVO || object instanceof UserVO) {
+        cache.set(((Cacheable) object).getKey().toString(), object, "30d");
+      }
+    }
+
+    mergeOwnersFor(toMergeOwners);
+
+    return objects;
+  }
+
+  //generified iterable so we preserve type (might be ordered List)
+  private <T extends OwnedEntity, I extends Iterable<T>> I mergeOwnersFor(I entities) {
+    final Map<T, Long> ownedEntitiesToOwnersMap = Maps.newHashMap();
+    for (T entity: entities) {
+      ownedEntitiesToOwnersMap.put(entity, OwnedEntity.asOwnerIds.apply(entity));
+    }
+
+    final Map<Long, UserVO> userMap = this.getUsers(Sets.newHashSet(ownedEntitiesToOwnersMap.values()));
+
+    for (Map.Entry<T, Long> ownedEntityEntry: ownedEntitiesToOwnersMap.entrySet()) {
+      ownedEntityEntry.getKey().setAuthor(userMap.get(ownedEntityEntry.getValue()));
+    }
+
+    return entities;
+  }
+
+  //CREATE/UPDATES
 
   public final <T, U extends Entity<U>> U store(U entity) {
     if (null == entity) return null;
     final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
 
-    //this should set the key on the model object automatically
+    //set the key on the model object
     final Key key = datastore.store().instance(model).now();
     entity.setId(key.getId());
 
@@ -173,6 +200,8 @@ public class DatastoreService {
 
     return entity;
   }
+
+  //OTHER
 
   public final <T, U extends Entity<U>> void associate(U entity) {
     if (null == entity) return;
@@ -198,15 +227,13 @@ public class DatastoreService {
     final QueryResultIterator<T> iterator = find.now();
 
     final Function<T, U> modelToEntity = map.newModelToEntityFunction(entityClass);
-    final Function<U, T> entityToModel = map.newEntityToModelFunction(Entity.modelClassFor(entityClass));
-
-    final Function<T, T> transformFunction = new Function<T, T>() {
-      public T apply(T t) {
+    final DatastoreService service = this;
+    final Function<T, U> transformFunction = new Function<T, U>() {
+      public U apply(T t) {
         final U entity = modelToEntity.apply(t);
         final U transformedEntity = transformer.apply(entity);
-        final T model = entityToModel.apply(transformedEntity);
-        datastore.update(model);
-        return model;
+        service.update(transformedEntity);
+        return transformedEntity;
       }
     };
 

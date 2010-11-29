@@ -1,6 +1,9 @@
 package net.sparkmuse.data;
 
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.Entity;
+import net.sparkmuse.data.entity.UserVote;
+import net.sparkmuse.user.Votable;
 
 import java.util.Set;
 import java.util.Map;
@@ -34,4 +37,6 @@ public interface UserDao {
    * @param voter
    */
   void vote(Votable votable, UserVO voter);
+  <T extends Entity<T>> void vote(Class<T> entityClass, Long id, UserVO voter);
+  <T extends Entity & Votable> Set<UserVote> findVotesFor(Set<T> votables, UserVO user);
 }

@@ -1,7 +1,7 @@
 package net.sparkmuse.discussion;
 
 import net.sparkmuse.data.entity.PostVO;
-import net.sparkmuse.data.Votable;
+import net.sparkmuse.user.Votable;
 
 import java.util.List;
 import java.util.Collection;

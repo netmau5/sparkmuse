@@ -1,9 +1,6 @@
 package net.sparkmuse.data.mapper;
 
-import java.util.Set;
 import java.util.Map;
-import java.lang.reflect.Method;
-import java.lang.reflect.Field;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;

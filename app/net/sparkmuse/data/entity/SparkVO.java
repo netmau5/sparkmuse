@@ -1,6 +1,6 @@
 package net.sparkmuse.data.entity;
 
-import net.sparkmuse.data.Votable;
+import net.sparkmuse.user.Votable;
 import net.sparkmuse.data.mapper.Property;
 import net.sparkmuse.data.mapper.Model;
 import net.sparkmuse.discussion.SparkRanking;
