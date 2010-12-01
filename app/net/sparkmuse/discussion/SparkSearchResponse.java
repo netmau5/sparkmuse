@@ -3,6 +3,7 @@ package net.sparkmuse.discussion;
 import net.sparkmuse.data.entity.SparkVO;
 
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,6 +13,6 @@ import java.util.List;
  */
 public interface SparkSearchResponse {
 
-  List<SparkVO> getSparks();
+  TreeSet<SparkVO> getSparks();
 
 }

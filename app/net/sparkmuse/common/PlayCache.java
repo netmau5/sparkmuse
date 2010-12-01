@@ -1,6 +1,6 @@
-package net.sparkmuse.data.play;
+package net.sparkmuse.common;
 
-import net.sparkmuse.data.Cache;
+import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.common.CacheKey;
 import com.google.common.base.Preconditions;

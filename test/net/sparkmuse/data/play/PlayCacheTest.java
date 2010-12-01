@@ -1,11 +1,10 @@
 package net.sparkmuse.data.play;
 
 import net.sparkmuse.data.Cacheable;
-import net.sparkmuse.data.Cache;
+import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.CacheKey;
+import net.sparkmuse.common.PlayCache;
 import org.junit.Test;
-import org.junit.After;
-import org.junit.Before;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import play.test.UnitTest;

@@ -33,9 +33,16 @@ public class SparkFacadeTest extends PluginFunctionalTest {
     super.setup();
     sparkFacade = FunctionalTestUtils.getInstance(SparkFacade.class);
 
+    UserModel u = new UserModel();
+    u.id = 123L;
+    u.userName = "Dave";
+
     SparkModel sparkModel = new SparkModel();
     sparkModel.title = "Sup";
     sparkModel.authorUserId = 123L;
+    sparkModel.rating = 1d;
+    sparkModel.postCount = 1;
+    sparkModel.created = new DateTime().getMillis();
     datastore.store(sparkModel);
     sparkId = sparkModel.id;
 

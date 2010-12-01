@@ -4,11 +4,10 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.CacheKeyFactory;
+import net.sparkmuse.common.NullTo;
 
 import java.util.List;
-import java.util.Collection;
-
-import org.apache.commons.collections.CollectionUtils;
+import java.util.TreeSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +19,7 @@ public class RecentSparks extends AbstractSparkSearchResponse
     implements Cacheable<RecentSparks>, SparkSearchResponse {
 
   public RecentSparks(final List<SparkVO> sparks) {
-    super(sparks, SparkSearchRequest.Filter.RECENT);
+    super(newTreeSet(sparks), SparkSearchRequest.Filter.RECENT);
   }
 
   public CacheKey<RecentSparks> getKey() {
@@ -31,11 +30,15 @@ public class RecentSparks extends AbstractSparkSearchResponse
     return this;
   }
 
-  public RecentSparks addNew(final SparkVO newSpark) {
-    if (CollectionUtils.size(this.getSparks()) > MAX_SIZE) {
-      this.getSparks().remove(this.getSparks().size() - 1);
+  private static TreeSet<SparkVO> newTreeSet(List<SparkVO> sparks) {
+    final TreeSet<SparkVO> treeSet = new TreeSet<SparkVO>(new Comparator());
+    treeSet.addAll(NullTo.empty(sparks));
+    return treeSet;
+  }
+
+  static class Comparator implements java.util.Comparator<SparkVO> {
+    public int compare(SparkVO a, SparkVO b) {
+      return b.getCreated().compareTo(a.getCreated());
     }
-    this.getSparks().add(0, newSpark);
-    return this;
   }
 }

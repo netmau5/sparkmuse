@@ -15,11 +15,13 @@ import net.sparkmuse.data.entity.OwnedEntity;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.Cacheable;
-import net.sparkmuse.data.Cache;
+import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.TimedTransformer;
 import net.sparkmuse.common.CacheKeyFactory;
+import net.sparkmuse.data.twig.After;
 
 import java.util.*;
+import java.util.concurrent.Future;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -48,6 +50,10 @@ public class DatastoreService {
 
   public ObjectMapper getMapper() {
     return this.map;
+  }
+
+  Cache getCache() {
+    return cache;
   }
 
   /**
@@ -109,12 +115,12 @@ public class DatastoreService {
 
   public final <T, U extends Entity<U>> U only(Class<U> entityClass, FindCommand.RootFindCommand<T> findCommand) {
     final U u = map.fromModel(only(findCommand)).to(entityClass);
-    return afterRead(u);
+    return After.read(u, this);
   }
 
   public final <U extends Entity<U>> U load(Class<U> entityClass, Long id) {
     final U u = map.fromModel(datastore.load(Entity.modelClassFor(entityClass), id)).to(entityClass);
-    return afterRead(u);
+    return After.read(u, this);
   }
 
   public final <I, U extends Entity<U>> Map<I, U> loadAll(Class<U> entityClass, Set<I> ids, Entity... parents) {
@@ -125,50 +131,13 @@ public class DatastoreService {
 
     final Map<I, Object> idsToModels = command.now();
     final Map<I, U> toReturn = Maps.transformValues(idsToModels, map.newModelToEntityFunction(entityClass));
-    return afterRead(toReturn);
+    return After.read(toReturn, this);
   }
 
   public final <T, U extends Entity<U>> List<U> all(final Class<U> entityClass, FindCommand.RootFindCommand<T> findCommand) {
     final QueryResultIterator<T> resultIterator = findCommand.now();
     final ArrayList<U> toReturn = Lists.newArrayList(Iterators.transform(resultIterator, map.newModelToEntityFunction(entityClass)));
-    return afterRead(toReturn);
-  }
-
-  public <T> T afterRead(T object) {
-    if (null == object) return null;
-    else return afterRead(Lists.newArrayList(object)).get(0);
-  }
-
-  private <T> List<T> afterRead(List<T> objects) {
-    final List<OwnedEntity> toMergeOwners = Lists.newArrayList();
-    for (T object: objects) {
-      if (object instanceof OwnedEntity) {
-        toMergeOwners.add((OwnedEntity) object);
-      }
-      if (object instanceof SparkVO || object instanceof UserVO) {
-        cache.put((Cacheable) object);
-      }
-    }
-
-    mergeOwnersFor(toMergeOwners);
-
-    return objects;
-  }
-
-  //generified iterable so we preserve type (might be ordered List)
-  private <T extends OwnedEntity, I extends Iterable<T>> I mergeOwnersFor(I entities) {
-    final Map<T, Long> ownedEntitiesToOwnersMap = Maps.newHashMap();
-    for (T entity: entities) {
-      ownedEntitiesToOwnersMap.put(entity, OwnedEntity.asOwnerIds.apply(entity));
-    }
-
-    final Map<Long, UserVO> userMap = this.getUsers(Sets.newHashSet(ownedEntitiesToOwnersMap.values()));
-
-    for (Map.Entry<T, Long> ownedEntityEntry: ownedEntitiesToOwnersMap.entrySet()) {
-      ownedEntityEntry.getKey().setAuthor(userMap.get(ownedEntityEntry.getValue()));
-    }
-
-    return entities;
+    return After.read(toReturn, this);
   }
 
   //CREATE/UPDATES
@@ -181,15 +150,15 @@ public class DatastoreService {
     final Key key = datastore.store().instance(model).now();
     entity.setId(key.getId());
 
-    return entity;
+    return After.write(entity, this);
   }
 
-  public final <T, U extends Entity<U>> void storeLater(U entity) {
-    if (null == entity) return;
-    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
-
-    datastore.store().instance(model).later();
-  }
+//  public final <T, U extends Entity<U>> void storeLater(U entity) {
+//    if (null == entity) return;
+//    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
+//
+//    datastore.store().instance(model).later();
+//  }
 
   public final <T, U extends Entity<U>> U update(U entity) {
     if (null == entity) return null;
@@ -198,7 +167,7 @@ public class DatastoreService {
     datastore.associate(model);
     datastore.update(model);
 
-    return entity;
+    return After.write(entity, this);
   }
 
   //OTHER

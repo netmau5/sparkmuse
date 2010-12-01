@@ -7,7 +7,8 @@ import net.sparkmuse.data.*;
 import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.mapper.FieldMapperFactory;
 import net.sparkmuse.data.twig.*;
-import net.sparkmuse.data.play.PlayCache;
+import net.sparkmuse.common.PlayCache;
+import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.entity.*;
 
 import play.modules.twig.PlayAnnotationObjectDatastore;

@@ -1,6 +1,7 @@
-package net.sparkmuse.data;
+package net.sparkmuse.common;
 
 import net.sparkmuse.common.CacheKey;
+import net.sparkmuse.data.Cacheable;
 
 /**
  * Created by IntelliJ IDEA.

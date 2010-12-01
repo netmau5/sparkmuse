@@ -350,7 +350,7 @@
 				}
 			});
 
-			// update window size
+			// updateCache window size
 			$(window).bind('resize.simplemodal', function () {
 				// redetermine the window width/height
 				w = s.getDimensions();
@@ -362,7 +362,7 @@
 					s.fixIE();
 				}
 				else if (s.o.modal) {
-					// update the iframe & overlay
+					// updateCache the iframe & overlay
 					s.d.iframe && s.d.iframe.css({height: w[0], width: w[1]});
 					s.d.overlay.css({height: w[0], width: w[1]});
 				}

@@ -11,12 +11,12 @@ import com.google.common.base.Preconditions;
 import com.google.inject.name.Named;
 import com.google.inject.Inject;
 import net.sparkmuse.common.Constants;
+import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVote;
-import net.sparkmuse.data.Cache;
 
 import java.util.Set;
 

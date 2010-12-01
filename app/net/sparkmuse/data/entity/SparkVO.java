@@ -49,6 +49,9 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
   @Property("rating")
   private double rating;
 
+  @Property("postCount")
+  private int postCount;
+
   public enum Stage {
     NEW,
     PROTOTYPE,
@@ -58,6 +61,10 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
 
   public SparkVO() {
     this.created = new DateTime();
+  }
+
+  public int getPostCount() {
+    return postCount;
   }
 
   public void upVote() {

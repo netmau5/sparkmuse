@@ -29,10 +29,10 @@ public class UpdateSparkRatingsTaskHandler {
 
     final String newCursor = sparkDao.transform(transformation, cursor);
     if (StringUtils.isEmpty(newCursor)) {
-      Logger.info("Completed spark ratings update.");
+      Logger.info("Completed spark ratings updateCache.");
     }
     else {
-      Logger.warn("Spark ratings update did not complete, issuing a new task to restart from " + newCursor);
+      Logger.warn("Spark ratings updateCache did not complete, issuing a new task to restart from " + newCursor);
       taskService.issueSparkRatingUpdateTask(newCursor);
     }
   }

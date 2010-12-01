@@ -4,6 +4,7 @@ import net.sparkmuse.data.*;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.PostVO;
 import net.sparkmuse.common.CacheKeyFactory;
+import net.sparkmuse.common.Cache;
 import net.sparkmuse.user.UserFacade;
 
 import java.util.Collection;
@@ -83,10 +84,6 @@ public class SparkFacade {
 
     //author implicitly votes for spark; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newSparkVO, newSparkVO.getAuthor().getId());
-
-    final RecentSparks recentSparks = getRecentSparks();
-    recentSparks.addNew(newSparkVO);
-    cache.put(recentSparks);
 
     return newSparkVO;
   }

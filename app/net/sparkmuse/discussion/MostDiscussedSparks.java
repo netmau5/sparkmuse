@@ -4,8 +4,10 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.CacheKeyFactory;
+import net.sparkmuse.common.NullTo;
 
 import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +20,7 @@ public class MostDiscussedSparks extends AbstractSparkSearchResponse
 
 
   public MostDiscussedSparks(final List<SparkVO> sparks) {
-    super(sparks, SparkSearchRequest.Filter.DISCUSSED);
+    super(newTreeSet(sparks), SparkSearchRequest.Filter.DISCUSSED);
   }
 
   public CacheKey<MostDiscussedSparks> getKey() {
@@ -28,4 +30,17 @@ public class MostDiscussedSparks extends AbstractSparkSearchResponse
   public MostDiscussedSparks getInstance() {
     return this;
   }
+
+  private static TreeSet<SparkVO> newTreeSet(List<SparkVO> sparks) {
+    final TreeSet<SparkVO> treeSet = new TreeSet<SparkVO>(new Comparator());
+    treeSet.addAll(NullTo.empty(sparks));
+    return treeSet;
+  }
+
+  static class Comparator implements java.util.Comparator<SparkVO> {
+    public int compare(SparkVO a, SparkVO b) {
+      return b.getPostCount() - a.getPostCount();
+    }
+  }
+
 }

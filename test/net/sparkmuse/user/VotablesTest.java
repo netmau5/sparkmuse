@@ -8,6 +8,7 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.discussion.SparkSearchResponse;
 
 import java.util.List;
+import java.util.TreeSet;
 
 import com.google.common.collect.Lists;
 
@@ -49,11 +50,11 @@ public class VotablesTest {
   @Test
   public void shouldCollectVotablesFromSparkSearchResponse() {
     final SparkSearchResponse response = new SparkSearchResponse() {
-      public List<SparkVO> getSparks() {
-        return Lists.newArrayList(
+      public TreeSet<SparkVO> getSparks() {
+        return new TreeSet(Lists.newArrayList(
             new SparkVO(),
             new SparkVO()
-        );
+        ));
       }
     };
 
