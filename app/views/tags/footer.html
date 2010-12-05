@@ -1,0 +1,60 @@
+<div id="footer-container">
+  <div class="page-container">
+    <div id="footer" class="clearfix">
+      <div class="span-24 last">
+        <a href="#" class="top-arrow">Top</a>
+        <table>
+          <tr>
+            <td class="first">
+              <h4>What's New?</h4>
+              <div id="latest-tweets"></div>
+            </td>
+            <td class="last">
+              <h4>Connect</h4>
+              <ul>
+                <li><a href="http://blog.sparkmuse.com">Blog</a></li>
+                <li><a href="http://www.twitter.com/sparkmuse">Twitter</a></li>
+              </ul>
+              <h4>More</h4>
+              <ul>
+                <li><a href="@{Application.about()}">About</a></li>
+                <li><a href="#">Feedback</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Credits</a></li>
+              </ul>
+            </td>
+          </tr>
+        </table>
+        <img src="@{'public/images/city-shorter.png'}" id="city"/>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $.getJSON("http://twitter.com/statuses/user_timeline/sparkmuse.json?count=3&callback=?", function(data) {
+      var urlRegex = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+
+      function isUrl(s) { return urlRegex.test(s); }
+
+      function decorate(s) {
+        var tokens = s.split(" "), toReturn = "", i;
+        for (i in tokens) {
+          if (tokens.hasOwnProperty(i)) {
+            var t = tokens[i];
+            if (isUrl(t)) { tokens[i] = "<a href='" + t + "'>" + t + "</a>"; }
+          }
+        }
+        return "<div class='tweet'>" + tokens.join(" ") + "</div>"
+      }
+
+      $("#latest-tweets").html(
+          "<hr/>" +
+          [decorate(data[0].text), decorate(data[1].text), decorate(data[2].text)].join("<hr/>") +
+          "<hr/>"
+      );
+    });
+  });
+</script>

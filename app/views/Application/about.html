@@ -1,0 +1,123 @@
+#{extends 'outsider.template.html' /}
+#{set title:'About Sparkmuse' /}
+
+<style type="text/css">
+  form input {
+    width: 100%;
+  }
+  button {
+    margin: 0 auto;
+  }
+</style>
+
+<div class="page-canvas push-6 prepend-1 span-10 append-1">
+
+    <h2>About</h2>
+
+    <p>
+      Hi! Thanks for stopping by to find out about Sparkmuse. We are a community of thinkers
+      and doers focused on the early stages of creation- before cofounders, before product,
+      and before users.
+    </p>
+
+    <h3>What's the Skinny?</h3>
+
+    <p>
+      Sparkmuse is a community focused on discussing, refining and acting on innovative tech
+      ideas. We welcome any ideas which aim to solve an identifiable need through science,
+      engineering, and technology. This includes "there's an app for that" anythings and
+      alternate energy everythings, from giant man-sized robots to how to type an umlaut,
+      on planet Earth to infinity and beyond. We don't underestimate the power of a good idea.
+    </p>
+
+    <p>
+      We especially love ideas where you've got something to show us, even if it's just a
+      sketch. The goal here is not only to critique the idea itself but also to evaluate
+      how your solution will create value. When you post an idea here, we want to find out
+      if it has feet, so you should always be willing to follow through. But don't worry
+      about going it alone, we will be your support network and a place where you can connect
+      with others who want to work with you. So stop watching TV, lets create something
+      together!
+    </p>
+
+    <h3>Musing at a Glance</h3>
+
+    <p>
+      Each idea you post gets its own Spark page. You can think of this page as an idea wiki
+      except that discussion is a first-class citizen. This page will allow you to track your
+      progress, explain the problem you are trying to solve and your proposed solution, link to
+      important resources, provide visuals of mockups or other diagrams, and most importantly
+      get the feedback of our community. Sparks are also a connection point where anyone can
+      offer their services and team-up on a project.
+    </p>
+
+    <p>
+      Of course, we encourage everyone to particapate in other peoples' ideas that catch
+      their interest. Ideas cross-polinate when given several different points of view.
+      Your contribution to other ideas will both improve that idea and possibly give you a
+      thought for your own that wouldn't occur otherwise.
+    </p>
+
+    <h3>Sharing and Stealing</h3>
+
+    <p>
+      Sparkmuse is the beginning of a community in which I've always wanted to participate.
+      "That's a cool idea" has crossed my mind so many times that I've yearned for a place to discuss,
+      vet, and organize those thoughts. Over the years of reading Hacker News, there have often been
+      "Rate My Idea" posts and some who outright said they wish they had a more formal place to share
+      them. Sparkmuse will hopefully become that place.
+    </p>
+
+    <p>
+      I know what that little voice inside your head is saying: with sharing comes the possibility of stealing.
+      But who knows what the next big thing will be?
+      Your ideas are fundamentally your own, made in your image.  Only you have the vision and only
+      your execution will make it successful.  No imposter will ever be able to steal its core, just
+      impersonate its facade.  So share, get your idea out in the wild as soon as possible and go to
+      pivot town on it.  I promise it will be for the better.
+    </p>
+
+    <div id="application">
+      <h3>Apply for an Invitation</h3>
+      <form name="application-form">
+        <p>
+          <label>Twitter Username</label>
+          <input type="text" name="userName" value="@"/>
+        </p>
+
+        <p>
+          <label>Where can we learn about you?</label>
+          <input type="text" name="url" value="http://"/>
+        </p>
+        <button type="submit" class="create-spark">
+          <img src="@{'public/images/favicon.png'}" alt="Apply"/>
+          Apply
+        </button>
+      </form>
+    </div>
+    <script type="text/html" id="thanks-for-applying">
+      <h3>Thank you!</h3>
+      <p>
+        Thank you for applying.  We will let you know as soon as we have accepted your
+        application.  We hope to open for alpha testing soon.
+      </p>
+    </script>
+</div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    var applicationForm = $(document["application-form"]);
+    applicationForm.submit(function(){
+      $.ajax({
+        url: "@{Authorization.applyForInvitation}",
+        data: applicationForm.serialize()
+      });
+      var application = $("#application");
+      application.css("display", "none");
+      application.html($("#thanks-for-applying").html());
+      application.fadeIn(1000);
+      return false;
+    });
+  });
+</script>

@@ -164,12 +164,13 @@ $(document).ready(function() {
     }
   }
 
-  $("a[href^='#']").click(function(e){
+  $("a[href^='#']").filter(function() {
+    return $(this).attr("href").length > 1;
+  }).click(function(e){
     e.stopPropagation();
     var el = $(this);
 
-    if (!el.attr("active") || el.attr("active") === "false" &&
-        el.attr("href").length > 1) {
+    if (!el.attr("active") || el.attr("active") === "false") {
       var request = queryStringToMap(el.attr("href"));
       var callback = function(response, desc, xmlRequest) {
         var callback = eval(el.attr("callback"));
@@ -189,6 +190,8 @@ $(document).ready(function() {
       };
       $.ajax(parms);
     }
+
+    return false;
   });
 });
 
@@ -205,4 +208,10 @@ $(document).ready(function() {
       adjust: { y: -15 }
     }
   });
+
+  //top button
+  $(".top-arrow").click(function(){
+    $('body').animate({scrollTop:0}, 'fast');
+    return false;
+  })
 });

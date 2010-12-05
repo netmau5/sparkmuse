@@ -12,4 +12,8 @@ public class Application extends SparkmuseController {
     render();
   }
 
+  public static void about() {
+    render();
+  }
+
 }
