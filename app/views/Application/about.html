@@ -79,7 +79,7 @@
 
     <div id="application">
       <h3>Apply for an Invitation</h3>
-      <form name="application-form">
+      <form name="application-form" target="@{Authorization.applyForInvitation()}" method="POST">
         <p>
           <label>Twitter Username</label>
           <input type="text" name="userName" value="@"/>
@@ -107,17 +107,16 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    var applicationForm = $(document["application-form"]);
-    applicationForm.submit(function(){
-      $.ajax({
-        url: "@{Authorization.applyForInvitation}",
-        data: applicationForm.serialize()
-      });
+    var appForm = document["application-form"];
+    $(appForm).formHandler(function(){
       var application = $("#application");
       application.css("display", "none");
       application.html($("#thanks-for-applying").html());
       application.fadeIn(1000);
-      return false;
+      return {
+        userName: appForm.userName.value,
+        url: appForm.url.value
+      };
     });
   });
 </script>
