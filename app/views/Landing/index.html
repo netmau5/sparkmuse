@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  #{meta /}
+  
   <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/sparkmuse.css'}"/>
   <!--[if IE 6]>
   <link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/ie.css'}"/>
@@ -68,7 +69,7 @@
       cursor: move;
       z-index: 6;
       bottom: 50px;
-      left: 15%;
+      left: 25%;
     }
     #registration {
       border-width: 80px 15px 10px 15px;
@@ -132,8 +133,9 @@
      <div class="inner">
        <h4>Welcome</h4>
        <p>
-         Sparkmuse is an invite-only community where <strong>entrepreneurial technologists can share and refine innovative ideas</strong> with
-         one another.
+         Sparkmuse is an invite-only community where
+         <strong><a href="@{Application.about()}">entrepreneurial technologists can share and refine innovative ideas</a></strong>
+         with one another.
          If you'd like to learn more, please check out our <a href="http://blog.sparkmuse.com/">blog</a>.
          We're still in private alpha testing, but <a href="http://sparkmuse.wufoo.com/forms/thank-you-for-giving-us-your-input/">we'd love to hear about what you think</a>!
        </p>

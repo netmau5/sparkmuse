@@ -50,7 +50,7 @@ public class Spark extends SparkmuseController {
   }
 
   public static void view(final Long sparkId) {
-    if (null == sparkId) Home.index(SparkSearchRequest.Filter.RECENT);
+    if (null == sparkId) Home.index();
     final SparkVO spark = sparkFacade.findSparkBy(sparkId);
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(spark), Authorization.getUserFromSession());
     render(spark, userVotes);

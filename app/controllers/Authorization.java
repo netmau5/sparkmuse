@@ -62,7 +62,7 @@ public class Authorization extends SparkmuseController {
       session.put(Constants.SESSION_USER_ID, user.getId());
 
       if (user.isAuthorizedFor(AccessLevel.USER)) {
-        Home.index(SparkSearchRequest.Filter.RECENT);
+        Home.index();
       }
       else {
         enterInviteCode();
@@ -84,7 +84,7 @@ public class Authorization extends SparkmuseController {
     }
 
     if (StringUtils.isNotBlank(authorizationToken) && userFacade.verifyAuthorizationToken(Authorization.getUserFromSession(), authorizationToken)) {
-      Home.index(SparkSearchRequest.Filter.RECENT); //@todo tutorial window
+      Home.index(); //@todo tutorial window
     }
     else {
       flash.error("The code you entered is invalid.  If you mistyped it, please try again.");

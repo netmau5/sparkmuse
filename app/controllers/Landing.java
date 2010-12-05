@@ -17,7 +17,7 @@ public class Landing extends SparkmuseController {
 
   public static void index() {
     UserVO userFromSession = Authorization.getUserFromSession();
-    if (null != userFromSession && userFromSession.isAuthorizedFor(AccessLevel.USER)) Home.index(SparkSearchRequest.Filter.RECENT);
+    if (null != userFromSession && userFromSession.isAuthorizedFor(AccessLevel.USER)) Home.index();
 		else render();
 	}
 

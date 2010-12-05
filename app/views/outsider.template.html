@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>#{get 'title' /}</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  #{meta /}
   #{includes /}
 
   <style type="text/css">
@@ -20,7 +20,7 @@
 
 <div id="body-container-wrapper">
 <div id="body-container">
-  <h1>Sparkmuse</h1>
+  <a href="@{Home.index()}"><h1>Sparkmuse</h1></a>
   <div class="page-container clearfix">
     <div id="body" class="span-24">
       #{doLayout /}

@@ -24,7 +24,11 @@ public class Home extends SparkmuseController {
   @Inject static SparkFacade sparkFacade;
   @Inject static UserFacade userFacade;
 
-  public static void index(SparkSearchRequest.Filter filter) {
+  public static void index() {
+    search(SparkSearchRequest.Filter.RECENT);
+  }
+
+  public static void search(SparkSearchRequest.Filter filter) {
     SparkSearchResponse sparkSearch = sparkFacade.search(filter);
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(sparkSearch), Authorization.getUserFromSession());
     render(sparkSearch, userVotes);
