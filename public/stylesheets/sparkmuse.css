@@ -608,8 +608,7 @@ a.top-arrow {
 #city {
   position: absolute;
   bottom: 0px;
-  left: 750px;
-  z-index: 5;
+  right: 0px;
 }
 
 #footer-container {
@@ -620,6 +619,7 @@ a.top-arrow {
 }
 
 #footer {
+  min-height: 320px;
   text-shadow: 0 1px 0 #f4ffe9;
   position: relative;
   padding-left: 170px;
