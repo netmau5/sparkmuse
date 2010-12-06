@@ -616,6 +616,7 @@ a.top-arrow {
   border-top: 4px solid #9FB8A1;
   background: url("../images/greennoise.jpg");
   padding-top: 1.5em;
+  overflow: hidden;
 }
 
 #footer {
