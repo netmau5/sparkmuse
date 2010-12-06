@@ -385,7 +385,7 @@ input, textarea {
 }
 
 #header-container-wrapper {
-  background: url("../images/sky.jpg") repeat-x scroll 50% 0 white;
+  background: url("../images/sky2.jpg") repeat-x scroll 50% 0 white;
   border-bottom: 4px solid #ff7c42;
 }
 
@@ -435,7 +435,7 @@ input, textarea {
 }
 
 #body-container-wrapper {
-  background: url("../images/sky.jpg") repeat-x scroll 50% 0 #f7fffe;
+  background: url("../images/sky2.jpg") repeat-x scroll 50% 0 #f7fffe;
   width: 100%;
 }
 
