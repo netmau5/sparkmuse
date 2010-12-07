@@ -16,4 +16,8 @@ public class Application extends SparkmuseController {
     render();
   }
 
+  public static void feedback(String appName) {
+    render(appName);
+  }
+
 }

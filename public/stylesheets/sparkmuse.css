@@ -366,6 +366,15 @@ a:active {
   color: $LOGO_YELLOW;
 }
 
+.lightbox {
+  border: 2px solid $LOGO_DARK_BLUE;
+  cursor: pointer;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+  .lightbox:hover { border: 2px solid $LOGO_ORANGE; }
+
 
 input, textarea {
   font-family: $FONT_FAMILY_CONTROLS;
@@ -894,8 +903,20 @@ div.ui-tooltip-sparkmuse .ui-tooltip-wrapper{
   box-shadow: 1px 1px 3px #b2b2b2;
 
   background: $COLOR_LIGHT_NEUTRAL;
-
 }
+
+
+  .simplemodal-container a.modalCloseImg {
+    background: url("../images/icons/x.png") no-repeat;
+    cursor: pointer;
+    display: inline;
+    height: 29px;
+    position: absolute;
+    right: -16px;
+    top: -15px;
+    width: 25px;
+    z-index: 3200;
+  }
 
 .simplemodal-inner {
   border: 1px solid white;
@@ -920,6 +941,10 @@ div.ui-tooltip-sparkmuse .ui-tooltip-wrapper{
     padding: 5px;
     background: url("../images/textures/noise.png") top left repeat $COLOR_NEUTRAL;
   }
+
+#modal-lightbox {
+  border: 2px solid $LOGO_DARK_BLUE;
+}
 
 /* END <MODALS> */
 

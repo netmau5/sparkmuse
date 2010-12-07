@@ -1,15 +1,6 @@
 #{extends 'outsider.template.html' /}
 #{set title:'About Sparkmuse' /}
 
-<style type="text/css">
-  form input {
-    width: 100%;
-  }
-  button {
-    margin: 0 auto;
-  }
-</style>
-
 <div class="page-canvas push-6 prepend-1 span-10 append-1">
 
     <h2>About</h2>
@@ -77,46 +68,5 @@
       pivot town on it.  I promise it will be for the better.
     </p>
 
-    <div id="application">
-      <h3>Apply for an Invitation</h3>
-      <form name="application-form" target="@{Authorization.applyForInvitation()}" method="POST">
-        <p>
-          <label>Twitter Username</label>
-          <input type="text" name="userName" value="@"/>
-        </p>
-
-        <p>
-          <label>Where can we learn about you?</label>
-          <input type="text" name="url" value="http://"/>
-        </p>
-        <button type="submit" class="create-spark">
-          <img src="@{'public/images/favicon.png'}" alt="Apply"/>
-          Apply
-        </button>
-      </form>
-    </div>
-    <script type="text/html" id="thanks-for-applying">
-      <h3>Thank you!</h3>
-      <p>
-        Thank you for applying.  We will let you know as soon as we have accepted your
-        application.  We hope to open for alpha testing soon.
-      </p>
-    </script>
+    #{applyForInvitation}
 </div>
-
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    var appForm = document["application-form"];
-    $(appForm).formHandler(function(){
-      var application = $("#application");
-      application.css("display", "none");
-      application.html($("#thanks-for-applying").html());
-      application.fadeIn(1000);
-      return {
-        userName: appForm.userName.value,
-        url: appForm.url.value
-      };
-    });
-  });
-</script>
