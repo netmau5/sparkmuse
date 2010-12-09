@@ -74,12 +74,12 @@
   </div>
   </div>
 
-  <div class="comments-wrapper wrapper last">
-  <div class="comments inner">
+  <div class="comments-panel-wrapper wrapper last">
+  <div class="comments-panel inner">
 
     <div class="header-wrapper">
     <div class="header">
-      <a class="button positive" href="#post-comment">
+      <a class="button positive" href="#" onclick="SM.Spark.newReply();">
         <span>
           <img src="@{'public/images/icons/silk/add.png'}" alt="Post"/>
           Post
@@ -107,26 +107,29 @@
     </div>
     </div>
 
-    <div class="comment-container">
-      <div class="author">
-        <a class="button positive" href="#">
-          <span>
-            <img src="@{'public/images/icons/silk/comment_add.png'}" alt="Reply"/>
-            Reply
-          </span>
-        </a>
-        <a href="#upvote" class="likes likes-small" title="32 likes"></a>  <!-- active class for voted -->
-        <cite>
-          #{nameTag user:currentUser /} *{ todo use real poster's user }*
-        </cite>
-      </div>
-      <blockquote>
-        I think this is a promising concept.  I know that I'd be interested in such a community and
-        I suspect many investors may be too.  The only question I have is whether others would want
-        to come back to contribute beyond the discussion of their own ideas. kek  
-      </blockquote>
-    </div>
+    <div id="comments-container">
 
+      <div class="comment">
+        <div class="author">
+          <a class="button positive" href="#">
+            <span>
+              <img src="@{'public/images/icons/silk/comment_add.png'}" alt="Reply"/>
+              Reply
+            </span>
+          </a>
+          <a href="#upvote" class="likes likes-small" title="32 likes"></a>  <!-- active class for voted -->
+          <cite>
+            #{nameTag user:currentUser /} *{ todo use real poster's user }*
+          </cite>
+        </div>
+        <blockquote>
+          I think this is a promising concept.  I know that I'd be interested in such a community and
+          I suspect many investors may be too.  The only question I have is whether others would want
+          to come back to contribute beyond the discussion of their own ideas. kek
+        </blockquote>
+      </div>
+
+    </div>
 
   </div>
   </div>
@@ -136,4 +139,91 @@
 </div>
 </div>
 </div>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    function resizeTextArea() {
+
+    }
+
+    function checkForLinks() {
+      
+    }
+
+    var s = SM.Spark = {
+
+      replyMode: false,
+
+      cancelReply: function() {
+        if (s.replyMode) {
+          s.replyMode = false;
+
+          //clean up
+          $(document.NewReply).unbind();
+          $("#new-reply textarea").unbind();
+
+          //remove
+          $("#new-reply").remove();
+        }
+      },
+
+      newReply: function() {
+        if (!s.replyMode) {
+          s.replyMode = true;
+          $("#comments-container").prepend(Mustache.to_html($("#template-reply").html()));
+          $("#new-reply textarea").keyup(resizeTextArea)
+              .keyup(checkForLinks);
+
+          $(document.NewReply).formHandler(function(){
+            return {
+
+            }
+          })
+        }
+        else {
+          alert("Finish current reply");
+        }
+      }
+
+    }
+  });
+
+</script>
+
+<script type="text/html" id="template-reply">
+
+  <div class="new-reply-wrapper" id="new-reply">
+
+    <form name="NewReply" method="POST" action="@{Spark.reply()}">
+      <div class="comment">
+        <div class="author">
+          <cite>
+            #{nameTag user:currentUser /}
+          </cite>
+        </div>
+        <blockquote>
+          <textarea name="reply"></textarea>
+        </blockquote>
+      </div>
+    </form>
+
+    <div class="controls">
+      <a href="#" onclick="$(document.NewReply).submit();" class="button positive">
+        <span>
+          <img src="@{'public/images/icons/silk/accept.png'}" alt="Submit Reply" />
+          Submit
+        </span>
+      </a>
+      <a href="#" onclick="SM.Spark.cancelReply();" class="button negative">
+        <span>
+          <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel" />
+          Cancel
+        </span>
+      </a>
+    </div>
+
+  </div>
+
+</script>
 

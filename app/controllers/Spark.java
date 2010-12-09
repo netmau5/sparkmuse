@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
+import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.SparkSearchRequest;
 import net.sparkmuse.data.entity.SparkVO;
@@ -54,6 +55,10 @@ public class Spark extends SparkmuseController {
     final SparkVO spark = sparkFacade.findSparkBy(sparkId);
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(spark), Authorization.getUserFromSession());
     render(spark, userVotes);
+  }
+
+  public static void reply() {
+    renderJSON(new AjaxResponse());
   }
   
 }

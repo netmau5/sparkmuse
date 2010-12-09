@@ -28,39 +28,39 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
     padding-left: 1em;
   }
 
-.comments-wrapper {
+.comments-panel-wrapper {
   margin-left: 350px;
 }
 
-  .comments-wrapper .button {
+  .comments-panel-wrapper .header-wrapper {
+    border-bottom: 1px solid $COLOR_NEUTRAL;
+    margin-bottom: 1em;
+  }
+
+  .comments-panel-wrapper .header-wrapper .button {
     margin: 1px 1px 0 0;
     float: right;
   }
 
-  .comments-wrapper .header-wrapper {
-      border-bottom: 1px solid $COLOR_NEUTRAL;
-      margin-bottom: 1em;
+  .comments-panel-wrapper .header-wrapper .header {
+    border-bottom: 4px solid $LOGO_LIGHT_BLUE;
+  }
+
+    .comments-panel-wrapper .header-wrapper .header h3 {
+      padding-left: 40px;
+      background: url("../../images/comment.png") 0 50% no-repeat;
+      height: 32px;
+      line-height: 32px;
+      margin-bottom: 0.2em;
     }
 
-      .comments-wrapper .header-wrapper .header {
-        border-bottom: 4px solid $LOGO_LIGHT_BLUE;
-      }
-
-        .comments-wrapper .header-wrapper .header h3 {
-          padding-left: 40px;
-          background: url("../../images/comment.png") 0 50% no-repeat;
-          height: 32px;
-          line-height: 32px;
-          margin-bottom: 0.2em;
-        }
-
-  .comments {
+  .comments-panel {
     padding-right: 1em;
   }
 
-  .comment-container {}
+  .comment {}
 
-    .comment-container .author {
+    .comment .author {
       position: relative;
       bottom: -1px;
       display: block;
@@ -71,12 +71,12 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
       background: url("../../images/comment_hook.png") 36px 28px no-repeat;
     }
 
-      .comment-container .author cite {
+      .comment .author cite {
         display: inline-block;
         font-style: normal;
       }
 
-      .comment-container .author .likes {
+      .comment .author .likes {
         margin-right: 8px;
         height: 24px;
         background-position: 0 4px;
@@ -84,7 +84,16 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
         float: left;
       }
 
-    .comment-container blockquote {
+      .comment .author .button {
+        margin: 1px 1px 0 0;
+        float: right;
+      }
+
+    .comment .button span {
+      padding: 4px 10px 4px 6px;
+    }
+
+    .comment blockquote {
       border: 1px solid #c9c2c1;
       padding: 0.8em;
       background-color: white;
@@ -100,9 +109,7 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
       font-family: $FONT_FAMILY_STANDARD;
     }
 
-    .comment-container .button span {
-      padding: 4px 10px 4px 6px;
-    }
+      .comment blockquote textarea { width: 613px; }
 
 
 #rss-link {
