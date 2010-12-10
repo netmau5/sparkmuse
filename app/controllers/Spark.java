@@ -13,6 +13,7 @@ import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.SparkSearchRequest;
+import net.sparkmuse.discussion.LinkMetadata;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.user.Votables;
@@ -55,6 +56,10 @@ public class Spark extends SparkmuseController {
     final SparkVO spark = sparkFacade.findSparkBy(sparkId);
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(spark), Authorization.getUserFromSession());
     render(spark, userVotes);
+  }
+
+  public static void lookupLinkMetadata(String url) {
+    renderJSON(LinkMetadata.lookup(url));
   }
 
   public static void reply() {
