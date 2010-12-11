@@ -109,7 +109,11 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
       font-family: $FONT_FAMILY_STANDARD;
     }
 
-      .comment blockquote textarea { width: 613px; }
+
+      .comment blockquote .options {}
+      .comment blockquote .options h4 { display: inline; }
+      .comment blockquote .options a { float: right; }
+      .comment blockquote textarea { width: 613px; height: 100px; }
 
 
 #rss-link {

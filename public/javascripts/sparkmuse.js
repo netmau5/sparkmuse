@@ -4,6 +4,13 @@ SM.Events = {
   Submit: "Submit"
 };
 
+SM.newId = (function(){
+  var id = 1;
+  return function(prefix) {
+    return (prefix || "id") + "-" + id++;
+  }
+})();
+
 //response handler
 (function($){
   var FormHandler = {
@@ -164,31 +171,31 @@ $(document).ready(function() {
     }
   }
 
-  $("a[href^='#']").filter(function() {
-    return $(this).attr("href").length > 1;
-  }).click(function(e){
+  $("a[href^='#']").live("click", function(e){
     e.stopPropagation();
     var el = $(this);
 
-    if (!el.attr("active") || el.attr("active") === "false") {
-      var request = queryStringToMap(el.attr("href"));
-      var callback = function(response, desc, xmlRequest) {
-        var callback = eval(el.attr("callback"));
-        if (callback && callback instanceof Function) {
-          callback.call(this, xmlRequest.status, request, response);
-        }
-        el.attr("active", "false");
-      };
+    if (el.attr("href").length > 1) {
+      if (!el.attr("active") || el.attr("active") === "false") {
+        var request = queryStringToMap(el.attr("href"));
+        var callback = function(response, desc, xmlRequest) {
+          var callback = eval(el.attr("callback"));
+          if (callback && callback instanceof Function) {
+            callback.call(this, xmlRequest.status, request, response);
+          }
+          el.attr("active", "false");
+        };
 
-      el.attr("active", "true");
-      var parms = {
-        url: el.attr("href").substring(1),
-        success: callback,
-        error: callback,
-        dataType: "json",
-        context: this
-      };
-      $.ajax(parms);
+        el.attr("active", "true");
+        var parms = {
+          url: el.attr("href").substring(1),
+          success: callback,
+          error: callback,
+          dataType: "json",
+          context: this
+        };
+        $.ajax(parms);
+      }
     }
 
     return false;

@@ -85,24 +85,30 @@
           Post
         </span>
       </a>
-      <a class="button leading-question" href="#ask-leading-question">
-        <span>
-          <img src="@{'public/images/icons/silk/help.png'}" alt="Post"/>
-          Leading Question
-        </span>
-      </a>
-      <a class="button resource" href="#add-resource">
-        <span>
-          <img src="@{'public/images/icons/silk/box.png'}" alt="Post"/>
-          Resource
-        </span>
-      </a>
-      <a class="button visual" href="#add-competitor">
-        <span>
-          <img src="@{'public/images/icons/silk/image.png'}" alt="Post"/>
-          Visual
-        </span>
-      </a>
+      <!--<a class="button leading-question" href="#" onclick="SM.Spark.newLeadingQuestion();">-->
+        <!--<span>-->
+          <!--<img src="@{'public/images/icons/silk/help.png'}" alt="Post"/>-->
+          <!--Leading Question-->
+        <!--</span>-->
+      <!--</a>-->
+      <!--<a class="button offer" href="#" onclick="SM.Spark.newOffer();">-->
+        <!--<span>-->
+          <!--<img src="@{'public/images/icons/silk/group.png'}" alt="Post"/>-->
+          <!--Offer-->
+        <!--</span>-->
+      <!--</a>-->
+      <!--<a class="button visual" href="#" onclick="SM.Spark.newVisual();">-->
+        <!--<span>-->
+          <!--<img src="@{'public/images/icons/silk/image.png'}" alt="Post"/>-->
+          <!--Visual-->
+        <!--</span>-->
+      <!--</a>-->
+      <!--<a class="button resource" href="#" onclick="SM.Spark.newResource();">-->
+        <!--<span>-->
+          <!--<img src="@{'public/images/icons/silk/link.png'}" alt="Post"/>-->
+          <!--Resource-->
+        <!--</span>-->
+      <!--</a>-->
       <h3>Discussion</h3>
     </div>
     </div>
@@ -143,12 +149,31 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
-    function resizeTextArea() {
+    var urlRegex = /((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/,
+        addResourcesCache = {};
 
+
+    function resizeTextArea() {
+      var ta = $(this);
+      if (ta.scrollTop() > 0) {
+        ta.height(ta.height() + 20);
+      }
     }
 
     function checkForLinks() {
-      
+      var i, token, tokens = this.value.replace(/\s+/g, " ").split(" ");
+      for (i in tokens) {
+        if (i != tokens.length - 1) {
+          token = tokens[i];
+          if (urlRegex.test(token) && !addResourcesCache[token]) {
+            addResourcesCache[token] = true;
+            $("#new-reply .add-resources").append(Mustache.to_html(
+                $("#template-add-resource").html(),
+                { url: token }
+            ));
+          }
+        }
+      }
     }
 
     var s = SM.Spark = {
@@ -172,8 +197,7 @@
         if (!s.replyMode) {
           s.replyMode = true;
           $("#comments-container").prepend(Mustache.to_html($("#template-reply").html()));
-          $("#new-reply textarea").keyup(resizeTextArea)
-              .keyup(checkForLinks);
+          $("#new-reply textarea").keyup(resizeTextArea).keyup($.throttle(250, checkForLinks));
 
           $(document.NewReply).formHandler(function(){
             return {
@@ -184,11 +208,102 @@
         else {
           alert("Finish current reply");
         }
-      }
+      },
 
+      newLeadingQuestion: function() {
+        s._startReplyIfNotStarted();
+      },
+
+      newOffer: function() {
+        s._startReplyIfNotStarted();
+      },
+
+      newResource: function(url) {
+        s._startReplyIfNotStarted();
+
+        if (url) {
+          var id = SM.newId("new-resource-loading");
+          $("#new-reply .resources").append(Mustache.to_html(
+              $("#template-new-resource-loading").html(),
+              { id: id }
+          ));
+          $.ajax({
+            url: "@{Spark.lookupLinkMetadata()}",
+            data: { url: url },
+            context: s,
+            success: function(r) {
+              $("#" + id).remove();
+              this._createNewResource(url, r.title, r.description);
+            }
+          });
+        }
+        else {
+          this._createNewResource();
+        }
+      },
+
+      _createNewResource: function(url, title, description) {
+        $("#new-reply .resources").append(Mustache.to_html(
+            $("#template-new-resource").html(),
+            {
+              url: url || "",
+              title: title || "",
+              description: description || ""
+            }
+        ));
+      },
+
+      newVisual: function() {
+        s._startReplyIfNotStarted();
+      },
+
+      _startReplyIfNotStarted: function() {
+        if (!s.replyMode) { s.newReply(); }
+      },
+
+      deleteContent: function(el) {
+        $(el).parents(".content").animate({
+          opacity: 0,
+          height: 0
+        },
+          function() { $(this).remove(); }
+        );
+      }
     }
   });
 
+</script>
+
+<script type="text/html" id="template-prompt-resource">
+  <div class="resource" id="{{id}}">
+    <h4>Add Resource?</h4>
+    <input type="checkbox" /> <em>{{url}}</em>
+  </div>
+</script>
+
+<script type="text/html" id="template-new-resource">
+  <div class="resource content">
+    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    <h4>New Resource</h4>
+    <label>Url</label><input type="text" value="{{url}}"/>
+    <label>Title</label><input type="text" value="{{title}}"/>
+    <label>Description</label><input type="text" value="{{description}}"/>
+  </div>
+</script>
+
+<script type="text/html" id="template-new-resource-loading">
+  <div class="resource" id="{{id}}">
+   <img src="@{'public/images/spinner.gif'}" />
+    <h4>New Resource</h4>
+  </div>
+</script>
+
+<script type="text/html" id="template-add-resource">
+  <div class="add-resource content">
+    <a href="#" onclick="SM.Spark.newResource('{{url}}'); SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/link.png'}" /></a>
+    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    {{url}}
+  </div>
 </script>
 
 <script type="text/html" id="template-reply">
@@ -203,6 +318,39 @@
           </cite>
         </div>
         <blockquote>
+          <div class="options">
+            <a class="button leading-question" href="#" onclick="SM.Spark.newLeadingQuestion();">
+              <span>
+                <img src="@{'public/images/icons/silk/help.png'}" alt="Post"/>
+                Leading Question
+              </span>
+            </a>
+            <a class="button offer" href="#" onclick="SM.Spark.newOffer();">
+              <span>
+                <img src="@{'public/images/icons/silk/group.png'}" alt="Post"/>
+                Offer
+              </span>
+            </a>
+            <a class="button visual" href="#" onclick="SM.Spark.newVisual();">
+              <span>
+                <img src="@{'public/images/icons/silk/image.png'}" alt="Post"/>
+                Visual
+              </span>
+            </a>
+            <a class="button resource" href="#" onclick="SM.Spark.newResource();">
+              <span>
+                <img src="@{'public/images/icons/silk/link.png'}" alt="Post"/>
+                Resource
+              </span>
+            </a>
+            <h4></h4>
+            <div style="clear:right;"></div>
+          </div>
+          <div class="leading-questions"></div>
+          <div class="offers"></div>
+          <div class="visuals"></div>
+          <div class="resources"></div>
+          <div class="add-resources"></div>
           <textarea name="reply"></textarea>
         </blockquote>
       </div>
