@@ -11,17 +11,13 @@ import com.google.common.collect.*;
 import com.google.inject.Inject;
 import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.Entity;
-import net.sparkmuse.data.entity.OwnedEntity;
 import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.SparkVO;
-import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.TimedTransformer;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.data.twig.After;
 
 import java.util.*;
-import java.util.concurrent.Future;
 
 import org.apache.commons.collections.CollectionUtils;
 
