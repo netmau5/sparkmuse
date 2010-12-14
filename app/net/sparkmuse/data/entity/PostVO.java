@@ -1,11 +1,10 @@
 package net.sparkmuse.data.entity;
 
 import net.sparkmuse.user.Votable;
-import net.sparkmuse.data.mapper.Property;
-import net.sparkmuse.data.mapper.Model;
 import org.joda.time.DateTime;
 import com.google.common.collect.ImmutableList;
-import models.PostModel;
+import com.google.appengine.api.datastore.Text;
+import com.google.code.twig.annotation.Type;
 
 /**
  * Created by IntelliJ IDEA.
@@ -13,18 +12,17 @@ import models.PostModel;
  * @author neteller
  * @created: Jul 5, 2010
  */
-@Model(PostModel.class)
 public class PostVO extends Entity<PostVO> implements Votable {
 
   private ImmutableList<PostVO> replies;
-  @Property("inReplyToId") private Long inReplyToId;
-  @Property("sparkId") private Long sparkId;
+  private Long inReplyToId;
+  private Long sparkId;
 
-  @Property("created") private DateTime created;
-  @Property("edited") private DateTime edited;
+  private DateTime created;
+  private DateTime edited;
 
-  @Property("votes") private int votes;
-  @Property("postContent") private String postContent;
+  private int votes;
+  @Type(Text.class) private String postContent;
 
   private UserVO author;
 

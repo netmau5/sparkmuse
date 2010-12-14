@@ -9,13 +9,11 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Function;
 import com.google.common.collect.*;
 import com.google.inject.Inject;
-import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.TimedTransformer;
 import net.sparkmuse.common.CacheKeyFactory;
-import net.sparkmuse.data.twig.After;
 
 import java.util.*;
 
@@ -30,24 +28,18 @@ import org.apache.commons.collections.CollectionUtils;
 public class DatastoreService {
 
   private final ObjectDatastore datastore;
-  private final ObjectMapper map;
   private final Cache cache;
 
   @Inject
-  public DatastoreService(ObjectDatastore datastore, ObjectMapper mapper, Cache cache) {
+  public DatastoreService(ObjectDatastore datastore, Cache cache) {
     this.datastore = datastore;
-    this.map = mapper;
     this.cache = cache;
   }
 
   public ObjectDatastore getDatastore() {
     return this.datastore;
   }
-
-  public ObjectMapper getMapper() {
-    return this.map;
-  }
-
+  
   Cache getCache() {
     return cache;
   }
@@ -98,41 +90,35 @@ public class DatastoreService {
 
   //READ COMMANDS
 
-  @Deprecated //("Inline after CacheDao call removed")
-  public final <T> T only(FindCommand.RootFindCommand<T> findCommand) {
+  public final <T extends Entity<T>> T only(FindCommand.RootFindCommand<T> findCommand) {
     final QueryResultIterator<T> resultsIterator = findCommand.now();
     if (resultsIterator.hasNext()) {
       final T toReturn = resultsIterator.next();
       Preconditions.checkState(!resultsIterator.hasNext(), "Only one result requested but more than one returned.");
-      return toReturn;
+      return After.read(toReturn, this);
+
     }
     else return null;
   }
 
-  public final <T, U extends Entity<U>> U only(Class<U> entityClass, FindCommand.RootFindCommand<T> findCommand) {
-    final U u = map.fromModel(only(findCommand)).to(entityClass);
-    return After.read(u, this);
-  }
-
   public final <U extends Entity<U>> U load(Class<U> entityClass, Long id) {
-    final U u = map.fromModel(datastore.load(Entity.modelClassFor(entityClass), id)).to(entityClass);
+    final U u = datastore.load(entityClass, id);
     return After.read(u, this);
   }
 
   public final <I, U extends Entity<U>> Map<I, U> loadAll(Class<U> entityClass, Set<I> ids, Entity... parents) {
-    final LoadCommand.MultipleTypedLoadCommand command = datastore.load().type(Entity.modelClassFor(entityClass)).ids(ids);
+    final LoadCommand.MultipleTypedLoadCommand command = datastore.load().type(entityClass).ids(ids);
     for (Entity parent: parents) {
-      command.parent(map.fromEntity(parent).to(parent.getModelClass()));
+      command.parent(parent);
     }
 
-    final Map<I, Object> idsToModels = command.now();
-    final Map<I, U> toReturn = Maps.transformValues(idsToModels, map.newModelToEntityFunction(entityClass));
-    return After.read(toReturn, this);
+    final Map<I, U> idsToModels = command.now();
+    return After.read(idsToModels, this);
   }
 
-  public final <T, U extends Entity<U>> List<U> all(final Class<U> entityClass, FindCommand.RootFindCommand<T> findCommand) {
-    final QueryResultIterator<T> resultIterator = findCommand.now();
-    final ArrayList<U> toReturn = Lists.newArrayList(Iterators.transform(resultIterator, map.newModelToEntityFunction(entityClass)));
+  public final <U extends Entity<U>> List<U> all(FindCommand.RootFindCommand<U> findCommand) {
+    final QueryResultIterator<U> resultIterator = findCommand.now();
+    final List<U> toReturn = Lists.newArrayList(resultIterator);
     return After.read(toReturn, this);
   }
 
@@ -140,40 +126,31 @@ public class DatastoreService {
 
   public final <T, U extends Entity<U>> U store(U entity) {
     if (null == entity) return null;
-    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
 
     //set the key on the model object
-    final Key key = datastore.store().instance(model).now();
+    final Key key = datastore.store().instance(entity).now();
     entity.setId(key.getId());
 
     return After.write(entity, this);
   }
 
-//  public final <T, U extends Entity<U>> void storeLater(U entity) {
-//    if (null == entity) return;
-//    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
-//
-//    datastore.store().instance(model).later();
-//  }
-
   public final <T, U extends Entity<U>> U update(U entity) {
     if (null == entity) return null;
-    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
 
-    datastore.associate(model);
-    datastore.update(model);
+    associate(entity);
+    datastore.update(entity);
 
     return After.write(entity, this);
   }
 
   //OTHER
 
-  public final <T, U extends Entity<U>> void associate(U entity) {
-    if (null == entity) return;
-    final T model = map.fromEntity(entity).to((Class<T>) entity.getModelClass());
+  public final <T, U extends Entity<U>> U associate(U entity) {
+    if (null == entity) return entity;
 
     //this should set the key on the model object automatically
-    datastore.associate(model);
+    if (datastore.associatedKey(entity) == null) datastore.associate(entity);
+    return entity;
   }
 
   /**
@@ -181,22 +158,17 @@ public class DatastoreService {
    * logic is limited at approximately 15 seconds.  If the job doesn't complete in the allowed time, a
    * serialized cursor will be returned so that the job can be restarted at the last position.
    *
-   * @param entityClass
    * @param transformer
    * @param find
    * @return serialized cursor
    */
-  public <T, U extends Entity<U>> String execute(final Class<U> entityClass,
-                                                 final Function<U, U> transformer,
-                                                 final FindCommand.RootFindCommand<T> find) {
-    final QueryResultIterator<T> iterator = find.now();
+  public <U extends Entity<U>> String execute(final Function<U, U> transformer, final FindCommand.RootFindCommand<U> find) {
+    final QueryResultIterator<U> iterator = find.now();
 
-    final Function<T, U> modelToEntity = map.newModelToEntityFunction(entityClass);
     final DatastoreService service = this;
-    final Function<T, U> transformFunction = new Function<T, U>() {
-      public U apply(T t) {
-        final U entity = modelToEntity.apply(t);
-        final U transformedEntity = transformer.apply(entity);
+    final Function<U, U> transformFunction = new Function<U, U>() {
+      public U apply(U u) {
+        final U transformedEntity = transformer.apply(u);
         service.update(transformedEntity);
         return transformedEntity;
       }

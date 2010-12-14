@@ -1,10 +1,7 @@
 package net.sparkmuse.data.entity;
 
 import net.sparkmuse.data.util.AccessLevel;
-import net.sparkmuse.data.mapper.Model;
-import net.sparkmuse.data.mapper.Property;
 import net.sparkmuse.common.CacheKey;
-import models.UserModel;
 import com.google.common.base.Function;
 
 /**
@@ -13,13 +10,12 @@ import com.google.common.base.Function;
  * @author neteller
  * @created: Jul 5, 2010
  */
-@Model(UserModel.class)
 public class UserVO extends Entity<UserVO> {
 
-  @Property("userName") private String userName;
-  @Property("userId") private String authProviderUserId;
-  @Property("authorization") private AccessLevel accessLevel;
-  @Property("reputation") private int reputation;
+  private String userName;
+  private String authProviderUserId;
+  private AccessLevel accessLevel;
+  private int reputation;
 
   public boolean isAuthorizedFor(final AccessLevel accessLevel) {
     return this.accessLevel.hasAuthorizationLevel(accessLevel);

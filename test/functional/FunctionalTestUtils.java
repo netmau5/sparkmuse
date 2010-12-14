@@ -3,28 +3,11 @@ package functional;
 import com.google.inject.Injector;
 import com.google.inject.Guice;
 import com.google.code.twig.ObjectDatastore;
-import models.UserModel;
-import models.PostModel;
-import models.SparkModel;
 import guice.DataModule;
 import guice.TaskModule;
 import guice.LocalTwitterModule;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.scanner.ScannerException;
-import play.vfs.VirtualFile;
-import play.Play;
-import play.PlayPlugin;
-import play.exceptions.YAMLException;
-import play.data.binding.Binder;
-import play.db.Model;
 
-import java.io.InputStream;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.HashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.lang.reflect.Field;
+import net.sparkmuse.data.entity.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,9 +28,11 @@ public class FunctionalTestUtils {
 
   public static void deleteAll() {
     final ObjectDatastore datastore = TEST_INJECTOR.getInstance(ObjectDatastore.class);
-    datastore.deleteAll(UserModel.class);
-    datastore.deleteAll(PostModel.class);
-    datastore.deleteAll(SparkModel.class);
+    datastore.deleteAll(UserVote.class);
+    datastore.deleteAll(UserVO.class);
+    datastore.deleteAll(PostVO.class);
+    datastore.deleteAll(SparkVO.class);
+    datastore.deleteAll(UserApplication.class);
   }
 
 //  static Pattern keyPattern = Pattern.compile("([^(]+)\\(([^)]+)\\)");

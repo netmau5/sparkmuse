@@ -1,15 +1,14 @@
 package net.sparkmuse.data.entity;
 
 import net.sparkmuse.user.Votable;
-import net.sparkmuse.data.mapper.Property;
-import net.sparkmuse.data.mapper.Model;
 import net.sparkmuse.discussion.SparkRanking;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
-import models.SparkModel;
 import play.data.validation.Required;
+import com.google.code.twig.annotation.Type;
+import com.google.appengine.api.datastore.Text;
 
 /**
  * Created by IntelliJ IDEA.
@@ -17,39 +16,31 @@ import play.data.validation.Required;
  * @author neteller
  * @created: Jul 5, 2010
  */
-@Model(SparkModel.class)
 public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
 
-  @Property("title")
   @Required
   private String title;
 
-  @Property("stage")
   @Required
   private Stage stage;
 
-  @Property("problem")
   @Required
+  @Type(Text.class)
   private String problem;
 
-  @Property("solution")
   @Required
+  @Type(Text.class)
   private String solution;
 
-  @Property("tags")
   @Required(message="validation.required.tags")
   private List<String> tags;
 
-  @Property("created")
   private DateTime created;
 
-  @Property("votes")
   private int votes;
 
-  @Property("rating")
   private double rating;
 
-  @Property("postCount")
   private int postCount;
 
   public enum Stage {
@@ -65,6 +56,10 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
 
   public int getPostCount() {
     return postCount;
+  }
+
+  public void setPostCount(int postCount) {
+    this.postCount = postCount;
   }
 
   public void upVote() {
@@ -140,4 +135,6 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
   public void setVotes(int votes) {
     this.votes = votes;
   }
+
+
 }

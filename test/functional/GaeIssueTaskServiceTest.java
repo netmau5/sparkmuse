@@ -27,8 +27,6 @@ public class GaeIssueTaskServiceTest extends PluginFunctionalTest {
     user.setId(123L);
 
     final Queue queue = Mockito.mock(Queue.class);
-//    final HashMap<String,Object> parameters = Maps.newHashMap();
-//    parameters.put("cacheKey", user.getKey());
     final TaskOptions taskOptions = url(Router.reverse(
         "Task.persistCacheValue"
     ).url);

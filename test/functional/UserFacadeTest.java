@@ -2,10 +2,10 @@ package functional;
 
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import net.sparkmuse.user.UserFacade;
+import net.sparkmuse.data.entity.UserApplication;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
-import models.UserApplicationModel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,7 +33,7 @@ public class UserFacadeTest extends PluginFunctionalTest {
   public void shouldSaveUserApplication() {
     userFacade.applyForInvitation("netmau5", "http://blog.sparkmuse.com");
 
-    UserApplicationModel model = datastore.find().type(UserApplicationModel.class)
+    UserApplication model = datastore.find().type(UserApplication.class)
         .addFilter("userName", EQUAL, "netmau5")
         .now()
         .next();

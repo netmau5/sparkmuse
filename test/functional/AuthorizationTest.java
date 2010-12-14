@@ -2,8 +2,8 @@ package functional;
 
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import org.junit.Test;
-import models.UserApplicationModel;
 import play.mvc.Http.*;
+import net.sparkmuse.data.entity.UserApplication;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,7 +18,7 @@ public class AuthorizationTest extends PluginFunctionalTest {
     Response response = GET("/Authorization/applyForInvitation?userName=netmau5&url=http://blog.sparkmuse.com");
     assertIsOk(response);
 
-    UserApplicationModel model = datastore.find().type(UserApplicationModel.class)
+    UserApplication model = datastore.find().type(UserApplication.class)
         .addFilter("userName", EQUAL, "netmau5")
         .now()
         .next();

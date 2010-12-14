@@ -3,7 +3,6 @@ package net.sparkmuse.data.twig;
 import com.google.inject.Inject;
 import com.google.common.base.Function;
 import net.sparkmuse.data.entity.SparkVO;
-import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.SparkDao;
 
 import java.util.List;
@@ -30,24 +29,24 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   }
 
   public List<SparkVO> loadPopular() {
-    return helper.all(SparkVO.class, datastore.find()
-        .type(Entity.modelClassFor(SparkVO.class))
+    return helper.all(datastore.find()
+        .type(SparkVO.class)
         .addSort("rating")
         .fetchMaximum(50)
     );
   }
 
   public List<SparkVO> loadRecent() {
-    return helper.all(SparkVO.class, datastore.find()
-        .type(Entity.modelClassFor(SparkVO.class))
+    return helper.all(datastore.find()
+        .type(SparkVO.class)
         .addSort("created")
         .fetchMaximum(50)
     );
   }
 
   public List<SparkVO> loadMostDiscussed() {
-    return helper.all(SparkVO.class, datastore.find()
-        .type(Entity.modelClassFor(SparkVO.class))
+    return helper.all(datastore.find()
+        .type(SparkVO.class)
         .addSort("postCount")
         .fetchMaximum(50)
     );

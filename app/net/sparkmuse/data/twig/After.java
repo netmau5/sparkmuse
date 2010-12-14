@@ -45,7 +45,7 @@ public class After {
     }
     updateCache(entityList, service.getCache());
 
-    mergeOwnersFor(toMergeOwners, service);
+//    mergeOwnersFor(toMergeOwners, service);
 
     return entityList;
   }

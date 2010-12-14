@@ -2,6 +2,8 @@ package functional;
 
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.data.entity.PostVO;
+import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.discussion.Posts;
 import org.junit.Before;
 import org.junit.After;
@@ -10,9 +12,6 @@ import org.joda.time.DateTime;
 import static org.hamcrest.Matchers.*;
 import com.google.common.collect.Iterables;
 import com.google.common.base.Predicate;
-import models.SparkModel;
-import models.PostModel;
-import models.UserModel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -33,47 +32,44 @@ public class SparkFacadeTest extends PluginFunctionalTest {
     super.setup();
     sparkFacade = FunctionalTestUtils.getInstance(SparkFacade.class);
 
-    UserModel u = new UserModel();
-    u.id = 123L;
-    u.userName = "Dave";
+    UserVO u = new UserVO();
+    u.setId(123L);
+    u.setUserName("Dave");
+    datastore.store(u);
 
-    SparkModel sparkModel = new SparkModel();
-    sparkModel.title = "Sup";
-    sparkModel.authorUserId = 123L;
-    sparkModel.rating = 1d;
-    sparkModel.postCount = 1;
-    sparkModel.created = new DateTime().getMillis();
+    SparkVO sparkModel = new SparkVO();
+    sparkModel.setTitle("Sup");
+    sparkModel.setAuthor(u);
+    sparkModel.setRating(1d);
+    sparkModel.setPostCount(1);
+    sparkModel.setCreated(new DateTime());
     datastore.store(sparkModel);
-    sparkId = sparkModel.id;
+    sparkId = sparkModel.getId();
 
-    PostModel p1 = new PostModel();
-    p1.created = new DateTime().getMillis();
-    p1.postContent = "p1";
-    p1.sparkId = sparkModel.id;
-    p1.votes = 3;
+    PostVO p1 = new PostVO();
+    p1.setCreated(new DateTime());
+    p1.setPostContent("p1");
+    p1.setSparkId(sparkId);
+    p1.setVotes(3);
     datastore.store(p1);
-    post1Id = p1.id;
+    post1Id = p1.getId();
 
-    PostModel p2 = new PostModel();
-    p2.created = new DateTime().getMillis();
-    p2.postContent = "p2";
-    p2.sparkId = sparkModel.id;
-    p2.votes = 6;
+    PostVO p2 = new PostVO();
+    p2.setCreated(new DateTime());
+    p2.setPostContent("p2");
+    p2.setSparkId(sparkId);
+    p2.setVotes(6);
     datastore.store(p2);
-    post2Id = p2.id;
+    post2Id = p2.getId();
 
-    PostModel p3 = new PostModel();
-    p3.created = new DateTime().getMillis();
-    p3.postContent = "p3";
-    p3.sparkId = sparkModel.id;
-    p3.votes = 6;
-    p3.inReplyToId = p2.id;
+    PostVO p3 = new PostVO();
+    p3.setCreated(new DateTime());
+    p3.setPostContent("p3");
+    p3.setSparkId(sparkId);
+    p3.setVotes(6);
+    p3.setInReplyToId(p2.getId());
     datastore.store(p3);
-    post3Id = p3.id;
-
-    UserModel userModel = new UserModel();
-    userModel.id = 123L;
-    datastore.store(userModel);
+    post3Id = p3.getId();
   }
 
   @After

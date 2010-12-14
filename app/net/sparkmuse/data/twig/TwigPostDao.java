@@ -5,16 +5,12 @@ import com.google.inject.Inject;
 import com.google.common.collect.*;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import com.google.code.twig.ObjectDatastore;
-import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.PostVO;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.PostDao;
 
 import java.util.Collection;
 import java.util.List;
-
-import models.PostModel;
 
 /**
  * Created by IntelliJ IDEA.
@@ -31,8 +27,7 @@ public class TwigPostDao extends TwigDao implements PostDao {
 
   public Collection<PostVO> findPostsBySpark(final SparkVO spark) {
     return applyHierarchy(helper.all(
-        PostVO.class,
-        datastore.find().type(PostModel.class).addFilter("sparkId", EQUAL, spark.getId())
+        datastore.find().type(PostVO.class).addFilter("sparkId", EQUAL, spark.getId())
     ));
   }
 

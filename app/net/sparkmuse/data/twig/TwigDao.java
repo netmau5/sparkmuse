@@ -1,12 +1,10 @@
 package net.sparkmuse.data.twig;
 
-import net.sparkmuse.data.mapper.ObjectMapper;
 import net.sparkmuse.data.entity.Entity;
 import com.google.common.base.Function;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.code.twig.ObjectDatastore;
 import com.google.code.twig.FindCommand;
-import models.SparkModel;
 import org.apache.commons.lang.StringUtils;
 
 
@@ -18,12 +16,10 @@ import org.apache.commons.lang.StringUtils;
  */
 public class TwigDao {
 
-  protected final ObjectMapper map;
   protected final ObjectDatastore datastore;
   protected final DatastoreService helper;
   
   public TwigDao(DatastoreService service) {
-    this.map = service.getMapper();
     this.helper = service;
     this.datastore = service.getDatastore();
   }
@@ -37,10 +33,9 @@ public class TwigDao {
    * @return
    */
   public <U extends Entity<U>> String transformAll(Class<U> entityClass, final Function<U, U> transformation, final String cursor) {
-    final FindCommand.RootFindCommand<SparkModel> find = datastore.find()
-        .type(Entity.modelClassFor(entityClass));
+    final FindCommand.RootFindCommand<U> find = datastore.find().type(entityClass);
     if (StringUtils.isNotBlank(cursor)) find.continueFrom(Cursor.fromWebSafeString(cursor));
-    return helper.execute(entityClass, transformation, find);
+    return helper.execute(transformation, find);
   }
 
 }

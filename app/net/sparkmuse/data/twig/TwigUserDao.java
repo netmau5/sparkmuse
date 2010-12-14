@@ -6,19 +6,15 @@ import net.sparkmuse.user.Votables;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVote;
+import net.sparkmuse.data.entity.UserApplication;
 import com.google.inject.Inject;
-import models.UserModel;
-import models.UserApplicationModel;
-import models.VoteModel;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Iterables;
-import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 
 import java.util.Set;
 import java.util.Map;
-import java.util.Collection;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -36,8 +32,8 @@ public class TwigUserDao extends TwigDao implements UserDao {
   }
 
   public UserVO findOrCreateUserBy(final String authProviderUserId, final String userName) {
-    final UserVO userVO = helper.only(UserVO.class, datastore.find()
-        .type(UserModel.class)
+    final UserVO userVO = helper.only(datastore.find()
+        .type(UserVO.class)
         .addFilter("userId", EQUAL, authProviderUserId)
         .addFilter("userName", EQUAL, userName));
 
@@ -63,10 +59,10 @@ public class TwigUserDao extends TwigDao implements UserDao {
   }
 
   public void saveApplication(String userName, String url) {
-    UserApplicationModel model = new UserApplicationModel();
-    model.userName = userName;
-    model.url = url;
-    datastore.store(model);
+    UserApplication app = new UserApplication();
+    app.userName = userName;
+    app.url = url;
+    datastore.store(app);
   }
 
   /**
@@ -77,19 +73,18 @@ public class TwigUserDao extends TwigDao implements UserDao {
    * @param voter
    */
   public void vote(Votable votable, UserVO voter) {
-    final UserModel voterUM = map.fromEntity(voter).to(UserModel.class);
-    datastore.associate(voterUM);
+    datastore.associate(voter);
 
-    final VoteModel voteModel = datastore.load()
-        .type(VoteModel.class)
+    final UserVote voteModel = datastore.load()
+        .type(UserVote.class)
         .id(Votables.newKey(votable))
-        .parent(voterUM)
+        .parent(voter)
         .now();
 
     //check for existing vote
     if (null == voteModel) {
       //store vote later so we can check if user has voted on whatever
-      datastore.store().instance(VoteModel.newUpVote(votable, voter)).parent(voterUM).later();
+      datastore.store().instance(UserVote.newUpVote(votable, voter)).parent(voter).later();
 
       //record aggregate vote count on entity
       if (votable instanceof Entity) {
@@ -119,29 +114,21 @@ public class TwigUserDao extends TwigDao implements UserDao {
       ids.add(Votables.newKey(votable));
     }
 
-    final UserModel owner = map.fromEntity(user).to(UserModel.class);
-    datastore.associate(owner);
-    final Map<String, VoteModel> voteMap = datastore.load()
-        .type(VoteModel.class)
+    helper.associate(user);
+    final Map<String, UserVote> voteMap = datastore.load()
+        .type(UserVote.class)
         .ids(ids)
-        .parent(owner)
+        .parent(user)
         .now();
 
     //filter out nulls
-    final Iterable<VoteModel> votes = Iterables.filter(voteMap.values(), new Predicate<VoteModel>(){
-      public boolean apply(VoteModel voteModel) {
+    final Iterable<UserVote> votes = Iterables.filter(voteMap.values(), new Predicate<UserVote>(){
+      public boolean apply(UserVote voteModel) {
         return null != voteModel;
       }
     });
 
-    return Sets.newHashSet(Iterables.transform(votes, new Function<VoteModel, UserVote>(){
-      public UserVote apply(VoteModel voteModel) {
-        final UserVote uv = new UserVote();
-        uv.setKey(voteModel.id);
-        uv.setVoteWeight(voteModel.voteWeight);
-        return uv;
-      }
-    }));
+    return Sets.newHashSet(votes);
   }
 
 }

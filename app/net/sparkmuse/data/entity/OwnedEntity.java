@@ -1,7 +1,6 @@
 package net.sparkmuse.data.entity;
 
 import com.google.common.base.Function;
-import net.sparkmuse.data.mapper.Property;
 
 /**
  * Created by IntelliJ IDEA.
@@ -12,7 +11,7 @@ import net.sparkmuse.data.mapper.Property;
 public class OwnedEntity<T> extends Entity<T> {
 
   private UserVO author;
-  @Property("authorUserId") private Long authorUserId;
+  private Long authorUserId;
 
   public UserVO getAuthor() {
     return author;
