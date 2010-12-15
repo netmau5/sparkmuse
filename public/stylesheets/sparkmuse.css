@@ -369,11 +369,13 @@ a:active {
 .lightbox {
   border: 2px solid $LOGO_DARK_BLUE;
   cursor: pointer;
-  width: 100%;
+  max-width: 100%;
   margin-bottom: 1em;
 }
 
   .lightbox:hover { border: 2px solid $LOGO_ORANGE; }
+
+.lightbox-wrapper { text-align: center; }
 
 
 input, textarea {
