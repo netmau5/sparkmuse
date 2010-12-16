@@ -110,11 +110,12 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
     }
 
 
-      .comment blockquote .options {}
-      .comment blockquote .options h4 { display: inline; }
-      .comment blockquote .options a { float: right; }
       .comment blockquote textarea { width: 613px; height: 100px; }
 
+.control-bar { line-height: 24px; }
+  .control-bar .attachments { display: inline-block; }
+  .control-bar .attachments a { vertical-align: middle; }
+  .control-bar .controls { float: right; }
 
 #rss-link {
   text-indent: -9999px;

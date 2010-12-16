@@ -204,17 +204,25 @@ $(document).ready(function() {
 
 $(document).ready(function() {
   //tooltips
-  $("[title]").qtip({
-    style: {
-      classes: "ui-tooltip-sparkmuse"
-    },
-    position: {
-      my: "bottom center",
-      at: "top center",
-      target: 'mouse',
-      adjust: { y: -15 }
+  $("[title]").live("mouseenter", function() {
+    var e = $(this);
+    if(!e.data("qtip-init")) {
+      e.qtip({
+        style: {
+          classes: "ui-tooltip-sparkmuse"
+        },
+        position: {
+          my: "bottom center",
+          at: "top center",
+          target: 'mouse',
+          adjust: { y: -15 }
+        }
+      });
+      e.data("qtip-init", true);
+      e.trigger("mouseenter");
     }
   });
+
 
   //top button
   $(".top-arrow").click(function(){

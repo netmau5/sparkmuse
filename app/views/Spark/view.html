@@ -318,57 +318,47 @@
           </cite>
         </div>
         <blockquote>
-          <div class="options">
-            <a class="button leading-question" href="#" onclick="SM.Spark.newLeadingQuestion();">
-              <span>
-                <img src="@{'public/images/icons/silk/help.png'}" alt="Post"/>
-                Leading Question
-              </span>
-            </a>
-            <a class="button offer" href="#" onclick="SM.Spark.newOffer();">
-              <span>
-                <img src="@{'public/images/icons/silk/group.png'}" alt="Post"/>
-                Offer
-              </span>
-            </a>
-            <a class="button visual" href="#" onclick="SM.Spark.newVisual();">
-              <span>
-                <img src="@{'public/images/icons/silk/image.png'}" alt="Post"/>
-                Visual
-              </span>
-            </a>
-            <a class="button resource" href="#" onclick="SM.Spark.newResource();">
-              <span>
-                <img src="@{'public/images/icons/silk/link.png'}" alt="Post"/>
-                Resource
-              </span>
-            </a>
-            <h4></h4>
-            <div style="clear:right;"></div>
-          </div>
           <div class="leading-questions"></div>
           <div class="offers"></div>
+          <textarea name="reply"></textarea>
+          <div class="add-resources"></div>
           <div class="visuals"></div>
           <div class="resources"></div>
-          <div class="add-resources"></div>
-          <textarea name="reply"></textarea>
         </blockquote>
       </div>
     </form>
 
-    <div class="controls">
-      <a href="#" onclick="$(document.NewReply).submit();" class="button positive">
-        <span>
-          <img src="@{'public/images/icons/silk/accept.png'}" alt="Submit Reply" />
-          Submit
-        </span>
-      </a>
-      <a href="#" onclick="SM.Spark.cancelReply();" class="button negative">
-        <span>
-          <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel" />
-          Cancel
-        </span>
-      </a>
+    <div class="control-bar">
+      <div class="attachments">
+        <label class="minor">Add:</label>
+        <a class="icon-button leading-question" 
+            href="#"
+            onclick="SM.Spark.newLeadingQuestion();"
+            title="Ask a leading question, focus on a specific topic">
+          <img src="@{'public/images/icons/silk/help.png'}" />
+        </a><a class="icon-button offer" href="#" onclick="SM.Spark.newOffer();">
+          <img src="@{'public/images/icons/silk/group.png'}" title="Offer help"/>
+        </a><a class="icon-button visual" href="#" onclick="SM.Spark.newVisual();">
+          <img src="@{'public/images/icons/silk/image.png'}" title="Add a visual"/>
+        </a><a class="icon-button resource" href="#" onclick="SM.Spark.newResource();">
+          <img src="@{'public/images/icons/silk/link.png'}" title="Add a resource"/>
+        </a>
+      </div>
+      <div class="controls">
+        <a href="#" onclick="$(document.NewReply).submit();" class="button positive">
+          <span>
+            <img src="@{'public/images/icons/silk/accept.png'}" alt="Submit Reply" />
+            Submit
+          </span>
+        </a>
+        <a href="#" onclick="SM.Spark.cancelReply();" class="button negative">
+          <span>
+            <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel" />
+            Cancel
+          </span>
+        </a>
+      </div>
+      <div class="clearing"></div>
     </div>
 
   </div>

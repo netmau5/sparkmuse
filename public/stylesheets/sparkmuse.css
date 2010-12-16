@@ -343,10 +343,13 @@ hr {
 }
 
 label {
+  font-family: $FONT_FAMILY_CONTROLS;
   color: $LOGO_LIGHT_ORANGE;
   text-shadow: 0 1px 0 white;
   display: block;
 }
+
+  label.minor { color: #666; display: inline-block; font-weight: normal; }
 
 img { vertical-align: middle; }
 
@@ -952,60 +955,82 @@ div.ui-tooltip-sparkmuse .ui-tooltip-wrapper{
 
 /* BEGIN <POST-TYPES> */
 
-a.button.leading-question:hover,
-.comment div.leading-question { 
+a.icon-button.leading-question:hover {
   background-color:#dff4ff;
   border:1px solid #c2e1ef;
   color:#336699;
 }
 
-a.button.leading-question:active {
+a.icon-button.leading-question:active {
   text-decoration: none;
   background-color:#6299c5;
   border:1px solid #6299c5;
   color:#fff;
 }
 
-a.button.visual:hover,
-.comment div.visual {
-  background-color:#fdf5ce;
-  border:1px solid #fbcb09;
-  color:#c77405; 
+.comment div.leading-question {
+  background-color:#f0faff;
+  border:1px solid #dff4ff;
 }
 
-a.button.visual:active {
+//---
+
+a.icon-button.visual:hover {
+  background-color:#fdf5ce;
+  border:1px solid #fbcb09;
+  color:#c77405;
+}
+
+a.icon-button.visual:active {
   text-decoration: none;
   background-color:#c77405;
   border:1px solid #c77405;
   color:#fff;
 }
 
-a.button.offer:hover,
-.comment div.offer {
+.comment div.visual {
+  background-color:#fefcef;
+  border:1px solid #fdf5ce;
+}
+
+//---
+
+a.icon-button.offer:hover {
   background-color:#F5D9B5;
   border:1px solid #EB8500;
   color:#915200;
 }
 
-a.button.offer:active {
+a.icon-button.offer:active {
   text-decoration: none;
   background-color:#915200;
   border:1px solid #915200;
   color:#fff;
 }
 
-a.button.resource:hover,
-.comment div.resource {
+.comment div.offer {
+  background-color:#fdf8f1;
+  border:1px solid #F5D9B5;
+}
+
+//---
+
+a.icon-button.resource:hover {
   background-color:#e1e1e1;
   border:1px solid #bcbcbc;
   color:#222;
 }
 
-a.button.resource:active {
+a.icon-button.resource:active {
   text-decoration: none;
   background-color:#222;
   border:1px solid #222;
   color:#fff;
+}
+
+.comment div.resource {
+  background-color:#fafafa;
+  border:1px solid #e1e1e1;
 }
 
 /* END <POST-TYPES> */
@@ -1102,11 +1127,31 @@ ol.stages { padding: 0; margin-top: 5px; }
 /* END <STAGES> */
 
 /* BEGIN <BUTTONS> */
+a.icon-button {
+  margin: 0 0px 5px 0;
+  display: inline-block;
+  border: 1px solid transparent;
+  text-decoration: none;
+  letter-spacing: 1px;
+  font-size: 12px;
+  line-height:16px;
+  color:#565656;
+  padding: 3px;
+}
+
+  a.icon-button img {
+    padding:0;
+    border:none;
+    width:16px;
+    height:16px;
+    float:none;
+    vertical-align: baseline;
+  }
 
 a.button, button {
   display:block;
   float:left;
-  margin: 0.7em 0.5em 0.7em 0;
+  margin: 0 2px 5px 0;
 
   border:1px solid #dedede;
   border-top:1px solid #eee;
@@ -1116,7 +1161,7 @@ a.button, button {
   font-family: $FONT_FAMILY_CONTROLS;
   letter-spacing: 1px;
   font-size: 12px;
-  line-height:130%;
+  line-height: 16px;
   text-decoration:none;
   color:#565656;
   cursor:pointer;
@@ -1147,14 +1192,13 @@ button img, a.button img{
   vertical-align: baseline;
 }
 
-.controls {
+.control-bar {
   margin: 0 auto;
-  text-align: center;
-  padding: 0 15px;
+  padding: 5px 15px 0 15px;
   padding-bottom: 1em;
 }
 
-  .controls .button {
+  .control-bar .button {
     float: none;
     display: inline-block;
   }
