@@ -274,38 +274,6 @@
 
 </script>
 
-<script type="text/html" id="template-prompt-resource">
-  <div class="resource" id="{{id}}">
-    <h4>Add Resource?</h4>
-    <input type="checkbox" /> <em>{{url}}</em>
-  </div>
-</script>
-
-<script type="text/html" id="template-new-resource">
-  <div class="resource content">
-    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
-    <h4>New Resource</h4>
-    <label>Url</label><input type="text" value="{{url}}"/>
-    <label>Title</label><input type="text" value="{{title}}"/>
-    <label>Description</label><input type="text" value="{{description}}"/>
-  </div>
-</script>
-
-<script type="text/html" id="template-new-resource-loading">
-  <div class="resource" id="{{id}}">
-   <img src="@{'public/images/spinner.gif'}" />
-    <h4>New Resource</h4>
-  </div>
-</script>
-
-<script type="text/html" id="template-add-resource">
-  <div class="add-resource content">
-    <a href="#" onclick="SM.Spark.newResource('{{url}}'); SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/link.png'}" /></a>
-    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
-    {{url}}
-  </div>
-</script>
-
 <script type="text/html" id="template-reply">
 
   <div class="new-reply-wrapper" id="new-reply">
@@ -331,7 +299,7 @@
     <div class="control-bar">
       <div class="attachments">
         <label class="minor">Add:</label>
-        <a class="icon-button leading-question" 
+        <a class="icon-button leading-question"
             href="#"
             onclick="SM.Spark.newLeadingQuestion();"
             title="Ask a leading question, focus on a specific topic">
@@ -363,5 +331,37 @@
 
   </div>
 
+</script>
+
+<script type="text/html" id="template-prompt-resource">
+  <div class="resource" id="{{id}}">
+    <h4>Add Resource?</h4>
+    <input type="checkbox" /> <em>{{url}}</em>
+  </div>
+</script>
+
+<script type="text/html" id="template-new-resource">
+  <div class="resource content">
+    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    <h4>New Resource</h4>
+    <label>Url</label><input type="text" value="{{url}}"/>
+    <label>Title</label><input type="text" value="{{title}}"/>
+    <label>Description</label><input type="text" value="{{description}}"/>
+  </div>
+</script>
+
+<script type="text/html" id="template-new-resource-loading">
+  <div class="resource" id="{{id}}">
+   <img src="@{'public/images/spinner.gif'}" />
+    <h4>New Resource</h4>
+  </div>
+</script>
+
+<script type="text/html" id="template-add-resource">
+  <div class="add-resource content">
+    <a href="#" onclick="SM.Spark.newResource('{{url}}'); SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/link.png'}" /></a>
+    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    {{url}}
+  </div>
 </script>
 

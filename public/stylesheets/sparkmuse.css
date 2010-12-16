@@ -973,7 +973,6 @@ a.icon-button.leading-question:active {
   border:1px solid #dff4ff;
 }
 
-//---
 
 a.icon-button.visual:hover {
   background-color:#fdf5ce;
@@ -993,7 +992,6 @@ a.icon-button.visual:active {
   border:1px solid #fdf5ce;
 }
 
-//---
 
 a.icon-button.offer:hover {
   background-color:#F5D9B5;
@@ -1013,7 +1011,6 @@ a.icon-button.offer:active {
   border:1px solid #F5D9B5;
 }
 
-//---
 
 a.icon-button.resource:hover {
   background-color:#e1e1e1;
