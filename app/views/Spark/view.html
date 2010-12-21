@@ -146,7 +146,12 @@
 </div>
 </div>
 
+<script type="text/javascript" src="@{'public/javascripts/jquery/fileuploader.js'}">
+</script>
+
 <script type="text/javascript">
+
+  document.domain = "sparkmuse.com"; *{ circumvent same origin policy }*
 
   $(document).ready(function() {
     var urlRegex = /((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/,
@@ -222,11 +227,7 @@
         s._startReplyIfNotStarted();
 
         if (url) {
-          var id = SM.newId("new-resource-loading");
-          $("#new-reply .resources").append(Mustache.to_html(
-              $("#template-new-resource-loading").html(),
-              { id: id }
-          ));
+          var id = s._createLoadingView("#new-reply .resources", "resource");
           $.ajax({
             url: "@{Spark.lookupLinkMetadata()}",
             data: { url: url },
@@ -253,21 +254,74 @@
         ));
       },
 
-      newVisual: function() {
+      newVisual: function(uploadTarget) {
         s._startReplyIfNotStarted();
+        if (!uploadTarget) {
+          var id = s._createLoadingView("#new-reply .visuals", "visual");
+          $.ajax({
+            url: "@{Blob.createUploadTarget}",
+            context: s,
+            success: function(r) {
+              $("#" + id).remove();
+              this.newVisual(r);
+            }
+          });
+        }
+        else {
+          var id = SM.newId();
+          $("#new-reply .visuals").append(Mustache.to_html(
+              $("#template-new-visual-uploader").html(),
+              { id: id, uploadTarget: uploadTarget }
+          ));
+          $("#" + id + " iframe").load(function(){
+            $.ajax({
+              url: "@{Blob.lastUpload}",
+              context: s,
+              success: function(r) {
+                $("#" + id).remove();
+                $("#new-reply .visuals").append(Mustache.to_html(
+                    $("#template-new-visual").html(),
+                    { id: id, key: r }
+                ));
+              }
+            });
+          });
+        }
+      },
+
+      onVisualFormSubmit: function(id) {
+        $("#" + id + " form").hide();
+        $("#" + id).append('<img src="@{'public/images/spinner.gif'}" />');
+        return true;
       },
 
       _startReplyIfNotStarted: function() {
-        if (!s.replyMode) { s.newReply(); }
+        if (!s.replyMode) {
+          s.newReply();
+        }
       },
 
       deleteContent: function(el) {
         $(el).parents(".content").animate({
-          opacity: 0,
-          height: 0
-        },
-          function() { $(this).remove(); }
+            opacity: 0,
+            height: 0
+          },
+          function() {
+            $(this).remove();
+          }
         );
+      },
+
+      _createLoadingView: function(appendTo, cssClass) {
+        var id = SM.newId();
+        $(appendTo).append(Mustache.to_html(
+            $("#template-loading").html(),
+            {
+              id: id,
+              cssClass: cssClass || ""
+            }
+        ));
+        return id;
       }
     }
   });
@@ -333,13 +387,36 @@
 
 </script>
 
-<script type="text/html" id="template-prompt-resource">
-  <div class="resource" id="{{id}}">
-    <h4>Add Resource?</h4>
-    <input type="checkbox" /> <em>{{url}}</em>
+*{ loading view while we ask server for something }*
+<script type="text/html" id="template-loading">
+	<div class="{{cssClass}} content" id="{{id}}">
+		<img src="@{'public/images/spinner.gif'}" />
+	</div>
+</script>
+
+<script type="text/html" id="template-new-visual-uploader">
+  <div class="visual content" id="{{id}}">
+    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    <form action="{{uploadTarget}}"
+          method="POST"
+          enctype="multipart/form-data"
+          target="frame"
+          onsubmit="return SM.Spark.onVisualFormSubmit('{{id}}');">
+      <input type="file" name="file" />
+      <input type="submit" value="Submit" />
+    </form>
+    <iframe style="display: none;" name="frame"/>
   </div>
 </script>
 
+<script type="text/html" id="template-new-visual">
+  <div class="visual content" id="{{id}}">
+    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    <img src="http://a.sparkmuse.com/serve/{{key}}"
+  </div>
+</script>
+
+*{ new resource form }*
 <script type="text/html" id="template-new-resource">
   <div class="resource content">
     <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
@@ -350,13 +427,7 @@
   </div>
 </script>
 
-<script type="text/html" id="template-new-resource-loading">
-  <div class="resource" id="{{id}}">
-   <img src="@{'public/images/spinner.gif'}" />
-    <h4>New Resource</h4>
-  </div>
-</script>
-
+*{ displayed when user types in an url within a post, asks user if they want to show it as a resource }*
 <script type="text/html" id="template-add-resource">
   <div class="add-resource content">
     <a href="#" onclick="SM.Spark.newResource('{{url}}'); SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/link.png'}" /></a>

@@ -2,7 +2,6 @@ package controllers;
 
 import play.mvc.*;
 import play.Logger;
-import play.Play;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.common.ResponseCode;
 import net.sparkmuse.common.Constants;
@@ -11,7 +10,6 @@ import net.sparkmuse.user.UserFacade;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
-import com.google.common.base.Function;
 
 /**
  * Base controller class for all Sparkmuse Play Controllers.

@@ -206,7 +206,7 @@ $(document).ready(function() {
   //tooltips
   $("[title]").live("mouseenter", function() {
     var e = $(this);
-    if(!e.data("qtip-init")) {
+    if(!e.data("qtip-init") && typeof this.title === "string") {
       e.qtip({
         style: {
           classes: "ui-tooltip-sparkmuse"

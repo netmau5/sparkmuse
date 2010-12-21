@@ -3,6 +3,7 @@
 # ~~~~
 
 GET			    /				                          Landing.index
+GET         /favicon.ico                      Application.favicon
 
 GET         /login                            Authorization.authenticate
 GET         /authorize                        Authorization.authorize
