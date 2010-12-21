@@ -26,6 +26,7 @@ public class Blob extends SparkmuseController {
   }
 
   public static void handleUpload(String blobKey) {
+    //@todo in production this taking longer than the ajax request that is coming back to get it...
     cache.put(Authorization.getUserFromSessionOrAuthenticate(true).getId() + "|LastUpload", blobKey);
     renderText(""); //blank response
   }

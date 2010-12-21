@@ -19,6 +19,7 @@
     <BUTTONS>
     <TWITTER>
     <REPUTATION>
+    <FORMS>
 */
 $LOGO_LIGHT_YELLOW: #fdf9d2;
 $LOGO_YELLOW: #f5e21f;
@@ -1362,3 +1363,16 @@ a.twitter-login:active {
 
 
 /* END <REPUTATION> */
+
+/* BEGIN <FORMS> */
+
+div.field {
+  margin-bottom: 1em;
+}
+
+fieldset {
+  border: none;
+  padding: 0 15px;
+}
+
+/* END <FORMS> */

@@ -18,7 +18,7 @@ public class TwitterModule extends AbstractModule {
 
     if (Play.mode == Play.Mode.PROD) {
       bind(String.class).annotatedWith(Names.named(Constants.TWITTER_CALLBACK_URI))
-        .toInstance("http://sparkmuse-staging.appspot.com/authorize");
+        .toInstance("http://www.sparkmuse.com/authorize");
     }
 
   }

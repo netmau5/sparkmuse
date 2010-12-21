@@ -1,0 +1,29 @@
+#{extends 'outsider.template.html' /}
+
+<div class="page-canvas push-6 prepend-1 span-10 append-1">
+
+  #{set title: feedback.title + " Feedback" /}
+
+  <h2>${feedback.title} Feedback</h2>
+
+  ${feedback.displayContent.raw()}
+
+  <hr style="margin-bottom: 1em;"/>
+
+  <h3>About Sparkmuse</h3>
+
+  <p>
+    Sparkmuse is the beginning of a community in which I've always wanted to participate.
+    "That's a cool idea" has crossed my mind so many times that I've yearned for a place to discuss,
+    vet, and organize those thoughts. Over the years of reading Hacker News, there have often been
+    "Rate My Idea" posts and some who outright said they wish they had a more formal place to share
+    them. Sparkmuse will hopefully become that place but it can only succeed with ambitious founders like you.
+  </p>
+  <p>
+    <em>We are looking for new applications to add as our initial Sparks before we open the alpha. If you
+    would like to be one of our first <i>Sparks</I> please email me at <a href="mailto:dave@sparkmuse.com">dave@sparkmuse.com</a></em>.
+    I hope you will consider applying!
+  </p>
+
+  #{applyForInvitation /}
+</div>

@@ -34,4 +34,5 @@ public class AuthorizationFilter extends Controller {
     UserVO user = Authorization.getUserFromSession();
     return null == user ? AccessLevel.UNAUTHORIZED : user.getAccessLevel();
   }
+
 }

@@ -1,17 +1,34 @@
 package controllers;
 
+import com.google.code.twig.ObjectDatastore;
+import com.google.common.collect.Lists;
+
+import javax.inject.Inject;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.io.InputStream;
 import java.io.FileInputStream;
+import java.util.List;
+
+import net.sparkmuse.data.entity.Feedback;
+import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.util.AccessLevel;
+import org.apache.commons.lang.StringUtils;
 
 public class Application extends SparkmuseController {
+
+  @Inject
+  static ObjectDatastore datastore;
+
+  public static final void manageFeedback(String key) {
+
+  }
 
   public static void logout() {
     session.clear();
     Landing.index();
   }
-
+  
   //@todo create credits page
   public static void credits(){
     render();
@@ -22,7 +39,19 @@ public class Application extends SparkmuseController {
   }
 
   public static void feedback(String appName) {
-    render(appName);
+    if (appName.equals("Gift.io") || appName.equals("Digest.io") || appName.equals("TextMunch") || appName.equals("Invincibilitee")) {
+      render(appName);
+    }
+    else {
+      Feedback feedback = StringUtils.isEmpty(appName) ? null : datastore.load(Feedback.class, appName);
+      final UserVO user = Authorization.getUserFromSession();
+      if (!feedback.isPrivate() || (null != user && user.isAuthorizedFor(AccessLevel.DIETY))) {
+        renderTemplate("/Application/feedback2.html", feedback);
+      }
+      else {
+        Landing.index();
+      }
+    }
   }
 
   public static void favicon() throws FileNotFoundException {
