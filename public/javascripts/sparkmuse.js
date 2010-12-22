@@ -235,6 +235,8 @@ $(document).ready(function() {
   $(".lightbox").click(function(){
     $("#modal-lightbox").html("")
         .append($(this).clone().removeClass("lightbox"))
+        //@todo set the width and height here or something, the modal is loading offcenter the
+        //@todo first time, i think because of improper dimensions
         .modal({
           close: true
         });

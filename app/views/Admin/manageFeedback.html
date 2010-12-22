@@ -98,8 +98,8 @@
 
       <h4>Sites</h4>
 
-      #{list items: feedbacks, as: 'feedback'}
-        <a href="@{Admin.manageFeedback(feedback.key)}">${feedback.title}</a><br/>
+      #{list items: feedbacks, as: 'f'}
+        <a href="@{Admin.manageFeedback(f.key)}">${f.title}</a><br/>
       #{/list}
 
     </div>
