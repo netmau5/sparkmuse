@@ -45,6 +45,7 @@ public class Admin extends SparkmuseController {
     else {
       final Feedback f = Feedback.newInstance(key, title, content, displayContent, isPrivate, imageKeys);
       //@todo wtf storeorupdate!?
+      //@todo is association causing second updates to be unsaved?
       if (null == datastore.load(Feedback.class, key)) {
         datastore.store(f);
       }
