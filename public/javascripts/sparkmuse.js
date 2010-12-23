@@ -110,7 +110,7 @@ SM.newId = (function(){
     toArray: function(){return this.a;},
     add: function(val){
       var toReturn = this.clone();
-      toReturn.a[toReturn.length] = val;
+      toReturn.a[toReturn.length++] = val;
       return toReturn;
     },
     contains: function(val) {
@@ -123,13 +123,35 @@ SM.newId = (function(){
       var toReturn = this.clone();
       for (var i = this.a.length - 1; i >= 0; i--) {
         if (this.a[i] == val) {
-          toReturn.a.splice(i, 1); break;
+          toReturn.a.splice(i, 1);
+          toReturn.length--;
+          break;
         }
       }
       return toReturn;
     },
     clone: function(){
       return new Collection(this.a);
+    },
+    each: function(func){
+      var j = 0, i = this.length;
+      while (--i >= j) {
+        func.call(this, this.a[i]);
+      }
+    },
+    map: function(func) {
+      var toReturn = new Collection();
+      this.each(function(x) {
+        toReturn = toReturn.add(func.call(this, x));
+      });
+      return toReturn;
+    },
+    findAll: function(func){
+      var toReturn = new Collection();
+      this.each(function(x) {
+        if (func.call(this, x)) { toReturn = toReturn.add(x); }
+      });
+      return toReturn;
     },
     join: function(separator) { return this.a.join(separator || ""); }
   }

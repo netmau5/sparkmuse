@@ -48,9 +48,16 @@
         return "<div class='tweet'>" + tokens.join(" ") + "</div>"
       }
 
+      var tweets = $.collection(data).findAll(function(x){
+        return x && x.text;
+      })
+      .map(function(x){
+        return decorate(x.text);
+      });
+
       $("#latest-tweets").html(
           "<hr/>" +
-          [decorate(data[0].text), decorate(data[1].text), decorate(data[2].text)].join("<hr/>") +
+          tweets.toArray().join("<hr/>") +
           "<hr/>"
       );
     });
