@@ -85,30 +85,6 @@
           Post
         </span>
       </a>
-      <!--<a class="button leading-question" href="#" onclick="SM.Spark.newLeadingQuestion();">-->
-        <!--<span>-->
-          <!--<img src="@{'public/images/icons/silk/help.png'}" alt="Post"/>-->
-          <!--Leading Question-->
-        <!--</span>-->
-      <!--</a>-->
-      <!--<a class="button offer" href="#" onclick="SM.Spark.newOffer();">-->
-        <!--<span>-->
-          <!--<img src="@{'public/images/icons/silk/group.png'}" alt="Post"/>-->
-          <!--Offer-->
-        <!--</span>-->
-      <!--</a>-->
-      <!--<a class="button visual" href="#" onclick="SM.Spark.newVisual();">-->
-        <!--<span>-->
-          <!--<img src="@{'public/images/icons/silk/image.png'}" alt="Post"/>-->
-          <!--Visual-->
-        <!--</span>-->
-      <!--</a>-->
-      <!--<a class="button resource" href="#" onclick="SM.Spark.newResource();">-->
-        <!--<span>-->
-          <!--<img src="@{'public/images/icons/silk/link.png'}" alt="Post"/>-->
-          <!--Resource-->
-        <!--</span>-->
-      <!--</a>-->
       <h3>Discussion</h3>
     </div>
     </div>
@@ -146,9 +122,6 @@
 </div>
 </div>
 
-<script type="text/javascript" src="@{'public/javascripts/jquery/fileuploader.js'}">
-</script>
-
 <script type="text/javascript">
 
   document.domain = "sparkmuse.com"; *{ circumvent same origin policy }*
@@ -183,6 +156,8 @@
 
     var s = SM.Spark = {
 
+      converter: new Attacklab.showdown.converter(),
+
       replyMode: false,
 
       cancelReply: function() {
@@ -190,7 +165,7 @@
           s.replyMode = false;
 
           //clean up
-          $(document.NewReply).unbind();
+          $(document.Reply).unbind();
           $("#new-reply textarea").unbind();
 
           //remove
@@ -204,9 +179,18 @@
           $("#comments-container").prepend(Mustache.to_html($("#template-reply").html()));
           $("#new-reply textarea").keyup(resizeTextArea).keyup($.throttle(250, checkForLinks));
 
-          $(document.NewReply).formHandler(function(){
+          var reply = document.Reply;
+          $(reply).formHandler(function(){
             return {
-
+              "post.sparkId": "${spark.id}",
+              "post.content": reply.content.value,
+              "post.displayContent": s.converter.makeHtml(reply.content.value),
+              "post.visuals": $("#new-reply .visual").map(function() {
+                  return {
+                    blobKey: $(this).find(".visual-key").val(),
+                    title: $(this).find(".visual-title").val()
+                  }
+                }).get()
             }
           })
         }
@@ -339,7 +323,7 @@
 
   <div class="new-reply-wrapper" id="new-reply">
 
-    <form name="NewReply" method="POST" action="@{Spark.reply()}">
+    <form name="Reply" method="POST" action="@{Spark.reply()}">
       <div class="comment">
         <div class="author">
           <cite>
@@ -349,7 +333,7 @@
         <blockquote>
           <div class="leading-questions"></div>
           <div class="offers"></div>
-          <textarea name="reply"></textarea>
+          <textarea name="content"></textarea>
           <div class="add-resources"></div>
           <div class="visuals"></div>
           <div class="resources"></div>
@@ -374,7 +358,7 @@
         </a>
       </div>
       <div class="controls">
-        <a href="#" onclick="$(document.NewReply).submit();" class="button positive">
+        <a href="#" onclick="$(document.Reply).submit();" class="button positive">
           <span>
             <img src="@{'public/images/icons/silk/accept.png'}" alt="Submit Reply" />
             Submit
@@ -420,7 +404,8 @@
   <div class="visual content" id="{{id}}">
     <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
     <a href="http://a.sparkmuse.com/serve/{{key}}" target="_blank">View</a>
-    <input type="text" name="title" />                                                
+    <input type="text" class="visual-title" value="{{title}}" />
+    <input type="hidden" class="visual-key" value="{{key}}" />
   </div>
 </script>
 

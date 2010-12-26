@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import com.google.common.collect.*;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
-import net.sparkmuse.data.entity.PostVO;
+import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.PostDao;
 
@@ -25,31 +25,31 @@ public class TwigPostDao extends TwigDao implements PostDao {
     super(service);
   }
 
-  public Collection<PostVO> findPostsBySpark(final SparkVO spark) {
+  public Collection<Post> findPostsBySpark(final SparkVO spark) {
     return applyHierarchy(helper.all(
-        datastore.find().type(PostVO.class).addFilter("sparkId", EQUAL, spark.getId())
+        datastore.find().type(Post.class).addFilter("sparkId", EQUAL, spark.getId())
     ));
   }
 
 
-  private Collection<PostVO> applyHierarchy(final List<PostVO> posts) {
-    ImmutableMap<Long, PostVO> postById = Maps.uniqueIndex(posts, new Function<PostVO, Long>() {
-      public Long apply(PostVO post) {
+  private Collection<Post> applyHierarchy(final List<Post> posts) {
+    ImmutableMap<Long, Post> postById = Maps.uniqueIndex(posts, new Function<Post, Long>() {
+      public Long apply(Post post) {
         return post.getId();
       }
     });
 
     //append any post with an inReplyToId property as a reply to its parent
-    for (final PostVO post: posts) {
+    for (final Post post: posts) {
       if (null != post.getInReplyToId()) {
-        PostVO parent = postById.get(post.getInReplyToId());
-        parent.setReplies(ImmutableList.<PostVO>builder().addAll(parent.getReplies()).add(post).build());
+        Post parent = postById.get(post.getInReplyToId());
+        parent.setReplies(ImmutableList.<Post>builder().addAll(parent.getReplies()).add(post).build());
       }
     }
 
     //posts are traversed recursively (getReplies), remove any non-root posts from the returned list
-    return Lists.newArrayList(Iterables.filter(posts, new Predicate<PostVO>(){
-      public boolean apply(PostVO post) {
+    return Lists.newArrayList(Iterables.filter(posts, new Predicate<Post>(){
+      public boolean apply(Post post) {
         return null == post.getInReplyToId();
       }
     }));

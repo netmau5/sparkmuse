@@ -2,7 +2,7 @@ package net.sparkmuse.discussion;
 
 import net.sparkmuse.data.*;
 import net.sparkmuse.data.entity.SparkVO;
-import net.sparkmuse.data.entity.PostVO;
+import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.user.UserFacade;
@@ -68,7 +68,7 @@ public class SparkFacade {
   }
 
   public Posts findPostsFor(final SparkVO spark) {
-    Collection<PostVO> posts = postDao.findPostsBySpark(spark);
+    Collection<Post> posts = postDao.findPostsBySpark(spark);
     return new Posts(spark, VoteSorter.sortPosts(posts));
   }
 

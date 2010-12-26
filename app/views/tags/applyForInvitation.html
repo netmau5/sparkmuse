@@ -5,7 +5,7 @@
 </style>
 <div id="application">
   <h3>Apply for an Invitation</h3>
-  <form name="application-form" target="@{Authorization.applyForInvitation()}" method="POST">
+  <form name="application-form" action="@{Authorization.applyForInvitation()}" method="POST">
     <p>
       <label>Twitter Username</label>
       <input type="text" name="userName" value="@"/>

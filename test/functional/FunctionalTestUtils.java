@@ -30,7 +30,7 @@ public class FunctionalTestUtils {
     final ObjectDatastore datastore = TEST_INJECTOR.getInstance(ObjectDatastore.class);
     datastore.deleteAll(UserVote.class);
     datastore.deleteAll(UserVO.class);
-    datastore.deleteAll(PostVO.class);
+    datastore.deleteAll(Post.class);
     datastore.deleteAll(SparkVO.class);
     datastore.deleteAll(UserApplication.class);
   }

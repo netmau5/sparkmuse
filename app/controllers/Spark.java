@@ -15,6 +15,7 @@ import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.SparkSearchRequest;
 import net.sparkmuse.discussion.LinkMetadata;
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.user.Votables;
 import com.google.common.collect.Maps;
@@ -62,7 +63,7 @@ public class Spark extends SparkmuseController {
     renderJSON(LinkMetadata.lookup(url));
   }
 
-  public static void reply() {
+  public static void reply(@Valid Post post) {
     renderJSON(new AjaxResponse());
   }
   

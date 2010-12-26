@@ -22,14 +22,14 @@ SM.newId = (function(){
 
       form.submit(function(){
         form.trigger(SM.Events.Submit);
-        var params = formParameterBuilder.call(this);
+        var i, params = formParameterBuilder.call(this);
         //dont send params that are falsey, ie empty string
-        for (var i in params) {
+        for (i in params) {
           if (params.hasOwnProperty(i) && !params[i]) { delete params[i]; }
         }
         var parms = {
-          url: form.attr("target"),
-          data: params,
+          url: form.attr("action"),
+          data: FormHandler.playcate(params),
           type: form.attr("method"),
           success: FormHandler.responseHandler,
           error: FormHandler.handleSystemErrorResponse,
@@ -40,6 +40,41 @@ SM.newId = (function(){
 
         return false;
       });
+    },
+
+    //Map properties to Play-style request args
+    playcate: function(params) {
+      var k, r = {};
+      for (k in params) {
+        if (params.hasOwnProperty(k)) {
+          $.extend(r, FormHandler.playcatify(k, params[k]));
+        }
+      }
+      return r;
+    },
+
+    playcatify: function(k, v) {
+      var r = {};
+      if ($.isArray(v)) {
+        var i;
+        for (i = 0; i < v.length; i++) {
+          $.extend(r, FormHandler.playcatify(k + "[" + i + "]", v[i]));
+        }
+        return r;
+      }
+      else if ($.isPlainObject(v)) {
+        var kv;
+        for (kv in v) {
+          if (v.hasOwnProperty(kv)) {
+            $.extend(r, FormHandler.playcatify(k + "." + kv, v[kv]));
+          }
+        }
+        return r;
+      }
+      else {
+        r[k] = v;
+        return r;
+      }
     },
 
     responseHandler: function(response) {

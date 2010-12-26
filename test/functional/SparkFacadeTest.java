@@ -1,7 +1,7 @@
 package functional;
 
 import net.sparkmuse.discussion.SparkFacade;
-import net.sparkmuse.data.entity.PostVO;
+import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.discussion.Posts;
@@ -46,25 +46,25 @@ public class SparkFacadeTest extends PluginFunctionalTest {
     datastore.store(sparkModel);
     sparkId = sparkModel.getId();
 
-    PostVO p1 = new PostVO();
+    Post p1 = new Post();
     p1.setCreated(new DateTime());
-    p1.setPostContent("p1");
+    p1.setContent("p1");
     p1.setSparkId(sparkId);
     p1.setVotes(3);
     datastore.store(p1);
     post1Id = p1.getId();
 
-    PostVO p2 = new PostVO();
+    Post p2 = new Post();
     p2.setCreated(new DateTime());
-    p2.setPostContent("p2");
+    p2.setContent("p2");
     p2.setSparkId(sparkId);
     p2.setVotes(6);
     datastore.store(p2);
     post2Id = p2.getId();
 
-    PostVO p3 = new PostVO();
+    Post p3 = new Post();
     p3.setCreated(new DateTime());
-    p3.setPostContent("p3");
+    p3.setContent("p3");
     p3.setSparkId(sparkId);
     p3.setVotes(6);
     p3.setInReplyToId(p2.getId());
@@ -89,13 +89,13 @@ public class SparkFacadeTest extends PluginFunctionalTest {
     assertTrue(posts.countRootPosts() == 2);
     assertTrue(posts.countTotalPosts() == 3);
 
-    PostVO p1 = Iterables.find(posts.getPosts(), new Predicate<PostVO>(){
-      public boolean apply(PostVO post) {
+    Post p1 = Iterables.find(posts.getPosts(), new Predicate<Post>(){
+      public boolean apply(Post post) {
         return post.getId().equals(post1Id);
       }
     });
-    PostVO p2 = Iterables.find(posts.getPosts(), new Predicate<PostVO>(){
-      public boolean apply(PostVO post) {
+    Post p2 = Iterables.find(posts.getPosts(), new Predicate<Post>(){
+      public boolean apply(Post post) {
         return post.getId().equals(post2Id);
       }
     });

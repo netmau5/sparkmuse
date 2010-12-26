@@ -1,6 +1,6 @@
 package net.sparkmuse.discussion;
 
-import net.sparkmuse.data.entity.PostVO;
+import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.user.Votable;
 
 import java.util.List;
@@ -21,12 +21,12 @@ public class VoteSorter {
 
   private static final VoteComparator voteOrdering = new VoteComparator();
 
-  public static List<PostVO> sortPosts(Collection<PostVO> posts) {
+  public static List<Post> sortPosts(Collection<Post> posts) {
     return sortReplies(Lists.newArrayList(voteOrdering.sortedCopy(posts)));
   }
 
-  private static List<PostVO> sortReplies(List<PostVO> posts) {
-    for (final PostVO post: posts) {
+  private static List<Post> sortReplies(List<Post> posts) {
+    for (final Post post: posts) {
       post.setReplies(ImmutableList.copyOf(voteOrdering.sortedCopy(post.getReplies())));
       sortReplies(post.getReplies());
     }

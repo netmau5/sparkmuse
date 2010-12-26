@@ -11,7 +11,7 @@
   <div class="content-inner">
   <div class="content-container">
 
-    <form name="Feedback" target="@{Admin.saveFeedback()}" method="POST">
+    <form name="Feedback" action="@{Admin.saveFeedback()}" method="POST">
 
     <div>
 
@@ -126,9 +126,6 @@
   </li>
 </script>
 
-
-<script type="text/javascript" src="@{'public/javascripts/markdown/showdown.js'}"></script>
-
 <script type="text/javascript">
 
   $(document).ready(function() {
@@ -172,32 +169,6 @@
   document.domain = "sparkmuse.com"; *{ circumvent same origin policy }*
 
   $(document).ready(function() {
-    var urlRegex = /((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/,
-        addResourcesCache = {};
-
-
-    function resizeTextArea() {
-      var ta = $(this);
-      if (ta.scrollTop() > 0) {
-        ta.height(ta.height() + 20);
-      }
-    }
-
-    function checkForLinks() {
-      var i, token, tokens = this.value.replace(/\s+/g, " ").split(" ");
-      for (i in tokens) {
-        if (i != tokens.length - 1) {
-          token = tokens[i];
-          if (urlRegex.test(token) && !addResourcesCache[token]) {
-            addResourcesCache[token] = true;
-            $("#new-reply .add-resources").append(Mustache.to_html(
-                $("#template-add-resource").html(),
-                { url: token }
-            ));
-          }
-        }
-      }
-    }
 
     var s = SM.Spark = {
 
