@@ -3,8 +3,9 @@ package controllers;
 import play.mvc.Router;
 import play.mvc.With;
 import filters.AuthorizationFilter;
-import net.sparkmuse.common.UrlFetch;
 import net.sparkmuse.common.Cache;
+import net.sparkmuse.data.BlobService;
+import net.sparkmuse.data.entity.UserVO;
 
 import javax.inject.Inject;
 
@@ -17,28 +18,28 @@ import javax.inject.Inject;
 @With(AuthorizationFilter.class)
 public class Blob extends SparkmuseController {
 
-  public static final String BLOB_SERVER = "http://a.sparkmuse.com";
-
+  @Inject static BlobService blobService;
   @Inject static Cache cache;
 
   public static void createUploadTarget() {
-    renderText(uploadTarget());
+    final Router.ActionDefinition definition = Router.reverse("Blob.handleUpload");
+    definition.absolute();
+    renderJSON(blobService.createUploadTarget(definition.url));
   }
 
-  public static void handleUpload(String blobKey) {
-    //@todo in production this taking longer than the ajax request that is coming back to get it...
-    cache.put(Authorization.getUserFromSessionOrAuthenticate(true).getId() + "|LastUpload", blobKey);
+  public static void handleUpload(String blobKey, String uuid) {
+    final UserVO user = Authorization.getUserFromSessionOrAuthenticate(true);
+    cache.put(user.getId() + "|" + uuid, blobKey);
+    blobService.recordUpload(user, blobKey);
     renderText(""); //blank response
   }
 
-  public static void lastUpload() {
-    renderText(cache.get(Authorization.getUserFromSessionOrAuthenticate(true).getId() + "|LastUpload"));
-  }
-
-  private static String uploadTarget() {
-    final Router.ActionDefinition definition = Router.reverse("Blob.handleUpload");
-    definition.absolute();
-    return UrlFetch.asText(BLOB_SERVER + "/createUploadTarget?uploadHandler=" + definition.url);
+  public static void lastUpload(String uuid) {
+    Object key = cache.get(Authorization.getUserFromSessionOrAuthenticate(true).getId() + "|" + uuid);
+    if (null == key) {
+      response.status = 404; //not found
+    }
+    renderJSON(key);
   }
 
 }

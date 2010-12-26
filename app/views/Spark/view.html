@@ -271,11 +271,12 @@
           var id = SM.newId();
           $("#new-reply .visuals").append(Mustache.to_html(
               $("#template-new-visual-uploader").html(),
-              { id: id, uploadTarget: uploadTarget }
+              { id: id, uploadTarget: uploadTarget.url }
           ));
-          $("#" + id + " iframe").load(function(){
+          var showVisual = function(){
             $.ajax({
               url: "@{Blob.lastUpload}",
+              data: {uuid: uploadTarget.uuid},
               context: s,
               success: function(r) {
                 $("#" + id).remove();
@@ -283,9 +284,15 @@
                     $("#template-new-visual").html(),
                     { id: id, key: r }
                 ));
+              },
+              error: function(r, status) {
+                if (status === "404") {
+                  showVisual();
+                }
               }
             });
-          });
+          }
+          $("#" + id + " iframe").load(showVisual);
         }
       },
 
@@ -412,7 +419,8 @@
 <script type="text/html" id="template-new-visual">
   <div class="visual content" id="{{id}}">
     <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
-    <img src="http://a.sparkmuse.com/serve/{{key}}"
+    <a href="http://a.sparkmuse.com/serve/{{key}}" target="_blank">View</a>
+    <input type="text" name="title" />                                                
   </div>
 </script>
 

@@ -2,6 +2,7 @@ package controllers;
 
 import com.google.code.twig.ObjectDatastore;
 import com.google.common.collect.Lists;
+import com.google.inject.name.Named;
 
 import javax.inject.Inject;
 import java.io.FileNotFoundException;
@@ -13,12 +14,15 @@ import java.util.List;
 import net.sparkmuse.data.entity.Feedback;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.util.AccessLevel;
+import net.sparkmuse.data.BlobService;
+import net.sparkmuse.common.Constants;
 import org.apache.commons.lang.StringUtils;
 
 public class Application extends SparkmuseController {
 
-  @Inject
-  static ObjectDatastore datastore;
+  @Inject static ObjectDatastore datastore;
+
+  @Inject static BlobService blobService;
 
   public static final void manageFeedback(String key) {
 
@@ -65,7 +69,7 @@ public class Application extends SparkmuseController {
 
 
   public static void get(String blobKey) {
-    redirect(Blob.BLOB_SERVER + "/serve/" + blobKey);
+    redirect(blobService.createServeUrl(blobKey));
   }
 
 }
