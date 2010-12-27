@@ -60,6 +60,8 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
 
   .comment {}
 
+  .comment .replies { margin-left: 1em; padding-left: 1em; border-left: 2px solid #f1f1f1; }
+
     .comment .author {
       position: relative;
       bottom: -1px;
@@ -89,13 +91,11 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
         float: right;
       }
 
-    .comment .button span {
-      padding: 4px 10px 4px 6px;
-    }
 
     .comment blockquote {
       border: 1px solid #c9c2c1;
-      padding: 0.8em;
+      padding: 0.5em 0.8em;
+      margin-bottom: 1em; 
       background-color: white;
 
       -moz-border-radius: 5px;
@@ -111,6 +111,8 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
 
 
       .comment blockquote textarea { width: 613px; height: 100px; }
+
+  #new-reply .comment blockquote { margin-bottom: 0; }
 
 .control-bar { line-height: 24px; }
   .control-bar .attachments { display: inline-block; }

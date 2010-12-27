@@ -155,10 +155,18 @@
         }
       },
 
-      newReply: function() {
+      newReply: function(inReplyToId) {
         if (!s.replyMode) {
           s.replyMode = true;
-          $("#comments-container").prepend(Mustache.to_html($("#template-reply").html()));
+
+          var replyForm = Mustache.to_html($("#template-reply").html());
+          if (!inReplyToId) {
+            $("#comments-container").prepend(replyForm);
+          }
+          else {
+            $(".comment[post=" + inReplyToId + "] > .replies").append(replyForm);
+          }
+
           $("#new-reply textarea").keyup(resizeTextArea).keyup($.throttle(250, checkForLinks));
 
           var reply = document.Reply;
@@ -173,10 +181,16 @@
                   title: $(this).find(".visual-title").val()
                 }
               }).get(),
+              "post.inReplyToId": inReplyToId,
               _success: function(r) {
                 s.endReply();
                 if (r.fragment) {
-                  $("#comments-container").prepend(r.fragment);
+                  if (inReplyToId) {
+                    $(".comment[post=" + inReplyToId + "] > .replies").append(r.fragment);
+                  }
+                  else {
+                    $("#comments-container").prepend(r.fragment);
+                  }
                 }
               }
             }

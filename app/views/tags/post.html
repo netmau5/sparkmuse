@@ -2,14 +2,8 @@
     parameters:
       post: Post object
 }*
-<div class="comment">
+<div class="comment" post="${_post.id}">
   <div class="author">
-    <a class="button positive" href="post.html#">
-      <span>
-        <img src="@{'public/images/icons/silk/comment_add.png'}" alt="Reply"/>
-        Reply
-      </span>
-    </a>
     <a href="post.html#upvote" class="likes likes-small" title="32 likes"></a>  <!-- active class for voted -->
     <cite>
       #{nameTag user: _post.author /} *{ todo use real poster's user }*
@@ -17,5 +11,21 @@
   </div>
   <blockquote>
     ${_post.displayContent?.raw()}
+    <div class="post-actions alt">
+      %{ if (!_post.inReplyToId) { }%
+        <a class="icon-button positive"
+            href="#"
+            onclick="SM.Spark.newReply('${_post.id}');"
+            title="Reply to this post.">
+          <img src="@{'public/images/icons/silk/comment_add.png'}" />
+        </a>
+      %{ } }%
+      <label class="minor">Posted ${_post.created.format()}</label>
+    </div>
   </blockquote>
+  <div class="replies">
+    #{list items: _post.replies, as: "reply"}
+      #{post post: reply /}
+    #{/list}
+  </div>
 </div>
