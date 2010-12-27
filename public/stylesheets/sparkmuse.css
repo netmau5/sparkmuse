@@ -696,7 +696,7 @@ a.top-arrow {
 }
 
 
-.spark .tags {
+.tags {
 	font-family: $FONT_FAMILY_CONTROLS;
 	font-size: 11px;
 	line-height: 14px;

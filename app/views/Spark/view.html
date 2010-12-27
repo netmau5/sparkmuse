@@ -8,13 +8,11 @@
   <a href="" id="rss-link" title="Subscribe">Subscribe</a>
   <h2>
     #{likeButton votable: spark, userVotes: userVotes, size: "big" /}
-    Sparkmuse, an Application Idea Community
+    ${spark.title}
   </h2>
 
   <p>
-    <em>Last updated July 12, 2010 -</em> I want to create a community where techies can throw out their ideas and get quality
-      feedback from a diverse community, find potential cofounders, brainstorm new directions,
-      and track their progress.
+    <em>Last updated ${spark.created.format()} -</em> ${spark.solution.abbreviate(200)}
   </p>
 
 </div>
@@ -41,7 +39,7 @@
     </div>
 
     <div class="blurb tags">
-    <div class="blurb-inner">
+    <div class="blurb-inner tags">
       #{list items: spark.tags, as: 'tag'}<span class="tag">${tag}</span>#{/list}
       <div class="clear"></div>
     </div>
