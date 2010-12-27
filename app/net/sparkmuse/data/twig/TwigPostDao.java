@@ -43,7 +43,9 @@ public class TwigPostDao extends TwigDao implements PostDao {
     for (final Post post: posts) {
       if (null != post.getInReplyToId()) {
         Post parent = postById.get(post.getInReplyToId());
-        parent.setReplies(ImmutableList.<Post>builder().addAll(parent.getReplies()).add(post).build());
+        if (!parent.getReplies().contains(post)) {
+          parent.setReplies(ImmutableList.<Post>builder().addAll(parent.getReplies()).add(post).build());
+        }
       }
     }
 

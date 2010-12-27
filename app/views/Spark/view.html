@@ -165,6 +165,7 @@
             $(".comment[post=" + inReplyToId + "] > .replies").append(replyForm);
           }
 
+          $(document.body).animate({scrollTop: $("#new-reply").offset().top}, "fast");
           $("#new-reply textarea").keyup(resizeTextArea).keyup($.throttle(250, checkForLinks));
 
           var reply = document.Reply;

@@ -5,6 +5,7 @@ import org.joda.time.DateTime;
 import com.google.common.collect.ImmutableList;
 import com.google.appengine.api.datastore.Text;
 import com.google.code.twig.annotation.Type;
+import com.google.code.twig.annotation.Store;
 
 import java.util.List;
 
@@ -18,8 +19,7 @@ import play.data.validation.Required;
  */
 public class Post extends OwnedEntity<Post> implements Votable {
 
-  //@todo make sure replies isnt persisted
-  private ImmutableList<Post> replies;
+  @Store(false) private ImmutableList<Post> replies;
   private Long inReplyToId;
 
   @Required

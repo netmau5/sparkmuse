@@ -92,6 +92,11 @@ public class SparkFacade {
     Preconditions.checkArgument(null == post.getId());
     final Post newPost = postDao.store(post);
 
+    //modify post count
+    final SparkVO spark = findSparkBy(post.getSparkId());
+    spark.setPostCount(spark.getPostCount() + 1);
+    sparkDao.store(spark);
+
     //author implicitly votes for post; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newPost, newPost.getAuthor().getId());
 
