@@ -24,10 +24,6 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
     return helper.load(SparkVO.class, id);
   }
 
-  public SparkVO create(final SparkVO spark) {
-    return helper.store(spark);
-  }
-
   public List<SparkVO> loadPopular() {
     return helper.all(datastore.find()
         .type(SparkVO.class)

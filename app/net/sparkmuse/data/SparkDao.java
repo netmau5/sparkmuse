@@ -12,9 +12,8 @@ import com.google.common.base.Function;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public interface SparkDao {
+public interface SparkDao extends CrudDao {
   SparkVO findById(Long id);
-  SparkVO create(SparkVO spark);
   List<SparkVO> loadPopular();
   List<SparkVO> loadRecent();
   List<SparkVO> loadMostDiscussed();

@@ -16,10 +16,8 @@ public class TwitterModule extends AbstractModule {
   protected void configure() {
     bind(UserFacade.class);
 
-    if (Play.mode == Play.Mode.PROD) {
-      bind(String.class).annotatedWith(Names.named(Constants.TWITTER_CALLBACK_URI))
-        .toInstance("http://www.sparkmuse.com/authorize");
-    }
-
+    final String domain = Play.configuration.getProperty("domain");
+    bind(String.class).annotatedWith(Names.named(Constants.TWITTER_CALLBACK_URI))
+      .toInstance("http://" + domain + "/authorize");
   }
 }

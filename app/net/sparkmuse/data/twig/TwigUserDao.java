@@ -34,8 +34,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
   public UserVO findOrCreateUserBy(final String authProviderUserId, final String userName) {
     final UserVO userVO = helper.only(datastore.find()
         .type(UserVO.class)
-        .addFilter("userId", EQUAL, authProviderUserId)
-        .addFilter("userName", EQUAL, userName));
+        .addFilter("authProviderUserId", EQUAL, authProviderUserId));
 
     if (null == userVO) {
       UserVO newUser = UserVO.newUser(authProviderUserId, userName);
@@ -73,7 +72,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
    * @param voter
    */
   public void vote(Votable votable, UserVO voter) {
-    datastore.associate(voter);
+    helper.associate(voter);
 
     final UserVote voteModel = datastore.load()
         .type(UserVote.class)

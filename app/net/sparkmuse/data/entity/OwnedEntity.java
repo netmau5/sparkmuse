@@ -11,7 +11,7 @@ import com.google.common.base.Function;
 public class OwnedEntity<T> extends Entity<T> {
 
   private UserVO author;
-  private Long authorUserId;
+  private Long authorUserId; //@todo is this needed, maybe for direct query?
 
   public UserVO getAuthor() {
     return author;

@@ -50,7 +50,7 @@ public class Admin extends SparkmuseController {
         datastore.store(f);
       }
       else {
-        datastore.associate(f);
+        datastore.associate(f); //@todo only associate if key not on store (see datstoreservice.associate)
         datastore.update(f);
       }
       final HashMap<String, Object> parameters = Maps.newHashMap();

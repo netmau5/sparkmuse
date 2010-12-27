@@ -11,6 +11,6 @@ import java.util.Collection;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public interface PostDao {
+public interface PostDao extends CrudDao {
   Collection<Post> findPostsBySpark(SparkVO spark);
 }

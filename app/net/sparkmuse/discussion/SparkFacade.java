@@ -79,13 +79,23 @@ public class SparkFacade {
 
   public SparkVO createSpark(final SparkVO spark) {
     Preconditions.checkArgument(null == spark.getId());
-    final SparkVO newSparkVO = sparkDao.create(spark);
+    final SparkVO newSparkVO = sparkDao.store(spark);
     cache.put(newSparkVO);
 
     //author implicitly votes for spark; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newSparkVO, newSparkVO.getAuthor().getId());
 
     return newSparkVO;
+  }
+
+  public Post createPost(final Post post) {
+    Preconditions.checkArgument(null == post.getId());
+    final Post newPost = postDao.store(post);
+
+    //author implicitly votes for post; thus, they will not be able to vote for it again
+    userFacade.recordUpVote(newPost, newPost.getAuthor().getId());
+
+    return post;
   }
 
 }

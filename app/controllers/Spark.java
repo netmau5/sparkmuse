@@ -12,7 +12,6 @@ import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.discussion.SparkFacade;
-import net.sparkmuse.discussion.SparkSearchRequest;
 import net.sparkmuse.discussion.LinkMetadata;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
@@ -64,6 +63,8 @@ public class Spark extends SparkmuseController {
   }
 
   public static void reply(@Valid Post post) {
+    post.setAuthor(Authorization.getUserFromSessionOrAuthenticate(true));
+    sparkFacade.createPost(post);     
     renderJSON(new AjaxResponse());
   }
   

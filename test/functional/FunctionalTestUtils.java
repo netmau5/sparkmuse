@@ -3,9 +3,7 @@ package functional;
 import com.google.inject.Injector;
 import com.google.inject.Guice;
 import com.google.code.twig.ObjectDatastore;
-import guice.DataModule;
-import guice.TaskModule;
-import guice.LocalTwitterModule;
+import guice.*;
 
 import net.sparkmuse.data.entity.*;
 
@@ -21,7 +19,7 @@ public class FunctionalTestUtils {
 
   public static <T> T getInstance(Class<T> clazz) {
     if (null == TEST_INJECTOR) {
-      TEST_INJECTOR = Guice.createInjector(new DataModule(), new TaskModule(), new LocalTwitterModule());
+      TEST_INJECTOR = Guice.createInjector(new DataModule(), new BlobModule(), new TaskModule(), new TwitterModule());
     }
     return TEST_INJECTOR.getInstance(clazz);
   }
