@@ -18,6 +18,7 @@ import play.data.validation.Required;
  */
 public class Post extends OwnedEntity<Post> implements Votable {
 
+  //@todo make sure replies isnt persisted
   private ImmutableList<Post> replies;
   private Long inReplyToId;
 

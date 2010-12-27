@@ -22,19 +22,28 @@ SM.newId = (function(){
 
       form.submit(function(){
         form.trigger(SM.Events.Submit);
-        var i, params = formParameterBuilder.call(this);
+        var i, params = formParameterBuilder.call(this),
+            context = params._context ? $(params._context) : form,
+            customSuccessHandler = params._success,
+            onSuccess = !customSuccessHandler ? FormHandler.responseHandler : function(r) {
+                customSuccessHandler.call(context, r);
+                FormHandler.handleSuccessResponse.call(context, this)
+              };
+
         //dont send params that are falsey, ie empty string
+        //dont send reserved property names (ie, those starting with _)
         for (i in params) {
-          if (params.hasOwnProperty(i) && !params[i]) { delete params[i]; }
+          if (params.hasOwnProperty(i) && (!params[i] || i.indexOf("_") === 0)) { delete params[i]; }
         }
+
         var parms = {
           url: form.attr("action"),
           data: FormHandler.playcate(params),
           type: form.attr("method"),
-          success: FormHandler.responseHandler,
+          success: onSuccess,
           error: FormHandler.handleSystemErrorResponse,
           dataType: "json",
-          context: form
+          context: context
         };
         $.ajax(parms);
 
@@ -88,6 +97,8 @@ SM.newId = (function(){
         case "VALIDATION_ERROR": return FormHandler.handleValidationErrorResponse;
         case "SYSTEM_ERROR": return FormHandler.handleSystemErrorResponse;
         case "REDIRECT": return FormHandler.handleRedirectResponse;
+        //a _success property should be defined to augment default success handler for fragments
+        case "FRAGMENT": return FormHandler.handleSuccessResponse;
         default: throw "Unknown response type.";
       }
     },
@@ -121,6 +132,13 @@ SM.newId = (function(){
 
     handleRedirectResponse: function(response) {
       window.location = response.targetUrl;
+      $.modal.close();
+    },
+
+    handleFragmentResponse: function(response) {
+      if (response.fragment) {
+        this.appemd
+      }
       $.modal.close();
     }
   }

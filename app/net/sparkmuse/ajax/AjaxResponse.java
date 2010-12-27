@@ -34,6 +34,7 @@ public class AjaxResponse {
     SUCCESS,
     VALIDATION_ERROR,
     SYSTEM_ERROR,
-    REDIRECT;
+    REDIRECT,
+    FRAGMENT
   }
 }

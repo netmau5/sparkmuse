@@ -91,25 +91,9 @@
 
     <div id="comments-container">
 
-      <div class="comment">
-        <div class="author">
-          <a class="button positive" href="#">
-            <span>
-              <img src="@{'public/images/icons/silk/comment_add.png'}" alt="Reply"/>
-              Reply
-            </span>
-          </a>
-          <a href="#upvote" class="likes likes-small" title="32 likes"></a>  <!-- active class for voted -->
-          <cite>
-            #{nameTag user:currentUser /} *{ todo use real poster's user }*
-          </cite>
-        </div>
-        <blockquote>
-          I think this is a promising concept.  I know that I'd be interested in such a community and
-          I suspect many investors may be too.  The only question I have is whether others would want
-          to come back to contribute beyond the discussion of their own ideas. kek
-        </blockquote>
-      </div>
+      #{list items: posts.posts, as: "post"}
+        #{post post: post /}
+      #{/list}
 
     </div>
 
@@ -123,8 +107,6 @@
 </div>
 
 <script type="text/javascript">
-
-  document.domain = "sparkmuse.com"; *{ circumvent same origin policy }*
 
   $(document).ready(function() {
     var urlRegex = /((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/,
@@ -160,7 +142,7 @@
 
       replyMode: false,
 
-      cancelReply: function() {
+      endReply: function() {
         if (s.replyMode) {
           s.replyMode = false;
 
@@ -186,11 +168,17 @@
               "post.content": reply.content.value,
               "post.displayContent": s.converter.makeHtml(reply.content.value),
               "post.visuals": $("#new-reply .visual").map(function() {
-                  return {
-                    blobKey: $(this).find(".visual-key").val(),
-                    title: $(this).find(".visual-title").val()
-                  }
-                }).get()
+                return {
+                  blobKey: $(this).find(".visual-key").val(),
+                  title: $(this).find(".visual-title").val()
+                }
+              }).get(),
+              _success: function(r) {
+                s.endReply();
+                if (r.fragment) {
+                  $("#comments-container").prepend(r.fragment);
+                }
+              }
             }
           })
         }
@@ -364,7 +352,7 @@
             Submit
           </span>
         </a>
-        <a href="#" onclick="SM.Spark.cancelReply();" class="button negative">
+        <a href="#" onclick="SM.Spark.endReply();" class="button negative">
           <span>
             <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel" />
             Cancel

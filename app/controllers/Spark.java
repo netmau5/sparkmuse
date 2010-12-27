@@ -5,19 +5,23 @@ import play.mvc.With;
 import play.data.validation.Required;
 import play.data.validation.Validation;
 import play.data.validation.Valid;
+import play.templates.Template;
+import play.templates.TemplateLoader;
 
 import java.util.HashMap;
 
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
-import net.sparkmuse.ajax.AjaxResponse;
+import net.sparkmuse.ajax.FragmentAjaxResponse;
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.LinkMetadata;
+import net.sparkmuse.discussion.Posts;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.user.Votables;
 import com.google.common.collect.Maps;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -55,7 +59,8 @@ public class Spark extends SparkmuseController {
     if (null == sparkId) Home.index();
     final SparkVO spark = sparkFacade.findSparkBy(sparkId);
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(spark), Authorization.getUserFromSession());
-    render(spark, userVotes);
+    final Posts posts = sparkFacade.findPostsFor(spark);
+    render(spark, posts, userVotes);
   }
 
   public static void lookupLinkMetadata(String url) {
@@ -64,8 +69,14 @@ public class Spark extends SparkmuseController {
 
   public static void reply(@Valid Post post) {
     post.setAuthor(Authorization.getUserFromSessionOrAuthenticate(true));
-    sparkFacade.createPost(post);     
-    renderJSON(new AjaxResponse());
+    sparkFacade.createPost(post);
+
+    final Template template = TemplateLoader.load("tags/post.html");
+    final Map<String, Object> args = Maps.newHashMap();
+    args.put("_post", post);
+    final String content = template.render(args);
+
+    renderJSON(new FragmentAjaxResponse(content));
   }
   
 }
