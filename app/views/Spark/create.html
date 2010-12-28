@@ -18,7 +18,7 @@
 <div class="page-canvas prepend-1 span-22 append-1">
 
   <h2>
-    Create Spark
+    ${isEditMode ? "Edit" : "Create"} Spark
   </h2>
 
   <div class="span-13 content-wrapper">
@@ -35,7 +35,7 @@
         <div class="field">
           <label>Title</label>
           <div class="error-message" parameter="newSpark.title"></div>
-          <input type="text" name="title" value="" maxlength="100" />
+          <input type="text" name="title" value="${spark?.title}" maxlength="100" />
          </div>
       </fieldset>
 
@@ -46,12 +46,12 @@
           <label>Stage</label>
           <div class="error-message" parameter="newSpark.stage"></div>
           <ol class="stages">
-            <li class="stage-new">New</li>
-            <li class="stage-prototype">Prototype</li>
-            <li class="stage-beta">Beta</li>
-            <li class="stage-launched">Launched</li>
+            <li class='stage-new ${spark?.stage.toString().equals("NEW") ? "selected" : ""}'>New</li>
+            <li class='stage-prototype ${spark?.stage.toString().equals("PROTOTYPE") ? "selected" : ""}'>Prototype</li>
+            <li class='stage-beta ${spark?.stage.toString().equals("BETA") ? "selected" : ""}'>Beta</li>
+            <li class='stage-launched ${spark?.stage.toString().equals("LAUNCHED") ? "selected" : ""}'>Launched</li>
           </ol>
-          <input type="hidden" name="stage" value="" />
+          <input type="hidden" name="stage" value="${spark?.stage}" />
           <div class="clear"></div>
         </div>
       </fieldset>
@@ -69,7 +69,7 @@
             #{/tip}
           </label>
           <div class="error-message" parameter="newSpark.problem"></div>
-          <textarea name="problem"></textarea>
+          <textarea name="problem">${spark?.problem}</textarea>
          </div>
         <div class="field">
           <label>
@@ -80,7 +80,7 @@
             #{/tip}
           </label>
           <div class="error-message" parameter="newSpark.solution"></div>
-          <textarea name="solution"></textarea>
+          <textarea name="solution">${spark?.solution}</textarea>
          </div>
       </fieldset>
 
@@ -95,7 +95,7 @@
             #{/tip}
           </label>
           <div class="error-message" parameter="newSpark.tags"></div>
-          <input type="text" name="tagNames" value="" id="tag-entry"/>
+          <input type="text" name="tagNames" value='${spark?.tags?.join(",")}' id="tag-entry"/>
         </div>
       </fieldset>
 
@@ -105,7 +105,7 @@
       <a href="#" onclick="$(document.NewSparkForm).submit();" class="button positive">
         <span>
           <img src="@{'public/images/icons/silk/accept.png'}" alt="Create Spark"/>
-          Create Spark
+          ${isEditMode ? "Edit" : "Create"} Spark
         </span>
       </a>
       <a href="@{Home.index()}" class="button negative">
@@ -157,6 +157,7 @@
 //   var html = converter.makeHtml(text);
 
   $(document).ready(function() {
+
     $("#tag-entry").tagsInput({
      defaultText: "Add comma-separated tags",
      width: "497px"
@@ -178,11 +179,14 @@
       if (tagNames) { tagNames = tagNames.split(","); }
 
       return {
-        "newSpark.title": this.title.value,
-        "newSpark.stage": this.stage.value,
-        "newSpark.problem": converter.makeHtml(this.problem.value),
-        "newSpark.solution": converter.makeHtml(this.solution.value),
-        "newSpark.tags": tagNames
+        "spark.title": this.title.value,
+        "spark.stage": this.stage.value,
+        "spark.problem": this.problem.value,
+        "spark.displayProblem": converter.makeHtml(this.problem.value),
+        "spark.solution": this.solution.value,
+        "spark.displaySolution": converter.makeHtml(this.solution.value),
+        "spark.tags": tagNames,
+        "spark.id": "${spark?.id}"
       };
     });
 

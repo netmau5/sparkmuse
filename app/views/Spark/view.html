@@ -12,7 +12,7 @@
   </h2>
 
   <p>
-    <em>Last updated ${spark.created.format()} -</em> ${spark.solution.abbreviate(200)}
+    <em>Last updated ${spark.edited.format()} -</em> ${spark.solution.abbreviate(200)}
   </p>
 
 </div>
@@ -24,17 +24,34 @@
   <div class="span-8 spark-info-wrapper wrapper">
   <div class="spark-info inner">
 
+    <div class="blurb spark-details">
+    <div class="blurb-inner">
+      <h4>Details</h4>
+      <p>
+        <div><label class="minor">Created by</label> #{nameTag user: spark.author, size: "mini" /}</div>
+        <div><label class="minor">${spark.stage.toWords()} stage</label></div>
+        <div><label class="minor">Posted ${spark.created.format()}</label></div>
+        <div><label class="minor">${spark.postCount} Comments</label></div>
+      </p>
+      %{ if (spark.author.equals(currentUser) || currentUser.isAdmin()) { }%
+      <p>
+        <a href="@{Spark.edit(spark.id)}">Edit Spark</a>
+      </p>
+      %{ } }%
+    </div>
+    </div>
+
     <div class="blurb">
     <div class="blurb-inner">
       <h4>Problem</h4>
-      ${spark.problem.raw()}
+      ${spark.displayProblem.raw()}
     </div>
     </div>
 
     <div class="blurb">
     <div class="blurb-inner">
       <h4>Solution</h4>
-      ${spark.solution.raw()}
+      ${spark.displaySolution.raw()}
     </div>
     </div>
 
@@ -107,6 +124,9 @@
 <script type="text/javascript">
 
   $(document).ready(function() {
+
+    $(".spark-info").height($(".content-container").height());
+
     var urlRegex = /((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/,
         addResourcesCache = {};
 

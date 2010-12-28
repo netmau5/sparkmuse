@@ -21,6 +21,10 @@ public class UserVO extends Entity<UserVO> {
     return this.accessLevel.hasAuthorizationLevel(accessLevel);
   }
 
+  public boolean isAdmin() {
+    return isAuthorizedFor(AccessLevel.ADMIN);
+  }
+
   public static UserVO newUser(final String authProviderUserId, final String userName) {
     UserVO user = new UserVO();
     user.setUserName(userName);

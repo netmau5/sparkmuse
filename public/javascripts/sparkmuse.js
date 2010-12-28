@@ -298,13 +298,6 @@ $(document).ready(function() {
     }
   });
 
-
-  //top button
-  $(".top-arrow").click(function(){
-    $('body').animate({scrollTop:0}, 'fast');
-    return false;
-  });
-
   //lightboxes
   $(document.body).append("<div style='display:none;' id='modal-lightbox'></div>");
   $(".lightbox").click(function(){

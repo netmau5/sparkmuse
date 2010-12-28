@@ -39,16 +39,23 @@ public class Spark extends SparkmuseController {
   @Inject static SparkFacade sparkFacade;
 
   public static void create() {
-    render();
+    boolean isEditMode = false;
+    render(isEditMode);
   }
 
-  public static void submit(@Valid @Required(message="Input is required.") SparkVO newSpark) {
+  public static void edit(final Long sparkId) {
+    boolean isEditMode = true;
+    SparkVO spark = sparkFacade.findSparkBy(sparkId);
+    renderTemplate("Spark/create.html", spark, isEditMode);
+  }
+
+  public static void submit(@Valid @Required(message="Input is required.") SparkVO spark) {
     if (Validation.hasErrors()) {
       renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
     }
     else {
-      newSpark.setAuthor(Authorization.getUserFromSessionOrAuthenticate(true));
-      final SparkVO savedSpark = sparkFacade.createSpark(newSpark);
+      spark.setAuthor(Authorization.getUserFromSessionOrAuthenticate(true));
+      final SparkVO savedSpark = sparkFacade.storeSpark(overlay(spark));
       final HashMap<String, Object> parameters = Maps.newHashMap();
       parameters.put("sparkId", savedSpark.getId());
       renderJSON(new RedirectAjaxResponse(Router.reverse("Spark.view", parameters).url));
@@ -77,6 +84,29 @@ public class Spark extends SparkmuseController {
     final String content = template.render(args);
 
     renderJSON(new FragmentAjaxResponse(content));
+  }
+
+  /**
+   * Overlays an edited spark with an existing one to capture unsubmitted properties.
+   *
+   * @param spark
+   * @return
+   */
+  private static SparkVO overlay(SparkVO spark) {
+    if (null != spark.getId()) {
+      SparkVO existingSpark = sparkFacade.findSparkBy(spark.getId());
+      existingSpark.setTitle(spark.getTitle());
+      existingSpark.setStage(spark.getStage());
+      existingSpark.setProblem(spark.getProblem());
+      existingSpark.setDisplayProblem(spark.getDisplayProblem());
+      existingSpark.setSolution(spark.getSolution());
+      existingSpark.setDisplaySolution(spark.getDisplaySolution());
+      existingSpark.setTags(spark.getTags());
+      return existingSpark;
+    }
+    else {
+      return spark;
+    }
   }
   
 }

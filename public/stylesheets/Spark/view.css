@@ -105,6 +105,7 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
       box-shadow: 1px 1px 1px #b2b2b2;
 
       font-family: $FONT_FAMILY_STANDARD;
+      font-size: 12px;
     }
 
 

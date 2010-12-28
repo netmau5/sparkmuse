@@ -11,6 +11,7 @@ import java.util.Collection;
 
 import com.google.inject.Inject;
 import com.google.common.base.Preconditions;
+import org.joda.time.DateTime;
 
 /**
  * Created by IntelliJ IDEA.
@@ -77,10 +78,12 @@ public class SparkFacade {
     return null == sparkVO ? sparkDao.findById(id) : sparkVO;
   }
 
-  public SparkVO createSpark(final SparkVO spark) {
-    Preconditions.checkArgument(null == spark.getId());
+  public SparkVO storeSpark(final SparkVO spark) {
+    if (null == spark.getId()) {
+      spark.setEdited(new DateTime());
+    }
+
     final SparkVO newSparkVO = sparkDao.store(spark);
-    cache.put(newSparkVO);
 
     //author implicitly votes for spark; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newSparkVO, newSparkVO.getAuthor().getId());

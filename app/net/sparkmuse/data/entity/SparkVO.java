@@ -30,12 +30,21 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
 
   @Required
   @Type(Text.class)
+  private String displayProblem;
+
+  @Required
+  @Type(Text.class)
   private String solution;
+
+  @Required
+  @Type(Text.class)
+  private String displaySolution;
 
   @Required(message="validation.required.tags")
   private List<String> tags;
 
   private DateTime created;
+  private DateTime edited;
 
   private int votes;
 
@@ -52,6 +61,7 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
 
   public SparkVO() {
     this.created = new DateTime();
+    this.edited = new DateTime();
   }
 
   public int getPostCount() {
@@ -136,5 +146,27 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
     this.votes = votes;
   }
 
+  public String getDisplayProblem() {
+    return displayProblem;
+  }
 
+  public void setDisplayProblem(String displayProblem) {
+    this.displayProblem = displayProblem;
+  }
+
+  public String getDisplaySolution() {
+    return displaySolution;
+  }
+
+  public void setDisplaySolution(String displaySolution) {
+    this.displaySolution = displaySolution;
+  }
+
+  public DateTime getEdited() {
+    return edited;
+  }
+
+  public void setEdited(DateTime edited) {
+    this.edited = edited;
+  }
 }
