@@ -35,7 +35,8 @@ $COLOR_DARK_NEUTRAL: #d1d9a9;
 
 $FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
-$FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+/*$FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;*/
+$FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 /* BEGIN <RESET> */
 
@@ -510,7 +511,8 @@ input, textarea {
   }
 
   .blurb p {
-    font-size: 1.1em;
+    font-size: 16px;
+    line-height: 24px;
   }
 
   .blurb p,

@@ -12,7 +12,8 @@ $COLOR_DARK_NEUTRAL: #fefffa;
 
 $FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
-$FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
+/*$FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;*/
+$FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 .page-title h2 { display: inline-block; }
 
@@ -102,10 +103,12 @@ $FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;
 
       -moz-box-shadow: 1px 1px 1px #b2b2b2;
       -webkit-box-shadow: 1px 1px 1px #b2b2b2;
-      box-shadow: 1px 1px 1px #b2b2b2;
+      box-shadow: 1px 1px 1px #4f4d4d;
 
       font-family: $FONT_FAMILY_STANDARD;
-      font-size: 12px;
+      font-size: 14px;
+      line-height: 20px;
+      color: #353434;
     }
 
 

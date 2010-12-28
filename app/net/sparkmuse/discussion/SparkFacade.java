@@ -79,7 +79,7 @@ public class SparkFacade {
   }
 
   public SparkVO storeSpark(final SparkVO spark) {
-    if (null == spark.getId()) {
+    if (null != spark.getId()) {
       spark.setEdited(new DateTime());
     }
 
