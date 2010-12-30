@@ -77,6 +77,8 @@
     background: white url("@{'/public/images/gradients/trans_to_gray.png'}") bottom left repeat-x;
   }
 
+  .spark:hover { background-image: none; }
+
   .spark-inner {
     padding: 0px 10px;
   }
@@ -118,11 +120,6 @@
 
     .spark .tags {
       margin-bottom: 8px;
-    }
-
-    .spark:hover {
-      color: black;
-      background: white;
     }
 
 
@@ -196,7 +193,7 @@
     <div class="sparks-wrapper">
 
     #{list items: sparkSearch.sparks, as: 'spark'}
-      <div class='spark' onclick="window.location = '@{Spark.view(spark.id)}';">
+      <div class='spark spark-${spark.stage.toWords().toLowerCase()}' onclick="window.location = '@{Spark.view(spark.id)}';">
 
         <div class="progress progress-${spark.stage.toWords().toLowerCase()}">
           <div class="details">

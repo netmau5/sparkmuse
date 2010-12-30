@@ -1065,13 +1065,14 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-new {
   background-image: url("../images/icons/stages/light-72.png");
 }
-.spark .progress-new,
+.spark .progress-new, .spark-new:hover,
 .stage-new:hover, .stage-new.selected {
   background-color:#fdf5ce;
   border-color: #fbcb09;
   color:#c77405;
 }
 
+.spark-new:active,
 .stage-new:active {
   text-decoration: none;
   background-color: #c77405;
@@ -1082,12 +1083,13 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-prototype {
   background-image: url("../images/icons/stages/small-tiles-72.png");
 }
-.spark .progress-prototype,
+.spark .progress-prototype, .spark-prototype:hover,
 .stage-prototype:hover, .stage-prototype.selected {
   background-color:#F5D9B5;
   border-color: #EB8500;
   color:#915200;
 }
+.spark-prototype:active,
 .stage-prototype:active {
   text-decoration: none;
   background-color:#915200;
@@ -1098,12 +1100,13 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-beta {
   background-image: url("../images/icons/stages/monitor-72.png");
 }
-.spark .progress-beta,
+.spark .progress-beta, .spark-beta:hover,
 .stage-beta:hover, .stage-beta.selected {
   background-color:#dff4ff;
   border-color: #c2e1ef;
   color:#336699;
 }
+.spark-beta:active,
 .stage-beta:active {
   text-decoration: none;
   background-color:#6299c5;
@@ -1114,12 +1117,13 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-launched {
   background-image: url("../images/icons/stages/seal-72.png");
 }
-.spark .progress-launched,
+.spark .progress-launched, .spark-launched:hover,
 .stage-launched:hover, .stage-launched.selected {
   background-color:#E6EFC2;
   border-color: #C6D880;
   color:#529214;
 }
+.spark-launched:active,
 .stage-launched:active {
   background-color:#529214;
   border-color: #529214;
