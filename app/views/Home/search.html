@@ -208,7 +208,10 @@
           <h3>
             ${spark.title}
           </h3>
-          <div class="alt">Posted ${spark.created.format()} by #{nameTag user: spark.author /}</div>
+          <div class="alt">
+            Posted ${spark.created.format()} by
+            #{nameTag user: spark.author /}%{ if (!spark.created.equals(spark.edited)) { }%, last updated ${spark.edited.format()}%{ } }%.
+          </div>
           <div class="tags">#{list items: spark.tags, as: 'tag'}<span class="tag">${tag}</span>#{/list}<div class="clear"></div></div>
         </div>
 
