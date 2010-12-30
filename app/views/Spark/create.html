@@ -29,12 +29,12 @@
 
     <div>
 
-      <div class="error-message" parameter="newSpark"></div>
+      <div class="error-message" parameter="spark"></div>
 
       <fieldset>
         <div class="field">
           <label>Title</label>
-          <div class="error-message" parameter="newSpark.title"></div>
+          <div class="error-message" parameter="spark.title"></div>
           <input type="text" name="title" value="${spark?.title}" maxlength="100" />
          </div>
       </fieldset>
@@ -44,12 +44,12 @@
       <fieldset>
         <div class="field">
           <label>Stage</label>
-          <div class="error-message" parameter="newSpark.stage"></div>
+          <div class="error-message" parameter="spark.stage"></div>
           <ol class="stages">
-            <li class='stage-new ${spark?.stage.toString().equals("NEW") ? "selected" : ""}'>New</li>
-            <li class='stage-prototype ${spark?.stage.toString().equals("PROTOTYPE") ? "selected" : ""}'>Prototype</li>
-            <li class='stage-beta ${spark?.stage.toString().equals("BETA") ? "selected" : ""}'>Beta</li>
-            <li class='stage-launched ${spark?.stage.toString().equals("LAUNCHED") ? "selected" : ""}'>Launched</li>
+            <li class='stage-new ${spark?.stage?.toString().equals("NEW") ? "selected" : ""}'>New</li>
+            <li class='stage-prototype ${spark?.stage?.toString().equals("PROTOTYPE") ? "selected" : ""}'>Prototype</li>
+            <li class='stage-beta ${spark?.stage?.toString().equals("BETA") ? "selected" : ""}'>Beta</li>
+            <li class='stage-launched ${spark?.stage?.toString().equals("LAUNCHED") ? "selected" : ""}'>Launched</li>
           </ol>
           <input type="hidden" name="stage" value="${spark?.stage}" />
           <div class="clear"></div>
@@ -68,7 +68,7 @@
               #{markdownGuide /}
             #{/tip}
           </label>
-          <div class="error-message" parameter="newSpark.problem"></div>
+          <div class="error-message" parameter="spark.problem"></div>
           <textarea name="problem">${spark?.problem}</textarea>
          </div>
         <div class="field">
@@ -79,7 +79,7 @@
               #{markdownGuide /}
             #{/tip}
           </label>
-          <div class="error-message" parameter="newSpark.solution"></div>
+          <div class="error-message" parameter="spark.solution"></div>
           <textarea name="solution">${spark?.solution}</textarea>
          </div>
       </fieldset>
@@ -94,7 +94,7 @@
               Use tag names that are descriptive of the type of project you are working on.  Multiple tags can be separated with a comma.
             #{/tip}
           </label>
-          <div class="error-message" parameter="newSpark.tags"></div>
+          <div class="error-message" parameter="spark.tags"></div>
           <input type="text" name="tagNames" value='${spark?.tags?.join(",")}' id="tag-entry"/>
         </div>
       </fieldset>

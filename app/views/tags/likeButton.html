@@ -2,7 +2,7 @@
   parameters:
     votable: votable object
     userVotes: user vote history for items on page
-    size: "big" for inline rep label or "small" for only the icon, default is small
+    size: "big" for surrounding box, "medium" for inline rep label or "small" for only the icon, default is small
 }*
 %{ isLiked = _userVotes.hasUpVoted(_votable) }%
 <a href="#%{ if(!isLiked){ }%@{User.vote(_votable.class.name, _votable.id)}%{ } }%"

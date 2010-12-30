@@ -56,7 +56,24 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
     NEW,
     PROTOTYPE,
     BETA,
-    LAUNCHED
+    LAUNCHED;
+
+    public boolean hasProgressedNew() {
+      return this.ordinal() >= Stage.NEW.ordinal();
+    }
+
+    public boolean hasProgressedPrototype() {
+      return this.ordinal() >= Stage.PROTOTYPE.ordinal();
+    }
+
+    public boolean hasProgressedBeta() {
+      return this.ordinal() >= Stage.BETA.ordinal();
+    }
+
+    public boolean hasProgressedLaunched() {
+      return this.ordinal() >= Stage.LAUNCHED.ordinal();
+    }
+
   }
 
   public SparkVO() {
