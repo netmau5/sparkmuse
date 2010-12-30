@@ -675,6 +675,7 @@ a.top-arrow {
 }
 
 #footer .tweet {
+  min-height: 48px;
   color: #697a6b;
   width: 350px;
   padding-bottom: 0.5em;

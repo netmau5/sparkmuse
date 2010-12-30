@@ -28,10 +28,10 @@
     <div class="blurb-inner">
       <h4>Details</h4>
       <p>
-        <label class="minor">Created by</label> #{nameTag user: spark.author, size: "mini" /}<br/>
+        <label class="minor">Author:</label> #{nameTag user: spark.author, size: "mini" /}<br/>
         <label class="minor">Stage:</label> ${spark.stage.toWords()}<br/>
-        <label class="minor">Posted ${spark.created.format()}</label><br/>
-        <label class="minor">${spark.postCount} Comments</label>
+        <label class="minor">Created:</label> ${spark.created.format()}<br/>
+        <label class="minor">Comments:</label> ${spark.postCount} 
       </p>
       %{ if (spark.author.equals(currentUser) || currentUser.isAdmin()) { }%
       <p>
