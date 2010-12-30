@@ -36,6 +36,7 @@ public abstract class AbstractSparkSearchResponse {
   }
 
   public void update(SparkVO spark) {
+    this.sparks.remove(spark); //different instances may .equal one another, remove old one
     this.sparks.add(spark);
     if (this.sparks.size() > MAX_SIZE) this.sparks.remove(Iterables.getLast(this.sparks));
   }
