@@ -39,7 +39,8 @@ public class MostDiscussedSparks extends AbstractSparkSearchResponse
 
   static class Comparator implements java.util.Comparator<SparkVO> {
     public int compare(SparkVO a, SparkVO b) {
-      return b.getPostCount() - a.getPostCount();
+      final int postCount = b.getPostCount() - a.getPostCount();
+      return tiebreak(a, b, postCount);
     }
   }
 

@@ -116,6 +116,7 @@ public class UserFacade {
   }
 
   public void recordUpVote(String className, Long id, UserVO voter) {
+    //@todo verify they haven't already performed vote
     try {
       final Class clazz = Class.forName(className);
       if (Entity.class.isAssignableFrom(clazz)) {

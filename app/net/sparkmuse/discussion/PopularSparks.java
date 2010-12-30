@@ -38,7 +38,8 @@ public class PopularSparks extends AbstractSparkSearchResponse
 
   static class Comparator implements java.util.Comparator<SparkVO> {
     public int compare(SparkVO a, SparkVO b) {
-      return ((int) b.getRating() * 100) - ((int) a.getRating() * 100);
+      final int rating = ((int) b.getRating() * 100) - ((int) a.getRating() * 100);
+      return tiebreak(a, b, rating);
     }
   }
   

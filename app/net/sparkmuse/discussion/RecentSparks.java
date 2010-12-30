@@ -38,7 +38,8 @@ public class RecentSparks extends AbstractSparkSearchResponse
 
   static class Comparator implements java.util.Comparator<SparkVO> {
     public int compare(SparkVO a, SparkVO b) {
-      return b.getCreated().compareTo(a.getCreated());
+      final int compareTo = b.getCreated().compareTo(a.getCreated());
+      return tiebreak(a, b, compareTo);
     }
   }
 }

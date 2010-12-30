@@ -39,5 +39,10 @@ public abstract class AbstractSparkSearchResponse {
     this.sparks.add(spark);
     if (this.sparks.size() > MAX_SIZE) this.sparks.remove(Iterables.getLast(this.sparks));
   }
+
+  protected static int tiebreak(SparkVO a, SparkVO b, int compareTo) {
+    if (0 != compareTo) return compareTo;
+    else return a.getId().compareTo(b.getId());
+  }
   
 }
