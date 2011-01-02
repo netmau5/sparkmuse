@@ -63,18 +63,12 @@
 
   }
 
+  hr {
+    margin-bottom: 1em;
+  }
+
   .spark {
-    -moz-border-radius: 6px;
-    border-radius: 6px;
-    margin-bottom: 0.5em;
-    padding-top: 8px;
-
-    border: 1px solid #999999;
-
     color: #666666;
-    cursor: pointer;
-
-    background: white url("@{'/public/images/gradients/trans_to_gray.png'}") bottom left repeat-x;
   }
 
   .spark:hover { background-image: none; }
@@ -91,15 +85,38 @@
     }
 
     .spark h3 {
-      font-size: 18px;
+      font-size: 1.5em;
       margin-bottom: 8px;
     }
 
+    .spark .alt {
+      font-size: 14px;
+    }
+
+    /*.spark .details {*/
+      /*width: 75px;*/
+      /*vertical-align: top;*/
+      /*float: left;*/
+      /*margin: 0 10px 0 0;*/
+      /*padding: 0 10px 0 0;*/
+      /*background: transparent;*/
+      /*text-align: right;*/
+      /*border-style: solid;*/
+      /*border-right-width: 2px;*/
+      /*line-height: 24px;*/
+    /*}*/
+
     .spark .details {
-      display: block;
+      width: 75px;
       vertical-align: top;
-      margin-right: 5px;
       float: right;
+      margin: 0 0 0 10px;
+      padding: 0 0 0 10px;
+      background: transparent;
+      text-align: left;
+      border-style: solid;
+      border-left-width: 2px;
+      line-height: 24px;
     }
 
       .spark .details .comments {
@@ -121,21 +138,6 @@
     .spark .tags {
       margin-bottom: 8px;
     }
-
-
-  .spark .progress {
-    margin: 0 10px 8px 10px;
-
-    background: transparent;
-    border-bottom-width: 2px;
-    border-style: solid;
-    height: 20px;
-  }
-
-    .spark .progress-new { background-position: 6px -62px; }
-    .spark .progress-prototype { background-position: 2px -42px; }
-    .spark .progress-beta { background-position: 2px -22px; }
-    .spark .progress-launched { background-position: 6px -2px; }
 
   <!-- side bar content frame -->
 
@@ -192,32 +194,38 @@
 
     <div class="sparks-wrapper">
 
-    #{list items: sparkSearch.sparks, as: 'spark'}
-      <div class='spark spark-${spark.stage.toWords().toLowerCase()}' onclick="window.location = '@{Spark.view(spark.id)}';">
+      <hr/>
 
-        <div class="progress progress-${spark.stage.toWords().toLowerCase()}">
-          <div class="details">
-            #{likeButton votable: spark, userVotes: userVotes, size: "medium" /}
-            &nbsp;
+      #{list items: sparkSearch.sparks, as: 'spark'}
+      <div class='spark spark-${spark.stage.toWords().toLowerCase()}'>
+
+
+          <div class="details progress-${spark.stage.toWords().toLowerCase()}">
+            ${spark.stage.toWords()} <br/>
+            #{likeButton votable: spark, userVotes: userVotes, size: "medium" /} <br/>
             <span class="comments">${spark.postCount}</span>
           </div>
-          ${spark.stage.toWords()} &rarr;
-        </div>
+
 
         <div class="spark-inner">
           <h3>
-            ${spark.title}
+            <a href="@{Spark.view(spark.id)}">${spark.title}</a>
           </h3>
           <div class="alt">
-            Posted ${spark.created.format()} by
-            #{nameTag user: spark.author /}%{ if (!spark.created.equals(spark.edited)) { }%, last updated ${spark.edited.format()}%{ } }%.
+            #{nameTag user: spark.author /} &nbsp;&middot;&nbsp;
+
+            #{if !spark.created.equals(spark.edited)} Updated ${spark.edited.format()} #{/if}
+            #{if !spark.edited || spark.created.equals(spark.edited)} Created ${spark.created.format()} #{/if}
           </div>
+
           <div class="tags">#{list items: spark.tags, as: 'tag'}<span class="tag">${tag}</span>#{/list}<div class="clear"></div></div>
+
         </div>
 
+        <hr/> 
+
       </div>
-      
-    #{/list}
+      #{/list}
 
     </div>
 
