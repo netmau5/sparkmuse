@@ -133,13 +133,6 @@ SM.newId = (function(){
     handleRedirectResponse: function(response) {
       window.location = response.targetUrl;
       $.modal.close();
-    },
-
-    handleFragmentResponse: function(response) {
-      if (response.fragment) {
-        this.appemd
-      }
-      $.modal.close();
     }
   }
 
