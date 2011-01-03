@@ -250,10 +250,11 @@ html {font-size:100.01%;}
 body {font-size:85%;color:#222;background:#fff;font-family:$FONT_FAMILY_STANDARD;}
 ul, ol {
   margin:0 0 1em 0;
-  padding-left:0.5em;
+  padding-left:1.2em;
 }
 ul {list-style-type:disc;}
 ol {list-style-type:decimal;}
+li {margin-bottom: 0.5em; }
 
 h1, h2, h3, h4, h5, h6 {font-weight:normal;}
 h1 {font-size:3em;line-height:1;margin-bottom:0.5em;}
@@ -323,11 +324,9 @@ em {
   color: $LOGO_DARK_BLUE;
 }
 
-strong {
-  letter-spacing: 1px;
+strong, .strong {
   font-weight:bold;
   padding:0 1px;
-  color: $LOGO_DARK_BLUE;
 }
 
 /* END <GENERAL TEXT> */
@@ -343,7 +342,7 @@ hr {
   filter: alpha(opacity = 30);
   clear: both;
   height: 0;
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
 }
 
 label {
@@ -389,6 +388,10 @@ input, textarea {
   font-family: $FONT_FAMILY_CONTROLS;
   line-height: 20px;
   font-size: 12px;
+}
+
+.section {
+  margin-bottom: 1em; 
 }
 
 /* END <LIBRARY> */
@@ -529,8 +532,6 @@ input, textarea {
 }
 
 .page-canvas { padding-bottom: 1em; }
-
-  .page-title h2, .page-canvas h2 { margin-top: 5px; }
 
 
   .page-title.left {
