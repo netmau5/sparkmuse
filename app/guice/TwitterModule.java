@@ -16,7 +16,7 @@ public class TwitterModule extends AbstractModule {
   protected void configure() {
     bind(UserFacade.class);
 
-    final String domain = Play.configuration.getProperty("domain");
+    final String domain = Play.configuration.getProperty("url.root");
     bind(String.class).annotatedWith(Names.named(Constants.TWITTER_CALLBACK_URI))
       .toInstance("http://" + domain + "/authorize");
   }

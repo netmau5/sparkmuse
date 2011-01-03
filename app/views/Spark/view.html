@@ -431,7 +431,7 @@
 <script type="text/html" id="template-new-visual">
   <div class="visual content" id="{{id}}">
     <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
-    <a href="http://a.sparkmuse.com/serve/{{key}}" target="_blank">View</a>
+    <a href='http://${play.configuration.get("url.blob-server")}/serve/{{key}}' target="_blank">View</a>
     <input type="text" class="visual-title" value="{{title}}" />
     <input type="hidden" class="visual-key" value="{{key}}" />
   </div>

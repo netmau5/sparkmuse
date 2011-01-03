@@ -3,6 +3,7 @@ package guice;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import net.sparkmuse.common.Constants;
+import play.Play;
 
 /**
  * @author neteller
@@ -10,12 +11,12 @@ import net.sparkmuse.common.Constants;
  */
 public class BlobModule extends AbstractModule {
 
-  private static final String BLOB_SERVER = "http://a.sparkmuse.com";
-
   protected void configure() {
+    String blobServerDomain = Play.configuration.getProperty("url.blob-server");
+
     bind(String.class).annotatedWith(Names.named(Constants.BLOB_SERVER_SERVE))
-      .toInstance(BLOB_SERVER + "/serve/");
+      .toInstance("http://" + blobServerDomain + "/serve/");
     bind(String.class).annotatedWith(Names.named(Constants.BLOB_SERVER_CREATE_UPLOAD_URL))
-      .toInstance(BLOB_SERVER + "/createUploadTarget");
+      .toInstance("http://" + blobServerDomain + "/createUploadTarget");
   }
 }
