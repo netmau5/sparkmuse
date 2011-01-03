@@ -1066,7 +1066,6 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-new {
   background-image: url("../images/icons/stages/light-72.png");
 }
-.spark .progress-new,
 .stage-new:hover, .stage-new.selected {
   background-color:#fdf5ce;
   border-color: #fbcb09;
@@ -1083,7 +1082,6 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-prototype {
   background-image: url("../images/icons/stages/small-tiles-72.png");
 }
-.spark .progress-prototype,
 .stage-prototype:hover, .stage-prototype.selected {
   background-color:#F5D9B5;
   border-color: #EB8500;
@@ -1099,7 +1097,6 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-beta {
   background-image: url("../images/icons/stages/monitor-72.png");
 }
-.spark .progress-beta,
 .stage-beta:hover, .stage-beta.selected {
   background-color:#dff4ff;
   border-color: #c2e1ef;
@@ -1115,7 +1112,6 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-launched {
   background-image: url("../images/icons/stages/seal-72.png");
 }
-.spark .progress-launched, 
 .stage-launched:hover, .stage-launched.selected {
   background-color:#E6EFC2;
   border-color: #C6D880;
