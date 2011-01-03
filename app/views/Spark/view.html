@@ -110,6 +110,13 @@
         #{post post: post /}
       #{/list}
 
+      #{if posts.posts?.size() == 0}
+        <div id="no-posts">
+          <em>No Comments</em>
+          <a href="#" onclick="SM.Spark.newReply(); $(this).parent().remove();">Be the first!</a>
+        </div>
+      #{/if}
+
     </div>
 
   </div>

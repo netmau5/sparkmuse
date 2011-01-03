@@ -140,3 +140,16 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   #rss-link:hover, #rss-link.selected {
     background-position: -1050px 0;
   }
+
+#no-posts {
+  position: relative;
+  left: 200px;
+  top: 50px;
+  padding: 40px 5px 0 0;
+  text-align: center;
+  width: 298px;
+  height: 110px;
+  background: url("../../images/dirigible_blank.png");
+}
+
+  #no-posts * { display: block; }
