@@ -16,9 +16,9 @@
             </ul>
             <h4>More</h4>
             <ul>
-              <li><a href="@{Application.about()}">About</a></li>
-              <li><a href="#">Feedback</a></li>
               <li><a href="@{Application.guidelines()}">Guidelines</a></li>
+              #{if currentUser}<li><a href="#">Feedback</a></li>#{/if}
+              <li><a href="@{Application.about()}">About</a></li>
               <li><a href="#">Credits</a></li>
             </ul>
           </td>

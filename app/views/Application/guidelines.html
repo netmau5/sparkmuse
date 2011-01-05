@@ -17,8 +17,8 @@
       height: 71px;
       display: block;
       text-align: center;
-      padding: 40px 0 0 0;
-      background: url("@{'public/images/dirigible_blank_small.png'}") no-repeat;
+      padding: 40px 0 0 100px;
+      background: url("@{'public/images/dirigible_blank_tail_small.png'}") no-repeat;
     }
 </style>
 
@@ -26,7 +26,7 @@
 
   <div class="prepend-1 span-22 append-1 last heading">
 
-    <a href="@{Home.index()}" alt="Back home...">Continue &rarr;</a>
+    <a href="@{Home.index()}" alt="Home">#{if currentUser}View Sparks &rarr;#{/if}</a>
 
     <h2>
       Community Guidelines
@@ -42,7 +42,7 @@
         Discussion should be focused on tech ideas with clearly defined problems and concise,
         poingant solutions.
       </p>
-      <a href="#">More...</a>
+      <a href="#" onclick="$(document.body).animate({scrollTop: $('#discuss').offset().top}, 'fast');">More...</a>
     </div>
 
     <div class="span-6 colborder">
@@ -51,7 +51,7 @@
         Focus on providing high value feedback and offer your insights and perspectives to
         others as they will do the same.
       </p>
-      <a href="#">More...</a>
+      <a href="#" onclick="$(document.body).animate({scrollTop: $('#refine').offset().top}, 'fast');">More...</a>
     </div>
 
     <div class="span-7 last">
@@ -60,7 +60,7 @@
         We prefer a predisposition towards action and collaboration.  Be welcoming of potential
         help and offer your own when you can.
       </p>
-      <a href="#">More...</a>
+      <a href="#" onclick="$(document.body).animate({scrollTop: $('#act').offset().top}, 'fast');">More...</a>
     </div>
 
     <div class="clear"></div>
@@ -69,100 +69,115 @@
 
   <hr/>
 
-  <div class="prepend-1 span-12 append-1">
-    <h3>Discuss</h3>
+  <div class="prepend-1 span-13 append-1">
+    <section id="discuss">
+      <h3>Discuss</h3>
+      <ul>
+        <li class="strong">
+          We are focused on technology-related ideas which aim to solve an identifiable
+          need through science, engineering, and technology.  Web, mobile, and hardware
+          are typical areas of interest.
+        </li>
+        <li>
+          Keep your posting succinct and to the point.  Think of it like your thirty-second
+          elevator pitch.  Tell us why the problem exists and how you will address it before
+          the doors open.
+        </li>
+        <li>
+          Use a descriptive title for your idea that expresses its ultimate goal much like you
+          would with a tagline on a landing page.
+        </li>
+        <li>
+          Don't use caps, special characters, or editorial fluff to draw unnecessary attention.
+          We're about evaluating the merit of ideas and not about how loudly they can be shouted.
+        </li>
+        <li>
+          Post ideas on which you are seriously considering acting or have already begun.  This
+          community is predicated on creating; use a notebook if you want to organize the tangents
+          that cross your mind right before bed.
+        </li>
+      </ul>
+    </section>
 
-    <ul>
-      <li class="strong">
-        We are focused on technology-related ideas which aim to solve an identifiable
-        need through science, engineering, and technology.  Web, mobile, and hardware
-        are typical areas of interest.
-      </li>
-      <li>
-        Keep your posting succinct and to the point.  Think of it like your thirty-second
-        elevator pitch.  Tell us why the problem exists and how you will address it before
-        the doors open.
-      </li>
-      <li>
-        Use a descriptive title for your idea that expresses its ultimate goal much like you
-        would with a tagline on a landing page.
-      </li>
-      <li>
-        Don't use caps, special characters, or editorial fluff to draw unnecessary attention.
-        We're about evaluating the merit of ideas and not about how loudly they can be shouted.
-      </li>
-      <li>
-        Post ideas on which you are seriously considering acting or have already begun.  This
-        community is predicated on creating; use a notebook if you want to organize the tangents
-        that cross your mind right before bed.
-      </li>
-    </ul>
+    <section id="refine">
+      <h3>Refine</h3>
+      <ul>
+        <li class="strong">
+          This community is based on collaboration, please try to give others your honest feedback
+          if you are asking for it in return.
+        </li>
+        <li>
+          Be civil and offer constructive criticism.  Avoid comments that are abusive or inflamatory.
+        </li>
+        <li>
+          Post comments that provide genuine value to the idea.  Posts like "thanks for the feedback" or
+          "good point" aren't directly useful, let voting speak for the merits of a comment.
+        </li>
+        <li>
+          If you submit a resource or visual, make sure it is appropriate content for both a
+          professional environment and the idea itself.  Save NSFW for another forum.
+        </li>
+      </ul>
+    </section>
 
-    <h3>Refine</h3>
-
-    <ul>
-      <li class="strong">
-        This community is based on collaboration, please try to give others your honest feedback
-        if you are asking for it in return.
-      </li>
-      <li>
-        Be civil and offer constructive criticism.  Avoid comments that are abusive or inflamatory.
-      </li>
-      <li>
-        Post comments that provide genuine value to the idea.  Posts like "thanks for the feedback" or
-        "good point" aren't directly useful, let voting speak for the merits of a comment.
-      </li>
-      <li>
-        If you submit a resource or visual, make sure it is appropriate content for both a
-        professional environment and the idea itself.  Save NSFW for another forum.
-      </li>
-    </ul>
-
-    <h3>Act</h3>
-
-    <ul>
-      <li class="strong">
-        When offering your help, it should be given free and sincerely.  Please don't offer help that only
-        involves paid services.  If the author wants more assistence than you originally intended to provide,
-        it is perfectly fine to move to a formal relationship afterwards.
-      </li>
-      <li>
-        We love to hear updates on how your idea is progressing, changes you've made, or milestones
-        you've reached but avoid using your Spark to sell your services.
-      </li>
-      <li>
-        Don't hesitate to contact members directly if you'd like to use their product or service, participate
-        in their beta, or join as a cofounder.  Reaching out to others within the context of Sparkmuse should
-        be welcomed by all members.  However, don't abuse this access to spam or harass.
-      </li>
-      <li>
-        Once your idea materializes into a success, you should not feel bound to remain at Sparkmuse.  We
-        encourage you to seek out the communities or products that will best facilitate your own
-        growth.  Our goal is to help enable you to get that far.
-      </li>
-    </ul>
+    <section id="act">
+      <h3>Act</h3>
+      <ul>
+        <li class="strong">
+          When offering your help, it should be given free and sincerely.  Please don't offer help that only
+          involves paid services.  If the author wants more assistence than you originally intended to provide,
+          it is perfectly fine to move to a formal relationship afterwards.
+        </li>
+        <li>
+          We love to hear updates on how your idea is progressing, changes you've made, or milestones
+          you've reached but avoid using your Spark to sell your services.
+        </li>
+        <li>
+          Don't hesitate to contact members directly if you'd like to use their product or service, participate
+          in their beta, or join as a cofounder.  Reaching out to others within the context of Sparkmuse should
+          be welcomed by all members.  However, don't abuse this access to spam or harass.
+        </li>
+        <li>
+          Once your idea materializes into a success, you should not feel bound to remain at Sparkmuse.  We
+          encourage you to seek out the communities or products that will best facilitate your own
+          growth.  Our goal is to help enable you to get that far.
+        </li>
+      </ul>
+    </section>
 
   </div>
 
-  <div class="span-9 append-1 last">
+  <div class="span-8 append-1 last">
+
+    #{if currentUser}
+      <div class="blurb">
+      <div class="blurb-inner">
+        <h4>Let us know what you think</h4>
+        <p>
+          Sparkmuse is just beginning and we want to hear what you think, down to the smallest detail.
+          We want to provide a place where you can begin researching, organizing, and iterating on your ideas early
+          in the same way you would with its actual development.  We also want to foster a community where a wide variety
+          of relevant help is just around the corner and meeting potential cofounders is charmingly simple.  If
+          you would like to help shape our future, please chime in!
+        </p>
+        <p class="actions">
+          <a href="#">Feedback &rarr;</a>
+        </p>
+      </div>
+      </div>
+    #{/if}
 
     <div class="blurb">
     <div class="blurb-inner">
-
-      <h4>Let us know what you think</h4>
-
-      <p>Give us feedback...</p>
-
-    </div>
-    </div>
-
-    <div class="blurb">
-    <div class="blurb-inner">
-
       <h4>Check out the blog</h4>
-
-      <p>para updendes</p>
-
+      <p>
+        Get insightful commentary about researching and refining your ideas. Find out how we're evolving Sparkmuse
+        to help you realize them.  Learn how to best take advantage of Sparkmuse to lift your
+        Sparks off the ground.  Join the discussion any time, we'd love to hear from you.
+      </p>
+      <p class="actions">
+        <a href="http://blog.sparkmuse.com">Blog &rarr;</a>
+      </p>
     </div>
     </div>
 
