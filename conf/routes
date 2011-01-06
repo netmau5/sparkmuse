@@ -14,6 +14,8 @@ POST        /verifyAuthorizationToken         Authorization.verifyAuthorizationT
 
 *           /vote/{entity}/{id}               User.vote
 
+GET         /spark/view/{sparkId}             Spark.view
+
 GET         /feedback/{appName}               Application.feedback
 
 *           /{action}                         Application.{action}
