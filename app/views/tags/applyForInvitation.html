@@ -8,12 +8,12 @@
   <form name="application-form" action="@{Authorization.applyForInvitation()}" method="POST">
     <p>
       <label>Twitter Username</label>
-      <input type="text" name="userName" value="@"/>
+       <div class="input-wrapper"><input type="text" name="userName" value="@"/></div>
     </p>
 
     <p>
       <label>Where can we learn about you?</label>
-      <input type="text" name="url" value="http://"/>
+      <div class="input-wrapper"><input type="text" name="url" value="http://"/></div>
     </p>
     <button type="submit" class="create-spark">
       <img src="@{'public/images/favicon.png'}" alt="Apply"/>

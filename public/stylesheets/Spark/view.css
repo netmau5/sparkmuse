@@ -93,7 +93,7 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
     .comment blockquote {
       border: 1px solid #c9c2c1;
-      padding: 1em 1em;
+      padding: 1em 1em 0 1em;
       margin-bottom: 1em; 
       background-color: white;
 
@@ -111,12 +111,13 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
       color: #353434;
     }
 
+      .comment blockquote > .input-wrapper { margin-bottom: 1em; }
 
-      .comment blockquote textarea { width: 613px; height: 100px; }
+      .comment blockquote textarea { height: 100px; }
 
   .comment .replies { margin-left: 1em; padding-left: 1em; border-left: 2px solid #f1f1f1; }
 
-    .comment .replies  blockquote textarea { width: 588px; height: 100px; }
+  .comment .post-actions { margin-bottom: 1em; } 
 
   #new-reply .comment blockquote { margin-bottom: 0; }
 
@@ -124,6 +125,40 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   .control-bar .attachments { display: inline-block; }
   .control-bar .attachments a { vertical-align: middle; }
   .control-bar .controls { float: right; }
+
+/* BEGIN <ATTACHMENTS> */
+
+.content {
+  position: relative;
+  margin: 0 0 1em 0;
+  padding: 4px 10px;
+}
+
+  .content label {
+    font-size: 12px;
+  }
+
+  .content .delete {
+    width: 16px;
+    height: 16px;
+    background: url("../../images/icons/silk/cancel.png") no-repeat;
+    position: absolute;
+    left: -8px;
+    top: -8px;
+  }
+
+#new-reply table {
+  width: 100%;
+}
+
+  #new-reply input {width: 100%; }
+
+  #new-reply .visual .button {
+    float: none;
+    display: inline-block;
+  }
+
+/* END <ATTACHMENTS> */
 
 #rss-link {
   text-indent: -9999px;

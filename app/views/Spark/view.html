@@ -113,7 +113,7 @@
       #{if posts.posts?.size() == 0}
         <div id="no-posts">
           <em>No Comments</em>
-          <a href="#" onclick="SM.Spark.newReply(); $(this).parent().remove();">Be the first!</a>
+          <a href="#" onclick="SM.Spark.newReply(); $('#no-posts').remove();">Be the first!</a>
         </div>
       #{/if}
 
@@ -184,6 +184,8 @@
         if (!s.replyMode) {
           s.replyMode = true;
 
+          $('#no-posts').remove();
+
           var replyForm = Mustache.to_html($("#template-reply").html());
           if (!inReplyToId) {
             $("#comments-container").prepend(replyForm);
@@ -192,7 +194,10 @@
             $(".comment[post=" + inReplyToId + "] > .replies").append(replyForm);
           }
 
-          $(document.body).animate({scrollTop: $("#new-reply").offset().top}, "fast");
+          var newReply = $("#new-reply");
+          if (newReply.offset().top > $(window).height()) {
+            $(document.body).animate({scrollTop: newReply.offset().top}, "fast");
+          }
           $("#new-reply textarea").keyup(resizeTextArea).keyup($.throttle(250, checkForLinks));
 
           var reply = document.Reply;
@@ -285,6 +290,11 @@
               $("#template-new-visual-uploader").html(),
               { id: id, uploadTarget: uploadTarget.url }
           ));
+          $("#" + id + " input[type=file]").uniform();
+          $("#" + id + " form").bind("submit", function(e) {
+            e.stopPropagation();
+            return s.onVisualFormSubmit(id);
+          })
           var showVisual = function(){
             $.ajax({
               url: "@{Blob.lastUpload}",
@@ -361,7 +371,7 @@
         <blockquote>
           <div class="leading-questions"></div>
           <div class="offers"></div>
-          <textarea name="content"></textarea>
+          <div class="input-wrapper"><textarea name="content"></textarea></div>
           <div class="add-resources"></div>
           <div class="visuals"></div>
           <div class="resources"></div>
@@ -415,24 +425,34 @@
 
 <script type="text/html" id="template-new-visual-uploader">
   <div class="visual content" id="{{id}}">
-    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    <a href="#" onclick="SM.Spark.deleteContent(this);" class="delete"></a>
     <form action="{{uploadTarget}}"
           method="POST"
           enctype="multipart/form-data"
-          target="frame"
-          onsubmit="return SM.Spark.onVisualFormSubmit('{{id}}');">
-      <input type="file" name="file" />
-      <input type="submit" value="Submit" />
+          target="frame-{{id}}">
+      <table>
+        <tr>
+          <td>
+            <input type="file" name="file" style="width: 200px;"/>
+            <a class="button positive" href="#" onclick="$(this).parents('form').first().trigger('submit');">
+              <span>
+                <img src="@{'public/images/icons/silk/add.png'}" alt="Upload"/>
+                Upload
+              </span>
+            </a>
+          </td>
+        </tr>
+      </table>
     </form>
-    <iframe style="display: none;" name="frame"/>
+    <iframe style="display: none;" name="frame-{{id}}"/>
   </div>
 </script>
 
 <script type="text/html" id="template-new-visual">
   <div class="visual content" id="{{id}}">
-    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    <a href="#" onclick="SM.Spark.deleteContent(this);" class="delete"></a>
     <a href='http://${play.configuration.get("url.blob-server")}/serve/{{key}}' target="_blank">View</a>
-    <input type="text" class="visual-title" value="{{title}}" />
+    <div class="input-wrapper"><input type="text" class="visual-title" value="{{title}}" /></div<
     <input type="hidden" class="visual-key" value="{{key}}" />
   </div>
 </script>
@@ -440,19 +460,37 @@
 *{ new resource form }*
 <script type="text/html" id="template-new-resource">
   <div class="resource content">
-    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
-    <h4>New Resource</h4>
-    <label>Url</label><input type="text" value="{{url}}"/>
-    <label>Title</label><input type="text" value="{{title}}"/>
-    <label>Description</label><input type="text" value="{{description}}"/>
+    <a href="#" onclick="SM.Spark.deleteContent(this);" class="delete"></a>
+    <h5>New Resource</h5>
+    <table>
+      <tr>
+        <td class="column-4">
+          <label>Url</label>
+          <div class="input-wrapper"><input type="text" value="{{url}}"/></div>
+        </td>
+        <td class="column-6 last">
+          <label>Title</label>
+          <div class="input-wrapper"><input type="text" value="{{title}}"/></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="column-10 last">
+          <label>Description</label>
+          <div class="input-wrapper"><input type="text" value="{{description}}"/></div>
+        </td>
+      </tr>
+    </table>
   </div>
 </script>
 
 *{ displayed when user types in an url within a post, asks user if they want to show it as a resource }*
 <script type="text/html" id="template-add-resource">
   <div class="add-resource content">
-    <a href="#" onclick="SM.Spark.newResource('{{url}}'); SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/link.png'}" /></a>
     <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
+    <a href="#"
+        title="Add a resource"
+        class="icon-button resource"
+        onclick="SM.Spark.newResource('{{url}}'); SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/link.png'}" /></a>
     {{url}}
   </div>
 </script>

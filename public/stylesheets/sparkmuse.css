@@ -19,7 +19,6 @@
     <BUTTONS>
     <TWITTER>
     <REPUTATION>
-    <FORMS>
 */
 $LOGO_LIGHT_YELLOW: #fdf9d2;
 $LOGO_YELLOW: #f5e21f;
@@ -55,12 +54,11 @@ a img {border:none;}
 
 /* BEGIN <FORMS> */
 
-label {font-weight:bold;}
 fieldset {padding:1.4em;margin:1em 0 0 0;border:1px solid #ccc;}
 legend {font-weight:bold;font-size:1.2em;}
-input[type=text], input[type=password], input.text, input.title, textarea, select {background-color:#fff;border:1px solid #bbb; padding: 3px 4px;}
-input[type=text]:focus, input[type=password]:focus, input.text:focus, input.title:focus, textarea:focus, select:focus {border:2px solid $LOGO_ORANGE; outline-width: 0;}
-input[type=text], input[type=password], input.text, input.title, textarea, select {margin:0.5em 0;}
+input[type=text], input[type=password], input.text, input.title, textarea, select {background-color:#fff; padding: 0; border: none;}
+input[type=text]:focus, input[type=password]:focus, input.text:focus, input.title:focus, textarea:focus, select:focus { outline-width: 0;}
+input[type=text], input[type=password], input.text, input.title, textarea, select {}
 input.text, input.title {width:300px;padding:5px;}
 input.title {font-size:1.5em;}
 textarea {width:390px;height:250px;}
@@ -74,11 +72,33 @@ form.inline p {margin-bottom:0;}
 .error a {color:#8a1f11;}
 .notice a {color:#514721;}
 .success a {color:#264409;}
-input, textarea {
-  background: transparent url("../images/input-bg.png") no-repeat 0px 0px;
+
+.input-wrapper {
+  background: url("../images/input-bg.png") no-repeat 0px 0px #fff;
   -webkit-box-shadow: 0px 1px 0px white;
   -moz-box-shadow: 0px 1px 0px white;
   box-shadow: 0px 1px 0px white;
+  border:1px solid #bbb;
+  padding: 3px 4px;
+  margin:0 0 0.5em 0;
+}
+
+  .input-wrapper:focus {
+    border:2px solid $LOGO_ORANGE;
+  }
+
+input, textarea, select {
+  width: 100%;
+  background: rgba(255,255,255,0.1);
+}
+
+div.field {
+  margin-bottom: 1em;
+}
+
+fieldset {
+  border: none;
+  padding: 0 15px;
 }
 
 /* END <FORMS> */
@@ -241,6 +261,18 @@ div.colborder {padding-right:27px;margin-right:28px;border-right:1px solid #eee;
 .clearfix:after, .container:after {content:".";display:block;height:0;clear:both;visibility:hidden;}
 .clearfix, .container {display:block;}
 .clear {clear:both;}
+td.column-1, td.column-2, td.column-3, td.column-4, td.column-5, td.column-6, td.column-7, td.column-8, td.column-9, td.column-10 { padding-right: 10px; }
+td.column-1 { width: 10%; }
+td.column-2 { width: 20%; }
+td.column-3 { width: 30%; }
+td.column-4 { width: 40%; }
+td.column-5 { width: 50%; }
+td.column-6 { width: 60%; }
+td.column-7 { width: 70%; }
+td.column-8 { width: 80%; }
+td.column-9 { width: 90%; }
+td.column-10 { width: 100%; }
+td.last { padding-right: 0 !important;}
 
 /* END <GRIDS> */
 
@@ -259,14 +291,14 @@ li {margin-bottom: 0.5em; }
 h1, h2, h3, h4, h5, h6 {font-weight:normal;}
 h1 {font-size:3em;line-height:1;margin-bottom:0.5em;}
 h2 {font-size:2em;margin-bottom:0.5em;}
-h3 {font-size:1.4em;line-height:1;margin-bottom:1em;}
+h3 {font-size:1.4em;line-height:1;margin-bottom:0.7em;}
 h4 {font-size:1.2em;line-height:1;margin-bottom:1em;}
-h5 {font-size:1em;font-weight:bold;margin-bottom:1.5em;}
+h5 {font-size:1em;margin-bottom:0.5em;}
 h6 {font-size:1em;font-weight:bold;}
 
 p {margin:0 0 1em 0;}
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5 {
   font-family: $FONT_FAMILY_TITLE;
   letter-spacing: 1px;
 }
@@ -276,7 +308,7 @@ h1, h2 {
   text-shadow: #b3b3b3 0 1px;
 }
 
-h3, h4 {
+h3, h4, h5 {
   color: #444;
 }
 
@@ -349,9 +381,10 @@ label {
   color: $LOGO_LIGHT_ORANGE;
   text-shadow: 0 1px 0 white;
   display: block;
+  margin-bottom: 0.25em;
 }
 
-  label.minor { color: #666; display: inline-block; font-weight: normal; }
+  label.minor { color: #666; display: inline-block; font-weight: normal; margin-bottom: 0; }
 
 img { vertical-align: middle; }
 
@@ -1372,16 +1405,3 @@ a.twitter-login:active {
 
 
 /* END <REPUTATION> */
-
-/* BEGIN <FORMS> */
-
-div.field {
-  margin-bottom: 1em;
-}
-
-fieldset {
-  border: none;
-  padding: 0 15px;
-}
-
-/* END <FORMS> */

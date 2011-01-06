@@ -19,7 +19,7 @@
         <div class="field">
           <label>Key</label>
           <div class="error-message" parameter="key"></div>
-          <input type="text" name="key" maxlength="100" value="${feedback?.key}"/>
+          <div class="input-wrapper"><input type="text" name="key" maxlength="100" value="${feedback?.key}"/></div>
          </div>
         <div class="field">
           <label>Private</label>
@@ -34,7 +34,7 @@
         <div class="field">
           <label>Title</label>
           <div class="error-message" parameter="title"></div>
-          <input type="text" name="title" maxlength="100" value="${feedback?.title}"/>
+          <div class="input-wrapper"><input type="text" name="title" maxlength="100" value="${feedback?.title}"/></div>
          </div>
       </fieldset>
 
@@ -46,7 +46,7 @@
             Feedback
           </label>
           <div class="error-message" parameter="content"></div>
-          <textarea name="content">${feedback?.content}</textarea>
+          <div class="input-wrapper"><textarea name="content">${feedback?.content}</textarea></div>
          </div>
       </fieldset>
 
@@ -275,7 +275,7 @@
           enctype="multipart/form-data"
           target="frame"
           onsubmit="return SM.Spark.onVisualFormSubmit('{{id}}');">
-      <input type="file" name="file" />
+      <div class="input-wrapper"><input type="file" name="file" /></div>
       <input type="submit" value="Submit" />
     </form>
     <iframe style="display: none;" name="frame"></iframe>
