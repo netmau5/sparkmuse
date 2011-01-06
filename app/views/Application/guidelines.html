@@ -4,7 +4,9 @@
 <style type="text/css">
   .overview a {
     float: right;
-    margin-right: 20px;
+    /*margin-right: 20px;*/
+    font-size: 12px;
+    padding-top: 5px;
   }
 
   .heading { position: relative; }
@@ -20,6 +22,24 @@
       padding: 40px 0 0 100px;
       background: url("@{'public/images/dirigible_blank_tail_small.png'}") no-repeat;
     }
+
+  .stripe-yellow {
+    background: url("public/images/textures/stripe-yellow.png") top left repeat-x;
+    padding: 6px;
+    color: #806f00;
+  }
+
+  .stripe-orange {
+    background: url("public/images/textures/stripe-orange.png") top left repeat-x;
+    padding: 6px;
+    color: #85521c;
+  }
+
+  .stripe-blue {
+    background: url("public/images/textures/stripe-blue.png") top left repeat-x;
+    padding: 6px;
+    color: #2b8f70;
+  }
 </style>
 
 <div class="page-canvas">
@@ -37,30 +57,36 @@
   <div class="section overview">
     
     <div class="prepend-1 span-7 colborder">
-      <h3>Discuss</h3>
+      <h3 class="stripe-yellow">
+        Discuss
+        <a href="#" onclick="$(document.body).animate({scrollTop: $('#discuss').offset().top}, 'fast');">More...</a>
+      </h3>
       <p>
         Discussion should be focused on tech ideas with clearly defined problems and concise,
         poingant solutions.
       </p>
-      <a href="#" onclick="$(document.body).animate({scrollTop: $('#discuss').offset().top}, 'fast');">More...</a>
     </div>
 
     <div class="span-6 colborder">
-      <h3>Refine</h3>
+      <h3 class="stripe-orange">
+        Refine
+        <a href="#" onclick="$(document.body).animate({scrollTop: $('#refine').offset().top}, 'fast');">More...</a>
+      </h3>
       <p>
         Focus on providing high value feedback and offer your insights and perspectives to
         others as they will do the same.
       </p>
-      <a href="#" onclick="$(document.body).animate({scrollTop: $('#refine').offset().top}, 'fast');">More...</a>
     </div>
 
     <div class="span-7 last">
-      <h3>Act</h3>
+      <h3 class="stripe-blue">
+        Act
+        <a href="#" onclick="$(document.body).animate({scrollTop: $('#act').offset().top}, 'fast');">More...</a>
+      </h3>
       <p>
         We prefer a predisposition towards action and collaboration.  Be welcoming of potential
         help and offer your own when you can.
       </p>
-      <a href="#" onclick="$(document.body).animate({scrollTop: $('#act').offset().top}, 'fast');">More...</a>
     </div>
 
     <div class="clear"></div>
