@@ -11,19 +11,19 @@ import com.google.code.twig.annotation.Type;
 public class Offer extends Entity<Offer> {
 
   public static enum Expertise {
+    BIG_DATA,
+    BUSINESS,
+    DESIGN,
+    DOMAIN_EXPERTISE,
+    ENGINEERING,
+    FINANCE,
+    LEAN_METHODOLOGY,
     MARKETING,
+    MOBILE,
+    PRODUCT_DEVELOPMENT,
     SALES,
     SEO,
-    ENGINEERING,
-    DESIGN,
-    BIG_DATA,
-    PRODUCT_DEVELOPMENT,
-    SOCIAL_MEDIA,
-    LEAN_METHODOLOGY,
-    MOBILE,
-    FINANCE,
-    BUSINESS,
-    DOMAIN_EXPERTISE
+    SOCIAL_MEDIA
   }
 
   @Required

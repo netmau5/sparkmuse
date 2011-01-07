@@ -1,5 +1,5 @@
 #{extends 'bodytemplate.html' /}
-#{set title:"Sparkmuse [Put Spark Title Here]" /}
+#{set title:"Sparkmuse " + spark.title /}
 
 <link rel="stylesheet" href="@{'/public/stylesheets/Spark/view.css'}" type="text/css" />
 
@@ -205,16 +205,36 @@
           var reply = document.Reply;
           $(reply).formHandler(function(){
             return {
-              "post.sparkId": "${spark.id}",
-              "post.content": reply.content.value,
-              "post.displayContent": s.converter.makeHtml(reply.content.value),
-              "post.visuals": $("#new-reply .visual").map(function() {
-                return {
-                  blobKey: $(this).find(".visual-key").val(),
-                  title: $(this).find(".visual-title").val()
-                }
-              }).get(),
-              "post.inReplyToId": inReplyToId,
+              
+              post: {
+                sparkId: "${spark.id}",
+                content: reply.content.value,
+                displayContent: s.converter.makeHtml(reply.content.value),
+                visuals: $("#new-reply .visuals .visual").map(function() {
+                  return {
+                    blobKey: $(this).find(".visual-key").val(),
+                    title: $(this).find(".visual-title").val()
+                  }
+                }).get(),
+                resources: $("#new-reply .resources .resource").map(function() {
+                  return {
+                    url: $(this).find(".resource-url").val(),
+                    title: $(this).find(".resource-title").val(),
+                    description: $(this).find(".resource-description").val(),
+                    displayDescription: s.converter.makeHtml($(this).find(".resource-description").val())
+                  }
+                }).get(),
+                offers: $("#new-reply .offers .offer").map(function() {
+                  return {
+                    expertise: $(this).find(".offer-expertise").val(),
+                    message: $(this).find(".offer-message").val(),
+                    displayMessage: s.converter.makeHtml($(this).find(".offer-message").val())
+                  }
+                }).get(),
+                leadingQuestion: $("#new-reply .leading-questions .leading-question input").val(),
+                inReplyToId: inReplyToId
+              },
+
               _success: function(r) {
                 s.endReply();
                 if (r.fragment) {
@@ -226,6 +246,7 @@
                   }
                 }
               }
+
             }
           })
         }
@@ -236,10 +257,18 @@
 
       newLeadingQuestion: function() {
         s._startReplyIfNotStarted();
+
+        $("#new-reply .attachments .leading-question").hide();
+        $("#new-reply .leading-questions").append($("#template-new-leading-question").html());
+        $("#new-reply .leading-questions .delete").click(function(){
+          $("#new-reply .attachments .leading-question").show();
+        });
       },
 
       newOffer: function() {
         s._startReplyIfNotStarted();
+        $("#new-reply .offers").append($("#template-new-offer").html());
+        $("#new-reply .offers select").uniform();
       },
 
       newResource: function(url) {
@@ -428,6 +457,7 @@
 <script type="text/html" id="template-new-visual-uploader">
   <div class="visual content" id="{{id}}">
     <a href="#" onclick="SM.Spark.deleteContent(this);" class="delete"></a>
+    <h5>New Visual</h5>
     <form action="{{uploadTarget}}"
           method="POST"
           enctype="multipart/form-data"
@@ -453,8 +483,9 @@
 <script type="text/html" id="template-new-visual">
   <div class="visual content" id="{{id}}">
     <a href="#" onclick="SM.Spark.deleteContent(this);" class="delete"></a>
+    <h5>New Visual</h5>
     <a href='http://${play.configuration.get("url.blob-server")}/serve/{{key}}' target="_blank">View</a>
-    <div class="input-wrapper"><input type="text" class="visual-title" value="{{title}}" /></div<
+    <div class="input-wrapper"><input type="text" class="visual-title" value="{{title}}" /></div>
     <input type="hidden" class="visual-key" value="{{key}}" />
   </div>
 </script>
@@ -468,20 +499,47 @@
       <tr>
         <td class="column-4">
           <label>Url</label>
-          <div class="input-wrapper"><input type="text" value="{{url}}"/></div>
+          <div class="input-wrapper"><input type="text" class="resource-url" value="{{url}}"/></div>
         </td>
         <td class="column-6 last">
           <label>Title</label>
-          <div class="input-wrapper"><input type="text" value="{{title}}"/></div>
+          <div class="input-wrapper"><input type="text" class="resource-title" value="{{title}}"/></div>
         </td>
       </tr>
       <tr>
         <td colspan="2" class="column-10 last">
           <label>Description</label>
-          <div class="input-wrapper"><input type="text" value="{{description}}"/></div>
+          <div class="input-wrapper"><input type="text" class="resource-description" value="{{description}}"/></div>
         </td>
       </tr>
     </table>
+  </div>
+</script>
+
+*{ leading question form }*
+<script type="text/html" id="template-new-leading-question">
+  <div class="leading-question content">
+    <a href="#" onclick="SM.Spark.deleteContent(this);" class="delete"></a>
+    <h5>Leading Question</h5>
+    <div class="input-wrapper">
+       <input type="text" value=""/>
+    </div>
+  </div>
+</script>
+
+*{ offer form }*
+<script type="text/html" id="template-new-offer">
+  <div class="offer content">
+    <a href="#" onclick="SM.Spark.deleteContent(this);" class="delete"></a>
+    <h5>Offer</h5>
+    <label>Expertise</label>
+    <select class="offer-expertise">
+      #{include "Spark/expertiseOptions.html" /}
+    </select>
+    <label>To: #{nameTag user: spark.author /}</label>
+    <div class="input-wrapper">
+      <textarea class="offer-message"></textarea>
+    </div>
   </div>
 </script>
 

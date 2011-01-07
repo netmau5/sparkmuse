@@ -121,4 +121,29 @@ public class Post extends OwnedEntity<Post> implements Votable {
   public void setVisuals(List<Visual> visuals) {
     this.visuals = visuals;
   }
+
+  public List<Resource> getResources() {
+    return resources;
+  }
+
+  public void setResources(List<Resource> resources) {
+    this.resources = resources;
+  }
+
+  public List<Offer> getOffers() {
+    return offers;
+  }
+
+  public void setOffers(List<Offer> offers) {
+    this.offers = offers;
+  }
+
+  public String getLeadingQuestion() {
+    return leadingQuestion;
+  }
+
+  public void setLeadingQuestion(String leadingQuestion) {
+    this.leadingQuestion = leadingQuestion;
+  }
+  
 }
