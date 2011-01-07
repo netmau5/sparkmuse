@@ -186,7 +186,9 @@
 
           $('#no-posts').remove();
 
-          var replyForm = Mustache.to_html($("#template-reply").html());
+          var replyForm = Mustache.to_html($("#template-reply").html(), {
+            isRootPost: !inReplyToId
+          });
           if (!inReplyToId) {
             $("#comments-container").prepend(replyForm);
           }
@@ -382,12 +384,12 @@
     <div class="control-bar">
       <div class="attachments">
         <label class="minor">Add:</label>
-        <a class="icon-button leading-question"
+        {{#isRootPost}}<a class="icon-button leading-question"
             href="#"
             onclick="SM.Spark.newLeadingQuestion();"
             title="Ask a leading question, focus on a specific topic">
           <img src="@{'public/images/icons/silk/help.png'}" />
-        </a><a class="icon-button offer" href="#" onclick="SM.Spark.newOffer();">
+        </a>{{/isRootPost}}<a class="icon-button offer" href="#" onclick="SM.Spark.newOffer();">
           <img src="@{'public/images/icons/silk/group.png'}" title="Offer help"/>
         </a><a class="icon-button visual" href="#" onclick="SM.Spark.newVisual();">
           <img src="@{'public/images/icons/silk/image.png'}" title="Add a visual"/>
