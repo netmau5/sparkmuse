@@ -33,6 +33,9 @@ public class Post extends OwnedEntity<Post> implements Votable {
   @Type(Text.class) private String displayContent;
 
   private List<Visual> visuals;
+  private List<Resource> resources;
+  private List<Offer> offers;
+  private String leadingQuestion;
 
   public Post() {
     this.replies = ImmutableList.of();
