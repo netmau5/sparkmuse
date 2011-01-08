@@ -226,9 +226,9 @@
                 }).get(),
                 offers: $("#new-reply .offers .offer").map(function() {
                   return {
-                    expertise: $(this).find(".offer-expertise").val(),
-                    message: $(this).find(".offer-message").val(),
-                    displayMessage: s.converter.makeHtml($(this).find(".offer-message").val())
+                    expertise: $(this).find(".offer-expertise").val()
+//                    message: $(this).find(".offer-message").val(),
+//                    displayMessage: s.converter.makeHtml($(this).find(".offer-message").val())
                   }
                 }).get(),
                 leadingQuestion: $("#new-reply .leading-questions .leading-question input").val(),
@@ -536,10 +536,15 @@
     <select class="offer-expertise">
       #{include "Spark/expertiseOptions.html" /}
     </select>
-    <label>To: #{nameTag user: spark.author /}</label>
+    *{
+    <label>
+      To: #{nameTag user: spark.author /}
+      <span class="note">This message will only be seen by the recipient.</span>
+    </label>
     <div class="input-wrapper">
       <textarea class="offer-message"></textarea>
     </div>
+    }*
   </div>
 </script>
 

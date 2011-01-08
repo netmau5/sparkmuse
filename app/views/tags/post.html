@@ -10,7 +10,35 @@
     </cite>
   </div>
   <blockquote>
+    #{if _post.leadingQuestion}
+      <div class="content leading-question">
+        <p>${_post.leadingQuestion}</p>
+      </div>
+    #{/if}
+
+    #{if _post.offers}
+      <div class="content offer">
+        #{list items: _post.offers, as: "offer"}
+          <p>
+            @${_post.author.userName} is offering help with <strong>${offer.expertise.toWords()}</strong>.
+          </p>
+        #{/list}
+      </div>
+    #{/if}
+
     ${_post.displayContent?.raw()}
+
+    #{if _post.visuals || _post.resources}
+      <div class="content">
+        #{list items: _post.visuals, as: "visual"}
+          <div class="visual-item"><a href='http://${play.configuration.get("url.blob-server")}/serve/${visual.blobKey}' target="_blank">${visual.title}</a></div>
+        #{/list}
+        #{list items: _post.resources, as: "resource"}
+          <div class="resource-item"><a href="${resource.url}" title="${resource.description}" target="_blank">${resource.title}</a></div>
+        #{/list}
+      </div>
+    #{/if}
+
     <div class="post-actions alt">
       %{ if (!_post.inReplyToId) { }%
         <a class="icon-button positive"

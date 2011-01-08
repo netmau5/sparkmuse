@@ -8,7 +8,8 @@ $LOGO_ORANGE: #FA6900;
 $LOGO_LIGHT_ORANGE: #F38630;
 $COLOR_NEUTRAL: #E0E4CC;
 $COLOR_LIGHT_NEUTRAL: #fefffa;
-$COLOR_DARK_NEUTRAL: #fefffa;
+$COLOR_DARK_NEUTRAL: #d1d9a9;
+$COLOR_ALT: #666;
 
 $FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
@@ -147,6 +148,35 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
     top: -8px;
   }
 
+  .content p {
+    margin: 0 0 .5em 0;
+  }
+
+.leading-question p,
+.leading-question h5 {
+  padding-left: 20px;
+  background: url("../../images/icons/silk/help.png") 0 50% no-repeat;
+}
+
+.offer p,
+.offer h5 {
+  padding-left: 20px;
+  background: url("../../images/icons/silk/group.png") 0 50% no-repeat;
+}
+
+.visual-item,
+.visual h5 {
+  padding-left: 20px;
+  background: url("../../images/icons/silk/image.png") 0 50% no-repeat;
+}
+
+.resource-item,
+.resource h5 {
+  padding-left: 20px;
+  background: url("../../images/icons/silk/link.png") 0 50% no-repeat;
+}
+
+
 #new-reply table {
   width: 100%;
 }
@@ -156,6 +186,15 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   #new-reply .visual .button {
     float: none;
     display: inline-block;
+  }
+
+  #new-reply .note {
+    padding-left: 15px;
+    display: inline-block;
+    color: $COLOR_ALT;
+    font-style: italic;
+    font-weight: normal;
+    font-size: 12px;
   }
 
 /* END <ATTACHMENTS> */
