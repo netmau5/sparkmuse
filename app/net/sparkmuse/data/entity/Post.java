@@ -2,6 +2,8 @@ package net.sparkmuse.data.entity;
 
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.common.Dateable;
+import net.sparkmuse.client.NoScriptCheck;
+import play.data.validation.CollectionMemberCheck;
 import org.joda.time.DateTime;
 import com.google.common.collect.ImmutableList;
 import com.google.appengine.api.datastore.Text;
@@ -11,6 +13,7 @@ import com.google.code.twig.annotation.Store;
 import java.util.List;
 
 import play.data.validation.Required;
+import play.data.validation.CheckWith;
 
 /**
  * Created by IntelliJ IDEA.
@@ -20,7 +23,7 @@ import play.data.validation.Required;
  */
 public class Post extends OwnedEntity<Post> implements Votable, Dateable {
 
-  @Store(false) private ImmutableList<Post> replies;
+  @Store(false) private List<Post> replies; //underlying types must not be immutable for Play validation
   private Long inReplyToId;
 
   @Required
@@ -30,11 +33,21 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
   private DateTime edited;
 
   private int votes;
-  @Type(Text.class) private String content;
-  @Type(Text.class) private String displayContent;
+
+  @Type(Text.class)
+  @Required
+  private String content;
+
+  @Type(Text.class)
+  @Required
+  @CheckWith(value= NoScriptCheck.class, message="validation.noscript")
+  private String displayContent;
 
   private List<Visual> visuals;
+
+  @CheckWith(value= CollectionMemberCheck.class)
   private List<Resource> resources;
+  
   private List<Offer> offers;
   private String leadingQuestion;
 
@@ -56,7 +69,7 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
   }
 
   public ImmutableList<Post> getReplies() {
-    return replies;
+    return ImmutableList.copyOf(replies);
   }
 
   public Long getInReplyToId() {
@@ -87,7 +100,7 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
     return visuals;
   }
 
-  public void setReplies(ImmutableList<Post> replies) {
+  public void setReplies(List<Post> replies) {
     this.replies = replies;
   }
 

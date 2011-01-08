@@ -3,11 +3,13 @@ package net.sparkmuse.data.entity;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.discussion.SparkRanking;
 import net.sparkmuse.common.Dateable;
+import net.sparkmuse.client.NoScriptCheck;
 
 import java.util.List;
 
 import org.joda.time.DateTime;
 import play.data.validation.Required;
+import play.data.validation.CheckWith;
 import com.google.code.twig.annotation.Type;
 import com.google.appengine.api.datastore.Text;
 
@@ -31,6 +33,7 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable, Dateable {
 
   @Required
   @Type(Text.class)
+  @CheckWith(value= NoScriptCheck.class, message="validation.noscript")
   private String displayProblem;
 
   @Required
@@ -39,6 +42,7 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable, Dateable {
 
   @Required
   @Type(Text.class)
+  @CheckWith(value=NoScriptCheck.class, message="validation.noscript")
   private String displaySolution;
 
   @Required(message="validation.required.tags")

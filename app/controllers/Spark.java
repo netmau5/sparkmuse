@@ -75,6 +75,10 @@ public class Spark extends SparkmuseController {
   }
 
   public static void reply(@Valid Post post) {
+    if (Validation.hasErrors()) {
+      renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
+    }
+
     post.setAuthor(Authorization.getUserFromSessionOrAuthenticate(true));
     sparkFacade.createPost(post);
 

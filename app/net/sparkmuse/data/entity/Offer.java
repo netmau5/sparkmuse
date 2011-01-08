@@ -1,8 +1,10 @@
 package net.sparkmuse.data.entity;
 
 import play.data.validation.Required;
+import play.data.validation.CheckWith;
 import com.google.appengine.api.datastore.Text;
 import com.google.code.twig.annotation.Type;
+import net.sparkmuse.client.NoScriptCheck;
 
 /**
  * @author neteller
@@ -31,7 +33,9 @@ public class Offer extends Entity<Offer> {
 
   @Type(Text.class)
   private String message;
+
   @Type(Text.class)
+  @CheckWith(value=NoScriptCheck.class, message="validation.noscript")
   private String displayMessage;
 
   public Expertise getExpertise() {

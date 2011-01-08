@@ -26,7 +26,7 @@ public class Orderings {
 
   private static List<Post> sortReplies(List<Post> posts, Ordering ordering) {
     for (final Post post: posts) {
-      post.setReplies(ImmutableList.copyOf(ordering.sortedCopy(post.getReplies())));
+      post.setReplies(ordering.sortedCopy(post.getReplies()));
       sortReplies(post.getReplies(), ordering);
     }
     return posts;

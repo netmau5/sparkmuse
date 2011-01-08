@@ -1,8 +1,7 @@
 package net.sparkmuse.data.entity;
 
 import play.data.validation.Required;
-import com.google.appengine.api.datastore.Text;
-import com.google.code.twig.annotation.Type;
+import play.data.validation.URL;
 
 /**
  * @author neteller
@@ -17,6 +16,7 @@ public class Resource extends Entity<Resource> {
   }
 
   @Required
+  @URL
   private String url;
 
   @Required

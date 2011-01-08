@@ -3,3 +3,4 @@
 #
 validation.required=%s is required.
 validation.required.tags=At least one tag is required.
+validation.noscript=Scripting is not allowed.

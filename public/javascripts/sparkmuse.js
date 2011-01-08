@@ -24,23 +24,21 @@ SM.newId = (function(){
         form.trigger(SM.Events.Submit);
         var i, params = formParameterBuilder.call(this),
             context = params._context ? $(params._context) : form,
-            customSuccessHandler = params._success,
-            onSuccess = !customSuccessHandler ? FormHandler.responseHandler : function(r) {
-                customSuccessHandler.call(context, r);
-                FormHandler.handleSuccessResponse.call(context, this)
-              };
+            filteredParams = {};
 
         //dont send params that are falsey, ie empty string
         //dont send reserved property names (ie, those starting with _)
         for (i in params) {
-          if (params.hasOwnProperty(i) && (!params[i] || i.indexOf("_") === 0)) { delete params[i]; }
+          if (!(params.hasOwnProperty(i) && (!params[i] || i.indexOf("_") === 0))) {
+            filteredParams[i] = params[i];
+          }
         }
 
         var parms = {
           url: form.attr("action"),
-          data: FormHandler.playcate(params),
+          data: FormHandler.playcate(filteredParams),
           type: form.attr("method"),
-          success: onSuccess,
+          success: FormHandler.newResponseHandler(params),
           error: FormHandler.handleSystemErrorResponse,
           dataType: "json",
           context: context
@@ -86,8 +84,11 @@ SM.newId = (function(){
       }
     },
 
-    responseHandler: function(response) {
-      FormHandler.determineCorrectHandler(response).call(this, response);
+    newResponseHandler: function(params) {
+      return function(response) {
+        var handler = params["_" + response.type.toLowerCase()] || FormHandler.determineCorrectHandler(response);
+        handler.call(this, response);
+      }
     },
 
     determineCorrectHandler: function(response) {

@@ -213,7 +213,7 @@
                 inReplyToId: inReplyToId
               },
 
-              _success: function(r) {
+              _fragment: function(r) {
                 s.endReply();
                 if (r.fragment) {
                   if (inReplyToId) {
@@ -358,9 +358,14 @@
         <blockquote>
           <div class="leading-questions"></div>
           <div class="offers"></div>
+
+          <div class="error-message" parameter="post.displayContent"></div>
           <div class="input-wrapper"><textarea name="content"></textarea></div>
-          <div class="add-resources"></div>
+
+          <div class="error-message" parameter="post.visuals"></div>
           <div class="visuals"></div>
+
+          <div class="error-message" parameter="post.resources"></div>
           <div class="resources"></div>
         </blockquote>
       </div>
