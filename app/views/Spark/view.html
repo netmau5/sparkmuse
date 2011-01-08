@@ -134,30 +134,10 @@
 
     $(".spark-info").height($(".content-container").height());
 
-    var urlRegex = /((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?)/,
-        addResourcesCache = {};
-
-
     function resizeTextArea() {
       var ta = $(this);
       if (ta.scrollTop() > 0) {
         ta.height(ta.height() + 20);
-      }
-    }
-
-    function checkForLinks() {
-      var i, token, tokens = this.value.replace(/\s+/g, " ").split(" ");
-      for (i in tokens) {
-        if (i != tokens.length - 1) {
-          token = tokens[i];
-          if (urlRegex.test(token) && !addResourcesCache[token]) {
-            addResourcesCache[token] = true;
-            $("#new-reply .add-resources").append(Mustache.to_html(
-                $("#template-add-resource").html(),
-                { url: token }
-            ));
-          }
-        }
       }
     }
 
@@ -200,7 +180,6 @@
           if (newReply.offset().top > $(window).height()) {
             $(document.body).animate({scrollTop: newReply.offset().top}, "fast");
           }
-          $("#new-reply textarea").keyup(resizeTextArea).keyup($.throttle(250, checkForLinks));
 
           var reply = document.Reply;
           $(reply).formHandler(function(){
@@ -220,8 +199,7 @@
                   return {
                     url: $(this).find(".resource-url").val(),
                     title: $(this).find(".resource-title").val(),
-                    description: $(this).find(".resource-description").val(),
-                    displayDescription: s.converter.makeHtml($(this).find(".resource-description").val())
+                    type: $(this).find(".resource-type").val()
                   }
                 }).get(),
                 offers: $("#new-reply .offers .offer").map(function() {
@@ -271,35 +249,13 @@
         $("#new-reply .offers select").uniform();
       },
 
-      newResource: function(url) {
+      newResource: function() {
         s._startReplyIfNotStarted();
 
-        if (url) {
-          var id = s._createLoadingView("#new-reply .resources", "resource");
-          $.ajax({
-            url: "@{Spark.lookupLinkMetadata()}",
-            data: { url: url },
-            context: s,
-            success: function(r) {
-              $("#" + id).remove();
-              this._createNewResource(url, r.title, r.description);
-            }
-          });
-        }
-        else {
-          this._createNewResource();
-        }
-      },
-
-      _createNewResource: function(url, title, description) {
         $("#new-reply .resources").append(Mustache.to_html(
-            $("#template-new-resource").html(),
-            {
-              url: url || "",
-              title: title || "",
-              description: description || ""
-            }
+            $("#template-new-resource").html()
         ));
+        $("#new-reply .resources select").uniform();
       },
 
       newVisual: function(uploadTarget) {
@@ -497,19 +453,23 @@
     <h5>New Resource</h5>
     <table>
       <tr>
-        <td class="column-4">
+        <td class="column-5">
           <label>Url</label>
-          <div class="input-wrapper"><input type="text" class="resource-url" value="{{url}}"/></div>
+          <div class="input-wrapper"><input type="text" class="resource-url"/></div>
         </td>
-        <td class="column-6 last">
-          <label>Title</label>
-          <div class="input-wrapper"><input type="text" class="resource-title" value="{{title}}"/></div>
+        <td class="column-5 last">
+          <label>Type</label>
+          <select class="resource-type">
+            <option value="VALIDATION">Validation - Proof that this need exists.</option>
+            <option value="SIMILAR_IDEA">Similar Idea - Competitor or Spark.</option>
+            <option value="RESEARCH">Research - Helpful information on idea.</option>
+          </select>
         </td>
       </tr>
       <tr>
         <td colspan="2" class="column-10 last">
-          <label>Description</label>
-          <div class="input-wrapper"><input type="text" class="resource-description" value="{{description}}"/></div>
+          <label>Title</label>
+          <div class="input-wrapper"><input type="text" class="resource-title"/></div>
         </td>
       </tr>
     </table>
@@ -545,18 +505,6 @@
       <textarea class="offer-message"></textarea>
     </div>
     }*
-  </div>
-</script>
-
-*{ displayed when user types in an url within a post, asks user if they want to show it as a resource }*
-<script type="text/html" id="template-add-resource">
-  <div class="add-resource content">
-    <a href="#" onclick="SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/cancel.png'}" /></a>
-    <a href="#"
-        title="Add a resource"
-        class="icon-button resource"
-        onclick="SM.Spark.newResource('{{url}}'); SM.Spark.deleteContent(this);"><img src="@{'public/images/icons/silk/link.png'}" /></a>
-    {{url}}
   </div>
 </script>
 

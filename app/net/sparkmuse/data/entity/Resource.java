@@ -10,17 +10,20 @@ import com.google.code.twig.annotation.Type;
  */
 public class Resource extends Entity<Resource> {
 
+  public enum ResourceType {
+    VALIDATION,
+    SIMILAR_IDEA,
+    RESEARCH
+  }
+
   @Required
   private String url;
 
   @Required
   private String title;
 
-  @Type(Text.class)
-  private String displayDescription;
-
-  @Type(Text.class)
-  private String description;
+  @Required
+  private ResourceType type;
 
   public String getUrl() {
     return url;
@@ -38,19 +41,12 @@ public class Resource extends Entity<Resource> {
     this.title = title;
   }
 
-  public String getDescription() {
-    return description;
+  public ResourceType getType() {
+    return type;
   }
 
-  public void setDescription(String description) {
-    this.description = description;
+  public void setType(ResourceType type) {
+    this.type = type;
   }
-
-  public String getDisplayDescription() {
-    return displayDescription;
-  }
-
-  public void setDisplayDescription(String displayDescription) {
-    this.displayDescription = displayDescription;
-  }
+  
 }

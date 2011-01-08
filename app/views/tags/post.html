@@ -34,7 +34,7 @@
           <div class="visual-item"><a href='http://${play.configuration.get("url.blob-server")}/serve/${visual.blobKey}' target="_blank">${visual.title}</a></div>
         #{/list}
         #{list items: _post.resources, as: "resource"}
-          <div class="resource-item"><a href="${resource.url}" title="${resource.description}" target="_blank">${resource.title}</a></div>
+          <div class="resource-item"><a href="${resource.url}" target="_blank">${resource.type?.toWords()} - ${resource.title}</a></div>
         #{/list}
       </div>
     #{/if}
