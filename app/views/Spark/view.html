@@ -372,14 +372,23 @@
         {{#isRootPost}}<a class="icon-button leading-question"
             href="#"
             onclick="SM.Spark.newLeadingQuestion();"
-            title="Ask a leading question, focus on a specific topic">
+            title="Ask a leading question to focus discussion on a specific topic.">
           <img src="@{'public/images/icons/silk/help.png'}" />
-        </a>{{/isRootPost}}<a class="icon-button offer" href="#" onclick="SM.Spark.newOffer();">
-          <img src="@{'public/images/icons/silk/group.png'}" title="Offer help"/>
-        </a><a class="icon-button visual" href="#" onclick="SM.Spark.newVisual();">
-          <img src="@{'public/images/icons/silk/image.png'}" title="Add a visual"/>
-        </a><a class="icon-button resource" href="#" onclick="SM.Spark.newResource();">
-          <img src="@{'public/images/icons/silk/link.png'}" title="Add a resource"/>
+        </a>{{/isRootPost}}<a class="icon-button offer"
+                              href="#"
+                              onclick="SM.Spark.newOffer();"
+                              title="Offer help in a specific area of expertise.">
+          <img src="@{'public/images/icons/silk/group.png'}" />
+        </a><a class="icon-button visual"
+               href="#"
+               onclick="SM.Spark.newVisual();"
+               title="Add a visual such as a screenshot, mockup, or diagram.">
+          <img src="@{'public/images/icons/silk/image.png'}" />
+        </a><a class="icon-button resource"
+               href="#"
+               onclick="SM.Spark.newResource();"
+               title="Add a link resource pointing to a similar idea, validation of it, or informative research.">
+          <img src="@{'public/images/icons/silk/link.png'}" />
         </a>
       </div>
       <div class="controls">
