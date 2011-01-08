@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
 import org.hamcrest.MatcherAssert;
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.common.Orderings;
 import com.google.common.collect.Lists;
 
 import java.util.Collections;
@@ -28,7 +29,7 @@ public class MostDiscussedSparksTest extends UnitTest {
     when(spark2.getPostCount()).thenReturn(10);
 
     final ArrayList<SparkVO> sparks = Lists.newArrayList(spark1, spark2);
-    final MostDiscussedSparks.Comparator c = new MostDiscussedSparks.Comparator();
+    final Orderings.ByPostCount c = new Orderings.ByPostCount();
     Collections.sort(sparks, c);
 
     MatcherAssert.assertThat(sparks.get(0).getPostCount(), equalTo(10));

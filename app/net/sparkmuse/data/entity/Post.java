@@ -1,6 +1,7 @@
 package net.sparkmuse.data.entity;
 
 import net.sparkmuse.user.Votable;
+import net.sparkmuse.common.Dateable;
 import org.joda.time.DateTime;
 import com.google.common.collect.ImmutableList;
 import com.google.appengine.api.datastore.Text;
@@ -17,7 +18,7 @@ import play.data.validation.Required;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public class Post extends OwnedEntity<Post> implements Votable {
+public class Post extends OwnedEntity<Post> implements Votable, Dateable {
 
   @Store(false) private ImmutableList<Post> replies;
   private Long inReplyToId;

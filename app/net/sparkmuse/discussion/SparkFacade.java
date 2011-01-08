@@ -5,6 +5,7 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.Cache;
+import net.sparkmuse.common.Orderings;
 import net.sparkmuse.user.UserFacade;
 
 import java.util.Collection;
@@ -70,7 +71,7 @@ public class SparkFacade {
 
   public Posts findPostsFor(final SparkVO spark) {
     Collection<Post> posts = postDao.findPostsBySpark(spark);
-    return new Posts(spark, VoteSorter.sortPosts(posts));
+    return new Posts(spark, Orderings.sort(posts));
   }
 
   public SparkVO findSparkBy(final Long id) {

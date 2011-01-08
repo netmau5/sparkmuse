@@ -5,6 +5,7 @@ import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.NullTo;
+import net.sparkmuse.common.Orderings;
 
 import java.util.List;
 import java.util.TreeSet;
@@ -31,15 +32,9 @@ public class RecentSparks extends AbstractSparkSearchResponse
   }
 
   private static TreeSet<SparkVO> newTreeSet(List<SparkVO> sparks) {
-    final TreeSet<SparkVO> treeSet = new TreeSet<SparkVO>(new Comparator());
+    final TreeSet<SparkVO> treeSet = new TreeSet<SparkVO>(new Orderings.ByRecency());
     treeSet.addAll(NullTo.empty(sparks));
     return treeSet;
   }
 
-  static class Comparator implements java.util.Comparator<SparkVO> {
-    public int compare(SparkVO a, SparkVO b) {
-      final int compareTo = b.getCreated().compareTo(a.getCreated());
-      return tiebreak(a, b, compareTo);
-    }
-  }
 }

@@ -2,6 +2,7 @@ package net.sparkmuse.data.entity;
 
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.discussion.SparkRanking;
+import net.sparkmuse.common.Dateable;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import com.google.appengine.api.datastore.Text;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public class SparkVO extends OwnedEntity<SparkVO> implements Votable {
+public class SparkVO extends OwnedEntity<SparkVO> implements Votable, Dateable {
 
   @Required
   private String title;

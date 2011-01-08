@@ -8,11 +8,13 @@ import org.hamcrest.MatcherAssert;
 import org.joda.time.Days;
 import org.joda.time.DateTime;
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.common.Orderings;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Ordering;
 
 /**
  * @author neteller
@@ -29,7 +31,7 @@ public class RecentSparksTest extends UnitTest {
     when(spark2.getCreated()).thenReturn(new DateTime().minusDays(10));
 
     final ArrayList<SparkVO> sparks = Lists.newArrayList(spark1, spark2);
-    final RecentSparks.Comparator c = new RecentSparks.Comparator();
+    final Ordering c = new Orderings.ByRecency<SparkVO>();
     Collections.sort(sparks, c);
 
     MatcherAssert.assertThat(sparks.get(0).getCreated(), greaterThan(sparks.get(1).getCreated()));

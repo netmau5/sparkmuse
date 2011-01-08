@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
 import org.hamcrest.MatcherAssert;
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.common.Orderings;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,7 +28,7 @@ public class PopularSparksTest extends UnitTest {
     when(spark2.getRating()).thenReturn(10d);
 
     final ArrayList<SparkVO> sparks = Lists.newArrayList(spark1, spark2);
-    final PopularSparks.Comparator c = new PopularSparks.Comparator();
+    final Orderings.ByRating c = new Orderings.ByRating();
     Collections.sort(sparks, c);
 
     MatcherAssert.assertThat(sparks.get(0).getRating(), equalTo(10d));
