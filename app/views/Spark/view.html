@@ -29,7 +29,7 @@
     <div class="spark-details-inner">
       <a href="#%{ if(!isLiked){ }%@{User.vote(spark.class.name, spark.id)}%{ } }%"
          callback="SM.LikedCallback"
-         class='votes ${userVotes.hasUpVoted(spark) ? "liked" : ""}'>25${spark.votes}</a>
+         class='votes ${userVotes.hasUpVoted(spark) ? "liked" : ""}'>${spark.votes}</a>
       <table>
         <tr>
           <td class="label">Author</td>
