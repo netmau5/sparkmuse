@@ -2,10 +2,11 @@ package net.sparkmuse.data.entity;
 
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.common.Dateable;
+import net.sparkmuse.common.NullTo;
 import net.sparkmuse.client.NoScriptCheck;
-import play.data.validation.CollectionMemberCheck;
 import org.joda.time.DateTime;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.google.appengine.api.datastore.Text;
 import com.google.code.twig.annotation.Type;
 import com.google.code.twig.annotation.Store;
@@ -45,14 +46,14 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
 
   private List<Visual> visuals;
 
-  @CheckWith(value= CollectionMemberCheck.class)
+//  @CheckWith(value= CollectionMemberCheck.class)
   private List<Resource> resources;
   
   private List<Offer> offers;
   private String leadingQuestion;
 
   public Post() {
-    this.replies = ImmutableList.of();
+    this.replies = Lists.newArrayList();
     this.created = new DateTime();
   }
 
@@ -97,7 +98,7 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
   }
 
   public List<Visual> getVisuals() {
-    return visuals;
+    return NullTo.empty(visuals);
   }
 
   public void setReplies(List<Post> replies) {
@@ -137,7 +138,7 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
   }
 
   public List<Resource> getResources() {
-    return resources;
+    return NullTo.empty(resources);
   }
 
   public void setResources(List<Resource> resources) {
@@ -145,7 +146,7 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
   }
 
   public List<Offer> getOffers() {
-    return offers;
+    return NullTo.empty(offers);
   }
 
   public void setOffers(List<Offer> offers) {

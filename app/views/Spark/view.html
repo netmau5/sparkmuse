@@ -62,29 +62,70 @@
     </div>
     </div>
 
-    <div class="blurb">
-    <div class="blurb-inner">
-      <h4>Competitors</h4>
-      <ol>
-        <li>^ 32 Reddit</li>
-        <li>^ 31 Hacker News</li>
-        <li>^ 15 Someone</li>
-        <li>^ 2 Someone</li>
-      </ol>
-    </div>
-    </div>
+    #{if posts.similarIdeas}
+      <div class="blurb">
+      <div class="blurb-inner">
+        <h4>Similar Ideas</h4>
+        <ol>
+          #{list items: posts.similarIdeas, as: "resource"}
+            <li><a href="${resource.url}" alt="Similar Idea">${resource.title}</a></li>
+          #{/list}
+        </ol>
+      </div>
+      </div>
+    #{/if}
 
-    <div class="blurb">
-    <div class="blurb-inner">
-      <h4>Resources</h4>
-      <ol>
-        <li>^ 32 Title</li>
-        <li>^ 31 Another Title</li>
-        <li>^ 15 Kekekekeke</li>
-        <li>^ 2 Nonetheless</li>
-      </ol>
-    </div>
-    </div>
+    #{if posts.validations}
+      <div class="blurb">
+      <div class="blurb-inner">
+        <h4>Concept Validation</h4>
+        <ol>
+          #{list items: posts.validations, as: "resource"}
+            <li><a href="${resource.url}" alt="Similar Idea">${resource.title}</a></li>
+          #{/list}
+        </ol>
+      </div>
+      </div>
+    #{/if}
+
+    #{if posts.researches}
+      <div class="blurb">
+      <div class="blurb-inner">
+        <h4>Research Resources</h4>
+        <ol>
+          #{list items: posts.researches, as: "resource"}
+            <li><a href="${resource.url}" alt="Similar Idea">${resource.title}</a></li>
+          #{/list}
+        </ol>
+      </div>
+      </div>
+    #{/if}
+
+    #{if posts.offers}
+      <div class="blurb">
+      <div class="blurb-inner">
+        <h4>Offers</h4>
+        <ol>
+          #{list items: posts.offers, as: "offerEntry"}
+            <li><strong>${offerEntry.value.expertise.toWords()}</strong>&nbsp;&nbsp;#{nameTag user: offerEntry.key.author /}</li>
+          #{/list}
+        </ol>
+      </div>
+      </div>
+    #{/if}
+
+    #{if posts.visuals}
+      <div class="blurb">
+      <div class="blurb-inner">
+        <h4>Visuals</h4>
+        <ol>
+          #{list items: posts.visuals, as: "visual"}
+            <li>#{visualLink visual /}</li>
+          #{/list}
+        </ol>
+      </div>
+      </div>
+    #{/if}
 
   </div>
   </div>
@@ -455,7 +496,9 @@
   <div class="visual content" id="{{id}}">
     <a href="#" onclick="SM.Spark.deleteContent(this);" class="delete"></a>
     <h5>New Visual</h5>
-    <a href='http://${play.configuration.get("url.blob-server")}/serve/{{key}}' target="_blank">View</a>
+    <label>Image</label>
+    <a href='http://${play.configuration.get("url.blob-server")}/serve/{{key}}' target="_blank">View Image</a>
+    <label>Description</label>
     <div class="input-wrapper"><input type="text" class="visual-title" value="{{title}}" /></div>
     <input type="hidden" class="visual-key" value="{{key}}" />
   </div>

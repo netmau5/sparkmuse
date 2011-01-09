@@ -76,6 +76,13 @@ public class Orderings {
     }
   }
 
+  public static class ByVotesEntry<T extends Entity> extends Ordering<Entry<Post, T>> {
+    public int compare(Entry<Post, T> entry, Entry<Post, T> entry1) {
+      final int comparedVotes = Ints.compare(entry.getKey().getVotes(), entry1.getKey().getVotes());
+      return tiebreak(entry.getValue(), entry1.getValue(), comparedVotes);
+    }
+  }
+
   private static int tiebreak(Entity a, Entity b, int compareTo) {
     if (0 != compareTo) return compareTo;
     else return a.getId().compareTo(b.getId());

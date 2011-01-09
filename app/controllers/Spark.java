@@ -18,6 +18,8 @@ import net.sparkmuse.discussion.LinkMetadata;
 import net.sparkmuse.discussion.Posts;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
+import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.Offer;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.user.Votables;
 import com.google.common.collect.Maps;

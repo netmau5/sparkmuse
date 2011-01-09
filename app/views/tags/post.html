@@ -31,7 +31,7 @@
     #{if _post.visuals || _post.resources}
       <div class="content">
         #{list items: _post.visuals, as: "visual"}
-          <div class="visual-item"><a href='http://${play.configuration.get("url.blob-server")}/serve/${visual.blobKey}' target="_blank">${visual.title}</a></div>
+          <div class="visual-item">#{visualLink visual /}</div>
         #{/list}
         #{list items: _post.resources, as: "resource"}
           <div class="resource-item"><a href="${resource.url}" target="_blank">${resource.type?.toWords()} - ${resource.title}</a></div>

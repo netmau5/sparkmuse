@@ -1,4 +1,4 @@
-package play.data.validation;
+package net.sparkmuse.client;
 
 import net.sf.oval.ConstraintViolation;
 import net.sf.oval.Validator;
@@ -6,6 +6,9 @@ import net.sf.oval.context.FieldContext;
 
 import java.util.Collection;
 import java.util.List;
+
+import play.data.validation.Check;
+import play.data.validation.Validation;
 
 /**
  * @author neteller
@@ -15,7 +18,7 @@ public class CollectionMemberCheck extends Check {
 
   public boolean isSatisfied(Object validatedObject, Object value) {
     if (value != null && value instanceof Collection) {
-      String key = "?"; //ValidationPlugin.keys.get().get(validatedObject);
+      String key = "?"; //ValidationPlugin.keys.get().get(validatedObject); //should be in play.data.validation package
 
       for (Object member: (Collection) value) {
         final List<ConstraintViolation> violations = new Validator().validate(member);
