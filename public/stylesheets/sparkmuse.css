@@ -404,6 +404,14 @@ a:active {
   color: $LOGO_YELLOW;
 }
 
+a.image-link {
+  border: 1px solid $LOGO_DARK_BLUE;
+}
+
+  a.image-link:hover {
+    border: 1px solid $LOGO_ORANGE;
+  }
+
 .lightbox {
   border: 2px solid $LOGO_DARK_BLUE;
   cursor: pointer;

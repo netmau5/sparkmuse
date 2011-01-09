@@ -7,9 +7,10 @@
 
   <a href="" id="rss-link" title="Subscribe">Subscribe</a>
   <h2>
-    #{likeButton votable: spark, userVotes: userVotes, size: "big" /}
+    <!--#{likeButton votable: spark, userVotes: userVotes, size: "big" /}-->
     ${spark.title}
   </h2>
+
 
   <p>
     <em>Last updated ${spark.edited.format()} -</em> ${spark.solution.abbreviate(200)}
@@ -24,20 +25,34 @@
   <div class="span-8 spark-info-wrapper wrapper">
   <div class="spark-info inner">
 
-    <div class="blurb spark-details">
-    <div class="blurb-inner">
-      <h4>Details</h4>
-      <p>
-        <label class="minor">Author:</label> #{nameTag user: spark.author, size: "mini" /}<br/>
-        <label class="minor">Stage:</label> ${spark.stage.toWords()}<br/>
-        <label class="minor">Created:</label> ${spark.created.format()}<br/>
-        <label class="minor">Comments:</label> ${spark.postCount} 
-      </p>
-      %{ if (spark.author.equals(currentUser) || currentUser.isAdmin()) { }%
-      <p>
-        <a href="@{Spark.edit(spark.id)}">Edit Spark</a>
-      </p>
-      %{ } }%
+    <div class="spark-details">
+    <div class="spark-details-inner">
+      <a href="#%{ if(!isLiked){ }%@{User.vote(spark.class.name, spark.id)}%{ } }%"
+         callback="SM.LikedCallback"
+         class='votes ${userVotes.hasUpVoted(spark) ? "liked" : ""}'>25${spark.votes}</a>
+      <table>
+        <tr>
+          <td class="label">Author</td>
+          <td>#{nameTag user: spark.author, size: "mini" /}</td>
+        </tr>
+        <tr>
+          <td class="label">Stage</td>
+          <td>${spark.stage.toWords()}</td>
+        </tr>
+        <tr>
+          <td class="label">Created</td>
+          <td>${spark.created.format()}</td>
+        </tr>
+        <!--<tr>-->
+          <!--<td class="label">Comments</td>-->
+          <!--<td>${spark.postCount}</td>-->
+        <!--</tr>-->
+      </table>
+      <!--%{ if (spark.author.equals(currentUser) || currentUser.isAdmin()) { }%-->
+      <!--<p>-->
+        <!--<a href="@{Spark.edit(spark.id)}">Edit Spark</a>-->
+      <!--</p>-->
+      <!--%{ } }%-->
     </div>
     </div>
 
