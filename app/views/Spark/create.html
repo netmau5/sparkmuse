@@ -68,10 +68,10 @@
           <label>
             Problem
             #{tip}
-              <p>Describe the problem you are trying to solve.  The first part of this section will be used as a summary for
-              your Spark.  This field accepts standard markdown syntax:</p>
-              #{markdownGuide /}
+              Describe the problem you are trying to solve.  The first part of this section will be used as a summary for
+              your Spark.
             #{/tip}
+            <img src="@{'public/images/icons/oxygen/markup.png'}" alt="Markdown" title="Markdown enabled"/>
           </label>
           <div class="error-message" parameter="spark.displayProblem"></div>
           <div class="input-wrapper"><textarea name="problem">${spark?.problem}</textarea></div>
@@ -80,9 +80,9 @@
           <label>
             Solution
             #{tip}
-              <p>What is your solution and what value does it provide? This field accepts standard markdown syntax:</p>
-              #{markdownGuide /}
+              What is your solution and what value does it provide?
             #{/tip}
+            <img src="@{'public/images/icons/oxygen/markup.png'}" alt="Markdown" title="Markdown enabled"/>
           </label>
           <div class="error-message" parameter="spark.displaySolution"></div>
           <div class="input-wrapper"><textarea name="solution">${spark?.solution}</textarea></div>
