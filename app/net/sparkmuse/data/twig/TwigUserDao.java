@@ -3,10 +3,7 @@ package net.sparkmuse.data.twig;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.user.Votables;
-import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.Entity;
-import net.sparkmuse.data.entity.UserVote;
-import net.sparkmuse.data.entity.UserApplication;
+import net.sparkmuse.data.entity.*;
 import com.google.inject.Inject;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import com.google.common.collect.Sets;
@@ -38,7 +35,10 @@ public class TwigUserDao extends TwigDao implements UserDao {
 
     if (null == userVO) {
       UserVO newUser = UserVO.newUser(authProviderUserId, userName);
-      return helper.store(newUser);
+      final UserVO storedNewUser = helper.store(newUser);
+      final UserProfile profile = UserProfile.newProfile(storedNewUser);
+      helper.store(profile);
+      return storedNewUser;
     }
     else {
       return userVO;
@@ -47,6 +47,17 @@ public class TwigUserDao extends TwigDao implements UserDao {
 
   public UserVO findUserBy(Long id) {
     return helper.getUser(id);
+  }
+
+  public UserProfile findUserProfileBy(String userName) {
+    final UserVO user = helper.only(datastore.find()
+        .type(UserVO.class)
+        .addFilter("userNameLowercase", EQUAL, userName.toLowerCase()));
+
+    return helper.only(datastore.find()
+        .type(UserProfile.class)
+        .ancestor(user)
+    );
   }
 
   public Map<Long, UserVO> findUsersBy(Set<Long> ids) {

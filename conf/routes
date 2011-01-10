@@ -13,11 +13,11 @@ POST        /verifyAuthorizationToken         Authorization.verifyAuthorizationT
 *           /home/index/{<[A-Za-z]+>filter}   Home.search
 
 *           /vote/{entity}/{id}               User.vote
+GET         /user/view/{userName}             User.view
 
 GET         /spark/view/{sparkId}             Spark.view
 
 GET         /feedback/{appName}               Application.feedback
-
 *           /{action}                         Application.{action}
 
 # Map static resources from the /app/public folder to the /public path

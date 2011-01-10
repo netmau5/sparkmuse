@@ -13,6 +13,7 @@ import com.google.common.base.Function;
 public class UserVO extends Entity<UserVO> {
 
   private String userName;
+  private String userNameLowercase; //used for queries on username
   private String authProviderUserId;
   private AccessLevel accessLevel;
   private int reputation;
@@ -28,6 +29,7 @@ public class UserVO extends Entity<UserVO> {
   public static UserVO newUser(final String authProviderUserId, final String userName) {
     UserVO user = new UserVO();
     user.setUserName(userName);
+    user.setUserNameLowercase(userName.toLowerCase());
     user.setAuthProviderUserId(authProviderUserId);
     user.setAccessLevel(AccessLevel.UNAUTHORIZED);
     user.setReputation(0);
@@ -71,6 +73,22 @@ public class UserVO extends Entity<UserVO> {
 
   public void setUserName(String userName) {
     this.userName = userName;
+  }
+
+  public String getUserNameLowercase() {
+    return userNameLowercase;
+  }
+
+  public void setUserNameLowercase(String userNameLowercase) {
+    this.userNameLowercase = userNameLowercase;
+  }
+
+  public static Function<UserVO, Long> getAsUserIds() {
+    return asUserIds;
+  }
+
+  public static void setAsUserIds(Function<UserVO, Long> asUserIds) {
+    UserVO.asUserIds = asUserIds;
   }
 
   @Override

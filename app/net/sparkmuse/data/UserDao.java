@@ -3,6 +3,7 @@ package net.sparkmuse.data;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVote;
+import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.user.Votable;
 
 import java.util.Set;
@@ -24,6 +25,8 @@ public interface UserDao {
    * @return
    */
   UserVO findUserBy(Long id);
+
+  UserProfile findUserProfileBy(String userName);
 
   Map<Long, UserVO> findUsersBy(Set<Long> ids);
   UserVO update(UserVO user);

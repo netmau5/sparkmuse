@@ -2,6 +2,7 @@ package controllers;
 
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.ajax.AjaxResponse;
 
 import javax.inject.Inject;
@@ -19,9 +20,9 @@ public class User extends SparkmuseController {
 
   @Inject static UserFacade userFacade;
 
-  public static void view(Long userId) {
-    final UserVO user = userFacade.findUserBy(userId);
-    render(user);
+  public static void view(String userName) {
+    final UserProfile profile = userFacade.getUserProfile(userName);
+    render(profile);
   }
 
   public static void vote(String entity, Long id) {

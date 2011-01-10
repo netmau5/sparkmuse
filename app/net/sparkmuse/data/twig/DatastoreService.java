@@ -57,9 +57,7 @@ public class DatastoreService {
       return cachedUser;
     }
 
-    final UserVO userVO = load(UserVO.class, id);
-    if (null == userVO) return null;
-    else return userVO;
+    return load(UserVO.class, id);
   }
 
   /**

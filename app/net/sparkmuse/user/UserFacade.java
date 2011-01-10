@@ -17,6 +17,7 @@ import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVote;
+import net.sparkmuse.data.entity.UserProfile;
 
 import java.util.Set;
 
@@ -105,6 +106,10 @@ public class UserFacade {
    */
   public UserVO findUserBy(final Long id) {
     return userDao.findUserBy(id);
+  }
+
+  public UserProfile getUserProfile(String userName) {
+    return userDao.findUserProfileBy(userName);
   }
 
   public void applyForInvitation(final String userName, final String url) {
