@@ -12,7 +12,7 @@ import play.templates.JavaExtensions;
 public class ObjectExtensions extends JavaExtensions {
 
   public static String toWords(Object object) {
-    final String s = object.toString();
+    final String s = object.toString().replaceAll("_", " ");
     return StringUtils.capitalize(s.toLowerCase());
   }
 
