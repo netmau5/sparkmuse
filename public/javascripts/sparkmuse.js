@@ -272,6 +272,13 @@ $(document).ready(function() {
 });
 
 $(document).ready(function() {
+  //minheight
+  var bodyHeight = $(document.body).height(),
+      windowHeight = $(window).height();
+  if (bodyHeight < windowHeight) {
+    $("#body-container").css({minHeight: 450 + windowHeight - bodyHeight});
+  }
+
   //tooltips
   $("[title]").live("mouseenter", function() {
     var e = $(this);

@@ -245,22 +245,6 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 /* END <ATTACHMENTS> */
 
-#rss-link {
-  text-indent: -9999px;
-  float: right;
-  background-image: url("../../images/landing-sprite.png");
-  background-repeat: no-repeat;
-  width: 150px;
-  height: 50px;
-  display: block;
-
-  background-position: -1200px 0;
-}
-
-  #rss-link:hover, #rss-link.selected {
-    background-position: -1050px 0;
-  }
-
 #no-posts {
   position: relative;
   left: 200px;

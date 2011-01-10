@@ -1,2 +1,67 @@
 #{extends 'bodytemplate.html' /}
 #{set title:profile.user.userName.toWords() + "'s Profile" /}
+
+<link rel="stylesheet" href="@{'/public/stylesheets/User/view.css'}" type="text/css" />
+
+<div class="prepend-3 span-18 append-3 last">
+  <div class="page-title span-16 prepend-1 append-1 last">
+    <a href="" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
+    <table>
+      <tr>
+        <td>
+          <img id="avatar" src="http://api.twitter.com/1/users/profile_image/${profile.user.userName}.json?size=normal" alt="Twitter avatar"/>
+        </td>
+        <td>
+          <h2>
+            ${profile.user.userName.toWords()}'s Profile
+          </h2>
+          <div>
+            Hoover, AL
+            | <a href="">blog.davejafari.com</a>
+            | <a href="">@${profile.user.userName.toWords()}</a>
+            #{if currentUser == profile.user} | <a href="">Edit Profile &rarr;</a>#{/if}
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+  
+  <div class="content-wrapper span-18 last">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <div class="details">
+    <div class="details-inner">
+
+      <div class="rep">
+        ${profile.user.reputation}
+      </div>
+
+    </div>
+    </div>
+
+    <div class="bio clearfix">
+      <div class="span-10">
+        <h3>Bio</h3>
+        kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
+        kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
+        kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
+        kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
+        v
+        kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
+      </div>
+
+      <div class="span-4 last">
+        <h3>Expertise</h3>
+        <p>kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf</p>
+      </div>
+    </div>
+
+  </div>
+    <div class="clear"></div>
+
+  </div>
+  </div>
+
+</div>

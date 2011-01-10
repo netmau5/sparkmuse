@@ -19,6 +19,7 @@
     <BUTTONS>
     <TWITTER>
     <REPUTATION>
+    <FOLLOW>
 */
 $LOGO_LIGHT_YELLOW: #fdf9d2;
 $LOGO_YELLOW: #f5e21f;
@@ -503,6 +504,7 @@ input, textarea {
 #body-container {
   background: url("../images/mountains_repeat.png") repeat-x scroll 50% 100% transparent;
   width: 100%;
+  min-height: 450px;
 }
 
 #header .cloud {
@@ -1410,6 +1412,26 @@ a.twitter-login:active {
   width: 16px;
 }
 
-
-
 /* END <REPUTATION> */
+
+/* BEGIN <FOLLOW> */
+
+
+#follow-link {
+  text-indent: -9999px;
+  float: right;
+  background-image: url("../images/landing-sprite.png");
+  background-repeat: no-repeat;
+  width: 150px;
+  height: 50px;
+  display: block;
+
+  background-position: -1200px 0;
+}
+
+  #follow-link:hover, #follow-link.selected {
+    background-position: -1050px 0;
+  }
+
+/* END <FOLLOW> */
+
