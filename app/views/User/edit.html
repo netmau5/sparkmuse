@@ -1,0 +1,52 @@
+#{extends "User/user.template.html" /}
+
+<div class="form-edit-user span-14">
+  <form name="EditProfile" action="" method="POST">
+    <table>
+      <tr>
+        <td class="column-5">
+          <label>Name</label>
+          <div class="input-wrapper"><input type="text" name="profile.name" value="${profile.name}" /></div>
+        </td>
+        <td class="column-5 last">
+          <label>Location</label>
+          <div class="input-wrapper"><input type="text" name="profile.location" value="${profile.location}" /></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="column-10 last">
+          <label>Expertise</label>
+          ...
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="column-10 last">
+          <label>Website</label>
+          <div class="input-wrapper"><input type="text" name="profile.website" value="${profile.website}" /></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="column-10 last">
+          <label>Biography</label>
+          <input type="hidden" value="${profile.displayBio}" name="profile.displayBio" />
+          <div class="input-wrapper"><textarea name="profile.name">${profile.bio}</textarea></div>
+        </td>
+      </tr>
+    </table>
+  </form>
+  <div class="control-bar">
+    <a href="#" onclick="$(document.EditProfile).submit();" class="button positive">
+      <span>
+        <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
+        ${isEditMode ? "Edit" : "Create"} Spark
+      </span>
+    </a>
+    <a href="@{User.view(profile.user.userName)}" class="button negative">
+      <span>
+        <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel"/>
+        Cancel
+      </span>
+    </a>
+    <div class="clear"></div>
+  </div>
+</div>

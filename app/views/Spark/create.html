@@ -2,6 +2,8 @@
 #{set title:'Create a New Spark' /}
 
 <style type="text/css">
+  .content-container { padding-top: 1em; }
+
   div.tagsinput { overflow-y: auto;}
   div.tagsinput .tag { font-size: 1em; line-height: 1em; }
   div.tagsinput input { width:100%; margin:0px; border:1px solid transparent; padding:5px; background: transparent; color: #000; outline:0px; }
@@ -16,6 +18,8 @@
   label {
     font-weight: bold;
   }
+
+  fieldset, .control-bar { padding: 0 15px; }
 
 </style>
 
@@ -104,7 +108,7 @@
         </div>
       </fieldset>
 
-    </div>
+
 
     <div class="control-bar">
       <a href="#" onclick="$(document.NewSparkForm).submit();" class="button positive">
@@ -120,6 +124,8 @@
         </span>
       </a>
       <div class="clear"></div>
+    </div>
+
     </div>
 
     </form>

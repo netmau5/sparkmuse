@@ -99,3 +99,9 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 .activity {
   height: 200px;
 }
+
+/** BEGIN <EDIT> **/
+
+.form-edit-user table { width: 100%; }
+
+/** END <EDIT> **/

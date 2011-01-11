@@ -1,7 +1,6 @@
 package controllers;
 
 import net.sparkmuse.user.UserFacade;
-import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.ajax.AjaxResponse;
 
@@ -21,6 +20,11 @@ public class User extends SparkmuseController {
   @Inject static UserFacade userFacade;
 
   public static void view(String userName) {
+    final UserProfile profile = userFacade.getUserProfile(userName);
+    render(profile);
+  }
+
+  public static void edit(String userName) {
     final UserProfile profile = userFacade.getUserProfile(userName);
     render(profile);
   }

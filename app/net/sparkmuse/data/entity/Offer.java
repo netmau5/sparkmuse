@@ -12,22 +12,6 @@ import net.sparkmuse.client.NoScriptCheck;
  */
 public class Offer extends Entity<Offer> {
 
-  public static enum Expertise {
-    BIG_DATA,
-    BUSINESS,
-    DESIGN,
-    DOMAIN_EXPERTISE,
-    ENGINEERING,
-    FINANCE,
-    LEAN_METHODOLOGY,
-    MARKETING,
-    MOBILE,
-    PRODUCT_DEVELOPMENT,
-    SALES,
-    SEO,
-    SOCIAL_MEDIA
-  }
-
   @Required
   private Expertise expertise;
 
