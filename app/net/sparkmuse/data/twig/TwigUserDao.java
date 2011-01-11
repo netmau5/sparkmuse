@@ -43,7 +43,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
     }
     else {
       userVO.updateUserDuring(login);
-      return helper.store(userVO);
+      return helper.update(userVO);
     }
   }
 
