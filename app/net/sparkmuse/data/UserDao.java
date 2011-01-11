@@ -30,7 +30,6 @@ public interface UserDao {
   UserProfile findUserProfileBy(String userName);
 
   Map<Long, UserVO> findUsersBy(Set<Long> ids);
-  UserVO update(UserVO user);
   void saveApplication(String userName, String url);
 
   /**
@@ -43,4 +42,7 @@ public interface UserDao {
   void vote(Votable votable, UserVO voter);
   <T extends Entity<T>> void vote(Class<T> entityClass, Long id, UserVO voter);
   Set<UserVote> findVotesFor(Set<Votable> votables, UserVO user);
+
+  <T extends Entity<T>> T update(T entity);
+  <T extends Entity<T>> T store(T entity);
 }

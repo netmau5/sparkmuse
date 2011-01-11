@@ -53,4 +53,9 @@ public class TwigDao implements CrudDao {
       return helper.update(entity);
     }
   }
+
+  public <T extends Entity<T>> T update(T entity) {
+    return store(entity);
+  }
+
 }

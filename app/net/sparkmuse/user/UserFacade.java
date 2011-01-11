@@ -66,6 +66,10 @@ public class UserFacade {
     return userDao.findUserProfileBy(userName);
   }
 
+  public UserProfile updateProfile(UserProfile profile) {
+    return userDao.update(profile);
+  }
+
   public void applyForInvitation(final String userName, final String url) {
     userDao.saveApplication(userName, url);
   }
