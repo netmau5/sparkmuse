@@ -3,6 +3,7 @@ package net.sparkmuse.data.twig;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.user.Votables;
+import net.sparkmuse.user.UserLogin;
 import net.sparkmuse.data.entity.*;
 import com.google.inject.Inject;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
@@ -28,20 +29,21 @@ public class TwigUserDao extends TwigDao implements UserDao {
     super(service);
   }
 
-  public UserVO findOrCreateUserBy(final String authProviderUserId, final String userName) {
+  public UserVO findOrCreateUserBy(UserLogin login) {
     final UserVO userVO = helper.only(datastore.find()
         .type(UserVO.class)
-        .addFilter("authProviderUserId", EQUAL, authProviderUserId));
+        .addFilter("authProviderUserId", EQUAL, login.getAuthProviderUserId()));
 
     if (null == userVO) {
-      UserVO newUser = UserVO.newUser(authProviderUserId, userName);
+      UserVO newUser = UserVO.newUser(login);
       final UserVO storedNewUser = helper.store(newUser);
       final UserProfile profile = UserProfile.newProfile(storedNewUser);
       helper.store(profile);
       return storedNewUser;
     }
     else {
-      return userVO;
+      userVO.updateUserDuring(login);
+      return helper.store(userVO);
     }
   }
 

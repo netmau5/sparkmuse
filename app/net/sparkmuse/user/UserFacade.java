@@ -1,16 +1,6 @@
 package net.sparkmuse.user;
 
-import twitter4j.TwitterFactory;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.http.RequestToken;
-import twitter4j.http.AccessToken;
-
-import play.Logger;
-import com.google.common.base.Preconditions;
-import com.google.inject.name.Named;
 import com.google.inject.Inject;
-import net.sparkmuse.common.Constants;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
@@ -29,61 +19,25 @@ import java.util.Set;
  */
 public class UserFacade {
 
-  private static final String CONSUMER_KEY = "wZidO63kKxdvpcCgBtQGQ";
-  private static final String CONSUMER_SECRET = "HH7POuDB0HPFKdbpabJhvI4QrBS1Zh7JeE10Fvy3Nc";
-  @Inject @Named(Constants.TWITTER_CALLBACK_URI) private String CALLBACK_URI;
-
   private final UserDao userDao;
   private final Cache cache;
+  private final TwitterService twitterService;
 
   @Inject
-  public UserFacade(UserDao userDao, Cache cache) {
+  public UserFacade(UserDao userDao, TwitterService twitterService, Cache cache) {
     this.userDao = userDao;
     this.cache = cache;
+    this.twitterService = twitterService;
   }
 
   public String beginAuthentication() {
-    TwitterFactory tf = new TwitterFactory();
-    Twitter twitter = tf.getInstance();
-
-    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-
-    RequestToken rtoken = null;
-    try {
-      rtoken = twitter.getOAuthRequestToken(CALLBACK_URI);
-    } catch (TwitterException e) {
-      throw new RuntimeException(e);
-    }
-
-    play.cache.Cache.set(rtoken.getToken(), rtoken, "5min");
-
-    return rtoken.getAuthorizationURL();
+    return twitterService.beginAuthentication();
   }
 
   public UserVO registerAuthentication(String oauth_token, String oauth_verifier) throws InvalidOAuthRequestToken {
-    Preconditions.checkNotNull(oauth_token);
-    Preconditions.checkNotNull(oauth_verifier);
-    Logger.info("Twitter authentication received: " + oauth_token + " : " + oauth_verifier);
-
-    TwitterFactory tf = new TwitterFactory();
-    Twitter twitter = tf.getInstance();
-
-    RequestToken requestToken = play.cache.Cache.get(oauth_token, RequestToken.class);
-    if (null == requestToken) throw new InvalidOAuthRequestToken();
-
-    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
-
-    try {
-      AccessToken ac = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
-      
-
-      UserVO user = userDao.findOrCreateUserBy(Integer.toString(ac.getUserId()), ac.getScreenName());
-      cache.put(user);
-
-      return user;
-    } catch (TwitterException e) {
-      throw new RuntimeException(e);
-    }
+    UserVO user = userDao.findOrCreateUserBy(twitterService.registerAuthentication(oauth_token, oauth_verifier));
+    cache.put(user);
+    return user;
   }
 
   //@todo create token mechanism

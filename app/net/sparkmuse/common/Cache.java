@@ -24,6 +24,8 @@ public interface Cache {
 
   Object get(String key);
 
+  <T> T get(String key, Class<T> type);
+
   <T> T put(String key, T value);
 
 }

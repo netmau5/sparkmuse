@@ -1,9 +1,9 @@
 package controllers;
 
-import play.mvc.Controller;
 import play.mvc.Router;
 import play.data.validation.Required;
 import play.data.validation.Validation;
+import play.Logger;
 
 import javax.inject.Inject;
 
@@ -13,9 +13,7 @@ import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.ajax.AjaxResponse;
-import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
-import net.sparkmuse.discussion.SparkSearchRequest;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -67,7 +65,8 @@ public class Authorization extends SparkmuseController {
       else {
         enterInviteCode();
       }
-    } catch (InvalidOAuthRequestToken invalidOAuthRequestToken) {
+    } catch (InvalidOAuthRequestToken e) {
+      Logger.error("Failed to register authentication.");
       authenticate();
     }
   }

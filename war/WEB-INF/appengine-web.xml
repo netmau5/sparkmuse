@@ -1,9 +1,9 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
-	<application>sparkmuse</application>
-	<version>7</version>
+	<!--<application>sparkmuse</application>-->
+	<!--<version>7</version>-->
 
-  <!--<application>sparkmuse-staging</application>-->
-	<!--<version>6</version>-->
+  <application>sparkmuse-staging</application>
+	<version>7</version>
 
 </appengine-web-app>

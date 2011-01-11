@@ -39,7 +39,7 @@ public class PlayCache implements Cache {
 
   public <T> T get(String key, Class<T> clazz) {
     if (cache != null) {
-      return (T) cache.get(key);
+      return clazz.cast(cache.get(key));
     }
     else {
       return play.cache.Cache.get(key, clazz);

@@ -5,6 +5,7 @@ import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVote;
 import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.user.Votable;
+import net.sparkmuse.user.UserLogin;
 
 import java.util.Set;
 import java.util.Map;
@@ -16,7 +17,7 @@ import java.util.Map;
  * @created: Jul 5, 2010
  */
 public interface UserDao {
-  UserVO findOrCreateUserBy(String authProviderUserId, String userName);
+  UserVO findOrCreateUserBy(UserLogin login);
 
   /**
    * Finds a user in the cache.  If not present, the db is queried and the cache is updated.

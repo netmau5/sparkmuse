@@ -3,9 +3,11 @@ package controllers;
 import play.mvc.*;
 import play.Logger;
 import net.sparkmuse.ajax.AjaxResponse;
+import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.common.ResponseCode;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.user.UserFacade;
+import net.sparkmuse.user.TwitterLoginExpiredException;
 
 import javax.inject.Inject;
 
@@ -20,6 +22,15 @@ import org.apache.commons.lang.StringUtils;
 public class SparkmuseController extends Controller {
 
   @Inject static UserFacade userFacade;
+
+  @Catch
+  static void handleException(TwitterLoginExpiredException e) {
+    Logger.error(e, "Twitter Login Expired");
+    if (request.isAjax()) {
+      renderJSON(new RedirectAjaxResponse(Router.reverse("Authorization.authenticate").url));
+    }
+    Authorization.authenticate();
+  }
 
   @Catch
   static void handleException(Exception e) {
