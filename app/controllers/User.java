@@ -26,7 +26,8 @@ public class User extends SparkmuseController {
 
   public static void view(String userName) {
     final UserProfile profile = userFacade.getUserProfile(userName);
-    render(profile);
+    boolean isView = true;
+    render(profile, isView);
   }
 
   public static void edit(String userName) {
