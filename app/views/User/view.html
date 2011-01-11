@@ -31,17 +31,20 @@
   <div class="content-inner">
   <div class="content-container">
 
-    <div class="details">
-    <div class="details-inner">
-
-      <div class="rep">
-        ${profile.user.reputation}
-      </div>
-
-    </div>
-    </div>
 
     <div class="bio clearfix">
+
+
+      <div class="details">
+      <div class="details-inner">
+
+        <div class="rep">
+          ${profile.user.reputation}
+        </div>
+
+      </div>
+      </div>
+
       <div class="span-10">
         <h3>Bio</h3>
         kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
@@ -56,10 +59,39 @@
         <h3>Expertise</h3>
         <p>kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf</p>
       </div>
+
     </div>
 
+    <div class="invites">
+      <table class="span-12">
+        <tr>
+          <td class="column-4" style="white-space: nowrap;">
+            <label class="minor">You Have <span id="invitations">3</span> Invitations Remaining</label>
+          </td>
+          <td class="column-4">
+            <div class="input-wrapper">
+              <input type="text" name="inviteUser" value="@" />
+            </div>
+          </td>
+          <td class="column-2 last">
+            <a class="button positive" href="">
+              <span>
+                <img src="@{'public/images/icons/silk/add.png'}" alt="Invite"/>
+                Invite
+              </span>
+            </a>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <!--<div class="activity">-->
+
+    <!--</div>-->
+
   </div>
-    <div class="clear"></div>
+
+  <div class="clear"></div>
 
   </div>
   </div>
