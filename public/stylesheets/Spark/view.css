@@ -106,7 +106,7 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
     padding-right: 1em;
   }
 
-  .comment {}
+  .comment { margin-bottom: 0.5em; }
 
     .comment .author {
       position: relative;
@@ -168,7 +168,7 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
   #new-reply .comment blockquote { margin-bottom: 0; }
 
-.control-bar { line-height: 24px; }
+.control-bar { line-height: 24px; padding: 0 10px; }
   .control-bar .attachments { display: inline-block; }
   .control-bar .attachments a { vertical-align: middle; }
   .control-bar .controls { float: right; }
