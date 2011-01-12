@@ -93,7 +93,7 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   }
 
   .invites .input-wrapper { margin-bottom: 0; }
-
+m
   .invites .button { float: none; display: inline-block; margin: 0; }
 
 .activity {
@@ -103,5 +103,12 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 /** BEGIN <EDIT> **/
 
 .form-edit-user table { width: 100%; }
+
+.form-edit-user .expertise {
+}
+
+.form-edit-user .expertise .checker {
+  height: 24px;
+}
 
 /** END <EDIT> **/

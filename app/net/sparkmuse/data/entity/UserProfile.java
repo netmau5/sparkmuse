@@ -102,4 +102,8 @@ public class UserProfile extends Entity<UserProfile> {
   public void setDisplayBio(String displayBio) {
     this.displayBio = displayBio;
   }
+
+  public String getDisplayWebsite() {
+    return this.website.replaceFirst("https?://", "");
+  }
 }

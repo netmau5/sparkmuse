@@ -2,11 +2,14 @@ package controllers;
 
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.data.entity.UserProfile;
+import net.sparkmuse.data.entity.Expertise;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,7 +39,8 @@ public class User extends SparkmuseController {
     }
     
     final UserProfile profile = userFacade.getUserProfile(userName);
-    render(profile);
+    final List<Expertise> expertises = Arrays.asList(Expertise.values());
+    render(profile, expertises);
   }
 
   public static void saveProfile(UserProfile profile) {

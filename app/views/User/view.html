@@ -2,15 +2,20 @@
 
 <div class="span-10">
   <h3>Bio</h3>
-  kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
-  kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
-  kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
-  kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
-  v
-  kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf
+  ${profile.displayBio.raw()}
+  #{if !profile.displayBio}
+    User has not added a biography.
+  #{/if}
 </div>
 
 <div class="span-4 last">
   <h3>Expertise</h3>
-  <p>kjadflkdflkf afd k vckljkljdkjldfkjldf ljklk l kdlkdf</p>
+  <ul>
+    #{list items: profile.expertises, as: "expertise"}
+      <li>${expertise.toWords()}</li>
+    #{/list}
+  </ul>
+  #{if !profile.expertises}
+    User has not added their expertise.
+  #{/if}
 </div>
