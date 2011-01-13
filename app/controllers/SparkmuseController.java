@@ -33,12 +33,12 @@ public class SparkmuseController extends Controller {
   }
 
   @Catch
-  static void handleException(Exception e) {
+  static void handleException(Exception e) throws Exception {
     Logger.error(e, "Unhandled Exception");
     if (ResponseCode.INTERNAL_SERVER_ERROR.getStatusCode() == response.status && request.isAjax()) {
       renderJSON(new AjaxResponse(ResponseCode.forStatusCode(response.status), AjaxResponse.Type.SYSTEM_ERROR));
     }
-    //otherwise the user should be redirected to errors/500.html
+    throw e;
   }
 
   @Before

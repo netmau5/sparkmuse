@@ -5,8 +5,12 @@ import play.mvc.Router;
 import play.data.validation.Validation;
 import filters.AdminAuthorizationFilter;
 import net.sparkmuse.data.entity.Feedback;
+import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.UserProfile;
+import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
+import net.sparkmuse.user.UserFacade;
 
 import javax.inject.Inject;
 
@@ -17,6 +21,7 @@ import com.google.common.collect.Maps;
 
 import java.util.List;
 import java.util.HashMap;
+import java.util.Collection;
 
 /**
  * @author neteller
@@ -26,6 +31,7 @@ import java.util.HashMap;
 public class Admin extends SparkmuseController {
 
   @Inject static ObjectDatastore datastore;
+  @Inject static UserFacade userFacade;
 
   public static final void manageFeedback(String key) {
     Feedback feedback = StringUtils.isEmpty(key) ? null : datastore.load(Feedback.class, key);
@@ -42,22 +48,26 @@ public class Admin extends SparkmuseController {
     if (Validation.hasErrors()) {
       renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
     }
-    else {
-      final Feedback f = Feedback.newInstance(key, title, content, displayContent, isPrivate, imageKeys);
-      //@todo wtf storeorupdate!?
-      //@todo is association causing second updates to be unsaved?
-      if (null == datastore.load(Feedback.class, key)) {
-        datastore.store(f);
-      }
-      else {
-        datastore.associate(f); //@todo only associate if key not on store (see datstoreservice.associate)
-        datastore.update(f);
-      }
-      final HashMap<String, Object> parameters = Maps.newHashMap();
-      parameters.put("key", key);
-      final String url = Router.reverse("Admin.manageFeedback", parameters).url;
-      renderJSON(new RedirectAjaxResponse(url));
-    }
+   }
+
+  public static void users() {
+    Collection<UserProfile> profiles = userFacade.getAllProfiles();
+    render(profiles);
+  }
+
+  public static void user(String userName) {
+    final UserProfile profile = userFacade.getUserProfile(userName);
+    render(profile);
+  }
+
+  public static void createUser(String userName) {
+    userFacade.createUser(userName);
+    users();
+  }
+
+  public static void updateUser(long userId, AccessLevel accessLevel, int invites) {
+    userFacade.updateUser(userId, accessLevel, invites);
+    users();
   }
 
 }

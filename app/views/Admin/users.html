@@ -1,0 +1,63 @@
+#{extends 'bodytemplate.html' /}
+#{set title: 'Users' /}
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <h2>
+    Users
+  </h2>
+
+  <div class="span-13 content-wrapper">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <form name="CreateUserForm" action="@{Admin.createUser()}" method="POST">
+    <div>
+
+      <fieldset>
+        <div class="field">
+          <label>Username</label>
+          <div class="input-wrapper"><input type="text" name="userName" maxlength="100" /></div>
+         </div>
+      </fieldset>
+
+      <div class="control-bar">
+        <a href="#" onclick="$(document.CreateUserForm).submit();" class="button positive">
+          <span>
+            <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
+            Create User
+          </span>
+        </a>
+        <div class="clear"></div>
+      </div>
+
+    </div>
+    </form>
+
+    <table>
+      #{list items: profiles, as: 'profile'}
+      <tr>
+        <td class="column-1"><a href="@{Admin.user(profile.user.userName)}">Edit</a></td>
+        <td class="column-3">${profile.user.userName}</td>
+        <td class="column-4">${profile.user.accessLevel}</td>
+        <td class="column-2 last">${profile.invites}</td>
+      </tr>
+      #{/list}
+    </table>
+
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 last">
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>No content</h4>
+
+
+    </div>
+    </div>
+  </div>
+
+</div>

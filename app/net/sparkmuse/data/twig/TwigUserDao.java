@@ -13,6 +13,7 @@ import com.google.common.base.Predicate;
 
 import java.util.Set;
 import java.util.Map;
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 
@@ -34,13 +35,19 @@ public class TwigUserDao extends TwigDao implements UserDao {
         .type(UserVO.class)
         .addFilter("authProviderUserId", EQUAL, login.getAuthProviderUserId()));
 
+    //user never logged in before
     if (null == userVO) {
-      UserVO newUser = UserVO.newUser(login);
+      UserVO newUser = UserVO.newUser(login.getScreenName());
+      newUser.updateUserDuring(login);
       final UserVO storedNewUser = helper.store(newUser);
+
       final UserProfile profile = UserProfile.newProfile(storedNewUser);
       helper.store(profile);
+
       return storedNewUser;
     }
+    //user was created or invited but never logged in, same as below, just wanted it doc'd
+    //repeat user login
     else {
       userVO.updateUserDuring(login);
       return helper.update(userVO);
@@ -60,6 +67,17 @@ public class TwigUserDao extends TwigDao implements UserDao {
         .type(UserProfile.class)
         .ancestor(user)
     );
+  }
+
+  public List<UserProfile> getAllProfiles() {
+    return helper.all(datastore.find().type(UserProfile.class));
+  }
+
+  public void createUser(String userName) {
+    UserVO newUser = UserVO.newUser(userName);
+    final UserVO storedNewUser = helper.store(newUser);
+    final UserProfile profile = UserProfile.newProfile(storedNewUser);
+    helper.store(profile);
   }
 
   public Map<Long, UserVO> findUsersBy(Set<Long> ids) {

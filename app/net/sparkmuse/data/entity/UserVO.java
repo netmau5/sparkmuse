@@ -35,18 +35,13 @@ public class UserVO extends Entity<UserVO> {
     return isAuthorizedFor(AccessLevel.ADMIN);
   }
 
-  public static UserVO newUser(final UserLogin login) {
-    String userName = login.getScreenName();
 
+  public static UserVO newUser(String userName) {
     UserVO user = new UserVO();
     user.setUserName(userName);
     user.setUserNameLowercase(userName.toLowerCase());
-    user.setAuthProviderUserId(login.getAuthProviderUserId());
     user.setAccessLevel(AccessLevel.UNAUTHORIZED);
     user.setReputation(0);
-    user.setLastLogin(new DateTime());
-    user.setOauthToken(login.getToken());
-    user.setOauthTokenSecret(login.getTokenSecret());
 
     if (userName.equalsIgnoreCase("Sparkmuse")) user.setAccessLevel(AccessLevel.DIETY);
 
@@ -54,9 +49,10 @@ public class UserVO extends Entity<UserVO> {
   }
 
   public UserVO updateUserDuring(final UserLogin login) {
+    this.setAuthProviderUserId(login.getAuthProviderUserId());
+    this.setLastLogin(new DateTime());
     this.setOauthToken(login.getToken());
     this.setOauthTokenSecret(login.getTokenSecret());
-    this.setLastLogin(new DateTime());
     return this;
   }
 

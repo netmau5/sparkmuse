@@ -1,0 +1,66 @@
+#{extends 'bodytemplate.html' /}
+#{set title: 'User' /}
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <h2>
+    User ${profile.user.userName}
+  </h2>
+
+  <div class="span-13 content-wrapper">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <form name="UpdateUserForm" action="@{Admin.updateUser()}" method="POST">
+    <div>
+
+      <input type="hidden" name="userId" value="${profile.user.id}"/>
+
+      <fieldset>
+        <div class="field">
+          <label>Access Level</label>
+          <select name="accessLevel" value="${profile.user.accessLevel}">
+            <option value="UNAUTHORIZED">Unauthorized</option>
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+            <option value="DIETY">Diety</option>
+          </select>
+         </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field">
+          <label>Invites</label>
+          <div class="input-wrapper"><input type="text" name="invites" maxlength="100" /></div>
+         </div>
+      </fieldset>
+
+      <div class="control-bar">
+        <a href="#" onclick="$(document.UpdateUserForm).submit();" class="button positive">
+          <span>
+            <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
+            Update User
+          </span>
+        </a>
+        <div class="clear"></div>
+      </div>
+
+    </div>
+    </form>
+
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 last">
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>No content</h4>
+
+
+    </div>
+    </div>
+  </div>
+
+</div>

@@ -9,6 +9,7 @@ import net.sparkmuse.user.UserLogin;
 
 import java.util.Set;
 import java.util.Map;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,6 +29,10 @@ public interface UserDao {
   UserVO findUserBy(Long id);
 
   UserProfile findUserProfileBy(String userName);
+
+  List<UserProfile> getAllProfiles();
+
+  void createUser(String userName);
 
   Map<Long, UserVO> findUsersBy(Set<Long> ids);
   void saveApplication(String userName, String url);

@@ -10,6 +10,7 @@ import net.sparkmuse.data.entity.UserVote;
 import net.sparkmuse.data.entity.UserProfile;
 
 import java.util.Set;
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -50,6 +51,23 @@ public class UserFacade {
     }
 
     return validToken;
+  }
+
+  public List<UserProfile> getAllProfiles() {
+    return userDao.getAllProfiles();
+  }
+
+  public void createUser(String userName) {
+    userDao.createUser(userName);
+  }
+
+  public void updateUser(long userId, AccessLevel accessLevel, int invites) {
+    final UserVO user = findUserBy(userId);
+    user.setAccessLevel(accessLevel);
+    userDao.store(user);
+    final UserProfile userProfile = getUserProfile(user.getUserName());
+    userProfile.setInvites(invites);
+    userDao.store(userProfile);
   }
 
   /**
