@@ -6,10 +6,12 @@
 <div class="prepend-1 span-22 append-1 last page-title">
 
   <a href="" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
-  <h2>
-    ${spark.title}
-  </h2>
 
+  <a href="@{Spark.view(spark.id)}">
+    <h2>
+      ${spark.title}
+    </h2>
+  </a>
 
   <p>
     <em>Last updated ${spark.edited.format()} -</em> ${spark.solution.abbreviate(200)}
