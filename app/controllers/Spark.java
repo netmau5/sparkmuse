@@ -67,8 +67,8 @@ public class Spark extends SparkmuseController {
   public static void view(final Long sparkId) {
     if (null == sparkId) Home.index();
     final SparkVO spark = sparkFacade.findSparkBy(sparkId);
-    final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(spark), Authorization.getUserFromSession());
     final Posts posts = sparkFacade.findPostsFor(spark);
+    final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(spark, posts), Authorization.getUserFromSession());
     render(spark, posts, userVotes);
   }
 
@@ -81,12 +81,14 @@ public class Spark extends SparkmuseController {
       renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
     }
 
-    post.setAuthor(Authorization.getUserFromSessionOrAuthenticate(true));
-    sparkFacade.createPost(post);
+    final UserVO author = Authorization.getUserFromSessionOrAuthenticate(true);
+    post.setAuthor(author);
+    post = sparkFacade.createPost(post);
 
     final Template template = TemplateLoader.load("tags/post.html");
     final Map<String, Object> args = Maps.newHashMap();
     args.put("_post", post);
+    args.put("_userVotes", UserVotes.only(post, author));
     final String content = template.render(args);
 
     renderJSON(new FragmentAjaxResponse(content));

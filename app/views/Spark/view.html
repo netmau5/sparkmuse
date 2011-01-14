@@ -162,7 +162,7 @@
     <div id="comments-container">
 
       #{list items: posts.posts, as: "post"}
-        #{post post: post /}
+        #{post post: post, userVotes: userVotes /}
       #{/list}
 
       #{if posts.posts?.size() == 0}

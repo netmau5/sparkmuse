@@ -1,8 +1,6 @@
 package net.sparkmuse.discussion;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import net.sparkmuse.data.entity.*;
@@ -11,8 +9,8 @@ import net.sparkmuse.common.Entry;
 import net.sparkmuse.common.Entries;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Set;
 
 /**
  * Aggregate collection of Post objects.
@@ -63,24 +61,30 @@ public class Posts {
     return posts;
   }
 
+  public ImmutableSet<Post> getAllPosts() {
+    ImmutableSet.Builder<Post> builder = ImmutableSet.builder();
+    for (Post post: posts) {
+      builder.add(post);
+      builder.addAll(getRepliesOf(post));
+    }
+    return builder.build();
+  }
+
   public int countRootPosts() {
     return posts.size();
   }
 
   public int countTotalPosts() {
-    int size = countRootPosts();
-    for (final Post post: posts) {
-      size += countRepliesOf(post);
-    }
-    return size;
+    return getAllPosts().size();
   }
 
-  private static int countRepliesOf(final Post post) {
-    int size = post.getReplies().size();
+  private static Set<Post> getRepliesOf(final Post post) {
+    final Set<Post> toReturn = Sets.newHashSet();
+    toReturn.addAll(post.getReplies());
     for (final Post reply: post.getReplies()) {
-      size += countRepliesOf(reply);
+      toReturn.addAll(getRepliesOf(reply));
     }
-    return size;
+    return toReturn;
   }
 
   public List<Resource> getSimilarIdeas() {

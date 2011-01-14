@@ -104,7 +104,7 @@ public class SparkFacade {
     //author implicitly votes for post; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newPost, newPost.getAuthor().getId());
 
-    return post;
+    return newPost;
   }
 
 }

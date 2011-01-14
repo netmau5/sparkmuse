@@ -1,9 +1,11 @@
 package net.sparkmuse.user;
 
 import net.sparkmuse.discussion.SparkSearchResponse;
+import net.sparkmuse.discussion.Posts;
 import net.sparkmuse.data.entity.SparkVO;
 
 import java.util.Set;
+import java.util.HashSet;
 
 import com.google.common.collect.Sets;
 import com.google.common.collect.Iterables;
@@ -33,6 +35,12 @@ public class Votables {
 
   public static Set<Votable> collect(SparkVO spark) {
     return Sets.<Votable>newHashSet(spark);
+  }
+
+  public static Set<Votable> collect(SparkVO spark, Posts posts) {
+    final HashSet<Votable> voteables = Sets.<Votable>newHashSet(spark);
+    voteables.addAll(posts.getAllPosts());
+    return voteables;
   }
 
 }
