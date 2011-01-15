@@ -8,7 +8,7 @@
 
   <context-param>
     <param-name>play.id</param-name>
-    <param-value>war</param-value>
+    <param-value>staging</param-value>
   </context-param>
 
   <listener>

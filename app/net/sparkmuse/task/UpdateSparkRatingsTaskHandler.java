@@ -1,6 +1,7 @@
 package net.sparkmuse.task;
 
 import com.google.common.base.Function;
+import com.google.inject.Inject;
 import net.sparkmuse.data.SparkDao;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.discussion.SparkRanking;
@@ -18,6 +19,7 @@ public class UpdateSparkRatingsTaskHandler {
   private final SparkDao sparkDao;
   private final IssueTaskService taskService;
 
+  @Inject
   public UpdateSparkRatingsTaskHandler(SparkDao sparkDao, IssueTaskService taskService) {
     this.sparkDao = sparkDao;
     this.taskService = taskService;
