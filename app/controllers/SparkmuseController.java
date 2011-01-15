@@ -12,6 +12,7 @@ import net.sparkmuse.user.TwitterLoginExpiredException;
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
+import com.google.apphosting.api.ApiProxy;
 
 /**
  * Base controller class for all Sparkmuse Play Controllers.
@@ -30,6 +31,11 @@ public class SparkmuseController extends Controller {
       renderJSON(new RedirectAjaxResponse(Router.reverse("Authorization.authenticate").url));
     }
     Authorization.authenticate();
+  }
+
+  @Catch
+  static void handleMaintenanceMode(ApiProxy.CapabilityDisabledException e) {
+    //@todo handle this error somewhere, it will be thrown when GAE goes into read-only mode for scheduled maintenance
   }
 
   @Catch

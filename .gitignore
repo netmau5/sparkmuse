@@ -8,3 +8,4 @@ logs/
 out/
 .svn/
 war/WEB-INF/appengine-generated/
+gae-commands.txt

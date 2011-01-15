@@ -4,6 +4,6 @@
 	<!--<version>7</version>-->
 
   <application>sparkmuse-staging</application>
-	<version>7</version>
+	<version>8</version>
 
 </appengine-web-app>
