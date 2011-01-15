@@ -24,7 +24,7 @@ public class SparkmuseController extends Controller {
 
   @Inject static UserFacade userFacade;
 
-  @Catch
+  @Catch(TwitterLoginExpiredException.class)
   static void handleException(TwitterLoginExpiredException e) {
     Logger.error(e, "Twitter Login Expired");
     if (request.isAjax()) {
@@ -33,12 +33,12 @@ public class SparkmuseController extends Controller {
     Authorization.authenticate();
   }
 
-  @Catch
+  @Catch(ApiProxy.CapabilityDisabledException.class)
   static void handleMaintenanceMode(ApiProxy.CapabilityDisabledException e) {
     //@todo handle this error somewhere, it will be thrown when GAE goes into read-only mode for scheduled maintenance
   }
 
-  @Catch
+  @Catch(Exception.class)
   static void handleException(Exception e) throws Exception {
     Logger.error(e, "Unhandled Exception");
     if (ResponseCode.INTERNAL_SERVER_ERROR.getStatusCode() == response.status && request.isAjax()) {
