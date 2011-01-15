@@ -7,7 +7,6 @@ GET         /favicon.ico                      Application.favicon
 
 GET         /login                            Authorization.authenticate
 GET         /authorize                        Authorization.authorize
-POST        /verifyAuthorizationToken         Authorization.verifyAuthorizationToken
 
 *           /home/index                       Home.search(filter:'RECENT')
 *           /home/index/{<[A-Za-z]+>filter}   Home.search

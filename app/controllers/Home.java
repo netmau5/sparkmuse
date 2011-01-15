@@ -8,6 +8,7 @@ import net.sparkmuse.discussion.SparkSearchRequest;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votables;
 import net.sparkmuse.user.UserVotes;
+import net.sparkmuse.data.entity.UserVO;
 
 import javax.inject.Inject;
 
@@ -32,6 +33,11 @@ public class Home extends SparkmuseController {
     SparkSearchResponse sparkSearch = sparkFacade.search(filter);
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(sparkSearch), Authorization.getUserFromSession());
     render(sparkSearch, userVotes);
+  }
+
+  public static void welcome() {
+    final UserVO user = Authorization.getUserFromSession();
+    render(user);
   }
 
 }

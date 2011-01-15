@@ -1,9 +1,0 @@
-#{extends 'bodytemplate.html' /}
-#{set title:'Home' /}
-
-Welcome ${user.userName}
-<form action="@{Authorization.verifyAuthorizationToken()}" method="POST">
-    <label>Please enter your invitation code:</label>
-    <div class="input-wrapper"><input type="text" name="authorizationToken"/></div>
-    <span class="error">${flash.error}#{error 'authorizationToken' /}</span>
-</form>

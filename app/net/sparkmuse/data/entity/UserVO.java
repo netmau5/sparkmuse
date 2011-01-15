@@ -5,6 +5,7 @@ import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.user.UserLogin;
 import com.google.common.base.Function;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import twitter4j.http.AccessToken;
 
 /**
@@ -33,6 +34,14 @@ public class UserVO extends Entity<UserVO> {
 
   public boolean isAdmin() {
     return isAuthorizedFor(AccessLevel.ADMIN);
+  }
+
+  public boolean isUser() {
+    return isAuthorizedFor(AccessLevel.USER);
+  }
+
+  public boolean isNewUser() {
+    return Days.daysBetween(new DateTime(), lastLogin).getDays() <= 1;
   }
 
 

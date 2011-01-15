@@ -41,18 +41,6 @@ public class UserFacade {
     return user;
   }
 
-  //@todo create token mechanism
-  public boolean verifyAuthorizationToken(final UserVO user, final String authToken) {
-    boolean validToken = "SM123".equals(authToken);
-    if (validToken) {
-      user.setAccessLevel(AccessLevel.USER);
-      userDao.update(user);
-      cache.put(user);
-    }
-
-    return validToken;
-  }
-
   public List<UserProfile> getAllProfiles() {
     return userDao.getAllProfiles();
   }

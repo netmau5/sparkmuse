@@ -46,7 +46,7 @@
 
   <div class="prepend-1 span-22 append-1 last heading">
 
-    <a href="@{Home.index()}" alt="Home">#{if currentUser}View Sparks &rarr;#{/if}</a>
+    <a href="@{Home.index()}" alt="Home">#{if currentUser?.isUser()}View Sparks &rarr;#{/if}</a>
 
     <h2>
       Community Guidelines

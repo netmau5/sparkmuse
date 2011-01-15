@@ -60,10 +60,15 @@ public class Authorization extends SparkmuseController {
       session.put(Constants.SESSION_USER_ID, user.getId());
 
       if (user.isAuthorizedFor(AccessLevel.USER)) {
-        Home.index();
+        if (user.isNewUser()) {
+          Home.welcome();
+        }
+        else {
+          Home.index();
+        }
       }
       else {
-        enterInviteCode();
+        unauthorized();
       }
     } catch (InvalidOAuthRequestToken e) {
       Logger.error("Failed to register authentication.");
@@ -71,24 +76,8 @@ public class Authorization extends SparkmuseController {
     }
   }
 
-  public static void enterInviteCode() {
-    UserVO user = Authorization.getUserFromSession();
-    render(user);
-  }
-
-  public static void verifyAuthorizationToken(@Required String authorizationToken) {
-    if (Validation.hasErrors()) {
-      validation.keep();
-      enterInviteCode();
-    }
-
-    if (StringUtils.isNotBlank(authorizationToken) && userFacade.verifyAuthorizationToken(Authorization.getUserFromSession(), authorizationToken)) {
-      Home.index(); //@todo tutorial window
-    }
-    else {
-      flash.error("The code you entered is invalid.  If you mistyped it, please try again.");
-      enterInviteCode();
-    }
+  public static void unauthorized() {
+    render();
   }
 
   public static void applyForInvitation(final String userName, final String url) {
