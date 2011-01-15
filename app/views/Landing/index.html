@@ -91,6 +91,8 @@
       margin: 0 auto;
     }
 
+    fieldset { margin-bottom: 1em; }
+
   </style>
 
   <!--[if IE]>
@@ -126,10 +128,11 @@
          Sparkmuse is an invite-only community where
          <strong><a href="@{Application.about()}">entrepreneurial technologists can share and refine innovative ideas</a></strong>
          with one another.
-         If you'd like to learn more, please check out our <a href="http://blog.sparkmuse.com/">blog</a>.
-         The alpha starts on January 15th, sign up now and help mold the future of Sparkmuse!
+         Learn more at our <a href="http://blog.sparkmuse.com/">blog</a> or login now if you are an alpha member:
        </p>
-       <!--<a href="@{Authorization.authenticate()}" class="twitter-login">Sign in with Twitter</a>-->
+       <div class="control-bar">
+         <a href="@{Authorization.authenticate()}" class="twitter-login">Sign in with Twitter</a>
+       </div>
      </div>
    </div>
    <div class="span-7 last" id="application">
@@ -156,10 +159,12 @@
             <!--</div>-->
           </fieldset>
 
-         <button type="submit" class="create-spark">
-          <img src="@{'public/images/favicon.png'}" alt="Apply"/>
-          Apply
-         </button>
+         <div class="control-bar">
+           <button type="submit" class="create-spark">
+            <img src="@{'public/images/favicon.png'}" alt="Apply"/>
+            Apply
+           </button>
+         </div>
         </form>
         <script type="text/html" id="thanks-for-applying">
           <h3>Thank You!</h3>
@@ -195,7 +200,7 @@
     $.preload([
         "@@{'public/images/redcar.png'}",
         "@@{'public/images/greencar.png'}",
-        "@@{'public/images/dirigible_prealpha.png'}",
+        "@@{'public/images/dirigible.png'}",
         "@@{'public/images/spark.png'}"
     ]);
 
@@ -233,7 +238,7 @@
 
     loop(15000, 60000, function() {
       animator(50000, true, 393, function(){
-        return $('<img src="' + "@{'public/images/dirigible_prealpha.png'}" + '" class="animated" style="top: 150px; left: 100px;" />');
+        return $('<img src="' + "@{'public/images/dirigible.png'}" + '" class="animated" style="top: 150px; left: 100px;" />');
       });
     });
 
