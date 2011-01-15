@@ -41,6 +41,16 @@
 
       <div class="error-message" parameter="spark"></div>
 
+      #{if currentUser.isAdmin()}
+      <fieldset>
+        <div class="field">
+          <label>User Name</label>
+          <div class="error-message" parameter="userName"></div>
+          <div class="input-wrapper"><input type="text" name="userName" value="${spark?.author?.userName}" maxlength="100" /></div>
+         </div>
+      </fieldset>
+      #{/if}
+
       <fieldset>
         <div class="field">
           <label>Title</label>
@@ -192,14 +202,19 @@
       if (tagNames) { tagNames = tagNames.split(","); }
 
       return {
-        "spark.title": this.title.value,
-        "spark.stage": this.stage.value,
-        "spark.problem": this.problem.value,
-        "spark.displayProblem": converter.makeHtml(this.problem.value),
-        "spark.solution": this.solution.value,
-        "spark.displaySolution": converter.makeHtml(this.solution.value),
-        "spark.tags": tagNames,
-        "spark.id": "${spark?.id}"
+        #{if currentUser.isAdmin()}
+        userName: this.userName.value,
+        #{/if}
+        spark: {
+          title: this.title.value,
+          stage: this.stage.value,
+          problem: this.problem.value,
+          displayProblem: converter.makeHtml(this.problem.value),
+          solution: this.solution.value,
+          displaySolution: converter.makeHtml(this.solution.value),
+          tags: tagNames,
+          id: "${spark?.id}"
+        }
       };
     }).bind(SM.Events.Submit, SM.formSubmitModal)
       .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);

@@ -12,6 +12,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 import com.google.common.base.Joiner;
+import com.google.appengine.repackaged.com.google.common.collect.ImmutableMap;
 import net.sparkmuse.common.ResponseCode;
 import org.apache.commons.lang.StringUtils;
 
@@ -34,6 +35,23 @@ public class ValidationErrorAjaxResponse extends AjaxResponse {
         return Lists.newArrayList(Iterables.transform(errors, formatter));
       }
     });
+  }
+
+  private ValidationErrorAjaxResponse() {
+    super(ResponseCode.BAD_REQUEST, Type.VALIDATION_ERROR);
+  }
+
+  /**
+   * Create a new error response with a single validation error message.
+   *
+   * @param fieldKey
+   * @param errorMessage
+   * @return
+   */
+  public static ValidationErrorAjaxResponse only(String fieldKey, String errorMessage) {
+    final ValidationErrorAjaxResponse response = new ValidationErrorAjaxResponse();
+    response.validationErrors = ImmutableMap.<String, List<String>>of(fieldKey, Lists.newArrayList(errorMessage));
+    return response;
   }
 
   public Map<String, List<String>> getValidationErrors() {

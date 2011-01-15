@@ -16,18 +16,18 @@ import net.sparkmuse.ajax.FragmentAjaxResponse;
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.LinkMetadata;
 import net.sparkmuse.discussion.Posts;
-import net.sparkmuse.data.entity.SparkVO;
-import net.sparkmuse.data.entity.Post;
-import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.Offer;
+import net.sparkmuse.data.entity.*;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.user.Votables;
 import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableMap;
+
 import java.util.Map;
 
 import javax.inject.Inject;
 
 import filters.AuthorizationFilter;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -51,12 +51,22 @@ public class Spark extends SparkmuseController {
     renderTemplate("Spark/create.html", spark, isEditMode);
   }
 
-  public static void submit(@Valid @Required(message="Input is required.") SparkVO spark) {
+  public static void submit(@Valid @Required(message="Input is required.") SparkVO spark, String userName) {
     if (Validation.hasErrors()) {
       renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
     }
     else {
-      spark.setAuthor(Authorization.getUserFromSessionOrAuthenticate(true));
+      final UserVO currentUser = Authorization.getUserFromSessionOrAuthenticate(true);
+      if (currentUser.isAdmin() && StringUtils.isNotBlank(userName)) {
+        final UserProfile profile = userFacade.getUserProfile(userName);
+        if (null == profile) {
+          renderJSON(ValidationErrorAjaxResponse.only("userName", "User does not exist."));
+        }
+        spark.setAuthor(profile.getUser());
+      }
+      else {
+        spark.setAuthor(currentUser);
+      }
       final SparkVO savedSpark = sparkFacade.storeSpark(overlay(spark));
       final HashMap<String, Object> parameters = Maps.newHashMap();
       parameters.put("sparkId", savedSpark.getId());
