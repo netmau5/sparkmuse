@@ -11,6 +11,10 @@ SM.newId = (function(){
   }
 })();
 
+SM.disable = function(el) { $(el).attr("disabled", true); };
+SM.isDisabled = function(el) { return $(el).attr("disbled"); };
+SM.enable = function(el) { $(el).attr("disabled", false); };
+
 //response handler
 (function($){
   var FormHandler = {
@@ -21,31 +25,35 @@ SM.newId = (function(){
           };
 
       form.submit(function(){
-        form.trigger(SM.Events.Submit);
-        var i, params = formParameterBuilder.call(this),
-            context = params._context ? $(params._context) : form,
-            filteredParams = {};
+        if (!SM.isDisabled(form)) {
+          SM.disable(form);
 
-        //dont send params that are falsey, ie empty string
-        //dont send reserved property names (ie, those starting with _)
-        for (i in params) {
-          if (!(params.hasOwnProperty(i) && (!params[i] || i.indexOf("_") === 0))) {
-            filteredParams[i] = params[i];
+          form.trigger(SM.Events.Submit);
+          var i, params = formParameterBuilder.call(this),
+              context = params._context ? $(params._context) : form,
+              filteredParams = {};
+
+          //dont send params that are falsey, ie empty string
+          //dont send reserved property names (ie, those starting with _)
+          for (i in params) {
+            if (!(params.hasOwnProperty(i) && (!params[i] || i.indexOf("_") === 0))) {
+              filteredParams[i] = params[i];
+            }
           }
+
+          var parms = {
+            url: form.attr("action"),
+            data: FormHandler.playcate(filteredParams),
+            type: form.attr("method"),
+            success: FormHandler.newSuccessResponseHandler(form, params),
+            error: FormHandler.newFailureResponseHandler(form),
+            dataType: "json",
+            context: context
+          };
+          $.ajax(parms);
+
+          return false;
         }
-
-        var parms = {
-          url: form.attr("action"),
-          data: FormHandler.playcate(filteredParams),
-          type: form.attr("method"),
-          success: FormHandler.newResponseHandler(params),
-          error: FormHandler.handleSystemErrorResponse,
-          dataType: "json",
-          context: context
-        };
-        $.ajax(parms);
-
-        return false;
       });
     },
 
@@ -84,8 +92,9 @@ SM.newId = (function(){
       }
     },
 
-    newResponseHandler: function(params) {
+    newSuccessResponseHandler: function(form, params) {
       return function(response) {
+        SM.enable(form);
         var handler = params["_" + response.type.toLowerCase()] || FormHandler.determineCorrectHandler(response);
         handler.call(this, response);
       }
@@ -96,7 +105,7 @@ SM.newId = (function(){
       switch(response.type){
         case "SUCCESS": return FormHandler.handleSuccessResponse;
         case "VALIDATION_ERROR": return FormHandler.handleValidationErrorResponse;
-        case "SYSTEM_ERROR": return FormHandler.handleSystemErrorResponse;
+        case "SYSTEM_ERROR": return FormHandler.newFailureResponseHandler;
         case "REDIRECT": return FormHandler.handleRedirectResponse;
         //a _success property should be defined to augment default success handler for fragments
         case "FRAGMENT": return FormHandler.handleSuccessResponse;
@@ -104,9 +113,12 @@ SM.newId = (function(){
       }
     },
 
-    handleSystemErrorResponse: function() {
-      $.modal.close();
-      alert("error");
+    newFailureResponseHandler: function(form) {
+      return function() {
+        SM.enable(form);
+        $.modal.close();
+        alert("System error has occured and has been logged.  Please contact Sparkmuse if this problem persists.");
+      }
     },
 
     handleSuccessResponse: function(response) {
