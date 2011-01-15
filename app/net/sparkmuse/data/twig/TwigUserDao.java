@@ -63,6 +63,8 @@ public class TwigUserDao extends TwigDao implements UserDao {
         .type(UserVO.class)
         .addFilter("userNameLowercase", EQUAL, userName.toLowerCase()));
 
+    if (null == user) return null;
+
     return helper.only(datastore.find()
         .type(UserProfile.class)
         .ancestor(user)
