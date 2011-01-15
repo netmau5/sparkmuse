@@ -124,22 +124,17 @@
   <!-- side bar content frame -->
 
   .clockframe-container {
-    position: absolute;
-    cursor: move;
-    z-index: 6;
-    bottom: 50px;
-    left: 15%;
   }
   .clockframe {
     border-width: 80px 15px 10px 15px;
     -moz-border-image: url("@{'public/images/content-box.png'}") 102 53 26 48;
     -webkit-border-image: url("@{'public/images/content-box.png'}") 102 53 26 48;
     border-image: url("@{'public/images/content-box.png'}") 102 53 26 48;
+    margin-bottom: 1em;
   }
   .clockframe-content {
     margin-top: -15px;
     padding: 0 8px;
-    text-align: justify;
   }
     .clockframe-content h2 {
       background: url("@{'public/images/welcome.png'}") no-repeat;
@@ -214,6 +209,7 @@
   </div>
 
   <div class="span-8 last">
+
     <div class="clockframe-container">
       <div class="clockframe">
         <div class="clockframe-content">
@@ -240,6 +236,9 @@
         </div>
       </div>
     </div>
+
+    #{include "standardBlurbs.html" /}
+
   </div>
 
   <div class="clear"></div>

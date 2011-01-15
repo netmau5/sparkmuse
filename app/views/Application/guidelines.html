@@ -175,37 +175,7 @@
 
   <div class="span-8 append-1 last">
 
-    #{if currentUser}
-      <div class="blurb">
-      <div class="blurb-inner">
-        <h4>Let us know what you think</h4>
-        <p>
-          Sparkmuse is just beginning and we want to hear what you think, down to the smallest detail.
-          We want to provide a place where you can begin researching, organizing, and iterating on your ideas early
-          in the same way you would with its actual development.  We also want to foster a community where a wide variety
-          of relevant help is just around the corner and meeting potential cofounders is charmingly simple.  If
-          you would like to help shape our future, please chime in!
-        </p>
-        <p class="actions">
-          <a href="#">Feedback &rarr;</a>
-        </p>
-      </div>
-      </div>
-    #{/if}
-
-    <div class="blurb">
-    <div class="blurb-inner">
-      <h4>Check out the blog</h4>
-      <p>
-        Get insightful commentary about researching and refining your ideas. Find out how we're evolving Sparkmuse
-        to help you realize them.  Learn how to best take advantage of Sparkmuse to lift your
-        Sparks off the ground.  Join the discussion any time, we'd love to hear from you.
-      </p>
-      <p class="actions">
-        <a href="http://blog.sparkmuse.com">Blog &rarr;</a>
-      </p>
-    </div>
-    </div>
+    #{include "standardBlurbs.html" /}
 
   </div>
 
