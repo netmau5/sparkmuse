@@ -980,7 +980,7 @@ div.ui-tooltip-sparkmuse .ui-tooltip-wrapper{
 }
 
   .simplemodal-inner .visual {
-    background: url("../images/blades_small.gif") center -10px no-repeat $COLOR_LIGHT_NEUTRAL;
+    background: url("../images/blades_small_animated.gif") center -10px no-repeat $COLOR_LIGHT_NEUTRAL;
     height: 235px;
     width: 250px;
     border-bottom: 1px solid $COLOR_DARK_NEUTRAL;

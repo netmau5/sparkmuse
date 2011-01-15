@@ -78,7 +78,8 @@
           displayBio: converter.makeHtml(f.bio.value)
         }
       }
-    });
+    }).bind(SM.Events.Submit, SM.formSubmitModal)
+      .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
 
   });
 

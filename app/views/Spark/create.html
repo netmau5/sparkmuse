@@ -201,24 +201,9 @@
         "spark.tags": tagNames,
         "spark.id": "${spark?.id}"
       };
-    });
+    }).bind(SM.Events.Submit, SM.formSubmitModal)
+      .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
 
-    var fadeIn = function (dialog) {
-      dialog.overlay.fadeIn('fast');
-      dialog.container.fadeIn('fast');
-      dialog.data.fadeIn('fast');
-    }
-
-    $(document.NewSparkForm).one(SM.Events.Submit, function(){
-      $("#modal-submission").modal({
-        opacity: 50,
-        close: false,
-        onOpen: fadeIn,
-        onClose: undefined
-      });
-    });
   });
 </script>
-
-#{submissionModal /}
 

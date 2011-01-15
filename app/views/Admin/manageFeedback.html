@@ -143,23 +143,9 @@
         imageKeys: imageKeys,
         isPrivate: this.private.checked
       };
-    });
-
-    var fadeIn = function (dialog) {
-      dialog.overlay.fadeIn('fast');
-      dialog.container.fadeIn('fast');
-      dialog.data.fadeIn('fast');
-    }
-
-    //@todo register in form handler?
-    $(document.Feedback).one(SM.Events.Submit, function(){
-      $("#modal-submission").modal({
-        opacity: 50,
-        close: false,
-        onOpen: fadeIn,
-        onClose: undefined
-      });
-    });
+    }).bind(SM.Events.Submit, SM.formSubmitModal)
+      .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
+    
   });
 </script>
 

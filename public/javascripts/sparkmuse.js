@@ -1,7 +1,8 @@
 var SM = {}; //global namespace
 SM.Events = {
   TagRemoved: "TagRemoved",
-  Submit: "Submit"
+  Submit: "Submit",
+  SubmitEnd: "SubmitEnd"
 };
 
 SM.newId = (function(){
@@ -14,6 +15,25 @@ SM.newId = (function(){
 SM.disable = function(el) { $(el).attr("disabled", true); };
 SM.isDisabled = function(el) { return $(el).attr("disbled"); };
 SM.enable = function(el) { $(el).attr("disabled", false); };
+SM.formSubmitModal = (function() {
+  var fadeIn = function (dialog) {
+    dialog.overlay.fadeIn('fast');
+    dialog.container.fadeIn('fast');
+    dialog.data.fadeIn('fast');
+  };
+
+  return function(){
+    //tag in submissionModal.html (includesBottom)
+    $("#modal-submission").modal({
+      opacity: 50,
+      close: false,
+      onOpen: fadeIn,
+      onClose: undefined
+    });
+  };
+})();
+SM.formSubmitModalClose = function(){ $.modal.close(); };
+
 
 //response handler
 (function($){
@@ -97,6 +117,7 @@ SM.enable = function(el) { $(el).attr("disabled", false); };
         SM.enable(form);
         var handler = params["_" + response.type.toLowerCase()] || FormHandler.determineCorrectHandler(response);
         handler.call(this, response);
+        form.trigger(SM.Events.SubmitEnd);
       }
     },
 
@@ -116,13 +137,13 @@ SM.enable = function(el) { $(el).attr("disabled", false); };
     newFailureResponseHandler: function(form) {
       return function() {
         SM.enable(form);
-        $.modal.close();
         alert("System error has occured and has been logged.  Please contact Sparkmuse if this problem persists.");
+        form.trigger(SM.Events.SubmitEnd);
       }
     },
 
     handleSuccessResponse: function(response) {
-      $.modal.close();
+
     },
 
     handleValidationErrorResponse: function(response) {
@@ -139,18 +160,16 @@ SM.enable = function(el) { $(el).attr("disabled", false); };
               .addClass("error");
         }
       }
-
-      $.modal.close();
     },
 
     handleRedirectResponse: function(response) {
       window.location = response.targetUrl;
-      $.modal.close();
     }
   }
 
   $.fn.formHandler = function(url, formParameterBuilder) {
     FormHandler.init(this, url, formParameterBuilder);
+    return this;
   }
 })(jQuery);
 
@@ -322,4 +341,11 @@ $(document).ready(function() {
           close: true
         });
   });
+
+  //preload modal images
+  $.preload([
+    "/public/images/textures/stars-black.gif",
+    "/public/images/textures/noise.png",
+    "/public/images/blades_small_animated.gif"
+  ]);
 });
