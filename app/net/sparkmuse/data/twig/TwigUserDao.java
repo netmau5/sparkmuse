@@ -38,20 +38,26 @@ public class TwigUserDao extends TwigDao implements UserDao {
     //user never logged in before
     if (null == userVO) {
       //see if we already created one
-      UserVO newUser = helper.only(datastore.find()
+      final UserVO adminCreatedUser = helper.only(datastore.find()
         .type(UserVO.class)
         .addFilter("userNameLowercase", EQUAL, login.getScreenName().toLowerCase()));
 
       //otherwise create a new guy
-      if (null == newUser) newUser = UserVO.newUser(login.getScreenName());
+      if (null == adminCreatedUser) {
+        final UserVO newUser = UserVO.newUser(login.getScreenName());
 
-      newUser.updateUserDuring(login);
-      final UserVO storedNewUser = helper.store(newUser);
+        newUser.updateUserDuring(login);
+        final UserVO storedNewUser = helper.store(newUser);
 
-      final UserProfile profile = UserProfile.newProfile(storedNewUser);
-      helper.store(profile);
+        final UserProfile profile = UserProfile.newProfile(storedNewUser);
+        helper.store(profile);
 
-      return storedNewUser;
+        return storedNewUser;
+      }
+      else {
+        adminCreatedUser.updateUserDuring(login);
+        return helper.update(adminCreatedUser);
+      }
     }
     //user was created or invited but never logged in, same as below, just wanted it doc'd
     //repeat user login

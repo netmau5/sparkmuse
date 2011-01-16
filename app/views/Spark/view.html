@@ -353,7 +353,7 @@
                 ));
               },
               error: function(r, status) {
-                if (status === "404") {
+                if (r.status === 404) {
                   showVisual();
                 }
               }
