@@ -34,7 +34,7 @@ public class UserProfile extends Entity<UserProfile> {
 
   private List<Expertise> expertises; //yea, i know, whatever
 
-  private int invites;
+  private Integer invites;
 
   public static UserProfile newProfile(UserVO storedNewUser) {
     final UserProfile p = new UserProfile();
@@ -74,11 +74,11 @@ public class UserProfile extends Entity<UserProfile> {
     return NullTo.empty(expertises);
   }
 
-  public int getInvites() {
+  public Integer getInvites() {
     return invites;
   }
 
-  public void setInvites(int invites) {
+  public void setInvites(Integer invites) {
     this.invites = invites;
   }
 

@@ -107,6 +107,7 @@ public class Spark extends SparkmuseController {
   /**
    * Overlays an edited spark with an existing one to capture unsubmitted properties.
    *
+   * @todo use Reflections.overlay
    * @param spark
    * @return
    */

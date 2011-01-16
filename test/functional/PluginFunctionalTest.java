@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.After;
 import com.google.apphosting.api.ApiProxy;
 import com.google.code.twig.ObjectDatastore;
+import net.sparkmuse.data.twig.DatastoreService;
 
 /**
  * Created by IntelliJ IDEA.
@@ -18,6 +19,7 @@ import com.google.code.twig.ObjectDatastore;
 public abstract class PluginFunctionalTest extends FunctionalTest {
 
   public ObjectDatastore datastore;
+  public DatastoreService datastoreService;
 
   @Before
   public void setup(){
@@ -33,6 +35,7 @@ public abstract class PluginFunctionalTest extends FunctionalTest {
     }
 
     datastore = FunctionalTestUtils.getInstance(ObjectDatastore.class);
+    datastoreService = FunctionalTestUtils.getInstance(DatastoreService.class);
     FunctionalTestUtils.deleteAll();
   }
 

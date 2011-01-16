@@ -5,6 +5,7 @@ import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.data.entity.Expertise;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
+import net.sparkmuse.common.Reflections;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -44,11 +45,11 @@ public class User extends SparkmuseController {
   }
 
   public static void saveProfile(UserProfile profile) {
-    profile.setUser(Authorization.getUserFromSession());
-    userFacade.updateProfile(profile);
+    final UserProfile existingProfile = userFacade.getUserProfile(Authorization.getUserFromSession().getUserName());
+    userFacade.updateProfile(Reflections.overlay(existingProfile, profile));
 
     Map<String, Object> args = new HashMap();
-    args.put("userName", profile.getUser().getUserName());
+    args.put("userName", existingProfile.getUser().getUserName());
     renderJSON(new RedirectAjaxResponse(Router.reverse("User.view", args).url));
   }
 
