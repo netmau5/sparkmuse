@@ -6,6 +6,7 @@ import com.google.appengine.api.datastore.Text;
 import play.data.validation.CheckWith;
 import net.sparkmuse.client.NoScriptCheck;
 import net.sparkmuse.common.NullTo;
+import play.data.validation.URL;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class UserProfile extends Entity<UserProfile> {
 
   private String name;
   private String location;
+
+  @URL
   private String website;
 
   @Type(Text.class)
