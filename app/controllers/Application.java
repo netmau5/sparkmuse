@@ -71,6 +71,15 @@ public class Application extends SparkmuseController {
     response.direct = is; // renderBinary() will override any caching headers.
   }
 
+  public static void robots() throws FileNotFoundException {
+    File icon = play.Play.getFile("public/robots.txt");
+    InputStream is = new FileInputStream(icon);
+    response.setHeader("Content-Length", icon.length() + "");
+    response.cacheFor("2h");
+    response.contentType = "text/plain";
+    response.direct = is; // renderBinary() will override any caching headers.
+  }
+
 
   public static void get(String blobKey) {
     redirect(blobService.createServeUrl(blobKey));
