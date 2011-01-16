@@ -4,6 +4,7 @@
 
 GET			    /				                          Landing.index
 GET         /favicon.ico                      Application.favicon
+GET         /robots.txt                       Application.robots
 
 GET         /login                            Authorization.authenticate
 GET         /authorize                        Authorization.authorize
@@ -21,7 +22,6 @@ GET         /feedback/{appName}               Application.feedback
 
 # Map static resources from the /app/public folder to the /public path
 GET			/public/        		                  staticDir:public
-GET     /robots.txt                           staticDir:public
 
 # Catch all
 *			/{controller}/{action}  		            {controller}.{action}
