@@ -20,7 +20,8 @@ GET         /feedback/{appName}               Application.feedback
 *           /{action}                         Application.{action}
 
 # Map static resources from the /app/public folder to the /public path
-GET			/public/        		        staticDir:public
+GET			/public/        		                  staticDir:public
+GET     /robots.txt                           staticDir:public
 
 # Catch all
 *			/{controller}/{action}  		            {controller}.{action}
