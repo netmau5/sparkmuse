@@ -52,7 +52,7 @@ public class TwitterService {
    *
    * @return authentication endpoint url
    */
-  public String beginAuthentication() {
+  public OAuthAuthenticationRequest beginAuthentication() {
     Twitter twitter = newTwitterInstance();
 
     RequestToken rtoken = null;
@@ -62,22 +62,16 @@ public class TwitterService {
       throw new RuntimeException(e);
     }
 
-    cache.put(rtoken.getToken(), rtoken);
-
-    return rtoken.getAuthorizationURL();
+    return new OAuthAuthenticationRequest(rtoken);
   }
 
-  public UserLogin registerAuthentication(String oauth_token, String oauth_verifier) throws InvalidOAuthRequestToken {
-    Preconditions.checkNotNull(oauth_token);
-    Preconditions.checkNotNull(oauth_verifier);
-    Logger.info("Twitter authentication received: " + oauth_token + " : " + oauth_verifier);
+  public UserLogin registerAuthentication(OAuthAuthenticationResponse response) {
+    Logger.info("Twitter authentication received: " + response);
 
     Twitter twitter = newTwitterInstance();
-    RequestToken requestToken = cache.get(oauth_token, RequestToken.class);
-    if (null == requestToken) throw new InvalidOAuthRequestToken();
 
     try {
-      AccessToken accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
+      AccessToken accessToken = twitter.getOAuthAccessToken(response.getRequestToken(), response.getVerifier());
       return new UserLogin(twitter, accessToken);
     } catch (TwitterException e) {
       if (e.getStatusCode() == 401) {

@@ -31,12 +31,12 @@ public class UserFacade {
     this.twitterService = twitterService;
   }
 
-  public String beginAuthentication() {
+  public OAuthAuthenticationRequest beginAuthentication() {
     return twitterService.beginAuthentication();
   }
 
-  public UserVO registerAuthentication(String oauth_token, String oauth_verifier) throws InvalidOAuthRequestToken {
-    UserVO user = userDao.findOrCreateUserBy(twitterService.registerAuthentication(oauth_token, oauth_verifier));
+  public UserVO registerAuthentication(OAuthAuthenticationResponse response) {
+    UserVO user = userDao.findOrCreateUserBy(twitterService.registerAuthentication(response));
     cache.put(user);
     return user;
   }
