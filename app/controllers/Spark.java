@@ -7,6 +7,7 @@ import play.data.validation.Validation;
 import play.data.validation.Valid;
 import play.templates.Template;
 import play.templates.TemplateLoader;
+import play.Logger;
 
 import java.util.HashMap;
 
@@ -20,7 +21,6 @@ import net.sparkmuse.data.entity.*;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.user.Votables;
 import com.google.common.collect.Maps;
-import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 

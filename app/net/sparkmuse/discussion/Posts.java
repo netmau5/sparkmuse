@@ -8,6 +8,8 @@ import net.sparkmuse.common.Orderings;
 import net.sparkmuse.common.Entry;
 import net.sparkmuse.common.Entries;
 
+import play.Logger;
+
 import java.util.List;
 import java.util.Collection;
 import java.util.Set;
@@ -57,8 +59,13 @@ public class Posts {
     return Lists.newArrayList(Iterables.transform(items, toEntries));
   }
 
-  public ImmutableList<Post> getPosts() {
-    return posts;
+  public SparkVO getSpark() {
+    return spark;
+  }
+
+  //AccessControlException thrown on GAE when this returned immutablelist...
+  public List<Post> getPosts() {
+    return Lists.newArrayList(posts);
   }
 
   public ImmutableSet<Post> getAllPosts() {
