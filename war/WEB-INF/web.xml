@@ -8,7 +8,7 @@
 
   <context-param>
     <param-name>play.id</param-name>
-    <param-value>staging</param-value>
+    <param-value>prod</param-value>
   </context-param>
 
   <listener>

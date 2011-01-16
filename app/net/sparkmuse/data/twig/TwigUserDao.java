@@ -37,7 +37,14 @@ public class TwigUserDao extends TwigDao implements UserDao {
 
     //user never logged in before
     if (null == userVO) {
-      UserVO newUser = UserVO.newUser(login.getScreenName());
+      //see if we already created one
+      UserVO newUser = helper.only(datastore.find()
+        .type(UserVO.class)
+        .addFilter("userNameLowercase", EQUAL, login.getScreenName().toLowerCase()));
+
+      //otherwise create a new guy
+      if (null == newUser) newUser = UserVO.newUser(login.getScreenName());
+
       newUser.updateUserDuring(login);
       final UserVO storedNewUser = helper.store(newUser);
 
