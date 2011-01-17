@@ -84,7 +84,7 @@
         <h4>Similar Ideas</h4>
         <ol>
           #{list items: posts.similarIdeas, as: "resource"}
-            <li><a href="${resource.url?.url()}" alt="Similar Idea">${resource.title}</a></li>
+            <li><a href="${resource.url?.url()}" target="_blank" alt="Similar Idea">${resource.title}</a></li>
           #{/list}
         </ol>
       </div>
@@ -97,7 +97,7 @@
         <h4>Concept Validation</h4>
         <ol>
           #{list items: posts.validations, as: "resource"}
-            <li><a href="${resource.url}" alt="Similar Idea">${resource.title}</a></li>
+            <li><a href="${resource.url?.url()}" target="_blank" alt="Similar Idea">${resource.title}</a></li>
           #{/list}
         </ol>
       </div>
@@ -110,7 +110,7 @@
         <h4>Research Resources</h4>
         <ol>
           #{list items: posts.researches, as: "resource"}
-            <li><a href="${resource.url}" alt="Similar Idea">${resource.title}</a></li>
+            <li><a href="${resource.url?.url()}" target="_blank" alt="Similar Idea">${resource.title}</a></li>
           #{/list}
         </ol>
       </div>

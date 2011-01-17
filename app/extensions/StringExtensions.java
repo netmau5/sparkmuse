@@ -46,9 +46,13 @@ public class StringExtensions extends JavaExtensions {
    * @return
    */
   public static String url(String url) {
-    if (StringUtils.isBlank(url)) return "#";
-    if (url.startsWith("http://") || url.startsWith("https://")) return url;
-    return "http://" + url;
+    String toReturn;
+
+    if (StringUtils.isBlank(url)) toReturn =  "#";
+    else if (url.startsWith("http://") || url.startsWith("https://")) toReturn = url;
+    else toReturn = "http://" + url;
+
+    return toReturn;
   }
 
 }
