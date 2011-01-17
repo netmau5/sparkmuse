@@ -69,8 +69,9 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
     return votes;
   }
 
-  public ImmutableList<Post> getReplies() {
-    return ImmutableList.copyOf(replies);
+  //AccessControlException thrown on GAE when this returned immutablelist...
+  public List<Post> getReplies() {
+    return Lists.newArrayList(replies);
   }
 
   public Long getInReplyToId() {
