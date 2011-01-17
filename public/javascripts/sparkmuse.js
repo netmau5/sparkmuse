@@ -139,7 +139,7 @@ SM.formSubmitModalClose = function(){ $.modal.close(); };
       return function() {
         SM.enable(form);
         alert("Oops! System error has occured and has been logged.  Please contact Sparkmuse if this problem persists.");
-        //@todo change alert to a notification panel, scroll to top, and use a live listener to bind to form/SubmitEndError
+        //@todo change alert to a notification panel, scroll to top
         form.trigger(SM.Events.SubmitEndError);
       }
     },
@@ -350,4 +350,7 @@ $(document).ready(function() {
     "/public/images/textures/noise.png",
     "/public/images/blades_small_animated.gif"
   ]);
+
+  //form submit error
+  $("form").live(SM.Events.SubmitEndError, SM.formSubmitModalClose);
 });
