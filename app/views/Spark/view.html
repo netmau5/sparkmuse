@@ -284,7 +284,8 @@
             }
           }).bind(SM.Events.Submit, SM.formSubmitModal)
             .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose)
-            .bind(SM.Events.SubmitEnd, s.endReply);
+            .bind(SM.Events.SubmitEnd, s.endReply)
+            .bind(SM.Events.SubmitEndError, SM.formSubmitModalClose);
         }
         else {
           alert("Finish current reply");

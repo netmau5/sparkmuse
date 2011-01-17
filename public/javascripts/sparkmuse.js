@@ -2,7 +2,8 @@ var SM = {}; //global namespace
 SM.Events = {
   TagRemoved: "TagRemoved",
   Submit: "Submit",
-  SubmitEnd: "SubmitEnd"
+  SubmitEnd: "SubmitEnd",
+  SubmitEndError: "SubmitEndError"
 };
 
 SM.newId = (function(){
@@ -137,8 +138,9 @@ SM.formSubmitModalClose = function(){ $.modal.close(); };
     newFailureResponseHandler: function(form) {
       return function() {
         SM.enable(form);
-        alert("System error has occured and has been logged.  Please contact Sparkmuse if this problem persists.");
-        form.trigger(SM.Events.SubmitEnd);
+        alert("Oops! System error has occured and has been logged.  Please contact Sparkmuse if this problem persists.");
+        //@todo change alert to a notification panel, scroll to top, and use a live listener to bind to form/SubmitEndError
+        form.trigger(SM.Events.SubmitEndError);
       }
     },
 
