@@ -7,6 +7,8 @@ import com.google.common.base.Joiner;
 
 import java.util.List;
 
+import net.sparkmuse.common.NullTo;
+
 /**
  * @author neteller
  * @created: Dec 27, 2010
@@ -35,6 +37,18 @@ public class StringExtensions extends JavaExtensions {
     }
 
     return Joiner.on(" ").join(words) + "...";
+  }
+
+  /**
+   * Formats a string as an url.
+   *
+   * @param url
+   * @return
+   */
+  public static String url(String url) {
+    if (StringUtils.isBlank(url)) return "#";
+    if (url.startsWith("http://") || url.startsWith("https://")) return url;
+    return "http://" + url;
   }
 
 }

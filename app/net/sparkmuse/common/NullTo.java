@@ -23,4 +23,9 @@ public class NullTo {
     else return list;
   }
 
+  public static String empty(String s) {
+    if (null == s) return "";
+    return s;
+  }
+
 }

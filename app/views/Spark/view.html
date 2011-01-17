@@ -84,7 +84,7 @@
         <h4>Similar Ideas</h4>
         <ol>
           #{list items: posts.similarIdeas, as: "resource"}
-            <li><a href="${resource.url}" alt="Similar Idea">${resource.title}</a></li>
+            <li><a href="${resource.url?.url()}" alt="Similar Idea">${resource.title}</a></li>
           #{/list}
         </ol>
       </div>
