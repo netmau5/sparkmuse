@@ -46,7 +46,8 @@ public class UserFacade {
   }
 
   public void createUser(String userName) {
-    userDao.createUser(userName);
+    final UserProfile userProfile = getUserProfile(userName);
+    if (null == userProfile) userDao.createUser(userName);
   }
 
   public void updateUser(long userId, AccessLevel accessLevel, int invites) {
