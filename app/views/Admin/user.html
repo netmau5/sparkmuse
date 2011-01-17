@@ -20,10 +20,10 @@
         <div class="field">
           <label>Access Level</label>
           <select name="accessLevel" value="${profile.user.accessLevel}">
-            <option value="UNAUTHORIZED">Unauthorized</option>
-            <option value="USER">User</option>
-            <option value="ADMIN">Admin</option>
-            <option value="DIETY">Diety</option>
+            <option value="UNAUTHORIZED" #{if profile.user.accessLevel.toString() == "UNAUTHORIZED"}selected#{/if}>Unauthorized</option>
+            <option value="USER" #{if profile.user.accessLevel.toString() == "USER"}selected#{/if}>User</option>
+            <option value="ADMIN" #{if profile.user.accessLevel.toString() == "ADMIN"}selected#{/if}>Admin</option>
+            <option value="DIETY" #{if profile.user.accessLevel.toString() == "DIETY"}selected#{/if}>Diety</option>
           </select>
          </div>
       </fieldset>
@@ -31,7 +31,7 @@
       <fieldset>
         <div class="field">
           <label>Invites</label>
-          <div class="input-wrapper"><input type="text" name="invites" maxlength="100" /></div>
+          <div class="input-wrapper"><input type="text" name="invites" maxlength="100" value="${profile?.invites}" /></div>
          </div>
       </fieldset>
 
