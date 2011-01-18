@@ -49,7 +49,6 @@ public class UserVO extends Entity<UserVO> {
   public static UserVO newUser(String userName) {
     UserVO user = new UserVO();
     user.setUserName(userName);
-    user.setFirstLogin(new DateTime());
     user.setUserNameLowercase(userName.toLowerCase());
     user.setAccessLevel(AccessLevel.UNAUTHORIZED);
     user.setReputation(0);
@@ -64,6 +63,9 @@ public class UserVO extends Entity<UserVO> {
     this.setLastLogin(new DateTime());
     this.setOauthToken(login.getToken());
     this.setOauthTokenSecret(login.getTokenSecret());
+
+    if (null == firstLogin) this.setFirstLogin(new DateTime());
+
     return this;
   }
 
