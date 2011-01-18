@@ -57,6 +57,8 @@ public class UserFacade {
     final UserProfile userProfile = getUserProfile(user.getUserName());
     userProfile.setInvites(invites);
     userDao.store(userProfile);
+
+    cache.delete(user.getKey()); //@todo do this globally in Afters?
   }
 
   /**

@@ -1,12 +1,13 @@
 #{extends 'bodytemplate.html' /}
 #{set title:"Sparkmuse " + spark.title /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/Spark/view-2.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/Spark/view-3.css'}" type="text/css" />
 
 <div class="prepend-1 span-22 append-1 last page-title">
 
+  <a href="#@{User.vote(spark.class.name, spark.id)}" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
+
   <h2>
-    <a href="#@{User.vote(spark.class.name, spark.id)}" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
     <a href="@{Spark.view(spark.id)}">${spark.title}</a>
   </h2>
 
@@ -41,18 +42,17 @@
           <td class="label">Created</td>
           <td>${spark.created.format()}</td>
         </tr>
-        <!--<tr>-->
-          <!--<td class="label">Comments</td>-->
-          <!--<td>${spark.postCount}</td>-->
-        <!--</tr>-->
       </table>
-      <!--%{ if (spark.author.equals(currentUser) || currentUser.isAdmin()) { }%-->
-      <!--<p>-->
-        <!--<a href="@{Spark.edit(spark.id)}">Edit Spark</a>-->
-      <!--</p>-->
-      <!--%{ } }%-->
     </div>
     </div>
+
+    %{ if (spark.author.equals(currentUser) || currentUser.isAdmin()) { }%
+    <div class="blurb">
+    <div class="blurb-inner">
+      <p><a href="@{Spark.edit(spark.id)}">Edit Spark</a></p>
+    </div>
+    </div>
+    %{ } }%
 
     <div class="blurb">
     <div class="blurb-inner">

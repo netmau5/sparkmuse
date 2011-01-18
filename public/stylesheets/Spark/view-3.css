@@ -16,7 +16,9 @@ $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
 /*$FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;*/
 $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
-.page-title h2 { display: inline-block; }
+.page-title { position: relative; }
+
+  .page-title h2 { display: inline-block; margin-right: 90px; }
 
   .page-title h2 a {
     font-size: inherit;
@@ -25,6 +27,9 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
     line-height: inherit;
     text-decoration: inherit;
   }
+
+  .page-title #follow-link { position: absolute; right: 43px; }
+
 
 .spark-info-wrapper {
   background-color: $COLOR_NEUTRAL;
@@ -56,10 +61,6 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
     margin: 0 0 0 130px;
     text-shadow: 0px 1px 0px #efefef;
   }
-
-    .spark-details table .nametag {
-      text-align: center;
-    }
 
   .spark-details table td.label { text-align: right; padding-right: 8px; color: $COLOR_ALT; }
 

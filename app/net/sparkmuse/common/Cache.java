@@ -30,4 +30,8 @@ public interface Cache {
 
   void clear();
 
+  void delete(String key);
+
+  void delete(CacheKey key);
+
 }

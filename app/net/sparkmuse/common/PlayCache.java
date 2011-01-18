@@ -37,6 +37,19 @@ public class PlayCache implements Cache {
     }
   }
 
+  public void delete(String key) {
+    if (cache != null) {
+      cache.delete(key);
+    }
+    else {
+      play.cache.Cache.delete(key);
+    }
+  }
+
+  public void delete(CacheKey key) {
+    delete(key.toString());
+  }
+
   public void set(String key, Object o, String timeout) {
     if (cache != null) {
       cache.set(key, o, Days.days(30).get(DurationFieldType.millis()));
