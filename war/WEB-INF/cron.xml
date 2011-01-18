@@ -3,6 +3,11 @@
   <cron>
     <url>/Task/updateSparkRatings</url>
     <description>Update Spark Popularity Ratings</description>
+    <schedule>every 1 hours</schedule>
+  </cron>
+  <cron>
+    <url>/Task/commentRepair</url>
+    <description>Repair Spark comment count</description>
     <schedule>every 5 minutes</schedule>
   </cron>
 </cronentries>

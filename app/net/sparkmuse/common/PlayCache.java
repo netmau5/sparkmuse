@@ -28,6 +28,15 @@ public class PlayCache implements Cache {
     this(null);
   }
 
+  public void clear() {
+    if (cache != null) {
+      cache.clear();
+    }
+    else {
+      play.cache.Cache.clear();
+    }
+  }
+
   public void set(String key, Object o, String timeout) {
     if (cache != null) {
       cache.set(key, o, Days.days(30).get(DurationFieldType.millis()));

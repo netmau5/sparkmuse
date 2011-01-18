@@ -114,7 +114,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
    * @param voter
    */
   public void vote(Votable votable, UserVO voter) {
-    helper.associate(voter);
+    DatastoreUtils.associate(voter, datastore);
 
     final UserVote voteModel = datastore.load()
         .type(UserVote.class)
@@ -155,7 +155,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
       ids.add(Votables.newKey(votable));
     }
 
-    helper.associate(user);
+    DatastoreUtils.associate(user, datastore);
     final Map<String, UserVote> voteMap = datastore.load()
         .type(UserVote.class)
         .ids(ids)

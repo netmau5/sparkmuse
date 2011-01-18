@@ -6,13 +6,11 @@ import com.google.code.twig.LoadCommand;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.Key;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Function;
 import com.google.common.collect.*;
 import com.google.inject.Inject;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.common.Cache;
-import net.sparkmuse.common.TimedTransformer;
 import net.sparkmuse.common.CacheKeyFactory;
 
 import java.util.*;
@@ -115,14 +113,14 @@ public class DatastoreService {
   }
 
   public final <U extends Entity<U>> List<U> all(FindCommand.RootFindCommand<U> findCommand) {
-    final QueryResultIterator<U> resultIterator = findCommand.now();
+    final QueryResultIterator<U> resultIterator = findCommand.fetchNextBy(200).now();
     final List<U> toReturn = Lists.newArrayList(resultIterator);
     return After.read(toReturn, this);
   }
 
   //CREATE/UPDATES
 
-  public final <T, U extends Entity<U>> U store(U entity) {
+  public final <U extends Entity<U>> U store(U entity) {
     if (null == entity) return null;
 
     //set the key on the model object
@@ -132,49 +130,13 @@ public class DatastoreService {
     return After.write(entity, this);
   }
 
-  public final <T, U extends Entity<U>> U update(U entity) {
+  public final <U extends Entity<U>> U update(U entity) {
     if (null == entity) return null;
 
-    associate(entity);
+    DatastoreUtils.associate(entity, datastore);
     datastore.update(entity);
 
     return After.write(entity, this);
   }
 
-  //OTHER
-
-  public final <T, U extends Entity<U>> U associate(U entity) {
-    if (null == entity) return entity;
-
-    //this should set the key on the model object automatically
-    if (datastore.associatedKey(entity) == null) datastore.associate(entity);
-    return entity;
-  }
-
-  /**
-   * Executes a timed job that will process a transformation over a given entity.  The transformation
-   * logic is limited at approximately 15 seconds.  If the job doesn't complete in the allowed time, a
-   * serialized cursor will be returned so that the job can be restarted at the last position.
-   *
-   * @param transformer
-   * @param find
-   * @return serialized cursor
-   */
-  public <U extends Entity<U>> String execute(final Function<U, U> transformer, final FindCommand.RootFindCommand<U> find) {
-    final QueryResultIterator<U> iterator = find.now();
-
-    final DatastoreService service = this;
-    final Function<U, U> transformFunction = new Function<U, U>() {
-      public U apply(U u) {
-        final U transformedEntity = transformer.apply(u);
-        service.update(transformedEntity);
-        return transformedEntity;
-      }
-    };
-
-    new TimedTransformer(transformFunction).transform(iterator);
-
-    if (iterator.hasNext()) return iterator.getCursor().toWebSafeString();
-    else return null;
-  }
 }

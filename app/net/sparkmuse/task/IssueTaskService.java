@@ -2,6 +2,8 @@ package net.sparkmuse.task;
 
 import net.sparkmuse.data.Cacheable;
 
+import java.util.Map;
+
 /**
  * Service for issuing asynchronous tasks.
  *
@@ -25,5 +27,14 @@ public interface IssueTaskService {
    *
    * @param cursor
    */
-  void issueSparkRatingUpdateTask(String cursor);
+  void issueSparkRatingUpdate(String cursor);
+
+  /**
+   * Invokes a task to repair post counts on Sparks.
+   *
+   * @param cursor
+   */
+  void issuePostCountRepairer(String cursor);
+
+  void issue(String action, Map<String, Object> parameters);
 }

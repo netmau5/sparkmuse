@@ -6,6 +6,7 @@ import com.google.appengine.api.labs.taskqueue.Queue;
 import com.google.appengine.api.labs.taskqueue.TaskOptions;
 import static com.google.appengine.api.labs.taskqueue.TaskOptions.Builder.*;
 import com.google.common.collect.Maps;
+import com.google.inject.Inject;
 import play.mvc.Router;
 
 import java.util.Map;
@@ -20,6 +21,7 @@ public class GaeIssueTaskService implements IssueTaskService {
 
   private final Queue queue;
 
+  @Inject
   public GaeIssueTaskService(final Queue queue) {
     this.queue = queue;
   }
@@ -32,11 +34,32 @@ public class GaeIssueTaskService implements IssueTaskService {
     queue.add(taskOptions);
   }
 
-  public void issueSparkRatingUpdateTask(String cursor) {
+  public void issueSparkRatingUpdate(String cursor) {
     final Map<String,Object> parameters = Maps.newHashMap();
     parameters.put("cursor", cursor);
     queue.add(url(Router.reverse(
         "Task.updateSparkRatings",
+        parameters
+    ).url));
+  }
+
+  /**
+   * Invokes a task to repair post counts on Sparks.
+   *
+   * @param cursor
+   */
+  public void issuePostCountRepairer(String cursor) {
+    final Map<String,Object> parameters = Maps.newHashMap();
+    parameters.put("cursor", cursor);
+    queue.add(url(Router.reverse(
+        "Task.commentRepair",
+        parameters
+    ).url));
+  }
+
+  public void issue(String action, Map<String, Object> parameters) {
+    queue.add(url(Router.reverse(
+        action,
         parameters
     ).url));
   }

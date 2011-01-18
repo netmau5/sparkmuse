@@ -28,4 +28,6 @@ public interface Cache {
 
   <T> T put(String key, T value);
 
+  void clear();
+
 }

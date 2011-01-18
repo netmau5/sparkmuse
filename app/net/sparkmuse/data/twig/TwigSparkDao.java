@@ -48,8 +48,4 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
     );
   }
 
-  public String transform(final Function<SparkVO, SparkVO> transformation, final String cursor) {
-    return super.transformAll(SparkVO.class, transformation, cursor);
-  }
-
 }

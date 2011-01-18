@@ -35,6 +35,7 @@ public class SparkmuseController extends Controller {
 
   @Catch(ApiProxy.CapabilityDisabledException.class)
   static void handleMaintenanceMode(ApiProxy.CapabilityDisabledException e) {
+    Logger.error(e, "App engine disabled.");
     //@todo handle this error somewhere, it will be thrown when GAE goes into read-only mode for scheduled maintenance
   }
 
