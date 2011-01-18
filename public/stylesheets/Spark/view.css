@@ -19,11 +19,11 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 .page-title h2 { display: inline-block; }
 
   .page-title h2 a {
-    height: 48px;
-    width: 48px; 
-    display: inline-block;
-    background-color: white;
-    margin-right: 5px;
+    font-size: inherit;
+    color: inherit;
+    font-family: inherit;
+    line-height: inherit;
+    text-decoration: inherit;
   }
 
 .spark-info-wrapper {
