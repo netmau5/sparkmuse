@@ -22,6 +22,7 @@ public class UserVO extends Entity<UserVO> {
   private AccessLevel accessLevel;
   private int reputation;
 
+  private DateTime firstLogin;
   private DateTime lastLogin;
 
   //oauth stuff, used to recreate AccessToken
@@ -48,6 +49,7 @@ public class UserVO extends Entity<UserVO> {
   public static UserVO newUser(String userName) {
     UserVO user = new UserVO();
     user.setUserName(userName);
+    user.setFirstLogin(new DateTime());
     user.setUserNameLowercase(userName.toLowerCase());
     user.setAccessLevel(AccessLevel.UNAUTHORIZED);
     user.setReputation(0);
@@ -148,6 +150,14 @@ public class UserVO extends Entity<UserVO> {
   @Override
   public String toString() {
     return userName;
+  }
+
+  public DateTime getFirstLogin() {
+    return firstLogin;
+  }
+
+  public void setFirstLogin(DateTime firstLogin) {
+    this.firstLogin = firstLogin;
   }
 
   public static Function<UserVO, Long> asUserIds = new Function<UserVO, Long>(){

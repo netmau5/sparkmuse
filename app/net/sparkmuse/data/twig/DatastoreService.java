@@ -92,7 +92,6 @@ public class DatastoreService {
       final T toReturn = resultsIterator.next();
       Preconditions.checkState(!resultsIterator.hasNext(), "Only one result requested but more than one returned.");
       return After.read(toReturn, this);
-
     }
     else return null;
   }
