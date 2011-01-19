@@ -28,7 +28,7 @@ public class PlayCacheTest extends UnitTest {
   public void shouldAllowRawPutAndGet() {
     final Cache cache = newCache();
     Object obj1 = new SerializableObj();
-    cache.put("Key", obj1);
+    cache.set("Key", obj1);
     MatcherAssert.assertThat(cache.get("Key"), Matchers.is(obj1));
   }
 
@@ -37,8 +37,8 @@ public class PlayCacheTest extends UnitTest {
     final Cache cache = newCache();
     Object obj1 = new SerializableObj();
     Object obj2 = new SerializableObj();
-    cache.put("Key", obj1);
-    cache.put("Key", obj2);
+    cache.set("Key", obj1);
+    cache.set("Key", obj2);
     MatcherAssert.assertThat(cache.get("Key"), Matchers.is(obj2));
   }
 
@@ -52,27 +52,27 @@ public class PlayCacheTest extends UnitTest {
   @Test(expected=NullPointerException.class)
   public void shouldNotAllowPutWithNullKey() {
     final Cache cache = newCache();
-    cache.put(null, new SerializableObj());
+    cache.set(null, new SerializableObj());
   }
 
   @Test(expected=NullPointerException.class)
   public void shouldNotAllowPutWithNullValue() {
     final Cache cache = newCache();
-    cache.put("key", null);
+    cache.set("key", null);
   }
 
   @Test(expected=IllegalArgumentException.class)
   public void shouldNotAllowPutWithNonSerializableValue(){
     final Cache cache = newCache();
     Object obj1 = new Object();
-    cache.put("Key", obj1);
+    cache.set("Key", obj1);
   }
 
   @Test
   public void shouldAllowCacheablePutAndGet() {
     final Cache cache = newCache();
     final CacheableObj cacheable = new CacheableObj();
-    cache.put(cacheable);
+    cache.set(cacheable);
     MatcherAssert.assertThat(cache.get(cacheable.getKey()), Matchers.is(cacheable.getInstance()));
   }
 
@@ -86,7 +86,7 @@ public class PlayCacheTest extends UnitTest {
   @Test(expected=NullPointerException.class)
   public void shouldNotAllowCacheablePutWithNullCacheable() {
     final Cache cache = newCache();
-    cache.put(null);
+    cache.set(null);
   }
 
   @Test(expected=NullPointerException.class)
@@ -101,7 +101,7 @@ public class PlayCacheTest extends UnitTest {
         return new Object();
       }
     };
-    cache.put(cacheable);
+    cache.set(cacheable);
   }
 
   @Test(expected=NullPointerException.class)
@@ -116,7 +116,7 @@ public class PlayCacheTest extends UnitTest {
         return null;
       }
     };
-    cache.put(cacheable);
+    cache.set(cacheable);
   }
 
   @Test(expected=IllegalArgumentException.class)
@@ -131,7 +131,7 @@ public class PlayCacheTest extends UnitTest {
         return new Object();
       }
     };
-    cache.put(cacheable);
+    cache.set(cacheable);
   }
 
   private static class SerializableObj implements Serializable {}

@@ -4,7 +4,6 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.OwnedEntity;
-import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.NullTo;
@@ -15,7 +14,6 @@ import net.sparkmuse.discussion.PopularSparks;
 
 import java.util.Map;
 import java.util.List;
-import java.util.Collection;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -99,14 +97,14 @@ public class After {
         updatedSpark = true;
       }
       if (entity instanceof SparkVO || entity instanceof UserVO) {
-        cache.put(entity);
+        cache.set(entity);
       }
     }
 
     if (updatedSpark) {
-      if (null != recentSparks) cache.put(recentSparks);
-      if (null != mostDiscussedSparks) cache.put(mostDiscussedSparks);
-      if (null != popularSparks) cache.put(popularSparks);
+      if (null != recentSparks) cache.set(recentSparks);
+      if (null != mostDiscussedSparks) cache.set(mostDiscussedSparks);
+      if (null != popularSparks) cache.set(popularSparks);
     }
 
     return entityList;

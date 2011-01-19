@@ -37,7 +37,7 @@ public class UserFacade {
 
   public UserVO registerAuthentication(OAuthAuthenticationResponse response) {
     UserVO user = userDao.findOrCreateUserBy(twitterService.registerAuthentication(response));
-    cache.put(user);
+    cache.set(user);
     return user;
   }
 

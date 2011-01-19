@@ -11,14 +11,16 @@ import net.sparkmuse.data.Cacheable;
  */
 public interface Cache {
 
-  /**
-   * Cannot cache a non-inserted entity, these do not have a unique pk yet.
-   *
-   * @param cacheable
-   * @param <T>
-   * @return
-   */
-  <T> T put(Cacheable<T> cacheable);
+  <T> T add(Cacheable<T> cacheable);
+
+  <T> T add(String key, T value);
+
+  <T> T safeAdd(Cacheable<T> cacheable);
+
+  <T> T safeAdd(String key, T value);
+
+  //======
+
 
   <T> T get(CacheKey<T> key);
 
@@ -26,12 +28,53 @@ public interface Cache {
 
   <T> T get(String key, Class<T> type);
 
-  <T> T put(String key, T value);
+  //======
 
-  void clear();
+  /**
+   * Cannot cache a non-inserted entity, these do not have a unique pk yet.
+   *
+   * @param cacheable
+   * @param <T>
+   * @return
+   */
+  <T> T set(Cacheable<T> cacheable);
+
+  <T> T set(String key, T value);
+
+  <T> T safeSet(Cacheable<T> cacheable);
+
+  <T> T safeSet(String key, T value);
+
+  //======
+
+  <T> T delete(Cacheable<T> cacheable);
 
   void delete(String key);
 
   void delete(CacheKey key);
+
+  <T> T safeDelete(Cacheable<T> cacheable);
+
+  void safeDelete(String key);
+
+  void safeDelete(CacheKey key);
+
+  //======
+
+  <T> T replace(Cacheable<T> cacheable);
+
+  <T> T replace(String key, T value);
+
+  <T> T safeReplace(Cacheable<T> cacheable);
+
+  <T> T safeReplace(String key, T value);
+
+  //======
+
+  void incr(String key);
+
+  void decr(String key);
+
+  void clear();
 
 }

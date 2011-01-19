@@ -18,6 +18,8 @@ import org.joda.time.DurationFieldType;
  */
 public class PlayCache implements Cache {
 
+  private static final int THIRTY_DAYS = Days.days(30).get(DurationFieldType.millis());
+
   private final play.cache.CacheImpl cache;
 
   public PlayCache(play.cache.CacheImpl cache) {
@@ -28,92 +30,209 @@ public class PlayCache implements Cache {
     this(null);
   }
 
-  public void clear() {
-    if (cache != null) {
-      cache.clear();
+  private play.cache.CacheImpl impl() {
+    if (null != cache) {
+      return cache;
     }
-    else {
-      play.cache.Cache.clear();
+    else if (null != play.cache.Cache.forcedCacheImpl) {
+      return play.cache.Cache.forcedCacheImpl;
     }
+    else if (null != play.cache.Cache.cacheImpl) {
+      return play.cache.Cache.cacheImpl;
+    }
+
+    throw new IllegalStateException("No cache implementation available.");
   }
 
-  public void delete(String key) {
-    if (cache != null) {
-      cache.delete(key);
-    }
-    else {
-      play.cache.Cache.delete(key);
-    }
+  //======
+
+  public <T> T add(Cacheable<T> cacheable) {
+    validate(cacheable);
+
+    return add(cacheable.getKey().toString(), cacheable).getInstance();
   }
 
-  public void delete(CacheKey key) {
-    delete(key.toString());
+  public <T> T add(String key, T value) {
+    Preconditions.checkNotNull(key);
+    Preconditions.checkNotNull(value);
+
+    impl().add(key, value, THIRTY_DAYS);
+    return value;
   }
 
-  public void set(String key, Object o, String timeout) {
-    if (cache != null) {
-      cache.set(key, o, Days.days(30).get(DurationFieldType.millis()));
-    }
-    else {
-      play.cache.Cache.set(key, o, timeout);
-    }
+  public <T> T safeAdd(Cacheable<T> cacheable) {
+    validate(cacheable);
+
+    return safeAdd(cacheable.getKey().toString(), cacheable).getInstance();
   }
+
+  public <T> T safeAdd(String key, T value) {
+    Preconditions.checkNotNull(key);
+    Preconditions.checkNotNull(value);
+
+    impl().safeAdd(key, value, THIRTY_DAYS);
+    return value;
+  }
+
+  //======
 
   public <T> T get(String key, Class<T> clazz) {
-    if (cache != null) {
-      return clazz.cast(cache.get(key));
-    }
-    else {
-      return play.cache.Cache.get(key, clazz);
-    }
-  }
+    Preconditions.checkNotNull(key);
+    Preconditions.checkNotNull(clazz);
 
-  public void add(String key, Object o, String timeout) {
-    if (cache != null) {
-      cache.add(key, o, Days.days(30).get(DurationFieldType.millis()));
-    }
-    else {
-      play.cache.Cache.add(key, o, timeout);
-    }
+    return clazz.cast(get(key));
   }
 
   public Object get(String key) {
     Preconditions.checkNotNull(key);
-    if (cache != null) {
-      return cache.get(key);
-    }
-    else {
-      return play.cache.Cache.get(key);
-    }
+
+    return impl().get(key);
   }
 
   public <T> T get(final CacheKey<T> key) {
     Preconditions.checkNotNull(key);
+
     Cacheable<T> cacheable = get(key.toString(), Cacheable.class);
     if (null != cacheable) return cacheable.getInstance();
     else return null;
   }
 
-  public <T> T put(String key, T value) {
+  //======
+
+  public <T> T set(String key, T value) {
     Preconditions.checkNotNull(key);
     Preconditions.checkNotNull(value);
     checkSerializable(value);
-    set(key, value, "30d");
+
+    impl().set(key, value, THIRTY_DAYS);
     return value;
   }
 
-  public <T> T put(final Cacheable<T> cacheable) {
+  public <T> T set(final Cacheable<T> cacheable) {
+    validate(cacheable);
+
+    set(cacheable.getKey().toString(), cacheable.getInstance());
+    return cacheable.getInstance();
+  }
+
+  public <T> T safeSet(String key, T value) {
+    Preconditions.checkNotNull(key);
+    Preconditions.checkNotNull(value);
+    checkSerializable(value);
+
+    impl().safeSet(key, value, THIRTY_DAYS);
+    return value;
+  }
+
+  public <T> T safeSet(Cacheable<T> cacheable) {
+    validate(cacheable);
+
+    safeSet(cacheable.getKey().toString(), cacheable.getInstance());
+    return cacheable.getInstance();
+  }
+
+  //======
+
+  public <T> T delete(Cacheable<T> cacheable) {
+    validate(cacheable);
+
+    impl().delete(cacheable.getKey().toString());
+    return cacheable.getInstance();
+  }
+
+  public void delete(String key) {
+    Preconditions.checkNotNull(key);
+
+    impl().delete(key);
+  }
+
+  public void delete(CacheKey key) {
+    Preconditions.checkNotNull(key);
+
+    delete(key.toString());
+  }
+
+  public <T> T safeDelete(Cacheable<T> cacheable) {
+    validate(cacheable);
+
+    impl().safeDelete(cacheable.getKey().toString());
+    return cacheable.getInstance();
+  }
+
+  public void safeDelete(String key) {
+    Preconditions.checkNotNull(key);
+
+    impl().safeDelete(key);
+  }
+
+  public void safeDelete(CacheKey key) {
+    Preconditions.checkNotNull(key);
+
+    safeDelete(key.toString());
+  }
+
+  //======
+
+  public <T> T replace(Cacheable<T> cacheable) {
+    validate(cacheable);
+
+    return replace(cacheable.getKey().toString(), cacheable).getInstance();
+  }
+
+  public <T> T replace(String key, T value) {
+    Preconditions.checkNotNull(key);
+    Preconditions.checkNotNull(value);
+    checkSerializable(value);
+
+    impl().replace(key, value, THIRTY_DAYS);
+    return value;
+  }
+
+  public <T> T safeReplace(Cacheable<T> cacheable) {
+    validate(cacheable);
+
+    return safeReplace(cacheable.getKey().toString(), cacheable).getInstance();
+  }
+
+  public <T> T safeReplace(String key, T value) {
+    Preconditions.checkNotNull(key);
+    Preconditions.checkNotNull(value);
+    checkSerializable(value);
+
+    impl().safeReplace(key, value, THIRTY_DAYS);
+    return value;
+  }
+
+  //======
+
+  public void incr(String key) {
+    Preconditions.checkNotNull(key);
+    impl().incr(key, 1);
+  }
+
+  public void decr(String key) {
+    Preconditions.checkNotNull(key);
+    impl().decr(key, 1);
+  }
+
+  public void clear() {
+    impl().clear();
+  }
+
+  //======  
+
+  private static void checkSerializable(Object o) {
+    if (!(o instanceof Serializable)) {
+      throw new IllegalArgumentException(o + " is not serializable, cannot be cached.");
+    }
+  }
+
+  private static <T> Cacheable<T> validate(Cacheable<T> cacheable) {
     Preconditions.checkNotNull(cacheable);
     Preconditions.checkNotNull(cacheable.getKey(), "Could not get a unique cache key for [" + cacheable.getClass() + "]");
     Preconditions.checkNotNull(cacheable.getInstance());
     checkSerializable(cacheable.getInstance());
-    set(cacheable.getKey().toString(), cacheable, "30d");
-    return cacheable.getInstance();
-  }
 
-  private <T> void checkSerializable(Object o) {
-    if (!(o instanceof Serializable)) {
-      throw new IllegalArgumentException(o + " is not serializable, cannot be cached.");
-    }
+    return cacheable;
   }
 }
