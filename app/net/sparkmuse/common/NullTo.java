@@ -5,6 +5,8 @@ import com.google.common.collect.Lists;
 import java.util.List;
 import java.util.Collection;
 
+import org.joda.time.DateTime;
+
 /**
  * Created by IntelliJ IDEA.
  *
@@ -26,6 +28,11 @@ public class NullTo {
   public static String empty(String s) {
     if (null == s) return "";
     return s;
+  }
+
+  public static DateTime now(DateTime time) {
+    if (null == time) return new DateTime();
+    return time;
   }
 
 }

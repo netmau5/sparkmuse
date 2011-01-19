@@ -2,6 +2,7 @@ package net.sparkmuse.data.entity;
 
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.CacheKey;
+import net.sparkmuse.common.NullTo;
 import net.sparkmuse.user.UserLogin;
 import com.google.common.base.Function;
 import org.joda.time.DateTime;
@@ -42,7 +43,7 @@ public class UserVO extends Entity<UserVO> {
   }
 
   public boolean isNewUser() {
-    return Days.daysBetween(new DateTime(), lastLogin).getDays() <= 1;
+    return Days.daysBetween(new DateTime(), NullTo.now(firstLogin)).getDays() <= 1;
   }
 
 
