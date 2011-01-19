@@ -29,7 +29,7 @@ public class Blob extends SparkmuseController {
 
   public static void handleUpload(String blobKey, String uuid) {
     final UserVO user = Authorization.getUserFromSessionOrAuthenticate(true);
-    cache.set(user.getId() + "|" + uuid, blobKey);
+    cache.safeSet(user.getId() + "|" + uuid, blobKey);
     blobService.recordUpload(user, blobKey);
     renderText(""); //blank response
   }

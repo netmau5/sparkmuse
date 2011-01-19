@@ -18,7 +18,7 @@ import org.joda.time.DurationFieldType;
  */
 public class PlayCache implements Cache {
 
-  private static final int THIRTY_DAYS = Days.days(30).get(DurationFieldType.millis());
+  private static final int THIRTY_DAYS = 60 * 60 * 24 * 30;
 
   private final play.cache.CacheImpl cache;
 
