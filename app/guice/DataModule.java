@@ -34,7 +34,7 @@ public class DataModule extends AbstractModule {
     bind(PostDao.class).to(TwigPostDao.class);
     bind(SparkDao.class).to(TwigSparkDao.class);
     bind(UserDao.class).to(TwigUserDao.class);
-    bind(ObjectDatastore.class).toProvider(new DatastoreProvider());
+    bind(ObjectDatastore.class).toInstance(new DatastoreProvider().get());
     bind(Cache.class).to(PlayCache.class);
   }
 
