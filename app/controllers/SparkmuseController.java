@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import com.google.apphosting.api.ApiProxy;
+import com.google.code.twig.ObjectDatastore;
 
 /**
  * Base controller class for all Sparkmuse Play Controllers.
@@ -23,6 +24,7 @@ import com.google.apphosting.api.ApiProxy;
 public class SparkmuseController extends Controller {
 
   @Inject static UserFacade userFacade;
+  @Inject static ObjectDatastore datastore;
 
   @Catch(TwitterLoginExpiredException.class)
   static void handleException(TwitterLoginExpiredException e) {
@@ -54,6 +56,11 @@ public class SparkmuseController extends Controller {
     if (StringUtils.isNotBlank(userId)) {
       renderArgs.put("currentUser", userFacade.findUserBy(Long.valueOf(userId)));
     }
+  }
+
+  @After
+  static void clearDatastoreCache() {
+    datastore.disassociateAll();
   }
   
 }
