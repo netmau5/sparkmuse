@@ -65,8 +65,8 @@ public class Orderings {
 
   public static class ByRating extends Ordering<SparkVO> {
     public int compare(SparkVO a, SparkVO b) {
-      final int rating = ((int) b.getRating() * 100) - ((int) a.getRating() * 100);
-      return tiebreak(a, b, rating);
+      final double rating = (b.getRating() * 100) - (a.getRating() * 100);
+      return tiebreak(a, b, (int) (10000 * rating));
     }
   }
 
