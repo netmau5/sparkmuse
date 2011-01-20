@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 import org.joda.time.Days;
 import org.joda.time.DurationFieldType;
+import play.Logger;
 
 /**
  * Stupid impl is because Play cache can only be accessed statically :(
@@ -32,12 +33,15 @@ public class PlayCache implements Cache {
 
   private play.cache.CacheImpl impl() {
     if (null != cache) {
+      Logger.debug("Using logger 1: " + cache.getClass());
       return cache;
     }
     else if (null != play.cache.Cache.forcedCacheImpl) {
+      Logger.debug("Using logger 1: " + play.cache.Cache.forcedCacheImpl);
       return play.cache.Cache.forcedCacheImpl;
     }
     else if (null != play.cache.Cache.cacheImpl) {
+      Logger.debug("Using logger 1: " + play.cache.Cache.cacheImpl);
       return play.cache.Cache.cacheImpl;
     }
 
