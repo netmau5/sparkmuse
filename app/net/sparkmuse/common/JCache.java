@@ -1,57 +1,39 @@
 package net.sparkmuse.common;
 
-import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.Cacheable;
-import net.sparkmuse.common.CacheKey;
-import com.google.common.base.Preconditions;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import com.google.appengine.api.memcache.Expiration;
 
-import java.io.*;
+import javax.cache.CacheFactory;
+import javax.cache.CacheManager;
+import javax.cache.CacheException;
 import java.util.Collections;
+import java.io.*;
 
-import org.joda.time.Days;
-import org.joda.time.DurationFieldType;
+import com.google.common.base.Preconditions;
 import play.Logger;
 import play.Play;
-import play.modules.gae.GAECache;
-
-import javax.cache.CacheManager;
-import javax.cache.CacheFactory;
-import javax.cache.CacheException;
 
 /**
- * Stupid impl is because Play cache can only be accessed statically :(
- *
  * @author neteller
- * @created: Jul 18, 2010
+ * @created: Jan 20, 2011
  */
-public class PlayCache implements Cache {
+public class JCache implements Cache {
 
   private static final int THIRTY_DAYS = 60 * 60 * 24 * 30;
 
-  private final play.cache.CacheImpl cache;
+  private javax.cache.Cache cache;
 
-  public PlayCache(play.cache.CacheImpl cache) {
-    this.cache = cache;
+  public JCache() {
+    try {
+      CacheFactory cacheFactory = CacheManager.getInstance().getCacheFactory();
+      this.cache = cacheFactory.createCache(Collections.emptyMap());
+      CacheManager.getInstance().registerCache("cache", this.cache);
+    } catch (CacheException e) {
+      Logger.error(e, "Error innitializing cache.");
+    }
   }
 
-  public PlayCache(){
-    this(null);
-  }
-
-  private play.cache.CacheImpl impl() {
-    if (null != cache) {
-      return cache;
-    }
-    else if (null != play.cache.Cache.forcedCacheImpl) {
-      return play.cache.Cache.forcedCacheImpl;
-    }
-    else if (null != play.cache.Cache.cacheImpl) {
-      return play.cache.Cache.cacheImpl;
-    }
-
-     throw new IllegalStateException("No cache implementation available.");
+  private javax.cache.Cache impl() {
+    return cache;
   }
 
   //======
@@ -66,7 +48,7 @@ public class PlayCache implements Cache {
     Preconditions.checkNotNull(key);
     Preconditions.checkNotNull(value);
 
-    impl().add(key, value, THIRTY_DAYS);
+    impl().put(key, value);
     return value;
   }
 
@@ -77,11 +59,7 @@ public class PlayCache implements Cache {
   }
 
   public <T> T safeAdd(String key, T value) {
-    Preconditions.checkNotNull(key);
-    Preconditions.checkNotNull(value);
-
-    impl().safeAdd(key, value, THIRTY_DAYS);
-    return value;
+    return add(key, value);
   }
 
   //======
@@ -102,12 +80,15 @@ public class PlayCache implements Cache {
   public <T> T get(final CacheKey<T> key) {
     Preconditions.checkNotNull(key);
 
-    Logger.debug("Getting CacheKey [" + key.toString() + "]");
-    Cacheable<T> cacheable = get(key.toString(), Cacheable.class);
-    if (null != cacheable) return cacheable.getInstance();
-
-    Logger.debug("Cache miss [" + key.toString() + "], got [" + cacheable + "]");
-    return null;
+    final Object o = unwrap(this.cache.get(key.toString()));
+    if (null != o) {
+      Logger.debug("CACHE HIT: " + o);
+      return key.getImplementingClass().cast(o);
+    }
+    else {
+      Logger.debug("Cache miss [" + key.toString() + "], got [" + o + "]");
+      return null;
+    }
   }
 
   //======
@@ -117,7 +98,7 @@ public class PlayCache implements Cache {
     Preconditions.checkNotNull(value);
     checkSerializable(value);
 
-    impl().set(key, value, THIRTY_DAYS);
+    impl().put(key, value);
     return value;
   }
 
@@ -125,24 +106,16 @@ public class PlayCache implements Cache {
     validate(cacheable);
 
     Logger.debug("Setting Cacheable [" + cacheable.getInstance() + "] with CacheKey [" + cacheable.getKey() + "].");
-    set(cacheable.getKey().toString(), cacheable.getInstance());
+    this.cache.put(cacheable.getKey().toString(), wrap(cacheable.getInstance()));
     return cacheable.getInstance();
   }
 
   public <T> T safeSet(String key, T value) {
-    Preconditions.checkNotNull(key);
-    Preconditions.checkNotNull(value);
-    checkSerializable(value);
-
-    impl().safeSet(key, value, THIRTY_DAYS);
-    return value;
+    return set(key, value);
   }
 
   public <T> T safeSet(Cacheable<T> cacheable) {
-    validate(cacheable);
-
-    safeSet(cacheable.getKey().toString(), cacheable.getInstance());
-    return cacheable.getInstance();
+    return set(cacheable);
   }
 
   //======
@@ -150,14 +123,14 @@ public class PlayCache implements Cache {
   public <T> T delete(Cacheable<T> cacheable) {
     validate(cacheable);
 
-    impl().delete(cacheable.getKey().toString());
+    delete(cacheable.getKey());
     return cacheable.getInstance();
   }
 
   public void delete(String key) {
     Preconditions.checkNotNull(key);
 
-    impl().delete(key);
+    impl().remove(key);
   }
 
   public void delete(CacheKey key) {
@@ -169,14 +142,14 @@ public class PlayCache implements Cache {
   public <T> T safeDelete(Cacheable<T> cacheable) {
     validate(cacheable);
 
-    impl().safeDelete(cacheable.getKey().toString());
+    delete(cacheable.getKey().toString());
     return cacheable.getInstance();
   }
 
   public void safeDelete(String key) {
     Preconditions.checkNotNull(key);
 
-    impl().safeDelete(key);
+    delete(key);
   }
 
   public void safeDelete(CacheKey key) {
@@ -188,45 +161,29 @@ public class PlayCache implements Cache {
   //======
 
   public <T> T replace(Cacheable<T> cacheable) {
-    validate(cacheable);
-
-    return replace(cacheable.getKey().toString(), cacheable).getInstance();
+    return set(cacheable);
   }
 
   public <T> T replace(String key, T value) {
-    Preconditions.checkNotNull(key);
-    Preconditions.checkNotNull(value);
-    checkSerializable(value);
-
-    impl().replace(key, value, THIRTY_DAYS);
-    return value;
+    return set(key, value);
   }
 
   public <T> T safeReplace(Cacheable<T> cacheable) {
-    validate(cacheable);
-
-    return safeReplace(cacheable.getKey().toString(), cacheable).getInstance();
+    return set(cacheable);
   }
 
   public <T> T safeReplace(String key, T value) {
-    Preconditions.checkNotNull(key);
-    Preconditions.checkNotNull(value);
-    checkSerializable(value);
-
-    impl().safeReplace(key, value, THIRTY_DAYS);
-    return value;
+    return set(key, value);
   }
 
   //======
 
   public void incr(String key) {
-    Preconditions.checkNotNull(key);
-    impl().incr(key, 1);
+    throw new UnsupportedOperationException();
   }
 
   public void decr(String key) {
-    Preconditions.checkNotNull(key);
-    impl().decr(key, 1);
+    throw new UnsupportedOperationException();
   }
 
   public void clear() {
@@ -249,5 +206,37 @@ public class PlayCache implements Cache {
 
     return cacheable;
   }
+
+  byte[] wrap(Object o) {
+        if(o == null) {
+            return null;
+        }
+        try {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bytes);
+            oos.writeObject(o);
+            return bytes.toByteArray();
+        } catch (Exception e) {
+            throw new RuntimeException("Cannot cache a non-serializable value of type " + o.getClass().getName(), e);
+        }
+    }
+
+    Object unwrap(Object bytes) {
+        if(bytes == null) {
+            return null;
+        }
+        try {
+            return new ObjectInputStream(new ByteArrayInputStream((byte[])bytes)) {
+
+                @Override
+                protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+                    return Class.forName(desc.getName(), false, Play.classloader);
+                }
+            }.readObject();
+        } catch (Exception e) {
+            Logger.error(e, "Error while deserializing cached value");
+            return null;
+        }
+    }
 
 }

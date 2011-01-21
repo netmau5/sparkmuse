@@ -13,6 +13,7 @@ import java.util.Collection;
 import com.google.inject.Inject;
 import com.google.common.base.Preconditions;
 import org.joda.time.DateTime;
+import play.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -48,6 +49,7 @@ public class SparkFacade {
   private PopularSparks getPopularSparks() {
     PopularSparks sparks = cache.get(CacheKeyFactory.newPopularSparksKey());
     if (null == sparks) {
+      Logger.info("Reloading popular sparks.");
       sparks = cache.set(new PopularSparks(sparkDao.loadPopular()));
     }
     return sparks;
@@ -56,6 +58,7 @@ public class SparkFacade {
   private MostDiscussedSparks getMostDiscussedSparks() {
     MostDiscussedSparks sparks = cache.get(CacheKeyFactory.newMostDiscussedSparksKey());
     if (null == sparks) {
+      Logger.info("Reloading most discussed sparks.");
       sparks = cache.set(new MostDiscussedSparks(sparkDao.loadMostDiscussed()));
     }
     return sparks;
@@ -64,6 +67,7 @@ public class SparkFacade {
   private RecentSparks getRecentSparks() {
     RecentSparks sparks = cache.get(CacheKeyFactory.newRecentSparksKey());
     if (null == sparks) {
+      Logger.info("Reloading recent sparks.");
       sparks = cache.set(new RecentSparks(sparkDao.loadRecent()));
     }
     return sparks;

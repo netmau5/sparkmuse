@@ -12,8 +12,10 @@ import net.sparkmuse.data.*;
 import net.sparkmuse.data.twig.*;
 import net.sparkmuse.common.PlayCache;
 import net.sparkmuse.common.Cache;
+import net.sparkmuse.common.JCache;
 
 import play.modules.twig.PlayDatastore;
+import play.Play;
 
 import java.util.Set;
 import java.util.Collections;
@@ -35,7 +37,12 @@ public class DataModule extends AbstractModule {
     bind(SparkDao.class).to(TwigSparkDao.class);
     bind(UserDao.class).to(TwigUserDao.class);
     bind(ObjectDatastore.class).toInstance(new DatastoreProvider().get());
-    bind(Cache.class).to(PlayCache.class);
+    if (Play.mode == Play.Mode.PROD) {
+      bind(Cache.class).to(JCache.class);
+    }
+    else {
+      bind(Cache.class).to(PlayCache.class);
+    }
   }
 
   private static class DatastoreProvider implements Provider<ObjectDatastore> {

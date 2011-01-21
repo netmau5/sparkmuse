@@ -17,6 +17,8 @@ import twitter4j.http.AccessToken;
  */
 public class UserVO extends Entity<UserVO> {
 
+  private static final long serialVersionUID = 1L; 
+
   private String userName;
   private String userNameLowercase; //used for queries on username
   private String authProviderUserId;
