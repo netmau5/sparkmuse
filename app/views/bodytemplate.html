@@ -14,10 +14,15 @@
 <div id="header-container-wrapper">
 <div id="header-container">
   <div class="page-container clearfix" id="header">
-    <div class="span-6">
-      <a href="@{Home.index()}"><img src="@{'/public/images/logocomplete_v2.png'}" alt="Sparkmuse" id="logo"/></a>
+    <div class="span-14">
+      <a class="logo" href="@{Home.index()}"></a>
+      <ol class="nav">
+        <li><a href="@{Home.index()}" class="active">SPARKS</a></li>
+        <li><a href="#" title="Coming soon">PEOPLE</a></li>
+        <li><a href="#" title="Coming soon">ACTIVITY</a></li>
+      </ol>
     </div>
-    <div class="span-18 last">
+    <div class="span-10 last">
       <ul>
         <li><a href="@{Application.logout()}">Logout</a></li>
         <li><a href="@{Application.guidelines()}">Guidelines</a></li>
