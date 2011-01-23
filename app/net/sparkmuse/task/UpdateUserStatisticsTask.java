@@ -26,11 +26,11 @@ public class UpdateUserStatisticsTask extends Task<UserVO> {
 
   public UserVO transform(UserVO userVO) {
     final Integer posts = datastore.find().type(Post.class)
-        .addFilter("author", Query.FilterOperator.EQUAL, userVO)
+        .addFilter("authorUserId", Query.FilterOperator.EQUAL, userVO.getId())
         .returnCount()
         .now();
     final Integer sparks = datastore.find().type(SparkVO.class)
-        .addFilter("author", Query.FilterOperator.EQUAL, userVO)
+        .addFilter("authorUserId", Query.FilterOperator.EQUAL, userVO.getId())
         .returnCount()
         .now();
     
