@@ -67,7 +67,6 @@ public abstract class Task<T extends Entity> {
     final Migration migration = currentMigration();
     migration.setEnded(new DateTime());
 
-    if (null == datastore.associatedKey(migration)) datastore.associate(migration);
     datastore.update(migration);
   }
 
