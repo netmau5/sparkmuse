@@ -53,7 +53,7 @@
 
     </div>
 
-    #{if isView && currentUser}
+    #{if isView && currentUser.id == profile.user.id}
     <div class="invites">
       <table class="span-12">
         <tr>
