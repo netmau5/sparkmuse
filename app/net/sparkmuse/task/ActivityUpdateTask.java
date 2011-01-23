@@ -54,7 +54,7 @@ public class ActivityUpdateTask extends Task<Post> {
     //if someone posted to my spark
     final SparkVO spark = getSpark(post);
     final UserProfile sparkAuthorProfile = getUserProfile(spark.getAuthor());
-    if (sparkAuthorProfile.isSendActivityUpdates() && StringUtils.isNotBlank(sparkAuthorProfile.getEmail())) {
+    if (StringUtils.isNotBlank(sparkAuthorProfile.getEmail())) { //sparkAuthorProfile.isSendActivityUpdates() && 
       final SparkActivityUpdate update = new SparkActivityUpdate(sparkAuthorProfile, spark, post);
       mailService.sendMessage(prepareEmail(update));
     }

@@ -28,7 +28,6 @@ public class UserProfile extends Entity<UserProfile> {
 
   @Email
   private String email;
-  private boolean sendActivityUpdates;
 
   @Type(Text.class)
   private String bio;
@@ -118,12 +117,5 @@ public class UserProfile extends Entity<UserProfile> {
   public void setEmail(String email) {
     this.email = email;
   }
-
-  public boolean isSendActivityUpdates() {
-    return sendActivityUpdates;
-  }
-
-  public void setSendActivityUpdates(boolean sendActivityUpdates) {
-    this.sendActivityUpdates = sendActivityUpdates;
-  }
+  
 }

@@ -5,6 +5,7 @@ import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.data.entity.Expertise;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
+import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.common.Reflections;
 
 import java.util.Map;
@@ -15,6 +16,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import play.Logger;
+import play.data.validation.Valid;
+import play.data.validation.Validation;
 import play.mvc.Router;
 
 
@@ -44,7 +47,11 @@ public class User extends SparkmuseController {
     render(profile, expertises);
   }
 
-  public static void saveProfile(UserProfile profile) {
+  public static void saveProfile(@Valid UserProfile profile) {
+    if (Validation.hasErrors()) {
+      renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
+    }
+
     final UserProfile existingProfile = userFacade.getUserProfile(Authorization.getUserFromSession().getUserName());
     userFacade.updateProfile(Reflections.overlay(existingProfile, profile));
 

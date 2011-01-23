@@ -14,8 +14,14 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2" class="column-10 last">
+        <td class="column-5">
+          <label>Email</label>
+          <div class="error-message" parameter="profile.email"></div>
+          <div class="input-wrapper"><input type="text" name="email" value="${profile.email}" /></div>
+        </td>
+        <td class="column-5 last">
           <label>Website</label>
+          <div class="error-message" parameter="profile.website"></div>
           <div class="input-wrapper"><input type="text" name="website" value="${profile.website}" /></div>
         </td>
       </tr>
@@ -72,6 +78,7 @@
           id: "${profile.id}",
           name: f.name.value,
           location: f.location.value,
+          email: f.email.value,
           website: f.website.value,
           expertises: $(".expertise input:checked").map(function() { return this.value; }),
           bio: f.bio.value,
