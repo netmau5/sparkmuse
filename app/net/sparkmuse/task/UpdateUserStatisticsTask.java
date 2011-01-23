@@ -25,7 +25,7 @@ public class UpdateUserStatisticsTask extends Task<UserVO> {
     this.datastore = datastore;
   }
 
-  protected String getId() {
+  protected String getTaskName() {
     return "Update User Statistics Task";
   }
 

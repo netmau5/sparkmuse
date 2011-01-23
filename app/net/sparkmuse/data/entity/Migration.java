@@ -10,7 +10,9 @@ import org.joda.time.DateTime;
 public class Migration {
 
   @Id
-  private String id;
+  private Long id;
+
+  private String taskName;
   private State state;
 
   private DateTime started;
@@ -25,18 +27,26 @@ public class Migration {
     this.started = new DateTime();
   }
 
-  public Migration(String id, State state) {
+  public Migration(String taskName, State state) {
     this();
-    this.id = id;
+    this.taskName = taskName;
     this.state = state;
   }
 
-  public String getId() {
+  public Long getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(Long id) {
     this.id = id;
+  }
+
+  public String getTaskName() {
+    return taskName;
+  }
+
+  public void setTaskName(String taskName) {
+    this.taskName = taskName;
   }
 
   public State getState() {

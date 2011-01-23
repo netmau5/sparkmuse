@@ -11,12 +11,10 @@ import com.google.inject.internal.Nullable;
 import com.google.code.twig.FindCommand;
 import com.google.code.twig.ObjectDatastore;
 
-import java.lang.reflect.Method;
 import java.util.List;
 
 import play.Logger;
 import org.joda.time.DateTime;
-import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Base class for tasks.
@@ -41,7 +39,7 @@ public abstract class Task<T extends Entity> {
     return lastCursor == null;
   }
 
-  protected abstract String getId();
+  protected abstract String getTaskName();
 
   protected abstract T transform(T t);
 
@@ -58,8 +56,7 @@ public abstract class Task<T extends Entity> {
   public void storeBegin() {
     Logger.info("Beginning task [" + this.getClass() + "].");
 
-    final Migration migration = new Migration(getId(), Migration.State.STARTED);
-    migration.setEnded(new DateTime());
+    final Migration migration = new Migration(getTaskName(), Migration.State.STARTED);
 
     datastore.store(migration);
   }
@@ -67,7 +64,7 @@ public abstract class Task<T extends Entity> {
   public void storeEnd() {
     Logger.info("Completed task [" + this.getClass() + "].");
 
-    final Migration migration = new Migration(getId(), Migration.State.COMPLETED);
+    final Migration migration = currentMigration();
     migration.setEnded(new DateTime());
 
     if (null == datastore.associatedKey(migration)) datastore.associate(migration);
@@ -76,7 +73,8 @@ public abstract class Task<T extends Entity> {
 
   protected Migration currentMigration() {
     return datastore.find().type(Migration.class)
-        .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.STARTED)
+        .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.STARTED.toString())
+        .addFilter("taskName", Query.FilterOperator.EQUAL, getTaskName())
         .fetchMaximum(1)
         .returnAll()
         .now()
@@ -85,7 +83,8 @@ public abstract class Task<T extends Entity> {
 
   protected Migration lastMigration() {
     final List<Migration> migrationList = datastore.find().type(Migration.class)
-        .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.COMPLETED)
+        .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.COMPLETED.toString())
+        .addFilter("taskName", Query.FilterOperator.EQUAL, getTaskName())
         .addSort("started", Query.SortDirection.DESCENDING)
         .fetchMaximum(1)
         .returnAll()

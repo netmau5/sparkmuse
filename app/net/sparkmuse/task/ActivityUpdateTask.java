@@ -37,7 +37,7 @@ public class ActivityUpdateTask extends Task<Post> {
     this.mailService = mailService;
   }
 
-  protected String getId() {
+  protected String getTaskName() {
     return "Activity Update Task";
   }
 
