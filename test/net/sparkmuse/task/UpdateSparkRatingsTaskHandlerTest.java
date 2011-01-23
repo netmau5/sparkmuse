@@ -26,7 +26,7 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
         Mockito.mock(Cache.class)
     );
     handler.execute(null);
-    Mockito.verify(batch).transform(Mockito.any(Function.class), SparkVO.class, (Cursor) Mockito.eq(null));
+    Mockito.verify(batch).transform(SparkVO.class, Mockito.any(Function.class), (Cursor) Mockito.eq(null));
   }
 
   @Test
@@ -38,7 +38,7 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
         Mockito.mock(Cache.class)
     );
     handler.execute("cursor");
-    Mockito.verify(batch).transform(Mockito.any(Function.class), SparkVO.class, Mockito.eq(Cursor.fromWebSafeString("cursor")));
+    Mockito.verify(batch).transform(SparkVO.class, Mockito.any(Function.class), Mockito.eq(Cursor.fromWebSafeString("cursor")));
   }
 
 //  @Test

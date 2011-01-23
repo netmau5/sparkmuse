@@ -7,6 +7,7 @@ import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.data.entity.SparkVO;
 import com.google.inject.Inject;
 import com.google.code.twig.ObjectDatastore;
+import com.google.code.twig.FindCommand;
 import com.google.appengine.api.datastore.Query;
 import play.Logger;
 
@@ -20,15 +21,24 @@ public class UpdateUserStatisticsTask extends Task<UserVO> {
 
   @Inject
   public UpdateUserStatisticsTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
-    super(cache, batchService);
+    super(cache, batchService, datastore);
     this.datastore = datastore;
   }
 
-  public UserVO transform(UserVO userVO) {
+  protected String getId() {
+    return "Update User Statistics Task";
+  }
+
+  protected FindCommand.RootFindCommand<UserVO> find(boolean isNew) {
+    return datastore.find().type(UserVO.class).fetchNextBy(200);
+  }
+
+  protected UserVO transform(UserVO userVO) {
     final Integer posts = datastore.find().type(Post.class)
         .addFilter("authorUserId", Query.FilterOperator.EQUAL, userVO.getId())
         .returnCount()
         .now();
+    Logger.debug("Found [" + posts + "] posts for user [" + userVO.getUserName() + "]");
     final Integer sparks = datastore.find().type(SparkVO.class)
         .addFilter("authorUserId", Query.FilterOperator.EQUAL, userVO.getId())
         .returnCount()

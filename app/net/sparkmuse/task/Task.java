@@ -2,13 +2,21 @@ package net.sparkmuse.task;
 
 import net.sparkmuse.data.twig.BatchDatastoreService;
 import net.sparkmuse.data.entity.Entity;
+import net.sparkmuse.data.entity.Migration;
 import net.sparkmuse.common.Cache;
 import com.google.common.base.Function;
-import com.google.common.base.Functions;
 import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.Query;
 import com.google.inject.internal.Nullable;
+import com.google.code.twig.FindCommand;
+import com.google.code.twig.ObjectDatastore;
 
 import java.lang.reflect.Method;
+import java.util.List;
+
+import play.Logger;
+import org.joda.time.DateTime;
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Base class for tasks.
@@ -20,31 +28,69 @@ public abstract class Task<T extends Entity> {
 
   private final Cache cache;
   private final BatchDatastoreService batchService;
+  private final ObjectDatastore datastore;
   private Cursor lastCursor;
 
-  public Task(Cache cache, BatchDatastoreService batchService) {
+  public Task(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
     this.cache = cache;
     this.batchService = batchService;
+    this.datastore = datastore;
   }
 
   public boolean isComplete() {
     return lastCursor == null;
   }
 
-  public abstract T transform(T t);
+  protected abstract String getId();
+
+  protected abstract T transform(T t);
+
+  protected abstract FindCommand.RootFindCommand<T> find(boolean isNew);
+
 
   public Cursor execute(@Nullable Cursor cursor) {
-    lastCursor = batchService.transform(createTransformer(), determineTransformedClass(), cursor);
+    if (null == cursor) storeBegin();
+    lastCursor = batchService.transform(find(null == cursor), createTransformer(), cursor);
+    if (isComplete()) storeEnd();
     return lastCursor;
   }
 
-  private Class<T> determineTransformedClass() {
-    try {
-      final Method method = this.getClass().getMethod("transform", Entity.class);
-      return (Class<T>) method.getParameterTypes()[0];
-    } catch (NoSuchMethodException e) {
-      throw new RuntimeException("Tranform method could not be found.", e);
-    }
+  public void storeBegin() {
+    Logger.info("Beginning task [" + this.getClass() + "].");
+
+    final Migration migration = new Migration(getId(), Migration.State.STARTED);
+    migration.setEnded(new DateTime());
+
+    datastore.store(migration);
+  }
+
+  public void storeEnd() {
+    Logger.info("Completed task [" + this.getClass() + "].");
+
+    final Migration migration = new Migration(getId(), Migration.State.COMPLETED);
+    migration.setEnded(new DateTime());
+
+    if (null == datastore.associatedKey(migration)) datastore.associate(migration);
+    datastore.update(migration);
+  }
+
+  protected Migration currentMigration() {
+    return datastore.find().type(Migration.class)
+        .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.STARTED)
+        .fetchMaximum(1)
+        .returnAll()
+        .now()
+        .get(0);
+  }
+
+  protected Migration lastMigration() {
+    final List<Migration> migrationList = datastore.find().type(Migration.class)
+        .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.COMPLETED)
+        .addSort("started", Query.SortDirection.DESCENDING)
+        .fetchMaximum(1)
+        .returnAll()
+        .now();
+    return migrationList.size() > 0 ? migrationList.get(0) : null;
   }
 
   private Function<T, T> createTransformer() {

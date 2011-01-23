@@ -37,7 +37,7 @@ public class PostCountRepairTask {
     Logger.info("Updating spark post count.");
 
     final Cursor cursor = StringUtils.isNotBlank(cursorString) ? Cursor.fromWebSafeString(cursorString) : null;
-    final Cursor newCursor = batch.transform(createTransformation(), SparkVO.class, cursor);
+    final Cursor newCursor = batch.transform(SparkVO.class, createTransformation(), cursor);
     if (null == cursor) {
       cleanup();
       Logger.info("Completed updating spark post count.");

@@ -6,15 +6,18 @@ import net.sparkmuse.task.UpdateSparkRatingsTask;
 import net.sparkmuse.task.PostCountRepairTask;
 import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.task.Task;
+import net.sparkmuse.data.entity.Migration;
 import play.mvc.Catch;
 import play.Logger;
 import play.Play;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.Query;
 import com.google.common.collect.Maps;
 import com.google.common.base.Preconditions;
 import com.google.apphosting.api.DeadlineExceededException;
 import com.google.inject.Injector;
+import com.google.code.twig.ObjectDatastore;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -52,21 +55,12 @@ public class Tasks extends SparkmuseController {
   }
 
   public static <T extends Task> void execute(String taskClassName, String cursor) {
-    Logger.info("Beginning task [" + taskClassName + "].");
-
     final Class<T> taskClass = getTaskClass(taskClassName);
-
     final T task = injector.getInstance(taskClass);
     final Cursor newCursor = task.execute(StringUtils.isNotBlank(cursor) ? Cursor.fromWebSafeString(cursor) : null);
     if (!task.isComplete()) { 
       Logger.info("Did not complete task [" + taskClass + "], issuing a new task to restart from cursor [" + newCursor.toWebSafeString() + "].");
       taskService.issue(taskClass, newCursor);
-    }
-    else if (task.isComplete()) {
-      Logger.info("Completed task [" + taskClass + "].");
-    }
-    else {
-      throw new IllegalStateException();
     }
   }
 

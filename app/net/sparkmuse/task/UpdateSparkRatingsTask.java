@@ -34,7 +34,7 @@ public class UpdateSparkRatingsTask {
     final Function<SparkVO, SparkVO> transformation = newTransformer();
 
     final Cursor cursor = StringUtils.isNotBlank(cursorString) ? Cursor.fromWebSafeString(cursorString) : null;
-    final Cursor newCursor = batch.transform(transformation, SparkVO.class, cursor);
+    final Cursor newCursor = batch.transform(SparkVO.class, transformation, cursor);
     if (null == newCursor) {
       cache.clear();
       Logger.info("Completed updating spark ratings.");
