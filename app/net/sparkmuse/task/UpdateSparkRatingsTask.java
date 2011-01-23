@@ -16,14 +16,14 @@ import org.apache.commons.lang.StringUtils;
  * @author neteller
  * @created: Nov 7, 2010
  */
-public class UpdateSparkRatingsTaskHandler {
+public class UpdateSparkRatingsTask {
 
   private final IssueTaskService taskService;
   private final BatchDatastoreService batch;
   private final Cache cache;
 
   @Inject
-  public UpdateSparkRatingsTaskHandler(IssueTaskService taskService, BatchDatastoreService batch, Cache cache) {
+  public UpdateSparkRatingsTask(IssueTaskService taskService, BatchDatastoreService batch, Cache cache) {
     this.taskService = taskService;
     this.batch = batch;
     this.cache = cache;

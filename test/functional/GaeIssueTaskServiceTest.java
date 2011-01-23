@@ -6,12 +6,8 @@ import play.mvc.Router;
 import static com.google.appengine.api.labs.taskqueue.TaskOptions.Builder.url;
 import com.google.appengine.api.labs.taskqueue.TaskOptions;
 import com.google.appengine.api.labs.taskqueue.Queue;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.task.gae.GaeIssueTaskService;
-
-import java.util.HashMap;
 
 /**
  * Created by IntelliJ IDEA.
@@ -28,7 +24,7 @@ public class GaeIssueTaskServiceTest extends PluginFunctionalTest {
 
     final Queue queue = Mockito.mock(Queue.class);
     final TaskOptions taskOptions = url(Router.reverse(
-        "Task.persistCacheValue"
+        "Tasks.persistCacheValue"
     ).url);
     taskOptions.param("cacheKey", user.getKey().toString());
     final GaeIssueTaskService taskService = new GaeIssueTaskService(queue);

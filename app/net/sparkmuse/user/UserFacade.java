@@ -98,6 +98,16 @@ public class UserFacade {
     }
   }
 
+  public void recordNewSpark(UserVO user) {
+    user.setSparks(user.getSparks() + 1);
+    userDao.store(user);
+  }
+
+  public void recordNewPost(UserVO user) {
+    user.setPosts(user.getPosts() + 1);
+    userDao.store(user);
+  }
+
   public UserVotes findUserVotesFor(Set<Votable> votables, UserVO user) {
     final Set<UserVote> userVotes = userDao.findVotesFor(votables, user);
     return new UserVotes(userVotes);

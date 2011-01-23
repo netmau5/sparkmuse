@@ -17,9 +17,9 @@
     <div class="span-14">
       <a class="logo" href="@{Home.index()}"></a>
       <ol class="nav">
-        <li><a href="@{Home.index()}" class="active">SPARKS</a></li>
-        <li><a href="#" title="Coming soon">PEOPLE</a></li>
-        <li><a href="#" title="Coming soon">ACTIVITY</a></li>
+        <li><a href="@{Home.index()}" class="#{if nav=='SPARKS'}active#{/if}">SPARKS</a></li>
+        <li><a href="#" title="Coming soon" class="#{if nav=='PEOPLE'}active#{/if}">PEOPLE</a></li>
+        <li><a href="#" title="Coming soon" class="#{if nav=='ACTIVITY'}active#{/if}">ACTIVITY</a></li>
       </ol>
     </div>
     <div class="span-10 last">

@@ -4,6 +4,8 @@ import net.sparkmuse.data.Cacheable;
 
 import java.util.Map;
 
+import com.google.appengine.api.datastore.Cursor;
+
 /**
  * Service for issuing asynchronous tasks.
  *
@@ -37,4 +39,6 @@ public interface IssueTaskService {
   void issuePostCountRepairer(String cursor);
 
   void issue(String action, Map<String, Object> parameters);
+
+  <T extends Task> void issue(Class<T> taskClass, Cursor cursor);
 }

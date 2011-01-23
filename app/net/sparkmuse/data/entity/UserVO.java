@@ -23,7 +23,6 @@ public class UserVO extends Entity<UserVO> {
   private String userNameLowercase; //used for queries on username
   private String authProviderUserId;
   private AccessLevel accessLevel;
-  private int reputation;
 
   private DateTime firstLogin;
   private DateTime lastLogin;
@@ -31,6 +30,11 @@ public class UserVO extends Entity<UserVO> {
   //oauth stuff, used to recreate AccessToken
   private String oauthToken;
   private String oauthTokenSecret;
+
+  //statistics
+  private int reputation;
+  private int sparks;
+  private int posts;
 
   public boolean isAuthorizedFor(final AccessLevel accessLevel) {
     return this.accessLevel.hasAuthorizationLevel(accessLevel);
@@ -163,6 +167,22 @@ public class UserVO extends Entity<UserVO> {
 
   public void setFirstLogin(DateTime firstLogin) {
     this.firstLogin = firstLogin;
+  }
+
+  public int getSparks() {
+    return sparks;
+  }
+
+  public void setSparks(int sparks) {
+    this.sparks = sparks;
+  }
+
+  public int getPosts() {
+    return posts;
+  }
+
+  public void setPosts(int posts) {
+    this.posts = posts;
   }
 
   public static Function<UserVO, Long> asUserIds = new Function<UserVO, Long>(){

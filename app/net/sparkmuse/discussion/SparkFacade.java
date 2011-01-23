@@ -84,7 +84,9 @@ public class SparkFacade {
   }
 
   public SparkVO storeSpark(final SparkVO spark) {
-    if (null != spark.getId()) {
+    boolean isNew = null == spark.getId();
+
+    if (!isNew) {
       spark.setEdited(new DateTime());
     }
 
@@ -92,6 +94,10 @@ public class SparkFacade {
 
     //author implicitly votes for spark; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newSparkVO, newSparkVO.getAuthor().getId());
+
+    if (isNew) {
+      userFacade.recordNewSpark(newSparkVO.getAuthor());
+    }
 
     return newSparkVO;
   }
@@ -104,6 +110,7 @@ public class SparkFacade {
     final SparkVO spark = findSparkBy(post.getSparkId());
     spark.setPostCount(spark.getPostCount() + 1);
     sparkDao.store(spark);
+    userFacade.recordNewPost(newPost.getAuthor());
 
     //author implicitly votes for post; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newPost, newPost.getAuthor().getId());

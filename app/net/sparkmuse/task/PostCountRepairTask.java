@@ -18,7 +18,7 @@ import org.apache.commons.lang.StringUtils;
  * @author neteller
  * @created: Jan 17, 2011
  */
-public class PostCountRepairer {
+public class PostCountRepairTask {
 
   private final Cache cache;
   private final ObjectDatastore datastore;
@@ -26,7 +26,7 @@ public class PostCountRepairer {
   private final BatchDatastoreService batch;
 
   @Inject
-  public PostCountRepairer(Cache cache, ObjectDatastore datastore, IssueTaskService taskService, BatchDatastoreService batch) {
+  public PostCountRepairTask(Cache cache, ObjectDatastore datastore, IssueTaskService taskService, BatchDatastoreService batch) {
     this.cache = cache;
     this.datastore = datastore;
     this.taskService = taskService;

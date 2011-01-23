@@ -1,10 +1,12 @@
 package net.sparkmuse.task.gae;
 
 import net.sparkmuse.task.IssueTaskService;
+import net.sparkmuse.task.Task;
 import net.sparkmuse.data.Cacheable;
 import com.google.appengine.api.labs.taskqueue.Queue;
 import com.google.appengine.api.labs.taskqueue.TaskOptions;
 import static com.google.appengine.api.labs.taskqueue.TaskOptions.Builder.*;
+import com.google.appengine.api.datastore.Cursor;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import play.mvc.Router;
@@ -29,7 +31,7 @@ public class GaeIssueTaskService implements IssueTaskService {
   public <T extends Cacheable<T>> void issueCachePersistTask(Cacheable<T> cacheable) {
     final String key = cacheable.getKey().toString();
 
-    final TaskOptions taskOptions = url(Router.reverse("Task.persistCacheValue").url);
+    final TaskOptions taskOptions = url(Router.reverse("Tasks.persistCacheValue").url);
     taskOptions.param("cacheKey", key);
     queue.add(taskOptions);
   }
@@ -38,7 +40,7 @@ public class GaeIssueTaskService implements IssueTaskService {
     final Map<String,Object> parameters = Maps.newHashMap();
     parameters.put("cursor", cursor);
     queue.add(url(Router.reverse(
-        "Task.updateSparkRatings",
+        "Tasks.updateSparkRatings",
         parameters
     ).url));
   }
@@ -52,7 +54,7 @@ public class GaeIssueTaskService implements IssueTaskService {
     final Map<String,Object> parameters = Maps.newHashMap();
     parameters.put("cursor", cursor);
     queue.add(url(Router.reverse(
-        "Task.commentRepair",
+        "Tasks.commentRepair",
         parameters
     ).url));
   }
@@ -60,6 +62,16 @@ public class GaeIssueTaskService implements IssueTaskService {
   public void issue(String action, Map<String, Object> parameters) {
     queue.add(url(Router.reverse(
         action,
+        parameters
+    ).url));
+  }
+
+  public <T extends Task> void issue(Class<T> taskClass, Cursor cursor) {
+    final Map<String,Object> parameters = Maps.newHashMap();
+    parameters.put("taskClassName", taskClass);
+    parameters.put("cursor", cursor.toWebSafeString());
+    queue.add(url(Router.reverse(
+        "Tasks.execute",
         parameters
     ).url));
   }
