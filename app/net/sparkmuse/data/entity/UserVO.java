@@ -49,7 +49,7 @@ public class UserVO extends Entity<UserVO> {
   }
 
   public boolean isNewUser() {
-    return Days.daysBetween(new DateTime(), NullTo.now(firstLogin)).getDays() <= 1;
+    return Days.daysBetween(NullTo.now(firstLogin), new DateTime()).getDays() <= 1;
   }
 
 
