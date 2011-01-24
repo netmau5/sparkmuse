@@ -38,7 +38,6 @@ public class UpdateUserStatisticsTask extends Task<UserVO> {
         .addFilter("authorUserId", Query.FilterOperator.EQUAL, userVO.getId())
         .returnCount()
         .now();
-    Logger.debug("Found [" + posts + "] posts for user [" + userVO.getUserName() + "]");
     final Integer sparks = datastore.find().type(SparkVO.class)
         .addFilter("authorUserId", Query.FilterOperator.EQUAL, userVO.getId())
         .returnCount()

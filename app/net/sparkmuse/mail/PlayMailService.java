@@ -10,7 +10,7 @@ import play.libs.Mail;
 public class PlayMailService implements MailService {
 
   public void sendMessage(Email message) {
-    Mail.sendMessage(message);
+    Mail.send(message);
   }
 
 }

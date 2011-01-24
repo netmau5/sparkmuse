@@ -2,26 +2,28 @@
   <table>
     <tr>
       <td>
-        <img src="@@{'public/images/logocomplete_v2.png'}" alt="Sparkmuse" />
+        <img src="@@{'/public/images/logocomplete_v2.png'}" alt="Sparkmuse" />
       </td>
       <td style="text-align: right;">
         Activity Update
       </td>
     </tr>
   </table>
-  <div style="border-bottom: 1px dotted #d1d1d1;"></div>
-  <div style="font-size: 16px;">
-    Hello @{user.userName},
+  <div style="border-bottom: 1px dotted #d1d1d1;margin-bottom: 1em;"></div>
+  <div style="font-size: 16px;margin-bottom: 1em;">
+    Hello ${update.updateeName},
   </div>
   
-  #{include update.template /}
+  <div style="background-color: #f1f1f1; padding: 5px;margin-bottom: 1em;">
+    #{include update.template /}
+  </div>
 
-  <div>
+  <div style="margin-bottom: 1em;">
     Thanks, <br/>
     Sparkmuse
   </div>
 
-  <!--<div style="font-size: 10px; color: #666">-->
-    <!--Email updates can be disabled in your user profile.-->
-  <!--</div>-->
+  <div style="font-size: 10px; color: #666">
+    Email updates can be disabled by removing the email address in your profile.
+  </div>
 </div>

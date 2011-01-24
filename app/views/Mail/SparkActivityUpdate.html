@@ -1,4 +1,4 @@
-<div style="font-style: italic;">
-  ${update.name} posted to your Spark <a href="@@{Spark.view(update.spark.id)}">${update.spark.title}</a>
+<div style="font-style: italic; margin-bottom: 1em;">
+  ${update.name} posted to your Spark <a href="http://www.sparkmuse.com@{Spark.view(update.spark.id)}">${update.spark.title}</a>
 </div>
-${update.post.displayContent}
+${update.post.displayContent?.raw()}

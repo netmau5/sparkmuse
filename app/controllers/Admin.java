@@ -4,13 +4,12 @@ import play.mvc.With;
 import play.mvc.Router;
 import play.data.validation.Validation;
 import filters.AdminAuthorizationFilter;
-import net.sparkmuse.data.entity.Feedback;
-import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.UserProfile;
+import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.user.UserFacade;
+import net.sparkmuse.mail.ActivityUpdate;
 
 import javax.inject.Inject;
 

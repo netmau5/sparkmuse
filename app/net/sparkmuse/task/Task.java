@@ -5,6 +5,7 @@ import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.Migration;
 import net.sparkmuse.common.Cache;
 import com.google.common.base.Function;
+import com.google.common.base.Joiner;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Query;
 import com.google.inject.internal.Nullable;
@@ -48,7 +49,14 @@ public abstract class Task<T extends Entity> {
 
   public Cursor execute(@Nullable Cursor cursor) {
     if (null == cursor) storeBegin();
-    lastCursor = batchService.transform(find(null == cursor), createTransformer(), cursor);
+
+    try {
+      lastCursor = batchService.transform(find(null == cursor), createTransformer(), cursor);
+    } catch (Throwable e) {
+      storeError(e);
+      throw new RuntimeException(e);
+    }
+
     if (isComplete()) storeEnd();
     return lastCursor;
   }
@@ -66,6 +74,18 @@ public abstract class Task<T extends Entity> {
 
     final Migration migration = currentMigration();
     migration.setEnded(new DateTime());
+    migration.setState(Migration.State.COMPLETED);
+
+    datastore.update(migration);
+  }
+
+  public void storeError(Throwable e) {
+    Logger.info("Error in task [" + this.getClass() + "].");
+
+    final Migration migration = currentMigration();
+    migration.setEnded(new DateTime());
+    migration.setState(Migration.State.ERROR);
+    migration.setError(e.getClass() + "\n" + e.getMessage() + "\n" + Joiner.on("\n").join(e.getStackTrace()));
 
     datastore.update(migration);
   }

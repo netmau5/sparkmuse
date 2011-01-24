@@ -1,6 +1,8 @@
 package net.sparkmuse.data.entity;
 
 import com.google.code.twig.annotation.Id;
+import com.google.code.twig.annotation.Type;
+import com.google.appengine.api.datastore.Text;
 import org.joda.time.DateTime;
 
 /**
@@ -18,9 +20,13 @@ public class Migration {
   private DateTime started;
   private DateTime ended;
 
+  @Type(Text.class)
+  private String error;
+
   public enum State {
     STARTED,
-    COMPLETED
+    COMPLETED,
+    ERROR
   }
 
   public Migration() {
@@ -71,5 +77,13 @@ public class Migration {
 
   public void setEnded(DateTime ended) {
     this.ended = ended;
+  }
+
+  public String getError() {
+    return error;
+  }
+
+  public void setError(String error) {
+    this.error = error;
   }
 }

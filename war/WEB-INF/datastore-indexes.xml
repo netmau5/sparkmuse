@@ -2,12 +2,12 @@
 
 <datastore-indexes autoGenerate="false">
 
-  <datastore-index kind="Migration" ancestor="false">
+  <datastore-index kind="net_sparkmuse_data_entity_Migration" ancestor="false">
     <property name="state" direction="asc"/>
     <property name="taskName" direction="asc"/>
   </datastore-index>
 
-  <datastore-index kind="Migration" ancestor="false">
+  <datastore-index kind="net_sparkmuse_data_entity_Migration" ancestor="false">
     <property name="state" direction="asc"/>
     <property name="taskName" direction="asc"/>
     <property name="started" direction="desc"/>

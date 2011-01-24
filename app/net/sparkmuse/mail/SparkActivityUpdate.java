@@ -3,6 +3,7 @@ package net.sparkmuse.mail;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.data.entity.UserProfile;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author neteller
@@ -30,6 +31,10 @@ public class SparkActivityUpdate implements ActivityUpdate {
 
   public String getSubject() {
     return getName() + " posted on your Spark";
+  }
+
+  public String getUpdateeName() {
+    return StringUtils.isEmpty(updatee.getName()) ? updatee.getUser().getUserName() : updatee.getName();
   }
 
   //used in template
