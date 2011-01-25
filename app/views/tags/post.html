@@ -27,7 +27,9 @@
       </div>
     #{/if}
 
-    ${_post.displayContent?.raw()}
+    <div class="markdown-container">
+      ${_post.displayContent?.raw()}
+    </div>
 
     #{if _post.visuals || _post.resources}
       <div class="content">

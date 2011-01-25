@@ -2,7 +2,7 @@
 
 <div class="span-10">
   <h3>Bio</h3>
-  ${profile?.displayBio?.raw()}
+  <div class="markdown-container">${profile?.displayBio?.raw()}</div>
   #{if !profile.displayBio}
     User has not added a biography.
   #{/if}
