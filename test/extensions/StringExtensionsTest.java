@@ -36,4 +36,10 @@ public class StringExtensionsTest extends UnitTest {
     );
   }
 
+  @Test
+  public void shouldAbbreviateWhenContentLessThanCharacters() {
+    final String s = StringExtensions.abbreviate("<p>A SaaS app that makes it very easy to post your jobs to many relevant job sites (1-click posting, we do the submitting on the backend), and that makes it very easy to manage incoming applicants/resumes together with your team.</p>", 200);
+    MatcherAssert.assertThat(s.length(), lessThanOrEqualTo(220));
+  }
+
 }

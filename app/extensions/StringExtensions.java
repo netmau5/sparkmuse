@@ -27,13 +27,14 @@ public class StringExtensions extends JavaExtensions {
     if (StringUtils.isBlank(s) || StringUtils.length(s) <= maxLength) return s;
 
     List<String> words = Lists.newArrayList();
+    maxLength -= 3; //elipsis
     final String[] tokens = s.replaceAll("<p>", "")
         .replaceAll("</p>", "")
         .replaceAll("<.*>.*</.*>", "")
         .split(" ");
-    for (int i = 0; maxLength > 0; i++) {
+    for (int i = 0; maxLength > 0 && i < tokens.length; i++) {
       words.add(tokens[i]);
-      maxLength -= tokens[i].length();
+      maxLength -= tokens[i].length() + 1; //1 for implicit space
     }
 
     return Joiner.on(" ").join(words) + "...";
