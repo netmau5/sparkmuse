@@ -88,11 +88,12 @@ public class TwigUserDao extends TwigDao implements UserDao {
     return helper.all(datastore.find().type(UserProfile.class));
   }
 
-  public void createUser(String userName) {
+  public UserProfile createUser(String userName) {
     UserVO newUser = UserVO.newUser(userName);
     final UserVO storedNewUser = helper.store(newUser);
     final UserProfile profile = UserProfile.newProfile(storedNewUser);
     helper.store(profile);
+    return profile;
   }
 
   public Map<Long, UserVO> findUsersBy(Set<Long> ids) {

@@ -8,6 +8,7 @@ import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVote;
 import net.sparkmuse.data.entity.UserProfile;
+import net.sparkmuse.ajax.InvalidRequestException;
 
 import java.util.Set;
 import java.util.List;
@@ -45,9 +46,9 @@ public class UserFacade {
     return userDao.getAllProfiles();
   }
 
-  public void createUser(String userName) {
+  public UserProfile createUser(String userName) {
     final UserProfile userProfile = getUserProfile(userName);
-    if (null == userProfile) userDao.createUser(userName);
+    return null == userProfile ? userDao.createUser(userName) : userProfile;
   }
 
   public void updateUser(long userId, AccessLevel accessLevel, int invites) {
@@ -111,5 +112,33 @@ public class UserFacade {
   public UserVotes findUserVotesFor(Set<Votable> votables, UserVO user) {
     final Set<UserVote> userVotes = userDao.findVotesFor(votables, user);
     return new UserVotes(userVotes);
+  }
+
+  public int inviteFriend(UserVO inviter, String friend) {
+    final UserProfile inviterProfile = getUserProfile(inviter.getUserName());
+    if (inviterProfile.getInvites() > 0) {
+
+      final UserProfile newUserProfile = createUser(friend.startsWith("@") ? friend.substring(1) : friend);
+      final UserVO newUser = newUserProfile.getUser();
+
+      if (newUser.getAccessLevel().hasAuthorizationLevel(AccessLevel.USER)) {
+        throw new InvalidRequestException("The user you invited is already a member, save that invite!");
+      }
+
+      newUser.setAccessLevel(AccessLevel.USER);
+      userDao.store(newUser);
+
+      final int remainingInvites = inviterProfile.getInvites() - 1;
+      inviterProfile.setInvites(remainingInvites);
+      updateProfile(inviterProfile);
+
+      return remainingInvites;
+    }
+
+    return 0;
+  }
+
+  public void tweet(UserVO from, String message) {
+    twitterService.tweet(from, message);
   }
 }

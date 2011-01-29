@@ -53,36 +53,44 @@
 
     </div>
 
-    #{if isView && currentUser.id == profile.user.id}
-    <div class="invites">
-      <table class="span-12">
-        <tr>
-          <td class="column-4" style="white-space: nowrap;">
-            <label class="minor">You Have <span id="invitations">3</span> Invitations Remaining</label>
-          </td>
-          #{if profile.user.isAdmin()}
-          <td class="column-4">
-            <div class="input-wrapper">
-              <input type="text" name="inviteUser" value="@" />
-            </div>
-          </td>
-          <td class="column-2 last">
-            <a class="button positive" href="">
-              <span>
-                <img src="@{'public/images/icons/silk/add.png'}" alt="Invite"/>
-                Invite
-              </span>
-            </a>
-          </td>
-          #{/if}
-          #{if !profile.user.isAdmin()}
-          <td class="column-6 last">
-            <label class="minor">| &nbsp;Invites will be enabled on Jan 24th.</label>
-          </td>
-          #{/if}
-        </tr>
-      </table>
-    </div>
+    #{if isView && currentUser.id == profile.user.id && profile.invites}
+      <div class="invites">
+        <table class="span-12">
+          <tr>
+            <td class="column-4" style="white-space: nowrap;">
+              <label class="minor">You Have <span id="invitations">${profile.invites}</span> Invitations Remaining</label>
+            </td>
+            <td class="column-4">
+              <div class="error-message" parameter="friend"></div>
+              <form action="@{User.inviteFriend()}" method="POST" name="InviteFriend">
+                <div class="input-wrapper">
+                  <input type="text" name="inviteUser" value="@" />
+                </div>
+              </form>
+            </td>
+            <td class="column-2 last">
+              <a class="button positive" href="#" onclick="$(document.InviteFriend).submit();">
+                <span>
+                  <img src="@{'public/images/icons/silk/add.png'}" alt="Invite"/>
+                  Invite
+                </span>
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $(document.InviteFriend).formHandler(function(){
+            return {
+              friend: document.InviteFriend.inviteUser.value
+            };
+          }).bind(SM.Events.Submit, SM.formSubmitModal)
+            .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
+        });
+      </script>
+
     #{/if}
 
     <!--<div class="activity">-->

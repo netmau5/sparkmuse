@@ -998,11 +998,16 @@ div.ui-tooltip-sparkmuse .ui-tooltip-wrapper{
 }
 
 .simplemodal-container {
-  -moz-box-shadow: 1px 1px 3px #b2b2b2;
-  -webkit-box-shadow: 1px 1px 3px #b2b2b2;
-  box-shadow: 1px 1px 3px #b2b2b2;
+  background: white;
 
-  background: $COLOR_LIGHT_NEUTRAL;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  -webkit-box-shadow: 0px 2px 2px black;
+  -moz-box-shadow: 0px 2px 2px black;
+  box-shadow: 0px 2px 2px black;
+
+  padding: 5px;
 }
 
 
@@ -1019,28 +1024,36 @@ div.ui-tooltip-sparkmuse .ui-tooltip-wrapper{
   }
 
 .simplemodal-inner {
-  border: 1px solid white;
+  background: url("../images/textures/horizontal-tile-blue.jpg") top left repeat;
+  padding: 10px;
+
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  -webkit-box-shadow: inset 0px 1px 1px black;
+  -moz-box-shadow: inset 0px 1px 1px black;
+  box-shadow: inset 0px 1px 1px black;
 }
 
+  .simplemodal-inner hr { margin-bottom: 0.5em; }
+
   .simplemodal-inner .visual {
-    background: url("../images/blades_small_animated.gif") center -10px no-repeat $COLOR_LIGHT_NEUTRAL;
+    background: transparent url("../images/blades_small_animated.gif") center -10px no-repeat;
     height: 235px;
     width: 250px;
-    border-bottom: 1px solid $COLOR_DARK_NEUTRAL;
   }
 
   .simplemodal-inner .message {
     color: #666;
-    font-weight: bold;
+    font-size: 24px;
+    font-family: $FONT_FAMILY_CONTROLS;
     text-transform: lowercase;
     font-variant: small-caps;
     letter-spacing: 1px;
     text-align: center;
-    border-top: 1px solid $COLOR_NEUTRAL;
-    text-shadow: 0 1px 0 white;
-    padding: 5px;
-    background: url("../images/textures/noise.png") top left repeat $COLOR_NEUTRAL;
   }
+
+  .simplemodal-inner .control-bar { text-align: center; margin-bottom: 0; }
 
 #modal-lightbox {
   border: 2px solid $LOGO_DARK_BLUE;

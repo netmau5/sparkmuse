@@ -16,24 +16,17 @@ SM.newId = (function(){
 SM.disable = function(el) { $(el).attr("disabled", true); };
 SM.isDisabled = function(el) { return $(el).attr("disbled"); };
 SM.enable = function(el) { $(el).attr("disabled", false); };
-SM.formSubmitModal = (function() {
-  var fadeIn = function (dialog) {
-    dialog.overlay.fadeIn('fast');
-    dialog.container.fadeIn('fast');
-    dialog.data.fadeIn('fast');
-  };
-
-  return function(){
-    //tag in submissionModal.html (includesBottom)
-    $("#modal-submission").modal({
-      opacity: 50,
-      close: false,
-      onOpen: fadeIn,
-      onClose: undefined
-    });
-  };
-})();
-SM.formSubmitModalClose = function(){ $.modal.close(); };
+SM.formSubmitModal = function(){
+  //tag in modals-common.html (includesBottom)
+  $("#modal-submission").modal({
+    opacity: 50,
+    close: false,
+    onClose: undefined
+  });
+};
+SM.formSubmitModalClose = function(){
+  $.modal.close(); 
+};
 
 
 //response handler
@@ -48,6 +41,7 @@ SM.formSubmitModalClose = function(){ $.modal.close(); };
       form.submit(function(){
         if (!SM.isDisabled(form)) {
           SM.disable(form);
+          FormHandler.clearErrors();
 
           form.trigger(SM.Events.Submit);
           var i, params = formParameterBuilder.call(this),
@@ -117,8 +111,8 @@ SM.formSubmitModalClose = function(){ $.modal.close(); };
       return function(response) {
         SM.enable(form);
         var handler = params["_" + response.type.toLowerCase()] || FormHandler.determineCorrectHandler(response);
-        handler.call(this, response);
         form.trigger(SM.Events.SubmitEnd);
+        handler.call(this, response);
       }
     },
 
@@ -130,7 +124,8 @@ SM.formSubmitModalClose = function(){ $.modal.close(); };
         case "SYSTEM_ERROR": return FormHandler.newFailureResponseHandler;
         case "REDIRECT": return FormHandler.handleRedirectResponse;
         //a _success property should be defined to augment default success handler for fragments
-        case "FRAGMENT": return FormHandler.handleSuccessResponse;
+        case "FRAGMENT": return FormHandler.handleFragmentResponse;
+        case "INVALID_REQUEST_ERROR": return FormHandler.handleRequestErrorResponse;
         default: throw "Unknown response type.";
       }
     },
@@ -148,11 +143,25 @@ SM.formSubmitModalClose = function(){ $.modal.close(); };
 
     },
 
+    handleFragmentResponse: function(response) {
+      $(document.body).prepend(response.fragment);
+    },
+
+    handleRequestErrorResponse: function(response) {
+      //tag in modals-common.html (includesBottom)
+      $("#modal-request-error .message").html(response.message);
+      $("#modal-request-error").modal({
+        opacity: 50,
+        close: false,
+        onClose: undefined
+      })
+    },
+
     handleValidationErrorResponse: function(response) {
       var validationErrors = response.validationErrors,
           errorContainers = $(".error-message");
 
-      errorContainers.removeClass("error").html("");
+      FormHandler.clearErrors();
 
       for (var parameterName in validationErrors) {
         if (validationErrors.hasOwnProperty(parameterName)) {
@@ -166,6 +175,10 @@ SM.formSubmitModalClose = function(){ $.modal.close(); };
 
     handleRedirectResponse: function(response) {
       window.location = response.targetUrl;
+    },
+
+    clearErrors: function() {
+      $(".error-message").removeClass("error").html("");
     }
   }
 
@@ -337,8 +350,6 @@ $(document).ready(function() {
   $(".lightbox").click(function(){
     $("#modal-lightbox").html("")
         .append($(this).clone().removeClass("lightbox"))
-        //@todo set the width and height here or something, the modal is loading offcenter the
-        //@todo first time, i think because of improper dimensions
         .modal({
           close: true
         });
@@ -347,8 +358,8 @@ $(document).ready(function() {
   //preload modal images
   $.preload([
     "/public/images/textures/stars-black.gif",
-    "/public/images/textures/noise.png",
-    "/public/images/blades_small_animated.gif"
+    "/public/images/blades_small_animated.gif",
+    "/public/images/textures/horizontal-tile-blue.jpg",
   ]);
 
   //form submit error

@@ -1,11 +1,13 @@
 package controllers;
 
 import net.sparkmuse.user.UserFacade;
+import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.data.entity.Expertise;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
+import net.sparkmuse.ajax.FragmentAjaxResponse;
 import net.sparkmuse.common.Reflections;
 
 import java.util.Map;
@@ -16,9 +18,14 @@ import java.util.List;
 import javax.inject.Inject;
 
 import play.Logger;
+import play.templates.Template;
+import play.templates.TemplateLoader;
 import play.data.validation.Valid;
 import play.data.validation.Validation;
+import play.data.validation.Required;
 import play.mvc.Router;
+import com.google.common.collect.Maps;
+import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -63,6 +70,25 @@ public class User extends SparkmuseController {
   public static void vote(String entity, Long id) {
     Logger.debug("Voting for [" + entity + "|" + id + "]");
     userFacade.recordUpVote(entity, id, Authorization.getUserFromSessionOrAuthenticate(true));
+    renderJSON(new AjaxResponse());
+  }
+
+  public static void inviteFriend(@Required String friend) {
+    final int remainingInvites = userFacade.inviteFriend(Authorization.getUserFromSessionOrAuthenticate(true), friend);
+
+    final Template template = TemplateLoader.load("User/tweet-after-invite-dialog.html");
+    final Map<String, Object> args = Maps.newHashMap();
+    args.put("name", friend.startsWith("@") ? friend : "@" + friend);
+    args.put("remainingInvites", remainingInvites);
+    final String content = template.render(args);
+
+    renderJSON(new FragmentAjaxResponse(content));
+  }
+
+  public static void tweet(String message) {
+    if (StringUtils.isNotBlank(message)) {
+      userFacade.tweet(Authorization.getUserFromSessionOrAuthenticate(true), message);
+    }
     renderJSON(new AjaxResponse());
   }
 

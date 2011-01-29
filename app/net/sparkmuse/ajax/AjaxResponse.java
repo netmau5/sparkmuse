@@ -35,6 +35,7 @@ public class AjaxResponse {
     VALIDATION_ERROR,
     SYSTEM_ERROR,
     REDIRECT,
-    FRAGMENT
+    FRAGMENT,
+    INVALID_REQUEST_ERROR; //user request that we couldn't handle, not a severe error
   }
 }

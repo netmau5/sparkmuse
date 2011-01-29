@@ -2,8 +2,8 @@ package controllers;
 
 import play.mvc.*;
 import play.Logger;
-import net.sparkmuse.ajax.AjaxResponse;
-import net.sparkmuse.ajax.RedirectAjaxResponse;
+import play.data.validation.Validation;
+import net.sparkmuse.ajax.*;
 import net.sparkmuse.common.ResponseCode;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.user.UserFacade;
@@ -41,6 +41,14 @@ public class SparkmuseController extends Controller {
     //@todo handle this error somewhere, it will be thrown when GAE goes into read-only mode for scheduled maintenance
   }
 
+  @Catch(InvalidRequestException.class)
+  static void handleException(InvalidRequestException e) throws Exception {
+    Logger.info(e, e.getMessage());
+    if (request.isAjax()) {
+      renderJSON(new InvalidRequestErrorAjaxResponse(e.getMessage()));
+    }
+  }
+
   @Catch(Exception.class)
   static void handleException(Exception e) throws Exception {
     Logger.error(e, "Unhandled Exception");
@@ -55,6 +63,13 @@ public class SparkmuseController extends Controller {
     final String userId = session.get(Constants.SESSION_USER_ID);
     if (StringUtils.isNotBlank(userId)) {
       renderArgs.put("currentUser", userFacade.findUserBy(Long.valueOf(userId)));
+    }
+  }
+
+  @Before
+  static void invalidDataOnAjaxRequest() {
+    if (request.isAjax() && Validation.hasErrors()) {
+      renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
     }
   }
 

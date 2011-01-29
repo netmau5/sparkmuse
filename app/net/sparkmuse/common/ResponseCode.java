@@ -18,6 +18,7 @@ public enum ResponseCode {
   UNAUTHORIZED(401),
   FORBIDDEN(403),
   NOT_FOUND(404),
+  CONFLICT(409),
 
   //server error
   INTERNAL_SERVER_ERROR(500),

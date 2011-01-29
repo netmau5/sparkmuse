@@ -1,0 +1,49 @@
+<div id="modal-tweet" class="simplemodal-inner" style="display: none;">
+  <h3><a href="http://www.twitter.com/#/${name}" target="_blank">${name}</a> has been invited, let them know!</h3>
+  <form action="@{User.tweet()}" method="POST" name="TweetInvite">
+    <label>Tweet</label>
+    <div class="input-wrapper">
+      <textarea name="message" style="height: 70px;">${name} I've given you an invitation to the Sparkmuse alpha! Login at http://www.sparkmuse.com @sparkmuse</textarea>
+    </div>
+  </form>
+
+  <hr/>
+
+  <div class="control-bar">
+    <a href="#" onclick="$(document.TweetInvite).submit();" class="button positive">
+      <span>
+        <img src="@{'public/images/icons/silk/accept.png'}" alt="Tweet it!"/>
+        Tweet!
+      </span>
+    </a>
+    <a href="#" onclick="$.modal.close();" class="button negative">
+      <span>
+        <img src="@{'public/images/icons/silk/cancel.png'}" alt="No thanks"/>
+        No thanks
+      </span>
+    </a>
+  </div>
+</div>
+
+<script type="text/javascript">
+  if (${remainingInvites}) {
+    $(document.InviteFriend.inviteUser).val("@");
+    $("#invitations").html("${remainingInvites}");
+  }
+  else {
+    $(".invites").remove();
+  }
+
+  $("#modal-tweet").modal({
+    close: false,
+    opacity: 50
+  });
+
+  $(document.TweetInvite).formHandler(function(){
+
+    return {
+      message: this.message.value
+    }
+  }).bind(SM.Events.Submit, function() { $.modal.close(); $("#modal-tweet").remove(); }); //close existing dialog first
+
+</script>

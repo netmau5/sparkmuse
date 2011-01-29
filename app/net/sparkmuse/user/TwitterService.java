@@ -9,6 +9,7 @@ import net.sparkmuse.data.entity.UserVO;
 import twitter4j.TwitterFactory;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.conf.ConfigurationBuilder;
 import twitter4j.http.RequestToken;
 import twitter4j.http.AccessToken;
 import play.Logger;
@@ -31,19 +32,22 @@ public class TwitterService {
 
   @Inject
   public TwitterService(Cache cache) {
-    this.twitterFactory = new TwitterFactory();
+    this.twitterFactory = new TwitterFactory(
+        new ConfigurationBuilder()
+            .setOAuthConsumerKey(CONSUMER_KEY)
+            .setOAuthConsumerSecret(CONSUMER_SECRET)
+            .build()
+    );
     this.cache = cache;
   }
 
   private Twitter newTwitterInstance() {
     final Twitter twitter = twitterFactory.getInstance();
-    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
     return twitter;
   }
 
   private Twitter newUserTwitterInstance(UserVO user) {
     final Twitter twitter = twitterFactory.getInstance(user.newAccessToken());
-    twitter.setOAuthConsumer(CONSUMER_KEY, CONSUMER_SECRET);
     return twitter;
   }
 
@@ -84,4 +88,11 @@ public class TwitterService {
   }
 
 
+  public void tweet(UserVO from, String message) {
+    try {
+      newUserTwitterInstance(from).updateStatus(message);
+    } catch (TwitterException e) {
+      throw new RuntimeException(e);
+    }
+  }
 }

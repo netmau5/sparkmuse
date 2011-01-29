@@ -32,7 +32,7 @@ public interface UserDao {
 
   List<UserProfile> getAllProfiles();
 
-  void createUser(String userName);
+  UserProfile createUser(String userName);
 
   Map<Long, UserVO> findUsersBy(Set<Long> ids);
   void saveApplication(String userName, String url);
