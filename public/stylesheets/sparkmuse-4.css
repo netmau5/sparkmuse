@@ -845,7 +845,13 @@ a.top-arrow {
 
 /* BEGIN <TOOLTIPS> */
 
-.tooltip { cursor: help; }
+.tooltip {
+  cursor: help;
+  display: inline-block;
+  background: url("../images/icons/silk/help-orange.png") 50% 50% no-repeat;
+  height: 16px;
+  width: 16px;
+}
 
 .ui-tooltip-accessible{
 	left: -31000px;
@@ -1238,6 +1244,8 @@ a.icon-button {
   color:#565656;
   padding: 3px;
 }
+
+label a.icon-button { margin: 0; }
 
   a.icon-button img {
     padding:0;

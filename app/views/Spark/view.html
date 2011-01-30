@@ -1,7 +1,7 @@
 #{extends 'bodytemplate.html' /}
 #{set title:"Sparkmuse " + spark.title /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/Spark/view-3.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/Spark/view-4.css'}" type="text/css" />
 
 <div class="prepend-1 span-22 append-1 last page-title">
 
@@ -418,7 +418,7 @@
           <div class="leading-questions"></div>
           <div class="offers"></div>
 
-          <label>Comment <img src="@{'public/images/icons/oxygen/markup.png'}" alt="Markdown" title="Markdown enabled"/></label>
+          <label>Comment #{markdownEnabled /}</label>
           <div class="error-message" parameter="post.displayContent"></div>
           <div class="input-wrapper"><textarea name="content"></textarea></div>
 

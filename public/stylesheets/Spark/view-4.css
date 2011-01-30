@@ -176,7 +176,7 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
   .comment .post-actions { margin-bottom: 1em; } 
 
-  #new-reply .comment blockquote { margin-bottom: 0; }
+  #new-reply .comment blockquote { margin-bottom: 0; padding: 0.5em 1em 0 1em; }
 
 .control-bar { line-height: 24px; padding: 0 10px; }
   .control-bar .attachments { display: inline-block; }

@@ -103,8 +103,9 @@
       line-height: 24px;
     }
 
+      .spark .details .detail { margin-bottom: 8px; line-height: 16px; }
+
       .spark .details .comments {
-        display: inline-block;
         padding-left: 20px;
         background: url("@{'/public/images/icons/silk/comments_faded.png'}") no-repeat;
       }
@@ -180,9 +181,9 @@
 
 
           <div class="details progress-${spark.stage.toWords().toLowerCase()}">
-            ${spark.stage.toWords()} <br/>
-            #{likeButton votable: spark, userVotes: userVotes, size: "medium" /} <br/>
-            <span class="comments">${spark.postCount}</span>
+            <div class="detail">${spark.stage.toWords()}</div>
+            <div class="detail">#{likeButton votable: spark, userVotes: userVotes, size: "medium" /}</div>
+            <div class="detail comments">${spark.postCount}</div>
           </div>
 
 
