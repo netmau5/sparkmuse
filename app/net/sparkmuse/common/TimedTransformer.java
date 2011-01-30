@@ -21,7 +21,7 @@ public class TimedTransformer<T> {
 
   public TimedTransformer(Function<T, T> transformation) {
     this.transformation = transformation;
-    this.millis = 15 * 1000; //15 seconds by default
+    this.millis = 8 * 60 * 1000; //8 minutes by default, task request limit is now 10 mins
   }
 
   public TimedTransformer(long millis, Function<T, T> transformation) {
