@@ -11,6 +11,8 @@ import play.data.validation.Email;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * @author neteller
  * @created: Jan 9, 2011
@@ -116,6 +118,10 @@ public class UserProfile extends Entity<UserProfile> {
 
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public boolean hasEmail() {
+    return StringUtils.isNotBlank(email);
   }
   
 }

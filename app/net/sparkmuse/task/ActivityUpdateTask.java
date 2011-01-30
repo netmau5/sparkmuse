@@ -6,6 +6,7 @@ import net.sparkmuse.common.Cache;
 import net.sparkmuse.mail.ActivityUpdate;
 import net.sparkmuse.mail.SparkActivityUpdate;
 import net.sparkmuse.mail.MailService;
+import net.sparkmuse.mail.PostActivityUpdate;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -22,6 +23,8 @@ import play.Logger;
 
 import java.util.Map;
 
+import controllers.Spark;
+
 /**
  * @author neteller
  * @created: Jan 23, 2011
@@ -31,11 +34,17 @@ public class ActivityUpdateTask extends Task<Post> {
   private final ObjectDatastore datastore;
   private final MailService mailService;
 
+  private final Map<Post, SparkVO> localSparkCache;
+  private final Map<UserVO, UserProfile> localProfileCache;
+
   @Inject
   public ActivityUpdateTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore, MailService mailService) {
     super(cache, batchService, datastore);
     this.datastore = datastore;
     this.mailService = mailService;
+
+    this.localSparkCache = Maps.newHashMap();
+    this.localProfileCache = Maps.newHashMap();
   }
 
   protected String getTaskName() {
@@ -55,16 +64,34 @@ public class ActivityUpdateTask extends Task<Post> {
     //if someone posted to my spark
     final SparkVO spark = getSpark(post);
     final UserProfile sparkAuthorProfile = getUserProfile(spark.getAuthor());
-    if (StringUtils.isNotBlank(sparkAuthorProfile.getEmail()) &&
-        !StringUtils.equals(post.getAuthor().getUserName(), sparkAuthorProfile.getUser().getUserName())) { //sparkAuthorProfile.isSendActivityUpdates() &&
+    if (sparkAuthorProfile.hasEmail() && !isSamePerson(post.getAuthor(), spark.getAuthor())) { //sparkAuthorProfile.isSendActivityUpdates() &&
       Logger.debug("Sending SparkActivityUpdate to [" + sparkAuthorProfile.getEmail() + "]");
       final SparkActivityUpdate update = new SparkActivityUpdate(sparkAuthorProfile, spark, post);
       mailService.sendMessage(prepareEmail(update));
     }
+
+    //if someone replied to my post
+    if (null != post.getInReplyToId()) {
+      final Post parentPost = datastore.load(Post.class, post.getInReplyToId());
+      final UserProfile parentPostAuthorProfile = getUserProfile(parentPost.getAuthor());
+      if (parentPostAuthorProfile.hasEmail() && !isSamePerson(post.getAuthor(), parentPost.getAuthor())) {
+        Logger.debug("Sending PostActivityUpdate to [" + parentPostAuthorProfile.getEmail() + "]");
+        final PostActivityUpdate update = new PostActivityUpdate(parentPostAuthorProfile, spark, post);
+        mailService.sendMessage(prepareEmail(update));
+      }
+    }
+
+
     return post;
   }
 
+  private static boolean isSamePerson(UserVO u1, UserVO u2) {
+    return StringUtils.equals(u1.getUserName(), u2.getUserName());
+  }
+
   private UserProfile getUserProfile(UserVO userVO) {
+    if (localProfileCache.containsKey(userVO)) return localProfileCache.get(userVO);
+
     return datastore.find().type(UserProfile.class)
         .ancestor(userVO)
         .returnAll()
@@ -73,6 +100,8 @@ public class ActivityUpdateTask extends Task<Post> {
   }
 
   private SparkVO getSpark(Post post) {
+    if (localSparkCache.containsKey(post)) return localSparkCache.get(post);
+
     return datastore.load(SparkVO.class, post.getSparkId());
   }
 
