@@ -18,6 +18,6 @@
   <cron>
     <url>/Tasks/execute?taskClassName=net.sparkmuse.task.ActivityUpdateTask</url>
     <description>Send activity update emails</description>
-    <schedule>every 20 minutes</schedule>
+    <schedule>every 15 minutes</schedule>
   </cron>
 </cronentries>

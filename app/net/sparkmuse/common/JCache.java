@@ -11,6 +11,7 @@ import java.io.*;
 import com.google.common.base.Preconditions;
 import play.Logger;
 import play.Play;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author neteller
@@ -18,9 +19,8 @@ import play.Play;
  */
 public class JCache implements Cache {
 
-  private static final int THIRTY_DAYS = 60 * 60 * 24 * 30;
-
   private javax.cache.Cache cache;
+  private static final String VERSION = System.getenv("CURRENT_VERSION_ID");
 
   public JCache() {
     try {
@@ -48,7 +48,7 @@ public class JCache implements Cache {
     Preconditions.checkNotNull(key);
     Preconditions.checkNotNull(value);
 
-    impl().put(key, value);
+    impl().put(versionKey(key), wrap(value));
     return value;
   }
 
@@ -68,21 +68,22 @@ public class JCache implements Cache {
     Preconditions.checkNotNull(key);
     Preconditions.checkNotNull(clazz);
 
-    return clazz.cast(get(key));
+    Logger.info("Key [" + key + "], Type [" + clazz + "]");
+
+    return clazz.cast(unwrap(get(key)));
   }
 
   public Object get(String key) {
     Preconditions.checkNotNull(key);
 
-    return impl().get(key);
+    return unwrap(impl().get(versionKey(key)));
   }
 
   public <T> T get(final CacheKey<T> key) {
     Preconditions.checkNotNull(key);
 
-    final Object o = unwrap(this.cache.get(key.toString()));
+    final Object o = unwrap(impl().get(versionKey(key.toString())));
     if (null != o) {
-      Logger.debug("CACHE HIT: " + o);
       return key.getImplementingClass().cast(o);
     }
     else {
@@ -98,15 +99,14 @@ public class JCache implements Cache {
     Preconditions.checkNotNull(value);
     checkSerializable(value);
 
-    impl().put(key, value);
+    impl().put(versionKey(key), wrap(value));
     return value;
   }
 
   public <T> T set(final Cacheable<T> cacheable) {
     validate(cacheable);
 
-    Logger.debug("Setting Cacheable [" + cacheable.getInstance() + "] with CacheKey [" + cacheable.getKey() + "].");
-    this.cache.put(cacheable.getKey().toString(), wrap(cacheable.getInstance()));
+    impl().put(versionKey(cacheable.getKey().toString()), wrap(cacheable.getInstance()));
     return cacheable.getInstance();
   }
 
@@ -130,7 +130,7 @@ public class JCache implements Cache {
   public void delete(String key) {
     Preconditions.checkNotNull(key);
 
-    impl().remove(key);
+    impl().remove(versionKey(key));
   }
 
   public void delete(CacheKey key) {
@@ -221,22 +221,26 @@ public class JCache implements Cache {
         }
     }
 
-    Object unwrap(Object bytes) {
-        if(bytes == null) {
-            return null;
-        }
-        try {
-            return new ObjectInputStream(new ByteArrayInputStream((byte[])bytes)) {
+  Object unwrap(Object bytes) {
+      if(bytes == null) {
+          return null;
+      }
+      try {
+          return new ObjectInputStream(new ByteArrayInputStream((byte[])bytes)) {
+              @Override
+              protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
+                  return Class.forName(desc.getName(), false, Play.classloader);
+              }
+          }.readObject();
+      } catch (Exception e) {
+          Logger.error(e, "Error while deserializing cached value");
+          return null;
+      }
+  }
 
-                @Override
-                protected Class<?> resolveClass(ObjectStreamClass desc) throws IOException, ClassNotFoundException {
-                    return Class.forName(desc.getName(), false, Play.classloader);
-                }
-            }.readObject();
-        } catch (Exception e) {
-            Logger.error(e, "Error while deserializing cached value");
-            return null;
-        }
-    }
+  String versionKey(String key) {
+    if (StringUtils.isEmpty(VERSION)) Logger.error("No version found.");
+    return VERSION + "|" + key;
+  }
 
 }

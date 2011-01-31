@@ -10,4 +10,9 @@
     <include path="/public/**.*" />
   </static-files>
 
+  <!-- used in caching -->
+  <env-variables>
+    <env-var name="CURRENT_VERSION_ID" value="16" />
+  </env-variables>
+
 </appengine-web-app>

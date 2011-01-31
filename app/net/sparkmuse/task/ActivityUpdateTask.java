@@ -2,6 +2,7 @@ package net.sparkmuse.task;
 
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.twig.BatchDatastoreService;
+import net.sparkmuse.data.twig.DatastoreUtils;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.mail.*;
@@ -114,7 +115,7 @@ public class ActivityUpdateTask extends Task<Post> {
     if (null != userProfile) return userProfile;
 
     userProfile = datastore.find().type(UserProfile.class)
-        .ancestor(userVO)
+        .ancestor(DatastoreUtils.associate(userVO, datastore))
         .returnAll()
         .now()
         .get(0);
