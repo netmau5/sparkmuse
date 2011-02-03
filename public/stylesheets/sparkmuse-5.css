@@ -1401,6 +1401,13 @@ a.twitter-login:active {
   background: url("../images/twitter/twitter_signin.png") 0 -48px;
 }
 
+.avatar {
+  background-color: #FEFFFA;
+  padding: 2px;
+  border: 1px solid #cccccc;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+}
 
 /* END <TWITTER> */
 

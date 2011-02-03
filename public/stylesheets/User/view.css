@@ -16,14 +16,6 @@ $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
 /*$FONT_FAMILY_STANDARD: "Palatino Linotype", "Book Antiqua", "Palatino", serif;*/
 $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
-#avatar {
-  background-color: #FEFFFA;
-  padding: 2px;
-  border: 1px solid #cccccc;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-}
-
 .page-title td { padding-right: 10px; }
 .page-title h2 { margin-bottom: 0; }
 .page-title table {  }

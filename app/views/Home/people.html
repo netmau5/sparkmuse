@@ -1,0 +1,79 @@
+#{extends 'bodytemplate.html' /}
+#{set title:'Sparkmuse: the people!' /}
+#{set nav:'PEOPLE' /}
+
+<link rel="stylesheet" href="@{'/public/stylesheets/Home/people.css'}" type="text/css" />
+
+<div class="page-title prepend-1 span-22 append-1">
+
+  <div class="title-bar span-22 last">
+    <h1>Musers</h1>
+    <h2>People of Sparkmuse</h2>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <div class="span-15">
+
+    <table class="users">
+      <thead>
+        <tr>
+          <td class="column-avatar"><!--avatar --></td>
+          <td><!--name tag --></td>
+          <td><div class="thead-icon rep" title="Reputation">Rep</div></td>
+          <td><div class="thead-icon posts" title="Posts">Posts</div></td>
+          <td><div class="thead-icon sparks" title="Sparks">Sparks</div></td>
+          <td>Expertise</td>
+        </tr>
+      </thead>
+      <tbody>
+        #{list items: profiles, as: "profile"}
+        <tr class="${profile_parity}" onclick="window.location='@{User.view(profile.user.userName)}';"> *{ even/odd }*
+          <td>
+            <img class="avatar" src="http://api.twitter.com/1/users/profile_image/${profile.user.userName}.json?size=normal" alt="Twitter avatar"/>
+          </td>
+          <td>
+            #{if profile.name}
+              <div class="name">${profile.name}</div>
+            #{/if}
+            <a href="http://www.twitter.com/#/${profile.user.userName}" target="_blank">@${profile.user.userName}</a>
+          </td>
+          <td>${profile.user.reputation}</td>
+          <td>${profile.user.posts}</td>
+          <td>${profile.user.sparks}</td>
+          <td>${profile.expertises}</td>
+        </tr>
+        #{/list}
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="span-7 last">
+
+    <div class="how-to-container">
+      <div class="step-1">
+        Who's Here?
+      </div>
+      <div class="step-2">
+        Update Your Profile
+      </div>
+      <div class="step-3">
+        Contribute To Two Sparks
+      </div>
+      <div class="step-4">
+        Get At Least 10 Reputation
+      </div>
+    </div>
+
+    blurb filters on expertise
+
+    #{include "standardBlurbs.html" /}
+
+  </div>
+
+  <div class="clear"></div>
+
+</div>
