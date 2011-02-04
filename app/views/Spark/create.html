@@ -30,7 +30,7 @@
     ${isEditMode ? "Edit" : "Create"} Spark
   </h2>
 
-  <div class="span-13">
+  <div class="span-13 first">
   <div class="content-wrapper">
   <div class="content-inner">
   <div class="content-container">
@@ -69,7 +69,7 @@
             <li class='stage-new ${spark?.stage?.toString().equals("NEW") ? "selected" : ""}'>New</li>
             <li class='stage-prototype ${spark?.stage?.toString().equals("PROTOTYPE") ? "selected" : ""}'>Prototype</li>
             <li class='stage-beta ${spark?.stage?.toString().equals("BETA") ? "selected" : ""}'>Beta</li>
-            <li class='stage-launched ${spark?.stage?.toString().equals("LAUNCHED") ? "selected" : ""}'>Launched</li>
+            <li class='last stage-launched ${spark?.stage?.toString().equals("LAUNCHED") ? "selected" : ""}'>Launched</li>
           </ol>
           <input type="hidden" name="stage" value="${spark?.stage}" />
           <div class="clear"></div>

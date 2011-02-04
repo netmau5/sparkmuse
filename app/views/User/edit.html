@@ -4,7 +4,7 @@
   <form name="EditProfile" action="@{User.saveProfile}" method="POST">
     <table>
       <tr>
-        <td class="column-5">
+        <td class="column-5 first">
           <label>Name</label>
           <div class="input-wrapper"><input type="text" name="name" value="${profile.name}" /></div>
         </td>
@@ -14,7 +14,7 @@
         </td>
       </tr>
       <tr>
-        <td class="column-5">
+        <td class="column-5 first">
           <label>Email #{tip}We will send activity updates to this email address#{/tip}</label>
           <div class="error-message" parameter="profile.email"></div>
           <div class="input-wrapper"><input type="text" name="email" value="${profile.email}" /></div>
@@ -26,7 +26,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2" class="column-10 last">
+        <td colspan="2" class="column-10 first last">
           <label>Expertise</label>
           <div class="field expertise">
             <table>
@@ -41,7 +41,7 @@
         </td>
       </tr>
       <tr>
-        <td colspan="2" class="column-10 last">
+        <td colspan="2" class="column-10 first last">
           <label>Biography #{markdownEnabled /}</label>
           <div class="input-wrapper"><textarea name="bio">${profile.bio}</textarea></div>
         </td>

@@ -1,9 +1,9 @@
 #{extends 'bodytemplate.html' /}
 #{set title:"Sparkmuse " + spark.title /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/Spark/view-4.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/Spark/view-5.css'}" type="text/css" />
 
-<div class="prepend-1 span-22 append-1 last page-title">
+<div class="prepend-1 span-22 append-1 first last page-title">
 
   <a href="#@{User.vote(spark.class.name, spark.id)}" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
 
@@ -17,11 +17,11 @@
 
 </div>
 
-<div class="span-24 last content-wrapper">
+<div class="span-24 first last content-wrapper">
 <div class="content-inner">
 <div class="content-container">
 
-  <div class="span-8 spark-info-wrapper wrapper">
+  <div class="span-8 first spark-info-wrapper wrapper">
   <div class="spark-info inner">
 
     <div class="spark-details">

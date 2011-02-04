@@ -105,58 +105,41 @@ fieldset {
 
 /* BEGIN <GRIDS> */
 /* grid.css */
-.container {width:1022px;margin:0 auto;}
+.container {width:1032px;margin:0 auto;}
 .showgrid {background:url(src/grid.png);}
-.column, div.span-1, div.span-2, div.span-3, div.span-4, div.span-5, div.span-6, div.span-7, div.span-8, div.span-9, div.span-10, div.span-11, div.span-12, div.span-13, div.span-14, div.span-15, div.span-16, div.span-17, div.span-18, div.span-19, div.span-20, div.span-21, div.span-22, div.span-23, div.span-24 {float:left;margin-right:10px;}
+.column, div.span-1, div.span-2, div.span-3, div.span-4, div.span-5, div.span-6, div.span-7, div.span-8, div.span-9, div.span-10, div.span-11, div.span-12, div.span-13, div.span-14, div.span-15, div.span-16, div.span-17, div.span-18, div.span-19, div.span-20, div.span-21, div.span-22, div.span-23, div.span-24 {
+  display:inline;
+	float: left;
+	position: relative;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.first, div.first {margin-left:0; }
 .last, div.last {margin-right:0;}
-.span-1 {width:33px;}
-.span-2 {width:76px;}
-.span-3 {width:119px;}
-.span-4 {width:162px;}
-.span-5 {width:205px;}
-.span-6 {width:248px;}
-.span-7 {width:291px;}
-.span-8 {width:334px;}
-.span-9 {width:377px;}
-.span-10 {width:420px;}
-.span-11 {width:463px;}
-.span-12 {width:506px;}
-.span-13 {width:549px;}
-.span-14 {width:592px;}
-.span-15 {width:635px;}
-.span-16 {width:678px;}
-.span-17 {width:721px;}
-.span-18 {width:764px;}
-.span-19 {width:807px;}
-.span-20 {width:850px;}
-.span-21 {width:893px;}
-.span-22 {width:936px;}
-.span-23 {width:979px;}
-.span-24, div.span-24 {width:1022px;margin:0;}
-input.span-1, textarea.span-1, select.span-1 {width:33px!important;}
-input.span-2, textarea.span-2, select.span-2 {width:56px!important;}
-input.span-3, textarea.span-3, select.span-3 {width:99px!important;}
-input.span-4, textarea.span-4, select.span-4 {width:142px!important;}
-input.span-5, textarea.span-5, select.span-5 {width:185px!important;}
-input.span-6, textarea.span-6, select.span-6 {width:228px!important;}
-input.span-7, textarea.span-7, select.span-7 {width:271px!important;}
-input.span-8, textarea.span-8, select.span-8 {width:314px!important;}
-input.span-9, textarea.span-9, select.span-9 {width:357px!important;}
-input.span-10, textarea.span-10, select.span-10 {width:400px!important;}
-input.span-11, textarea.span-11, select.span-11 {width:443px!important;}
-input.span-12, textarea.span-12, select.span-12 {width:486px!important;}
-input.span-13, textarea.span-13, select.span-13 {width:529px!important;}
-input.span-14, textarea.span-14, select.span-14 {width:572px!important;}
-input.span-15, textarea.span-15, select.span-15 {width:615px!important;}
-input.span-16, textarea.span-16, select.span-16 {width:658px!important;}
-input.span-17, textarea.span-17, select.span-17 {width:701px!important;}
-input.span-18, textarea.span-18, select.span-18 {width:744px!important;}
-input.span-19, textarea.span-19, select.span-19 {width:787px!important;}
-input.span-20, textarea.span-20, select.span-20 {width:830px!important;}
-input.span-21, textarea.span-21, select.span-21 {width:873px!important;}
-input.span-22, textarea.span-22, select.span-22 {width:916px!important;}
-input.span-23, textarea.span-23, select.span-23 {width:959px!important;}
-input.span-24, textarea.span-24, select.span-24 {width:1012px!important;}
+.span-1 {width:23px;}
+.span-2 {width:66px;}
+.span-3 {width:109px;}
+.span-4 {width:152px;}
+.span-5 {width:195px;}
+.span-6 {width:238px;}
+.span-7 {width:281px;}
+.span-8 {width:324px;}
+.span-9 {width:367px;}
+.span-10 {width:410px;}
+.span-11 {width:453px;}
+.span-12 {width:496px;}
+.span-13 {width:539px;}
+.span-14 {width:582px;}
+.span-15 {width:625px;}
+.span-16 {width:668px;}
+.span-17 {width:711px;}
+.span-18 {width:754px;}
+.span-19 {width:797px;}
+.span-20 {width:840px;}
+.span-21 {width:883px;}
+.span-22 {width:926px;}
+.span-23 {width:969px;}
+.span-24, div.span-24 {width:1012px;margin:0;}
 .append-1 {padding-right:43px;}
 .append-2 {padding-right:86px;}
 .append-3 {padding-right:129px;}
@@ -203,58 +186,193 @@ input.span-24, textarea.span-24, select.span-24 {width:1012px!important;}
 .prepend-21 {padding-left:903px;}
 .prepend-22 {padding-left:946px;}
 .prepend-23 {padding-left:989px;}
+
+.push-1 {
+	left:43px;
+}
+
+.push-2 {
+	left:86px;
+}
+
+.push-3 {
+	left:129px;
+}
+
+.push-4 {
+	left:172px;
+}
+
+.push-5 {
+	left:215px;
+}
+
+.push-6 {
+	left:258px;
+}
+
+.push-7 {
+	left:301px;
+}
+
+.push-8 {
+	left:344px;
+}
+
+.push-9 {
+	left:387px;
+}
+
+.push-10 {
+	left:430px;
+}
+
+.push-11 {
+	left:473px;
+}
+
+.push-12 {
+	left:516px;
+}
+
+.push-13 {
+	left:559px;
+}
+
+.push-14 {
+	left:602px;
+}
+
+.push-15 {
+	left:645px;
+}
+
+.push-16 {
+	left:688px;
+}
+
+.push-17 {
+	left:731px;
+}
+
+.push-18 {
+	left:774px;
+}
+
+.push-19 {
+	left:817px;
+}
+
+.push-20 {
+	left:860px;
+}
+
+.push-21 {
+	left:903px;
+}
+
+.push-22 {
+	left:946px;
+}
+
+.push-23 {
+	left:989px;
+}
+
+.pull-1 {
+	left:-43px;
+}
+
+.pull-2 {
+	left:-86px;
+}
+
+.pull-3 {
+	left:-129px;
+}
+
+.pull-4 {
+	left:-172px;
+}
+
+.pull-5 {
+	left:-215px;
+}
+
+.pull-6 {
+	left:-258px;
+}
+
+.pull-7 {
+	left:-301px;
+}
+
+.pull-8 {
+	left:-344px;
+}
+
+.pull-9 {
+	left:-387px;
+}
+
+.pull-10 {
+	left:-430px;
+}
+
+.pull-11 {
+	left:-473px;
+}
+
+.pull-12 {
+	left:-516px;
+}
+
+.pull-13 {
+	left:-559px;
+}
+
+.pull-14 {
+	left:-602px;
+}
+
+.pull-15 {
+	left:-645px;
+}
+
+.pull-16 {
+	left:-688px;
+}
+
+.pull-17 {
+	left:-731px;
+}
+
+.pull-18 {
+	left:-774px;
+}
+
+.pull-19 {
+	left:-817px;
+}
+
+.pull-20 {
+	left:-860px;
+}
+
+.pull-21 {
+	left:-903px;
+}
+
+.pull-22 {
+	left:-946px;
+}
+
+.pull-23 {
+	left:-989px;
+}
+
 div.border {padding-right:4px;margin-right:5px;border-right:1px solid #eee;}
 div.colborder {padding-right:27px;margin-right:28px;border-right:1px solid #eee;}
-.pull-1 {margin-left:-43px;}
-.pull-2 {margin-left:-86px;}
-.pull-3 {margin-left:-129px;}
-.pull-4 {margin-left:-172px;}
-.pull-5 {margin-left:-215px;}
-.pull-6 {margin-left:-258px;}
-.pull-7 {margin-left:-301px;}
-.pull-8 {margin-left:-344px;}
-.pull-9 {margin-left:-387px;}
-.pull-10 {margin-left:-430px;}
-.pull-11 {margin-left:-473px;}
-.pull-12 {margin-left:-516px;}
-.pull-13 {margin-left:-559px;}
-.pull-14 {margin-left:-602px;}
-.pull-15 {margin-left:-645px;}
-.pull-16 {margin-left:-688px;}
-.pull-17 {margin-left:-731px;}
-.pull-18 {margin-left:-774px;}
-.pull-19 {margin-left:-817px;}
-.pull-20 {margin-left:-860px;}
-.pull-21 {margin-left:-903px;}
-.pull-22 {margin-left:-946px;}
-.pull-23 {margin-left:-989px;}
-.pull-24 {margin-left:-1032px;}
-.pull-1, .pull-2, .pull-3, .pull-4, .pull-5, .pull-6, .pull-7, .pull-8, .pull-9, .pull-10, .pull-11, .pull-12, .pull-13, .pull-14, .pull-15, .pull-16, .pull-17, .pull-18, .pull-19, .pull-20, .pull-21, .pull-22, .pull-23, .pull-24 {float:left;position:relative;}
-.push-1 {margin:0 -43px 1.5em 43px;}
-.push-2 {margin:0 -86px 1.5em 86px;}
-.push-3 {margin:0 -129px 1.5em 129px;}
-.push-4 {margin:0 -172px 1.5em 172px;}
-.push-5 {margin:0 -215px 1.5em 215px;}
-.push-6 {margin:0 -258px 1.5em 258px;}
-.push-7 {margin:0 -301px 1.5em 301px;}
-.push-8 {margin:0 -344px 1.5em 344px;}
-.push-9 {margin:0 -387px 1.5em 387px;}
-.push-10 {margin:0 -430px 1.5em 430px;}
-.push-11 {margin:0 -473px 1.5em 473px;}
-.push-12 {margin:0 -516px 1.5em 516px;}
-.push-13 {margin:0 -559px 1.5em 559px;}
-.push-14 {margin:0 -602px 1.5em 602px;}
-.push-15 {margin:0 -645px 1.5em 645px;}
-.push-16 {margin:0 -688px 1.5em 688px;}
-.push-17 {margin:0 -731px 1.5em 731px;}
-.push-18 {margin:0 -774px 1.5em 774px;}
-.push-19 {margin:0 -817px 1.5em 817px;}
-.push-20 {margin:0 -860px 1.5em 860px;}
-.push-21 {margin:0 -903px 1.5em 903px;}
-.push-22 {margin:0 -946px 1.5em 946px;}
-.push-23 {margin:0 -989px 1.5em 989px;}
-.push-24 {margin:0 -1032px 1.5em 1032px;}
-.push-1, .push-2, .push-3, .push-4, .push-5, .push-6, .push-7, .push-8, .push-9, .push-10, .push-11, .push-12, .push-13, .push-14, .push-15, .push-16, .push-17, .push-18, .push-19, .push-20, .push-21, .push-22, .push-23, .push-24 {float:right;position:relative;}
 .prepend-top {margin-top:1.5em;}
 .append-bottom {margin-bottom:1.5em;}
 .box {padding:1.5em;margin-bottom:1.5em;background:#E5ECF9;}
@@ -535,7 +653,7 @@ ol.nav {
 
 .page-container {
   margin: 0 auto;
-  width: 1022px;
+  width: 1032px;
 }
 
 #body-container-wrapper {
@@ -1168,7 +1286,8 @@ ol.stages { padding: 0; margin-top: 5px; }
   background-position: 21px 0;
 }
 
-.stages li:active { top: 2px; position: relative; }
+  .stages li.last { margin-right: 0; }
+  .stages li:active { top: 2px; position: relative; }
 
 .stage-new {
   background-image: url("../images/icons/stages/light-72.png");
