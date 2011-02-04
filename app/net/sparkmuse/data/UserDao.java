@@ -1,9 +1,6 @@
 package net.sparkmuse.data;
 
-import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.Entity;
-import net.sparkmuse.data.entity.UserVote;
-import net.sparkmuse.data.entity.UserProfile;
+import net.sparkmuse.data.entity.*;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.user.UserLogin;
 
@@ -35,7 +32,7 @@ public interface UserDao {
   UserProfile createUser(String userName);
 
   Map<Long, UserVO> findUsersBy(Set<Long> ids);
-  void saveApplication(String userName, String url);
+  void saveApplication(UserApplication userApplication);
 
   /**
    * Stores a record of the vote for the given user, upvotes the votable, stores

@@ -51,7 +51,10 @@ public class UserFacadeTest extends PluginFunctionalTest {
 
   @Test
   public void shouldSaveUserApplication() {
-    userFacade.applyForInvitation("netmau5", "http://blog.sparkmuse.com");
+    UserApplication app = new UserApplication();
+    app.userName = "netmau5";
+    app.url = "http://blog.sparkmuse.com";
+    userFacade.applyForInvitation(app);
 
     UserApplication model = datastore.find().type(UserApplication.class)
         .addFilter("userName", EQUAL, "netmau5")

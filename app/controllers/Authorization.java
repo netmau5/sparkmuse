@@ -8,6 +8,7 @@ import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.OAuthAuthenticationRequest;
 import net.sparkmuse.user.OAuthAuthenticationResponse;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.UserApplication;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.ajax.AjaxResponse;
@@ -82,8 +83,8 @@ public class Authorization extends SparkmuseController {
     render();
   }
 
-  public static void applyForInvitation(final String userName, final String url) {
-    userFacade.applyForInvitation(userName, url);
+  public static void applyForInvitation(UserApplication application) {
+    userFacade.applyForInvitation(application);
     renderJSON(new AjaxResponse());
   }
 }

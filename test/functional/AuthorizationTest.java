@@ -15,7 +15,7 @@ public class AuthorizationTest extends PluginFunctionalTest {
 
   @Test
   public void testApplyForInvitation() {
-    Response response = GET("/Authorization/applyForInvitation?userName=netmau5&url=http://blog.sparkmuse.com");
+    Response response = GET("/Authorization/applyForInvitation?application.userName=netmau5&application.url=http://blog.sparkmuse.com");
     assertIsOk(response);
 
     UserApplication model = datastore.find().type(UserApplication.class)

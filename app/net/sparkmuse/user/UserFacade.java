@@ -4,10 +4,7 @@ import com.google.inject.Inject;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
-import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.Entity;
-import net.sparkmuse.data.entity.UserVote;
-import net.sparkmuse.data.entity.UserProfile;
+import net.sparkmuse.data.entity.*;
 import net.sparkmuse.ajax.InvalidRequestException;
 
 import java.util.Set;
@@ -80,8 +77,8 @@ public class UserFacade {
     return userDao.update(profile);
   }
 
-  public void applyForInvitation(final String userName, final String url) {
-    userDao.saveApplication(userName, url);
+  public void applyForInvitation(final UserApplication userApplication) {
+    userDao.saveApplication(userApplication);
   }
 
   public void recordUpVote(final Votable votable, final Long userId) {

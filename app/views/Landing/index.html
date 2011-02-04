@@ -151,12 +151,11 @@
               <div class="input-wrapper"><input type="text" name="url" value="http://"/></div>
             </div>
 
-            <!--<div class="field">-->
-              <!--<label>Where is your speciality?</label>-->
-              <!--<select name="speciality">-->
-                <!--<option value="MARKETING">Marketing</option>-->
-              <!--</select>-->
-            <!--</div>-->
+            <div class="field">
+              <label>Email <span class="subtext">(Optional, we will cc your invitation here)</span></label>
+              <div class="input-wrapper"><input type="text" name="email" value=""/></div>
+            </div>
+            
           </fieldset>
 
          <div class="control-bar">
@@ -191,10 +190,11 @@
       application.css("display", "none");
       application.html($("#thanks-for-applying").html());
       application.fadeIn(1000);
-      return {
+      return { application: {
         userName: appForm.userName.value,
-        url: appForm.url.value
-      };
+        url: appForm.url.value,
+        email: appForm.email.value
+      }};
     });
 
     $.preload([

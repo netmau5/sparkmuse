@@ -8,5 +8,6 @@ public class UserApplication extends Entity<UserApplication> {
 
   public String userName;
   public String url;
+  public String email;
 
 }

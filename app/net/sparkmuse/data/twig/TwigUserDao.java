@@ -100,10 +100,7 @@ public class TwigUserDao extends TwigDao implements UserDao {
     return helper.getUsers(ids);
   }
 
-  public void saveApplication(String userName, String url) {
-    UserApplication app = new UserApplication();
-    app.userName = userName;
-    app.url = url;
+  public void saveApplication(UserApplication app) {
     datastore.store(app);
   }
 
