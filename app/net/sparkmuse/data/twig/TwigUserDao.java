@@ -84,6 +84,12 @@ public class TwigUserDao extends TwigDao implements UserDao {
     );
   }
 
+  public UserApplication findUserApplicationBy(String userName) {
+    return helper.only(datastore.find()
+        .type(UserApplication.class)
+        .addFilter("userName", EQUAL, userName.toLowerCase()));
+  }
+
   public List<UserProfile> getAllProfiles() {
     return helper.all(datastore.find().type(UserProfile.class));
   }
@@ -101,6 +107,8 @@ public class TwigUserDao extends TwigDao implements UserDao {
   }
 
   public void saveApplication(UserApplication app) {
+    //make sure application usernames are stored in lowercase for easy queries
+    app.userName = app.userName.toLowerCase();
     datastore.store(app);
   }
 

@@ -63,8 +63,8 @@ public class ActivityUpdateTask extends Task<Post> {
     final UserProfile sparkAuthorProfile = getUserProfile(spark.getAuthor());
     if (sparkAuthorProfile.hasEmail() && !isSamePerson(post.getAuthor(), spark.getAuthor())) {
       Logger.debug("Sending SparkActivityUpdate to [" + sparkAuthorProfile.getEmail() + "]");
-      final SparkActivityUpdate update = new SparkActivityUpdate(sparkAuthorProfile, spark, post);
-      mailService.sendMessage(prepareEmail(update));
+      final ActivityUpdate update = ActivityUpdate.newSparkActivityUpdate(sparkAuthorProfile, spark, post);
+      mailService.prepareAndSendMessage(update);
     }
 
     if (null != post.getInReplyToId()) {
@@ -76,8 +76,8 @@ public class ActivityUpdateTask extends Task<Post> {
           !isSamePerson(parentPost.getAuthor(), post.getAuthor()) && //a reply to my own post
           !isSamePerson(parentPost.getAuthor(), spark.getAuthor())) { //updatee is not Spark author (already got update above)
         Logger.debug("Sending PostActivityUpdate to [" + parentPostAuthorProfile.getEmail() + "]");
-        final PostActivityUpdate update = new PostActivityUpdate(parentPostAuthorProfile, spark, post);
-        mailService.sendMessage(prepareEmail(update));
+        final ActivityUpdate update = ActivityUpdate.newPostActivityUpdate(parentPostAuthorProfile, spark, post);
+        mailService.prepareAndSendMessage(update);
       }
 
       //person has replied to a post you replied to
@@ -94,8 +94,8 @@ public class ActivityUpdateTask extends Task<Post> {
           final UserProfile siblingPostAuthorProfile = getUserProfile(sibling.getAuthor());
           if (siblingPostAuthorProfile.hasEmail()) {
             Logger.debug("Sending PostActivityUpdate to [" + siblingPostAuthorProfile + "]");
-            final PostActivityUpdate update = new SiblingPostActivityUpdate(siblingPostAuthorProfile, spark, post);
-            mailService.sendMessage(prepareEmail(update));
+            final ActivityUpdate update = ActivityUpdate.newSiblingPostActivityUpdate(siblingPostAuthorProfile, spark, post);
+            mailService.prepareAndSendMessage(update);
           }
         }
       }
@@ -131,25 +131,6 @@ public class ActivityUpdateTask extends Task<Post> {
     spark = datastore.load(SparkVO.class, post.getSparkId());
     cache.set(spark);
     return spark;
-  }
-
-  private Email prepareEmail(ActivityUpdate update) {
-    final Template template = TemplateLoader.load("Mail/ActivityUpdate.html");
-    final Map<String, Object> args = Maps.newHashMap();
-    args.put("update", update);
-    final String content = template.render(args);
-
-    try {
-      HtmlEmail email = new HtmlEmail();
-      email.addTo(update.getToEmail());
-      email.addBcc("dave@sparkmuse.com");
-      email.setFrom("noreply@sparkmuse.com", "Sparkmuse");
-      email.setSubject(update.getSubject());
-      email.setHtmlMsg(content);
-      return email;
-    } catch (EmailException e) {
-      throw new RuntimeException(e);
-    }
   }
 
 }

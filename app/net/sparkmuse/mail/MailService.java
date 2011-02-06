@@ -9,5 +9,7 @@ import org.apache.commons.mail.Email;
 public interface MailService {
 
   void sendMessage(Email message);
+
+  void prepareAndSendMessage(EmailTemplate template);
   
 }

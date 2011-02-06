@@ -6,9 +6,13 @@ import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.ajax.InvalidRequestException;
+import net.sparkmuse.mail.MailService;
+import net.sparkmuse.mail.InvitationEmail;
 
 import java.util.Set;
 import java.util.List;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,12 +25,14 @@ public class UserFacade {
   private final UserDao userDao;
   private final Cache cache;
   private final TwitterService twitterService;
+  private final MailService mailService;
 
   @Inject
-  public UserFacade(UserDao userDao, TwitterService twitterService, Cache cache) {
+  public UserFacade(UserDao userDao, MailService mailService, TwitterService twitterService, Cache cache) {
     this.userDao = userDao;
     this.cache = cache;
     this.twitterService = twitterService;
+    this.mailService = mailService;
   }
 
   public OAuthAuthenticationRequest beginAuthentication() {
@@ -115,19 +121,36 @@ public class UserFacade {
     final UserProfile inviterProfile = getUserProfile(inviter.getUserName());
     if (inviterProfile.getInvites() > 0) {
 
-      final UserProfile newUserProfile = createUser(friend.startsWith("@") ? friend.substring(1) : friend);
+      String friendUserName = friend.startsWith("@") ? friend.substring(1) : friend;
+      final UserProfile newUserProfile = createUser(friendUserName);
       final UserVO newUser = newUserProfile.getUser();
 
       if (newUser.getAccessLevel().hasAuthorizationLevel(AccessLevel.USER)) {
         throw new InvalidRequestException("The user you invited is already a member, save that invite!");
       }
 
+      //see if user already applied
+      UserApplication app = userDao.findUserApplicationBy(friendUserName);
+
+      //give new user access
       newUser.setAccessLevel(AccessLevel.USER);
       userDao.store(newUser);
 
+      //update remaining invites of inviter
       final int remainingInvites = inviterProfile.getInvites() - 1;
       inviterProfile.setInvites(remainingInvites);
+      //update email if available
+      if (StringUtils.isNotBlank(app.email)) newUserProfile.setEmail(app.email);
       updateProfile(inviterProfile);
+
+      //email new user a notification
+      if (StringUtils.isNotBlank(app.email)) {
+        mailService.prepareAndSendMessage(new InvitationEmail(
+            inviter.getUserName(),
+            friendUserName,
+            app.email
+        ));
+      }
 
       return remainingInvites;
     }

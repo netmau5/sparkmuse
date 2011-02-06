@@ -1,25 +1,20 @@
 package controllers;
 
 import play.mvc.With;
-import play.mvc.Router;
 import play.data.validation.Validation;
 import filters.AdminAuthorizationFilter;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
-import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.user.UserFacade;
-import net.sparkmuse.mail.ActivityUpdate;
 
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import com.google.code.twig.ObjectDatastore;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import java.util.List;
-import java.util.HashMap;
 import java.util.Collection;
 
 /**

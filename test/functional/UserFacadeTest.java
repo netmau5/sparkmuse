@@ -7,6 +7,7 @@ import net.sparkmuse.data.entity.UserApplication;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.data.entity.Expertise;
+import net.sparkmuse.data.util.AccessLevel;
 import org.junit.Before;
 import org.junit.After;
 import org.junit.Test;
@@ -75,6 +76,27 @@ public class UserFacadeTest extends PluginFunctionalTest {
     MatcherAssert.assertThat(testProfile.getInvites(), equalTo(20));
     MatcherAssert.assertThat(testProfile.getDisplayBio(), equalTo("sup!"));
     MatcherAssert.assertThat(testProfile.getExpertises(), contains(Expertise.BIG_DATA));
+  }
+
+  @Test
+  public void shouldInviteFriend() {
+    //inviter
+    UserProfile inviterProfile = userFacade.createUser("Dave");
+    userFacade.updateUser(inviterProfile.getUser().getId(), AccessLevel.USER, 10);
+
+    //friend
+    UserApplication app = new UserApplication();
+    app.userName = "Peter";
+    app.email = "djafaricom@gmail.com";
+    userFacade.applyForInvitation(app);
+
+    //do invite
+    int remainingInvites = userFacade.inviteFriend(inviterProfile.getUser(), app.userName);
+
+    MatcherAssert.assertThat(remainingInvites, equalTo(9));
+    UserProfile newUserProfile = userFacade.getUserProfile("Peter");
+    MatcherAssert.assertThat(newUserProfile.getUser().getAccessLevel(), equalTo(AccessLevel.USER));
+    MatcherAssert.assertThat(newUserProfile.getEmail(), equalTo("djafaricom@gmail.com"));
   }
 
 

@@ -27,6 +27,8 @@ public interface UserDao {
 
   UserProfile findUserProfileBy(String userName);
 
+  UserApplication findUserApplicationBy(String userName);
+
   List<UserProfile> getAllProfiles();
 
   UserProfile createUser(String userName);
