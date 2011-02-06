@@ -171,7 +171,7 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
       .comment blockquote > .input-wrapper { margin-bottom: 1em; }
 
-      .comment blockquote textarea { height: 100px; }
+      .comment blockquote textarea { height: 175px; }
 
   .comment .replies { margin-left: 1em; padding-left: 1em; border-left: 2px solid #f1f1f1; }
 
