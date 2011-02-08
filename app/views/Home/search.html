@@ -194,8 +194,7 @@
           <div class="alt">
             #{nameTag user: spark.author /} &nbsp;&middot;&nbsp;
 
-            #{if !spark.created.equals(spark.edited)} Updated ${spark.edited.format()} #{/if}
-            #{if !spark.edited || spark.created.equals(spark.edited)} Created ${spark.created.format()} #{/if}
+            Created ${spark.created.format()}
           </div>
 
           <div class="tags">#{list items: spark.tags, as: 'tag'}<span class="tag">${tag}</span>#{/list}<div class="clear"></div></div>
