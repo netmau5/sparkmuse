@@ -70,7 +70,7 @@ public class JCache implements Cache {
 
     Logger.info("Key [" + key + "], Type [" + clazz + "]");
 
-    return clazz.cast(unwrap(get(key)));
+    return clazz.cast(get(key));
   }
 
   public Object get(String key) {
