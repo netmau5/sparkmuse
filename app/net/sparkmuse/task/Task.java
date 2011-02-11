@@ -94,6 +94,7 @@ public abstract class Task<T extends Entity> {
     return datastore.find().type(Migration.class)
         .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.STARTED.toString())
         .addFilter("taskName", Query.FilterOperator.EQUAL, getTaskName())
+        .addSort("started", Query.SortDirection.DESCENDING)
         .fetchMaximum(1)
         .returnAll()
         .now()
