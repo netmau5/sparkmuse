@@ -259,7 +259,7 @@ SM.formSubmitModalClose = function(){
  * them to invoke a RESTful request ansychronously.  Until the response is received, the button
  * will be issue additional requests.
  *
- * href:      #[url + query string]- a GET request is made to this address
+ * href:      #![url + query string]- a GET request is made to this address
  * callback:  JS function to be called upon completion, will be passed three parameters:
  *            a status code, a request query parameters map, and a response object as json if given
  */
@@ -286,11 +286,11 @@ $(document).ready(function() {
     }
   }
 
-  $("a[href^='#']").live("click", function(e){
+  $("a[href^='#!']").live("click", function(e){
     e.stopPropagation();
     var el = $(this);
 
-    if (el.attr("href").length > 1) {
+    if (el.attr("href").length > 2) {
       if (!el.attr("active") || el.attr("active") === "false") {
         var request = queryStringToMap(el.attr("href"));
         var callback = function(response, desc, xmlRequest) {
@@ -303,7 +303,7 @@ $(document).ready(function() {
 
         el.attr("active", "true");
         var parms = {
-          url: el.attr("href").substring(1),
+          url: el.attr("href").substring(2),
           success: callback,
           error: callback,
           dataType: "json",

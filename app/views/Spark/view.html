@@ -5,7 +5,7 @@
 
 <div class="prepend-1 span-22 append-1 first last page-title">
 
-  <a href="#@{User.vote(spark.class.name, spark.id)}" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
+  <a href="#!@{User.vote(spark.class.name, spark.id)}" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
 
   <h2>
     <a href="@{Spark.view(spark.id)}">${spark.title}</a>
@@ -26,7 +26,7 @@
 
     <div class="spark-details">
     <div class="spark-details-inner">
-      <a href="#%{ if(!isLiked){ }%@{User.vote(spark.class.name, spark.id)}%{ } }%"
+      <a href="#!%{ if(!isLiked){ }%@{User.vote(spark.class.name, spark.id)}%{ } }%"
          callback="SM.LikedCallback"
          class='votes ${userVotes.hasUpVoted(spark) ? "liked" : ""}'>${spark.votes}</a>
       <table>

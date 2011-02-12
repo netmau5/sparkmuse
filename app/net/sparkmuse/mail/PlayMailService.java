@@ -6,10 +6,13 @@ import org.apache.commons.mail.EmailException;
 import play.libs.Mail;
 import play.templates.Template;
 import play.templates.TemplateLoader;
+import play.Play;
+import play.Logger;
 
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import net.sparkmuse.common.Templates;
 
 /**
  * @author neteller
@@ -18,7 +21,12 @@ import com.google.common.collect.Maps;
 public class PlayMailService implements MailService {
 
   public void sendMessage(Email message) {
-    Mail.send(message);
+    if ("true".equals(Play.configuration.getProperty("mail.send"))) {
+      Mail.send(message);
+    }
+    else {
+      Logger.info("Mail service received message for sending but [mail.send] configuration disabled: " + message);
+    }
   }
 
   public void prepareAndSendMessage(EmailTemplate template) {
@@ -26,10 +34,7 @@ public class PlayMailService implements MailService {
   }
 
   Email prepareEmail(EmailTemplate update) {
-    final Template template = TemplateLoader.load(update.getTemplate());
-    final Map<String, Object> args = Maps.newHashMap();
-    args.put("update", update);
-    final String content = template.render(args);
+    final String content = Templates.render(update);
 
     try {
       HtmlEmail email = new HtmlEmail();

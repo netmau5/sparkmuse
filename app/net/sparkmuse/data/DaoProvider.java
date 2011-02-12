@@ -32,4 +32,9 @@ public class DaoProvider {
   public SparkDao getSparkDao() {
     return sparkDao;
   }
+
+  public CrudDao getCrudDao() {
+    return userDao;
+  }
+
 }

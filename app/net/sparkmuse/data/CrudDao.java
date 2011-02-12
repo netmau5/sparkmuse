@@ -11,5 +11,8 @@ import java.util.List;
  */
 public interface CrudDao {
   <T extends Entity<T>> List<T> read(FindCommand.RootFindCommand<T> findCommand);
+
   <T extends Entity<T>> T store(T entity);
+
+  <T extends Entity<T>> T load(Class<T> entityClass, Long id);
 }

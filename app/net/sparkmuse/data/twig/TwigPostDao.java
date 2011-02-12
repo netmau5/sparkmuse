@@ -1,6 +1,7 @@
 package net.sparkmuse.data.twig;
 
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
+import com.google.appengine.api.datastore.Query;
 import com.google.inject.Inject;
 import com.google.common.collect.*;
 import com.google.common.base.Function;
@@ -31,6 +32,14 @@ public class TwigPostDao extends TwigDao implements PostDao {
     ));
   }
 
+  public List<Post> findSiblings(Post post) {
+    if (null == post.getInReplyToId()) return null;
+    return datastore.find().type(Post.class)
+        .addFilter("inReplyToId", Query.FilterOperator.EQUAL, post.getInReplyToId())
+        .fetchNextBy(50)
+        .returnAll()
+        .now();
+  }
 
   private Collection<Post> applyHierarchy(final List<Post> posts) {
     ImmutableMap<Long, Post> postById = Maps.uniqueIndex(posts, new Function<Post, Long>() {

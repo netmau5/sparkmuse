@@ -1,10 +1,12 @@
 package net.sparkmuse.mail;
 
+import net.sparkmuse.common.Template;
+
 /**
  * @author neteller
  * @created: Jan 23, 2011
  */
-public interface EmailTemplate {
+public interface EmailTemplate extends Template {
 
   /**
    * Email address of recipient.
@@ -19,13 +21,6 @@ public interface EmailTemplate {
    * @return
    */
   String getSubject();
-
-  /**
-   * Template of email
-   *
-   * @return
-   */
-  String getTemplate();
 
   /**
    * Person this email is being sent to.

@@ -15,12 +15,12 @@ import play.Logger;
  * @author neteller
  * @created: Jan 22, 2011
  */
-public class UpdateUserStatisticsTask extends Task<UserVO> {
+public class UpdateUserStatisticsTransformationTask extends TransformationTask<UserVO> {
 
   private final ObjectDatastore datastore;
 
   @Inject
-  public UpdateUserStatisticsTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
+  public UpdateUserStatisticsTransformationTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
     super(cache, batchService, datastore);
     this.datastore = datastore;
   }

@@ -5,6 +5,10 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
 import org.apache.commons.lang.StringUtils;
 
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+
 /**
  * @author neteller
  * @created: Feb 5, 2011
@@ -54,6 +58,12 @@ public class ActivityUpdate implements EmailTemplate {
 
   public String getTemplate() {
     return "Mail/ActivityUpdate.html";
+  }
+
+  public Map<String, Object> getTemplateArguments() {
+    final Map<String, Object> args = Maps.newHashMap();
+    args.put("update", this);
+    return args;
   }
 
   public String getToEmail() {

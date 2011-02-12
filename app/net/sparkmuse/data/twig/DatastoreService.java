@@ -14,6 +14,7 @@ import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.CacheKeyFactory;
 
 import java.util.*;
+import java.util.concurrent.Future;
 
 import org.apache.commons.collections.CollectionUtils;
 

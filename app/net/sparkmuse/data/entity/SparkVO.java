@@ -4,6 +4,7 @@ import net.sparkmuse.user.Votable;
 import net.sparkmuse.discussion.SparkRanking;
 import net.sparkmuse.common.Dateable;
 import net.sparkmuse.client.NoScriptCheck;
+import net.sparkmuse.activity.Notifiable;
 
 import java.util.List;
 
@@ -19,7 +20,8 @@ import com.google.appengine.api.datastore.Text;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public class SparkVO extends OwnedEntity<SparkVO> implements Votable, Dateable {
+public class SparkVO extends OwnedEntity<SparkVO> 
+    implements Votable, Dateable, Notifiable {
 
   @Required
   private String title;
@@ -56,6 +58,8 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable, Dateable {
   private double rating;
 
   private int postCount;
+
+  private boolean notified;
 
   public enum Stage {
     NEW,
@@ -190,5 +194,13 @@ public class SparkVO extends OwnedEntity<SparkVO> implements Votable, Dateable {
 
   public void setEdited(DateTime edited) {
     this.edited = edited;
+  }
+
+  public boolean isNotified() {
+    return notified;
+  }
+
+  public void setNotified(boolean notified) {
+    this.notified = notified;
   }
 }

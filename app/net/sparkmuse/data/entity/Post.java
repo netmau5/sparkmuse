@@ -4,6 +4,7 @@ import net.sparkmuse.user.Votable;
 import net.sparkmuse.common.Dateable;
 import net.sparkmuse.common.NullTo;
 import net.sparkmuse.client.NoScriptCheck;
+import net.sparkmuse.activity.Notifiable;
 import org.joda.time.DateTime;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -22,7 +23,8 @@ import play.data.validation.CheckWith;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public class Post extends OwnedEntity<Post> implements Votable, Dateable {
+public class Post extends OwnedEntity<Post>
+    implements Votable, Dateable, Notifiable {
 
   @Store(false) private List<Post> replies; //underlying types must not be immutable for Play validation
   private Long inReplyToId;
@@ -51,6 +53,8 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
   
   private List<Offer> offers;
   private String leadingQuestion;
+
+  private boolean notified;
 
   public Post() {
     this.replies = Lists.newArrayList();
@@ -160,6 +164,14 @@ public class Post extends OwnedEntity<Post> implements Votable, Dateable {
 
   public void setLeadingQuestion(String leadingQuestion) {
     this.leadingQuestion = leadingQuestion;
+  }
+
+  public boolean isNotified() {
+    return notified;
+  }
+
+  public void setNotified(boolean notified) {
+    this.notified = notified;
   }
   
 }

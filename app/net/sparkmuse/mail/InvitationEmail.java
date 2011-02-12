@@ -1,6 +1,8 @@
 package net.sparkmuse.mail;
 
-import net.sparkmuse.data.entity.UserProfile;
+import com.google.common.collect.Maps;
+
+import java.util.Map;
 
 /**
  * @author neteller
@@ -38,4 +40,9 @@ public class InvitationEmail implements EmailTemplate {
     return inviter;
   }
 
+  public Map<String, Object> getTemplateArguments() {
+    final Map<String, Object> args = Maps.newHashMap();
+    args.put("update", this);
+    return args;
+  }
 }

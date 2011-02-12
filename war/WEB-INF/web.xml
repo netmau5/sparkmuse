@@ -8,7 +8,7 @@
 
   <context-param>
     <param-name>play.id</param-name>
-    <param-value>prod</param-value>
+    <param-value>staging</param-value>
   </context-param>
 
   <listener>
@@ -37,7 +37,7 @@
   
   <security-constraint>
     <web-resource-collection>
-      <url-pattern>/task/*</url-pattern>
+      <url-pattern>/Tasks/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>

@@ -15,6 +15,8 @@ import com.google.inject.internal.Maps;
 import com.google.common.base.Functions;
 import com.google.common.collect.Iterables;
 
+import java.util.Map;
+
 /**
  * @author neteller
  * @created: Feb 5, 2011
@@ -35,6 +37,11 @@ public class PlayMailServiceTest extends UnitTest {
 
       public String getTemplate() {
         return "Mail/TestTemplate.html";
+      }
+
+      public Map<String, Object> getTemplateArguments() {
+        final Map<String, Object> args = Maps.newHashMap();
+        return args;
       }
 
       public String getUpdateeName() {

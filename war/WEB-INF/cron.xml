@@ -11,13 +11,13 @@
     <schedule>every 6 hours</schedule>
   </cron>
   <cron>
-    <url>/Tasks/execute?taskClassName=net.sparkmuse.task.UpdateUserStatisticsTask</url>
+    <url>/Tasks/execute?taskClassName=net.sparkmuse.task.UpdateUserStatisticsTransformationTask</url>
     <description>Repair Spark comment count</description>
     <schedule>every 1 hours</schedule>
   </cron>
   <cron>
-    <url>/Tasks/execute?taskClassName=net.sparkmuse.task.ActivityUpdateTask</url>
+    <url>/Tasks/execute?taskClassName=net.sparkmuse.task.ActivityUpdateTransformationTask</url>
     <description>Send activity update emails</description>
-    <schedule>every 15 minutes</schedule>
+    <schedule>every 3 minutes</schedule>
   </cron>
 </cronentries>

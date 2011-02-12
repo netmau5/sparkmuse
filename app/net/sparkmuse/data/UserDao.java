@@ -14,7 +14,7 @@ import java.util.List;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public interface UserDao {
+public interface UserDao extends CrudDao {
   UserVO findOrCreateUserBy(UserLogin login);
 
   /**
@@ -48,5 +48,4 @@ public interface UserDao {
   Set<UserVote> findVotesFor(Set<Votable> votables, UserVO user);
 
   <T extends Entity<T>> T update(T entity);
-  <T extends Entity<T>> T store(T entity);
 }

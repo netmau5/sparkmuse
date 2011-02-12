@@ -1,38 +1,26 @@
 package net.sparkmuse.task;
 
-import net.sparkmuse.data.twig.BatchDatastoreService;
-import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.Migration;
-import net.sparkmuse.common.Cache;
-import com.google.common.base.Function;
-import com.google.common.base.Joiner;
+import com.google.code.twig.ObjectDatastore;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Query;
 import com.google.inject.internal.Nullable;
-import com.google.code.twig.FindCommand;
-import com.google.code.twig.ObjectDatastore;
-
-import java.util.List;
-
+import com.google.common.base.Joiner;
 import play.Logger;
 import org.joda.time.DateTime;
 
-/**
- * Base class for tasks.
- *
- * @author neteller
- * @created: Jan 22, 2011
- */
-public abstract class Task<T extends Entity> {
+import java.util.List;
 
-  private final Cache cache;
-  private final BatchDatastoreService batchService;
+/**
+ * @author neteller
+ * @created: Feb 11, 2011
+ */
+public abstract class Task {
+
   private final ObjectDatastore datastore;
   private Cursor lastCursor;
 
-  public Task(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
-    this.cache = cache;
-    this.batchService = batchService;
+  public Task(ObjectDatastore datastore) {
     this.datastore = datastore;
   }
 
@@ -42,16 +30,12 @@ public abstract class Task<T extends Entity> {
 
   protected abstract String getTaskName();
 
-  protected abstract T transform(T t);
 
-  protected abstract FindCommand.RootFindCommand<T> find(boolean isNew);
-
-
-  public Cursor execute(@Nullable Cursor cursor) {
+  public final Cursor execute(@Nullable Cursor cursor) {
     if (null == cursor) storeBegin();
 
     try {
-      lastCursor = batchService.transform(find(null == cursor), createTransformer(), cursor);
+      lastCursor = runTask(cursor);
     } catch (Throwable e) {
       storeError(e);
       throw new RuntimeException(e);
@@ -61,7 +45,9 @@ public abstract class Task<T extends Entity> {
     return lastCursor;
   }
 
-  public void storeBegin() {
+  protected abstract Cursor runTask(@Nullable Cursor cursor);
+
+  private void storeBegin() {
     Logger.info("Beginning task [" + this.getClass() + "].");
 
     final Migration migration = new Migration(getTaskName(), Migration.State.STARTED);
@@ -69,7 +55,7 @@ public abstract class Task<T extends Entity> {
     datastore.store(migration);
   }
 
-  public void storeEnd() {
+  private void storeEnd() {
     Logger.info("Completed task [" + this.getClass() + "].");
 
     final Migration migration = currentMigration();
@@ -79,7 +65,7 @@ public abstract class Task<T extends Entity> {
     datastore.update(migration);
   }
 
-  public void storeError(Throwable e) {
+  private void storeError(Throwable e) {
     Logger.info("Error in task [" + this.getClass() + "].");
 
     final Migration migration = currentMigration();
@@ -110,16 +96,6 @@ public abstract class Task<T extends Entity> {
         .returnAll()
         .now();
     return migrationList.size() > 0 ? migrationList.get(0) : null;
-  }
-
-  private Function<T, T> createTransformer() {
-    return new Function<T, T>() {
-      public T apply(T t) {
-        final T entity = transform(t);
-        cache.delete(entity);
-        return entity;
-      }
-    };
   }
 
 }
