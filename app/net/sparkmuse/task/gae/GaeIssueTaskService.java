@@ -9,6 +9,7 @@ import static com.google.appengine.api.labs.taskqueue.TaskOptions.Builder.*;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.common.collect.Maps;
 import com.google.inject.Inject;
+import com.google.inject.internal.Nullable;
 import play.mvc.Router;
 
 import java.util.Map;
@@ -66,10 +67,10 @@ public class GaeIssueTaskService implements IssueTaskService {
     ).url));
   }
 
-  public <T extends Task> void issue(Class<T> taskClass, Cursor cursor) {
+  public <T extends Task> void issue(Class<T> taskClass, @Nullable Cursor cursor) {
     final Map<String,Object> parameters = Maps.newHashMap();
     parameters.put("taskClassName", taskClass);
-    parameters.put("cursor", cursor.toWebSafeString());
+    if (null != cursor) parameters.put("cursor", cursor.toWebSafeString());
     queue.add(url(Router.reverse(
         "Tasks.execute",
         parameters
