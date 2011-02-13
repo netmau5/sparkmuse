@@ -2,7 +2,7 @@
 #{set title:'Sparkmuse: the people!' /}
 #{set nav:'PEOPLE' /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/Home/people.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/People/people.css'}" type="text/css" />
 
 <div class="page-title prepend-1 span-22 append-1 first last">
 
@@ -38,7 +38,7 @@
             #{if profile.name}
               <div class="name">${profile.name}</div>
             #{/if}
-            <a href="http://www.twitter.com/#/${profile.user.userName}" target="_blank">@${profile.user.userName}</a>
+            <a href="http://www.twitter.com/people.html#/${profile.user.userName}" target="_blank">@${profile.user.userName}</a>
           </td>
           <td>${profile.user.reputation}</td>
           <td>${profile.user.posts}</td>

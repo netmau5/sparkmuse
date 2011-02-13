@@ -41,6 +41,7 @@ public class ActivityStream implements Serializable {
   }
 
   public DateTime getOldestTime() {
+    if (this.activities.size() == 0) return new DateTime();
     return Iterables.getLast(this.activities).getCreated();
   }
 

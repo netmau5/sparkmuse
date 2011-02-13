@@ -43,12 +43,4 @@ public class Home extends SparkmuseController {
     render(user);
   }
 
-  public static void people() {
-    if (Play.mode == Play.Mode.DEV) {
-      List<UserProfile> profiles = userFacade.getAllProfiles();
-      render(profiles);
-    }
-    index();
-  }
-
 }

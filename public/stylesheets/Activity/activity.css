@@ -1,0 +1,36 @@
+$LOGO_LIGHT_YELLOW: #fdf9d2;
+$LOGO_YELLOW: #f5e21f;
+$LOGO_DARK_YELLOW: #FFC91F;
+$LOGO_BLUE: #69D2E7;
+$LOGO_LIGHT_BLUE: #A7DBD8;
+$LOGO_DARK_BLUE: #007160;
+$LOGO_ORANGE: #FA6900;
+$LOGO_LIGHT_ORANGE: #F38630;
+$COLOR_NEUTRAL: #E0E4CC;
+$COLOR_LIGHT_NEUTRAL: #fefffa;
+$COLOR_DARK_NEUTRAL: #d1d9a9;
+$COLOR_ALT: #666;
+
+$FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
+
+.page-title {
+  text-indent: -9999px;
+}
+
+.title-bar * { float: left; }
+.title-bar h1 {
+  background: url("../../images/users_heading.png") 0 50% no-repeat;
+  width: 150px;
+  margin: 28px 5px 0 0;
+}
+.title-bar h2 {
+  background: url("../../images/users_heading.png") -170px 50% no-repeat;
+  width: 250px;
+  margin: 28px 5px 0 0;
+}
+.title-bar {
+  margin-bottom: 0.5em;
+  border-bottom: 1px dotted rgba(0,0,0,0.1);
+}
