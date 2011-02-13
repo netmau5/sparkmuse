@@ -552,6 +552,28 @@ input, textarea {
   margin-bottom: 1em; 
 }
 
+
+.stripe-yellow {
+  font-size: 1.4em;
+  background: url("../images/textures/stripe-yellow.png") top left repeat-x;
+  padding: 6px;
+  color: #806f00;
+}
+
+.stripe-orange {
+  font-size: 1.4em;
+  background: url("../images/textures/stripe-orange.png") top left repeat-x;
+  padding: 6px;
+  color: #85521c;
+}
+
+.stripe-blue {
+  font-size: 1.4em;
+  background: url("../images/textures/stripe-blue.png") top left repeat-x;
+  padding: 6px;
+  color: #2b8f70;
+}
+
 /* END <LIBRARY> */
 
 /* BEGIN <HEADER> */

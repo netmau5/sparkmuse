@@ -63,6 +63,7 @@ public class Activity extends Entity<Activity>
     activity.population = Population.EVERYONE;
 
     activity.summary = new ItemSummary(spark, spark.getAuthor(), "");
+    activity.created = spark.getCreated();
 
     return activity;
   }
@@ -83,6 +84,7 @@ public class Activity extends Entity<Activity>
 
     activity.sources = Sets.newHashSet(Source.PERSONAL);
     activity.summary = new ItemSummary(spark, spark.getAuthor(), "");
+    activity.created = spark.getCreated();
 
     return activity;
   }
@@ -102,6 +104,7 @@ public class Activity extends Entity<Activity>
     activity.population = Population.EVERYONE;
 
     activity.summary = new ItemSummary(spark, newPost.getAuthor(), "");
+    activity.created = newPost.getCreated();
 
     return activity;
   }
@@ -123,6 +126,7 @@ public class Activity extends Entity<Activity>
 
     activity.sources = Sets.newHashSet(Source.PERSONAL);
     activity.summary = new ItemSummary(spark, newPost.getAuthor(), "");
+    activity.created = newPost.getCreated();
 
     return activity;
   }
@@ -144,6 +148,7 @@ public class Activity extends Entity<Activity>
 
     activity.sources = Sets.newHashSet(Source.REPLY);
     activity.summary = new ItemSummary(spark, newPost.getAuthor(), "Reply to your Spark");
+    activity.created = newPost.getCreated();
 
     return activity;
   }
@@ -166,6 +171,7 @@ public class Activity extends Entity<Activity>
     
     activity.sources = Sets.newHashSet(Source.REPLY);
     activity.summary = new ItemSummary(spark, newPost.getAuthor(), "Reply to your post");
+    activity.created = newPost.getCreated();
 
     return activity;
   }
@@ -180,6 +186,14 @@ public class Activity extends Entity<Activity>
    */
   public static Activity newSiblingReplyPostActivity(SparkVO spark, Post siblingPost, Post newPost) {
     return newReplyPostActivity(spark, siblingPost, newPost);
+  }
+
+  public boolean isSpark() {
+    return this.kind == Kind.SPARK;
+  }
+
+  public boolean isPost() {
+    return this.kind == Kind.POST;
   }
 
   public Kind getKind() {

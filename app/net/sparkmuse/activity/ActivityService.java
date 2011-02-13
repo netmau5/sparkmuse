@@ -21,7 +21,7 @@ import com.google.inject.Inject;
  */
 public class ActivityService {
 
-  private static final String GLOBAL_ACTIVITY = "GLOBAL_ACTIVITY";
+  public static final String GLOBAL_ACTIVITY = "GLOBAL_ACTIVITY";
 
   private final DaoProvider daoProvider;
   private final Cache cache;

@@ -15,6 +15,35 @@
 
 <div class="page-canvas prepend-1 span-22 append-1 first last">
 
-we're going wide baby
+  <div class="activities">
+
+    #{list items: stream.activities, as:'activity'}
+
+      <div class="activity">
+      <div class="activity-inner">
+        <div class="title">
+          <img class="avatar" src="http://api.twitter.com/1/users/profile_image/${activity.summary.userName}.json?size=normal" alt="Twitter avatar"/>
+          #{if activity.isSpark()}
+            <h3 class="stripe-yellow">Spark</h3>
+          #{/if}
+          #{if activity.isPost()}
+            <h3 class="stripe-orange">Post</h3>
+          #{/if}
+          <a href="@{Spark.view(activity.summary.sparkId)}">${activity.summary.sparkTitle}</a>
+          <span class="alt">
+            ${activity.created.format()}
+            #{if activity.summary.note}
+              &nbsp;&middot;&nbsp;
+              ${activity.summary.note}
+            #{/if}
+          </span>
+        </div>
+        <div class="content"></div>
+      </div>
+      </div>
+
+    #{/list}
+
+  </div>
 
 </div>

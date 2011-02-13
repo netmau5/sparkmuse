@@ -34,3 +34,30 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   margin-bottom: 0.5em;
   border-bottom: 1px dotted rgba(0,0,0,0.1);
 }
+
+.activity {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+
+  -moz-box-shadow: 1px 1px 3px #b2b2b2;
+  -webkit-box-shadow: 1px 1px 3px #b2b2b2;
+  box-shadow: 1px 1px 3px #b2b2b2;
+
+  background: $COLOR_LIGHT_NEUTRAL;
+  border: 1px solid white;
+
+  float: left;
+  margin: 0 1em 1em 0;
+}
+
+.activity-inner {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+
+
+  border: 1px dashed #999;
+  margin: 4px;
+  padding: 8px;
+}

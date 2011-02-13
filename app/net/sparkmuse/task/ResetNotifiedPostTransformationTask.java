@@ -5,6 +5,8 @@ import net.sparkmuse.data.entity.Activity;
 import net.sparkmuse.data.entity.Migration;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.twig.BatchDatastoreService;
+import net.sparkmuse.common.Cache;
+import net.sparkmuse.activity.ActivityService;
 import com.google.code.twig.ObjectDatastore;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Cursor;
@@ -20,12 +22,14 @@ public class ResetNotifiedPostTransformationTask extends Task {
 
   private final ObjectDatastore datastore;
   private final BatchDatastoreService batchService;
+  private final Cache cache;
 
   @Inject
-  public ResetNotifiedPostTransformationTask(BatchDatastoreService batchService, ObjectDatastore datastore) {
+  public ResetNotifiedPostTransformationTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
     super(datastore);
     this.datastore = datastore;
     this.batchService = batchService;
+    this.cache = cache;
   }
 
   protected Cursor runTask(@Nullable Cursor cursor) {
@@ -60,12 +64,8 @@ public class ResetNotifiedPostTransformationTask extends Task {
         null
     );
 
+    cache.delete(ActivityService.GLOBAL_ACTIVITY);
     return null;
-  }
-
-  protected Post transform(Post post) {
-    post.setNotified(false);
-    return post;
   }
 
 }
