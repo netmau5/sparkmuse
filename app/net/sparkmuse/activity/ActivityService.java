@@ -53,7 +53,11 @@ public class ActivityService {
   }
 
   public void notify(SparkVO newSpark) {
-    Logger.warn("Spark activity updates not implemented");
+    store(Activity.newSparkActivity(newSpark), newSpark);
+    store(Activity.newUserSparkActivity(newSpark), newSpark);
+    
+    newSpark.setNotified(true);
+    daoProvider.getSparkDao().store(newSpark);
   }
 
   public void notify(Post newPost) {
@@ -62,6 +66,7 @@ public class ActivityService {
     final SparkVO spark = getSpark(newPost);
 
     store(Activity.newPostActivity(spark, newPost), newPost);
+    store(Activity.newUserPostActivity(spark, newPost), newPost);
 
     //if someone posted to my spark
     final UserProfile sparkAuthorProfile = getUserProfile(spark.getAuthor());
@@ -117,6 +122,9 @@ public class ActivityService {
 
   private void store(Activity activity, Notifiable notifiable) {
     if (!notifiable.isNotified()) {
+      //@todo
+      //in the future we will need to check for overlap.  right now Source.PERSONAL and Source.REPLY
+      //cannot overlap, but that will change with the implementation of Source.FOLLOWER
       daoProvider.getActivityDao().store(activity);
       cache.delete(GLOBAL_ACTIVITY);
     }

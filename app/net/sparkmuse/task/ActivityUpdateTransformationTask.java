@@ -2,26 +2,20 @@ package net.sparkmuse.task;
 
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.twig.BatchDatastoreService;
-import net.sparkmuse.data.twig.DatastoreUtils;
 import net.sparkmuse.common.Cache;
-import net.sparkmuse.common.CacheKeyFactory;
-import net.sparkmuse.mail.*;
 import net.sparkmuse.activity.ActivityService;
-import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
 import com.google.inject.Inject;
 import com.google.code.twig.FindCommand;
 import com.google.code.twig.ObjectDatastore;
 import com.google.appengine.api.datastore.Query;
-import play.Logger;
-
-import java.util.List;
 
 /**
  * @author neteller
  * @created: Jan 23, 2011
  */
 public class ActivityUpdateTransformationTask extends TransformationTask<Post> {
+
+  public static final String TASK_NAME = "Post Activity Update Task";
 
   private final ObjectDatastore datastore;
   private final ActivityService activityService;
@@ -34,7 +28,7 @@ public class ActivityUpdateTransformationTask extends TransformationTask<Post> {
   }
 
   protected String getTaskName() {
-    return "Post Activity Update Task";
+    return TASK_NAME;
   }
 
   @Override

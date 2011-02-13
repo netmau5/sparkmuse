@@ -28,8 +28,9 @@ public abstract class Task {
     return lastCursor == null;
   }
 
-  protected abstract String getTaskName();
-
+  protected String getTaskName() {
+    return this.getClass().getName();
+  }
 
   public final Cursor execute(@Nullable Cursor cursor) {
     if (null == cursor) storeBegin();

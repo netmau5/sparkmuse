@@ -26,8 +26,9 @@ public class Activity extends Entity<Activity>
   }
 
   public enum Source {
-    FOLLOWER,
-    REPLY
+//    FOLLOWER,
+    REPLY,
+    PERSONAL
   }
 
   //define composite key, should be indexed
@@ -52,6 +53,44 @@ public class Activity extends Entity<Activity>
    * A new post, visible as general activity to everyone.
    *
    * @param spark     Spark posted to
+   * @return
+   */
+  public static Activity newSparkActivity(SparkVO spark) {
+    Activity activity = new Activity();
+
+    activity.kind = Kind.SPARK;
+    activity.contentKey = spark.getId();
+    activity.population = Population.EVERYONE;
+
+    activity.summary = new ItemSummary(spark, spark.getAuthor(), "");
+
+    return activity;
+  }
+
+  /**
+   * A new post, visible as general activity to everyone.
+   *
+   * @param spark     Spark posted to
+   * @return
+   */
+  public static Activity newUserSparkActivity(SparkVO spark) {
+    Activity activity = new Activity();
+
+    activity.kind = Kind.SPARK;
+    activity.contentKey = spark.getId();
+    activity.population = Population.USER;
+    activity.userId = spark.getAuthor().getId();
+
+    activity.sources = Sets.newHashSet(Source.PERSONAL);
+    activity.summary = new ItemSummary(spark, spark.getAuthor(), "");
+
+    return activity;
+  }
+
+  /**
+   * A new post, visible as general activity to everyone.
+   *
+   * @param spark     Spark posted to
    * @param newPost   Post to the spark
    * @return
    */
@@ -62,7 +101,28 @@ public class Activity extends Entity<Activity>
     activity.contentKey = newPost.getId();
     activity.population = Population.EVERYONE;
 
-    activity.summary = new ItemSummary(spark, newPost.getAuthor());
+    activity.summary = new ItemSummary(spark, newPost.getAuthor(), "");
+
+    return activity;
+  }
+
+  /**
+   * A new post created by a user, should show as personal activity (me).
+   *
+   * @param spark     Spark posted to
+   * @param newPost   Post to the spark
+   * @return
+   */
+  public static Activity newUserPostActivity(SparkVO spark, Post newPost) {
+    Activity activity = new Activity();
+
+    activity.kind = Kind.POST;
+    activity.contentKey = newPost.getId();
+    activity.population = Population.USER;
+    activity.userId = newPost.getAuthor().getId();
+
+    activity.sources = Sets.newHashSet(Source.PERSONAL);
+    activity.summary = new ItemSummary(spark, newPost.getAuthor(), "");
 
     return activity;
   }
@@ -83,7 +143,7 @@ public class Activity extends Entity<Activity>
     activity.userId = spark.getAuthor().getId();
 
     activity.sources = Sets.newHashSet(Source.REPLY);
-    activity.summary = new ItemSummary(spark, newPost.getAuthor());
+    activity.summary = new ItemSummary(spark, newPost.getAuthor(), "Reply to your Spark");
 
     return activity;
   }
@@ -105,7 +165,7 @@ public class Activity extends Entity<Activity>
     activity.userId = inReplyTo.getAuthor().getId();
     
     activity.sources = Sets.newHashSet(Source.REPLY);
-    activity.summary = new ItemSummary(spark, newPost.getAuthor());
+    activity.summary = new ItemSummary(spark, newPost.getAuthor(), "Reply to your post");
 
     return activity;
   }
@@ -188,14 +248,16 @@ public class Activity extends Entity<Activity>
     private String userName; //twitter username
     private String sparkTitle;
     private Long sparkId;
+    private String note;
 
     public ItemSummary() {
     }
 
-    public ItemSummary(SparkVO spark, UserVO updateAuthor) {
+    public ItemSummary(SparkVO spark, UserVO updateAuthor, String note) {
       this.userName = updateAuthor.getUserName();
       this.sparkTitle = spark.getTitle();
       this.sparkId = spark.getId();
+      this.note = note;
     }
 
     public String getUserName() {
@@ -222,6 +284,13 @@ public class Activity extends Entity<Activity>
       this.sparkId = sparkId;
     }
 
+    public String getNote() {
+      return note;
+    }
+
+    public void setNote(String note) {
+      this.note = note;
+    }
   }
 
 }
