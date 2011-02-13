@@ -12,7 +12,8 @@ import net.sparkmuse.common.Dateable;
  * @author neteller
  * @created: Feb 10, 2011
  */
-public class Activity extends Entity<Activity> implements Dateable {
+public class Activity extends Entity<Activity>
+    implements Dateable, Comparable<Activity> {
 
   public enum Population {
     EVERYONE,
@@ -32,7 +33,7 @@ public class Activity extends Entity<Activity> implements Dateable {
   //define composite key, should be indexed
   private Kind kind;
   private Long contentKey;
-  private Population type;
+  private Population population;
   private Long userId; //if Population.USER
 
   private Set<Source> sources;
@@ -59,7 +60,7 @@ public class Activity extends Entity<Activity> implements Dateable {
 
     activity.kind = Kind.POST;
     activity.contentKey = newPost.getId();
-    activity.type = Population.EVERYONE;
+    activity.population = Population.EVERYONE;
 
     activity.summary = new ItemSummary(spark, newPost.getAuthor());
 
@@ -78,7 +79,7 @@ public class Activity extends Entity<Activity> implements Dateable {
 
     activity.kind = Kind.POST;
     activity.contentKey = newPost.getId();
-    activity.type = Population.USER;
+    activity.population = Population.USER;
     activity.userId = spark.getAuthor().getId();
 
     activity.sources = Sets.newHashSet(Source.REPLY);
@@ -100,7 +101,7 @@ public class Activity extends Entity<Activity> implements Dateable {
 
     activity.kind = Kind.POST;
     activity.contentKey = newPost.getId();
-    activity.type = Population.USER;
+    activity.population = Population.USER;
     activity.userId = inReplyTo.getAuthor().getId();
     
     activity.sources = Sets.newHashSet(Source.REPLY);
@@ -137,12 +138,12 @@ public class Activity extends Entity<Activity> implements Dateable {
     this.contentKey = contentKey;
   }
 
-  public Population getType() {
-    return type;
+  public Population getPopulation() {
+    return population;
   }
 
-  public void setType(Population type) {
-    this.type = type;
+  public void setPopulation(Population population) {
+    this.population = population;
   }
 
   public Long getUserId() {
@@ -175,6 +176,11 @@ public class Activity extends Entity<Activity> implements Dateable {
 
   public void setSummary(ItemSummary summary) {
     this.summary = summary;
+  }
+
+  public int compareTo(Activity activity) {
+    if (activity.kind == kind && activity.contentKey.equals(contentKey)) return 0;
+    else return activity.created.compareTo(created);
   }
 
   public static class ItemSummary {

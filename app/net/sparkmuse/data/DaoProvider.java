@@ -13,12 +13,14 @@ public class DaoProvider {
   private final PostDao postDao;
   private final UserDao userDao;
   private final SparkDao sparkDao;
+  private final ActivityDao activityDao;
 
   @Inject
-  public DaoProvider(PostDao postDao, UserDao userDao, SparkDao sparkDao) {
+  public DaoProvider(PostDao postDao, UserDao userDao, SparkDao sparkDao, ActivityDao activityDao) {
     this.postDao = postDao;
     this.userDao = userDao;
     this.sparkDao = sparkDao;
+    this.activityDao = activityDao;
   }
 
   public PostDao getPostDao() {
@@ -31,6 +33,10 @@ public class DaoProvider {
 
   public SparkDao getSparkDao() {
     return sparkDao;
+  }
+
+  public ActivityDao getActivityDao() {
+    return activityDao;
   }
 
   public CrudDao getCrudDao() {

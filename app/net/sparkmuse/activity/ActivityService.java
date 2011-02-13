@@ -21,6 +21,8 @@ import com.google.inject.Inject;
  */
 public class ActivityService {
 
+  private static final String GLOBAL_ACTIVITY = "GLOBAL_ACTIVITY";
+
   private final DaoProvider daoProvider;
   private final Cache cache;
   private final MailService mailService;
@@ -30,6 +32,24 @@ public class ActivityService {
     this.cache = cache;
     this.mailService = mailService;
     this.daoProvider = daoProvider;
+  }
+
+  public ActivityStream getActivity(UserVO user) {
+    ActivityStream globalActivity = getGlobalActivity();
+    ActivityStream userActivity = ActivityStream.builder(daoProvider.getActivityDao())
+        .forUser(user)
+        .after(globalActivity.getOldestTime())
+        .build();
+    return globalActivity.overlay(userActivity);
+  }
+
+  private ActivityStream getGlobalActivity() {
+    ActivityStream everyone = cache.get(GLOBAL_ACTIVITY, ActivityStream.class);
+    if (null == everyone) {
+      everyone = ActivityStream.builder(daoProvider.getActivityDao()).build();
+      cache.set(GLOBAL_ACTIVITY, everyone);
+    }
+    return everyone;
   }
 
   public void notify(SparkVO newSpark) {
@@ -92,12 +112,13 @@ public class ActivityService {
     }
 
     newPost.setNotified(true);
-    daoProvider.getCrudDao().store(newPost);
+    daoProvider.getPostDao().store(newPost);
   }
 
   private void store(Activity activity, Notifiable notifiable) {
     if (!notifiable.isNotified()) {
-      daoProvider.getCrudDao().store(activity);
+      daoProvider.getActivityDao().store(activity);
+      cache.delete(GLOBAL_ACTIVITY);
     }
   }
 
