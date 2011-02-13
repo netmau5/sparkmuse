@@ -68,12 +68,11 @@ public class GaeIssueTaskService implements IssueTaskService {
   }
 
   public <T extends Task> void issue(Class<T> taskClass, @Nullable Cursor cursor) {
-    final Map<String,Object> parameters = Maps.newHashMap();
-    parameters.put("taskClassName", taskClass);
-    if (null != cursor) parameters.put("cursor", cursor.toWebSafeString());
-    queue.add(url(Router.reverse(
-        "Tasks.execute",
-        parameters
-    ).url));
+    TaskOptions options = url(Router.reverse("Tasks.execute").url);
+
+    options.param("taskClassName", taskClass.toString());
+    if (null != cursor) options.param("cursor", cursor.toWebSafeString());
+
+    queue.add(options);
   }
 }
