@@ -196,6 +196,14 @@ public class Activity extends Entity<Activity>
     return this.kind == Kind.POST;
   }
 
+  public boolean isPersonal() {
+    return this.sources.contains(Source.PERSONAL);
+  }
+
+  public boolean isReply() {
+    return this.sources.contains(Source.REPLY);
+  }
+
   public Kind getKind() {
     return kind;
   }

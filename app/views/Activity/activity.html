@@ -15,11 +15,33 @@
 
 <div class="page-canvas prepend-1 span-22 append-1 first last">
 
-  <div class="activities">
+  <div class="options">
+    <h4>Filter:</h4>
+    <ul id="filters" class="floated option-set">
+      <li><a href="#" data-filter="*" class="selected">everything</a></li>
+      <li><a href="#" data-filter=".replies">replies</a></li>
+      <li><a href="#" data-filter=".you">you</a></li>
+    </ul>
+
+    <h4>Sort:</h4>
+    <ul id="sort" class="floated option-set">
+      <li><a href="#recency" class="selected">recency</a></li>
+      <li><a href="#kind">kind</a></li>
+    </ul>
+
+    <div class="clear"></div>
+  </div>
+
+  <div id="activities">
 
     #{list items: stream.activities, as:'activity'}
 
-      <div class="activity">
+      <div created="${activity.created.getMillis()}"
+           kind="${activity.kind}"
+          class="activity
+          #{if activity.isReply()} replies #{/if}
+          #{if activity.isPersonal()} you #{/if}
+          ">
       <div class="activity-inner">
         <div class="title">
           <table>
@@ -53,6 +75,51 @@
 
     #{/list}
 
+    <div class="clear"></div>
+
   </div>
 
 </div>
+
+<script type="text/javascript" src="@{'/public/javascripts/jquery/jquery.isotope.min.js'}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+    $('#activities').isotope({
+      // options
+      itemSelector: '.activity',
+      layoutMode: 'fitRows',
+      getSortData: {
+        kind: function($elem) {
+          return $elem.attr('kind');
+        },
+        recency: function( $elem ) {
+          return parseFloat($elem.attr("created"), 10);
+        }
+      }
+    });
+
+    $('#filters a').click(function(){
+      var selector = $(this).attr('data-filter');
+      $('#activities').isotope({ filter: selector });
+      return false;
+    });
+
+    $('#sort a').click(function(){
+      // get href attribute, minus the '#'
+      var sortName = $(this).attr('href').slice(1),
+          options = { sortBy: sortName };
+
+      if (sortName === "kind") { options.sortAscending = false; }
+      $('#activities').isotope(options);
+      return false;
+    });
+
+    $('.option-set > li > a').click(function(){
+      $(this).parent().parent().find("a").removeClass('selected');
+      $(this).addClass('selected');
+    })
+
+  });
+</script>
