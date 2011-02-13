@@ -27,6 +27,10 @@ public class Admin extends SparkmuseController {
   @Inject static ObjectDatastore datastore;
   @Inject static UserFacade userFacade;
 
+  public static final void home() {
+    render();
+  }
+
   public static final void manageFeedback(String key) {
     Feedback feedback = StringUtils.isEmpty(key) ? null : datastore.load(Feedback.class, key);
     List<Feedback> feedbacks = Lists.newArrayList(datastore.find(Feedback.class));

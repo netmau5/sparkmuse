@@ -19,6 +19,8 @@ GET         /spark/view/{sparkId}             Spark.view
 
 *           /activity/{action}                ActivityController.{action}
 
+*           /admin                            Admin.home
+
 GET         /feedback/{appName}               Application.feedback
 *           /{action}                         Application.{action}
 

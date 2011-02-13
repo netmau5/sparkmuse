@@ -1,13 +1,27 @@
 #{extends 'bodytemplate.html' /}
 #{set title: 'Users' /}
 
-<div class="page-canvas prepend-1 span-22 append-1">
+<style type="text/css">
+  .content-container {
+    padding: 1em 10px 0 10px;
+  }
+  .users {
+    margin-bottom: 0.5em;
+  }
+</style>
 
-  <h2>
-    Users
-  </h2>
+<div class="page-title prepend-1 span-22 append-1 first last">
 
-  <div class="span-13 content-wrapper">
+  <div class="title-bar span-22 first last">
+    <h2>Manage Users</h2>
+    <a href="@{Admin.home()}">Admin Home</a>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1 first last">
+
+  <div class="span-13 content-wrapper first last">
   <div class="content-inner">
   <div class="content-container">
 
@@ -34,7 +48,7 @@
     </div>
     </form>
 
-    <table>
+    <table class="users">
       #{list items: profiles, as: 'profile'}
       <tr>
         <td class="column-1"><a href="@{Admin.user(profile.user.userName)}">Edit</a></td>

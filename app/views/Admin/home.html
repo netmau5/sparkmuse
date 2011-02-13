@@ -1,5 +1,5 @@
 #{extends 'bodytemplate.html' /}
-#{set title: 'Manage Feedback' /}
+#{set title: 'Admin Home' /}
 
 <style type="text/css">
   .content-container {
@@ -10,8 +10,7 @@
 <div class="page-title prepend-1 span-22 append-1 first last">
 
   <div class="title-bar span-22 first last">
-    <h2>Manage Feedback</h2>
-    <a href="@{Admin.home()}">Admin Home</a>
+    <h2>Admin</h2>
   </div>
 
 </div>
@@ -23,82 +22,7 @@
   <div class="content-inner">
   <div class="content-container">
 
-    <form name="Feedback" action="@{Admin.saveFeedback()}" method="POST">
-
-    <div>
-
-      <fieldset>
-        <div class="field">
-          <label>Key</label>
-          <div class="error-message" parameter="key"></div>
-          <div class="input-wrapper"><input type="text" name="key" maxlength="100" value="${feedback?.key}"/></div>
-         </div>
-        <div class="field">
-          <label>Private</label>
-          <div class="error-message" parameter="key"></div>
-          <input type="checkbox" name="private" ${feedback?.isPrivate ? "checked" : ""}/>
-         </div>
-      </fieldset>
-
-      <hr/>
-
-      <fieldset>
-        <div class="field">
-          <label>Title</label>
-          <div class="error-message" parameter="title"></div>
-          <div class="input-wrapper"><input type="text" name="title" maxlength="100" value="${feedback?.title}"/></div>
-         </div>
-      </fieldset>
-
-      <hr/>
-
-      <fieldset>
-        <div class="field">
-          <label>
-            Feedback
-          </label>
-          <div class="error-message" parameter="content"></div>
-          <div class="input-wrapper"><textarea name="content">${feedback?.content}</textarea></div>
-         </div>
-      </fieldset>
-
-      <hr/>
-
-      <fieldset>
-        <div class="field">
-          <label>
-            <a class="icon-button visual" href="#" onclick="SM.Spark.newVisual();">
-              <img src="@{'public/images/icons/silk/image.png'}" title="Add a visual"/>
-            </a>
-            Images
-          </label>
-          <ol id="existing-images">
-          </ol>
-          <div id="images"></div>
-         </div>
-      </fieldset>
-
-    </div>
-
-    <div class="control-bar">
-      <a href="#" onclick="$(document.Feedback).submit();" class="button positive">
-        <span>
-          <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
-          Save
-        </span>
-      </a>
-      %{if (feedback) { }%
-      <a href="@{Application.feedback(feedback.key)}" class="button" target="_blank">
-        <span>
-          <img src="@{'public/images/icons/silk/image.png'}" alt="Preview"/>
-          Preview
-        </span>
-      </a>
-      %{ } }%
-      <div class="clear"></div>
-    </div>
-
-    </form>
+    <h3>Statistics</h3>
 
   </div>
   </div>
@@ -109,22 +33,24 @@
     <div class="blurb">
     <div class="blurb-inner">
 
-      <h4>Sites</h4>
+      <h4>Areas</h4>
 
-      #{list items: feedbacks, as: 'f'}
-        <a href="@{Admin.manageFeedback(f.key)}">${f.title}</a><br/>
-      #{/list}
+      <ul>
+        <li><a href="@{Admin.manageFeedback()}">Feedback</a></li>
+        <li><a href="@{Admin.users()}">Users</a></li>
+      </ul>
 
     </div>
     </div>
     <div class="blurb">
     <div class="blurb-inner">
 
-      <h4>Markdown</h4>
+      <h4>Tasks</h4>
 
-      H3 ### <br/>
-      OL 1. <br/>
-      IMG $ {key} <br/>
+      <ul>
+        <li><a href='@{Tasks.execute("net.sparkmuse.task.ResetNotifiedPostTransformationTask")}' target="_blank">Reset Notified and Delete Activities</a></li>
+        <li><a href='@{Tasks.execute("net.sparkmuse.task.ActivityUpdateMultiTask")}' target="_blank">Activity Update</a></li>
+      </ul>
 
     </div>
     </div>
@@ -158,7 +84,7 @@
       };
     }).bind(SM.Events.Submit, SM.formSubmitModal)
       .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
-    
+
   });
 </script>
 

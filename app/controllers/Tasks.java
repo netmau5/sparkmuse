@@ -56,6 +56,7 @@ public class Tasks extends SparkmuseController {
       Logger.info("Did not complete task [" + taskClass + "], issuing a new task to restart from cursor [" + newCursor.toWebSafeString() + "].");
       taskService.issue(taskClass, newCursor);
     }
+    renderText("Success");
   }
 
   private static <T extends Task> Class<T> getTaskClass(String taskClassName) {
