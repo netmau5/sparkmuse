@@ -70,7 +70,7 @@ public class GaeIssueTaskService implements IssueTaskService {
   public <T extends Task> void issue(Class<T> taskClass, @Nullable Cursor cursor) {
     TaskOptions options = url(Router.reverse("Tasks.execute").url);
 
-    options.param("taskClassName", taskClass.toString());
+    options.param("taskClassName", taskClass.getName());
     if (null != cursor) options.param("cursor", cursor.toWebSafeString());
 
     queue.add(options);

@@ -5,8 +5,6 @@ import net.sparkmuse.data.entity.Activity;
 import net.sparkmuse.data.entity.Migration;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.twig.BatchDatastoreService;
-import net.sparkmuse.common.Cache;
-import com.google.code.twig.FindCommand;
 import com.google.code.twig.ObjectDatastore;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Cursor;
@@ -33,11 +31,11 @@ public class ResetNotifiedPostTransformationTask extends Task {
   protected Cursor runTask(@Nullable Cursor cursor) {
     datastore.deleteAll(Activity.class);
     datastore.deleteAll(datastore.find().type(Migration.class)
-      .addFilter("taskName", Query.FilterOperator.EQUAL, ActivityUpdateMultiTask.PostTransformationTask.TASK_NAME)
+      .addFilter("taskName", Query.FilterOperator.EQUAL, PostActivityTransformationTask.TASK_NAME)
       .returnAll()
       .now());
     datastore.deleteAll(datastore.find().type(Migration.class)
-      .addFilter("taskName", Query.FilterOperator.EQUAL, ActivityUpdateMultiTask.SparkTransformationTask.TASK_NAME)
+      .addFilter("taskName", Query.FilterOperator.EQUAL, SparkActivityTransformationTask.TASK_NAME)
       .returnAll()
       .now());
 
