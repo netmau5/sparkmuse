@@ -22,21 +22,30 @@
       <div class="activity">
       <div class="activity-inner">
         <div class="title">
-          <img class="avatar" src="http://api.twitter.com/1/users/profile_image/${activity.summary.userName}.json?size=normal" alt="Twitter avatar"/>
-          #{if activity.isSpark()}
-            <h3 class="stripe-yellow">Spark</h3>
-          #{/if}
-          #{if activity.isPost()}
-            <h3 class="stripe-orange">Post</h3>
-          #{/if}
-          <a href="@{Spark.view(activity.summary.sparkId)}">${activity.summary.sparkTitle}</a>
-          <span class="alt">
-            ${activity.created.format()}
-            #{if activity.summary.note}
-              &nbsp;&middot;&nbsp;
-              ${activity.summary.note}
-            #{/if}
-          </span>
+          <table>
+            <tr>
+              <td class="author">
+                <img class="avatar" src="http://api.twitter.com/1/users/profile_image/${activity.summary.userName}.json?size=normal" alt="Twitter avatar"/>
+              </td>
+              <td class="summary">
+                #{if activity.isSpark()}
+                  <h3 class="stripe-yellow">Spark</h3>
+                #{/if}
+                #{if activity.isPost()}
+                  <h3 class="stripe-orange">Post</h3>
+                #{/if}
+                <a href="@{Spark.view(activity.summary.sparkId)}">${activity.summary.sparkTitle}</a>
+                <div class="alt">
+                  #{if activity.summary.note}
+                    ${activity.summary.note}
+                    &nbsp;&middot;&nbsp;
+                  #{/if}
+                  ${activity.created.format()}
+                </div>
+              </td>
+            </tr>
+          </table>
+
         </div>
         <div class="content"></div>
       </div>

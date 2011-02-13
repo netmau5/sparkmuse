@@ -61,3 +61,12 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   margin: 4px;
   padding: 8px;
 }
+
+  .activity .title h3 {
+    margin: 0;
+  }
+
+  .activity .title .author {
+    padding-right: 8px;
+    vertical-align: top;
+  }
