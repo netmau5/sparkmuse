@@ -36,8 +36,8 @@ public class ActivityStream implements Serializable {
     return new ActivityStream.Builder(activityDao);
   }
 
-  public ImmutableList<Activity> getActivities() {
-    return activities;
+  public List<Activity> getActivities() {
+    return Lists.newArrayList(activities);
   }
 
   public DateTime getOldestTime() {

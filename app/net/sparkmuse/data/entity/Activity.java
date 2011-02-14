@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import org.joda.time.DateTime;
 
 import java.util.Set;
+import java.io.Serializable;
 
 import net.sparkmuse.common.Dateable;
 
@@ -265,7 +266,7 @@ public class Activity extends Entity<Activity>
     else return activity.created.compareTo(created);
   }
 
-  public static class ItemSummary {
+  public static class ItemSummary implements Serializable {
 
     private String userName; //twitter username
     private String sparkTitle;
