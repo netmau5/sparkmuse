@@ -21,13 +21,13 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 .title-bar * { float: left; }
 .title-bar h1 {
-  background: url("../../images/users_heading.png") 0 50% no-repeat;
+  background: url("../../images/activity_heading.png") 0 50% no-repeat;
   width: 150px;
   margin: 28px 5px 0 0;
 }
 .title-bar h2 {
-  background: url("../../images/users_heading.png") -170px 50% no-repeat;
-  width: 250px;
+  background: url("../../images/activity_heading.png") -170px 50% no-repeat;
+  width: 300px;
   margin: 28px 5px 0 0;
 }
 .title-bar {
@@ -64,12 +64,10 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
   .activity .title h3 {
     margin: 0;
-    display: inline-block;
   }
 
   .activity .title a {
     display: block;
-    font-size: 12px;
   }
 
   .activity .title .author {
