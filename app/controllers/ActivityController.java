@@ -21,11 +21,8 @@ public class ActivityController extends SparkmuseController{
   @Inject static ActivityService activityService;
 
   public static void view() {
-    if (Play.mode == Play.Mode.DEV) {
-      ActivityStream stream = activityService.getActivity(Authorization.getUserFromSession());
-      renderTemplate("Activity/activity.html", stream);
-    }
-    Home.index();
+    ActivityStream stream = activityService.getActivity(Authorization.getUserFromSession());
+    renderTemplate("Activity/activity.html", stream);
   }
 
 }
