@@ -94,6 +94,11 @@ public class TwigUserDao extends TwigDao implements UserDao {
     return helper.all(datastore.find().type(UserProfile.class));
   }
 
+  public List<UserProfile> getPeopleProfiles() {
+    return helper.all(datastore.find().type(UserProfile.class)
+        .addFilter("peopleElgible", EQUAL, Boolean.TRUE));
+  }
+
   public UserProfile createUser(String userName) {
     UserVO newUser = UserVO.newUser(userName);
     final UserVO storedNewUser = helper.store(newUser);

@@ -3,6 +3,7 @@ package net.sparkmuse.data.entity;
 import com.google.code.twig.annotation.Parent;
 import com.google.code.twig.annotation.Type;
 import com.google.appengine.api.datastore.Text;
+import com.google.common.collect.Lists;
 import play.data.validation.CheckWith;
 import net.sparkmuse.client.NoScriptCheck;
 import net.sparkmuse.common.NullTo;
@@ -41,6 +42,12 @@ public class UserProfile extends Entity<UserProfile> {
   private List<Expertise> expertises; //yea, i know, whatever
 
   private Integer invites;
+
+  private boolean peopleElgible; //has met requirements to be shown on people page
+
+  public UserProfile() {
+    this.expertises = Lists.newArrayList();
+  }
 
   public static UserProfile newProfile(UserVO storedNewUser) {
     final UserProfile p = new UserProfile();
@@ -122,6 +129,14 @@ public class UserProfile extends Entity<UserProfile> {
 
   public boolean hasEmail() {
     return StringUtils.isNotBlank(email);
+  }
+
+  public boolean isPeopleElgible() {
+    return peopleElgible;
+  }
+
+  public void setPeopleElgible(boolean peopleElgible) {
+    this.peopleElgible = peopleElgible;
   }
   
 }

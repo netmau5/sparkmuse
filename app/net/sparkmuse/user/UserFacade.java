@@ -49,6 +49,15 @@ public class UserFacade {
     return userDao.getAllProfiles();
   }
 
+  /**
+   * People to display on User page
+   *
+   * @return
+   */
+  public List<UserProfile> getPeople() {
+    return userDao.getPeopleProfiles();
+  }
+
   public UserProfile createUser(String userName) {
     final UserProfile userProfile = getUserProfile(userName);
     return null == userProfile ? userDao.createUser(userName) : userProfile;

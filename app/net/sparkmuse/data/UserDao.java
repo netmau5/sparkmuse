@@ -31,6 +31,8 @@ public interface UserDao extends CrudDao {
 
   List<UserProfile> getAllProfiles();
 
+  List<UserProfile> getPeopleProfiles();
+
   UserProfile createUser(String userName);
 
   Map<Long, UserVO> findUsersBy(Set<Long> ids);
