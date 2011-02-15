@@ -63,7 +63,7 @@ table.users {
 
 .column-avatar { width: 55px; }
 
-.column-expertise { min-width: 240px; } 
+.column-expertise { min-width: 240px; font-family: $FONT_FAMILY_TITLE; } 
 
 .thead-icon  {
   text-indent: -9999px;
