@@ -26,7 +26,7 @@ public class PeoplePageElgibilityTransformationTask extends TransformationTask<U
 
   protected UserProfile transform(UserProfile userProfile) {
     //update your profile
-    if (StringUtils.isEmpty(userProfile.getBio()) || userProfile.getExpertises().isEmpty()) {
+    if (StringUtils.isEmpty(userProfile.getBio()) && userProfile.getExpertises().isEmpty() && StringUtils.isEmpty(userProfile.getName())) {
       return userProfile;
     }
 
@@ -36,7 +36,7 @@ public class PeoplePageElgibilityTransformationTask extends TransformationTask<U
     }
 
     //earn at least 10 rep
-    if (userProfile.getUser().getReputation() < 10) {
+    if (userProfile.getUser().getReputation() < 5) {
       return userProfile;
     }
 

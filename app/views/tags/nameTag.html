@@ -4,6 +4,6 @@
     size: "mini" for 24x24, "normal" for 48x48, or "bigger" for 73x73 default is mini
 }*
 <a href="@{User.view(_user.userName)}">
-  <img src='http://api.twitter.com/1/users/profile_image/${_user.userName}.json?size=${_size ?: "mini"}'/>
+  <img class='avatar-${_size ?: "mini"}' src='http://api.twitter.com/1/users/profile_image/${_user.userName}.json?size=${_size ?: "mini"}'/>
 </a>
 <a href="@{User.view(_user.userName)}">${_user.userName}</a>
