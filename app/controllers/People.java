@@ -15,7 +15,7 @@ import java.util.List;
 public class People extends SparkmuseController {
 
   public static void view() {
-    List<UserProfile> profiles = userFacade.getAllProfiles();
+    List<UserProfile> profiles = userFacade.getPeople();
     renderTemplate("People/people.html", profiles);
   }
 
