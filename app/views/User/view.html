@@ -12,7 +12,7 @@
   <h3>Expertise</h3>
   <ul>
     #{list items: profile.expertises, as: "expertise"}
-      <li>${expertise.toWords()}</li>
+      <li>${expertise.toDisplay()}</li>
     #{/list}
   </ul>
   #{if !profile.expertises}
