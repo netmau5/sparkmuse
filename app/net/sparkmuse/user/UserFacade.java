@@ -1,6 +1,7 @@
 package net.sparkmuse.user;
 
 import com.google.inject.Inject;
+import com.google.inject.internal.Nullable;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
@@ -39,9 +40,19 @@ public class UserFacade {
     return twitterService.beginAuthentication();
   }
 
-  public UserVO registerAuthentication(OAuthAuthenticationResponse response) {
+  public boolean verifyInvitationCode() {
+    //@todo
+    return true;
+  }
+
+  public UserVO registerAuthentication(OAuthAuthenticationResponse response, @Nullable String invitationCode) {
     UserVO user = userDao.findOrCreateUserBy(twitterService.registerAuthentication(response));
-    cache.set(user);
+
+    if (user.isUnauthorized() && StringUtils.isNotBlank(invitationCode)) {
+      //@todo verify and remove invitation code
+      return updateUser(user.getId(), AccessLevel.USER, 1);
+    }
+
     return user;
   }
 
@@ -63,15 +74,14 @@ public class UserFacade {
     return null == userProfile ? userDao.createUser(userName) : userProfile;
   }
 
-  public void updateUser(long userId, AccessLevel accessLevel, int invites) {
+  public UserVO updateUser(long userId, AccessLevel accessLevel, int invites) {
     final UserVO user = findUserBy(userId);
     user.setAccessLevel(accessLevel);
     userDao.store(user);
     final UserProfile userProfile = getUserProfile(user.getUserName());
     userProfile.setInvites(invites);
     userDao.store(userProfile);
-
-    cache.delete(user.getKey()); //@todo do this globally in Afters?
+    return user;
   }
 
   /**

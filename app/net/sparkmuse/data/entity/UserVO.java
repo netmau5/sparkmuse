@@ -48,6 +48,10 @@ public class UserVO extends Entity<UserVO> {
     return isAuthorizedFor(AccessLevel.USER);
   }
 
+  public boolean isUnauthorized() {
+    return this.accessLevel == AccessLevel.UNAUTHORIZED;
+  }
+
   public boolean isNewUser() {
     return Days.daysBetween(NullTo.now(firstLogin), new DateTime()).getDays() <= 1;
   }

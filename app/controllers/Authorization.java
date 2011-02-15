@@ -1,6 +1,8 @@
 package controllers;
 
 import play.mvc.Router;
+import play.data.validation.Validation;
+import play.data.validation.Required;
 
 import javax.inject.Inject;
 
@@ -63,7 +65,7 @@ public class Authorization extends SparkmuseController {
         oauth_token,
         oauth_verifier
     );
-    UserVO user = userFacade.registerAuthentication(response);
+    UserVO user = userFacade.registerAuthentication(response, session.get(Constants.INVITATION_CODE));
     session.put(Constants.SESSION_USER_ID, user.getId());
 
     if (user.isAuthorizedFor(AccessLevel.USER)) {
@@ -86,5 +88,20 @@ public class Authorization extends SparkmuseController {
   public static void applyForInvitation(UserApplication application) {
     userFacade.applyForInvitation(application);
     renderJSON(new AjaxResponse());
+  }
+
+  public static void applyInvitation(@Required(message="validation.required.invitationCode") String invitationCode) {
+    if (!userFacade.verifyInvitationCode()) {
+      Validation.addError("invitationCode", "Could not verify code, please check if it was entered correctly.");
+    }
+
+    if (validation.hasErrors()) {
+      params.flash();
+      validation.keep();
+      Application.invitation();
+    }
+
+    session.put(Constants.INVITATION_CODE, invitationCode);
+    authenticate();
   }
 }
