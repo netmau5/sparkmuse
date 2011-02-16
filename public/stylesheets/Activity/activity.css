@@ -17,23 +17,27 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 .page-title {
   text-indent: -9999px;
+  padding-top: 0;
 }
 
-.title-bar * { float: left; }
+/*.title-bar * { float: left; }*/
 .title-bar h1 {
   background: url("../../images/activity_heading.png") 0 50% no-repeat;
   width: 150px;
-  margin: 28px 5px 0 0;
+  /*margin: 28px 5px 0 0;*/
+  margin: 0;
 }
 .title-bar h2 {
   background: url("../../images/activity_heading.png") -170px 50% no-repeat;
   width: 300px;
-  margin: 28px 5px 0 0;
+  /*margin: 28px 5px 0 0;*/
+  margin: 0;
 }
 .title-bar {
   margin-bottom: 0.5em;
   border-bottom: 1px dotted rgba(0,0,0,0.2);
-  background: url("../../images/truck-line.png") 620px 10px no-repeat;
+  background: url("../../images/truck-line.png") 420px 20px no-repeat;
+  padding-top: 65px;
 }
 
 .activity {

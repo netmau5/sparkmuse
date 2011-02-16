@@ -17,23 +17,27 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 .page-title {
   text-indent: -9999px;
+  padding-top: 0;
 }
 
-.title-bar * { float: left; }
+/*.title-bar * { float: left; }*/
 .title-bar h1 {
   background: url("../../images/users_heading.png") 0 50% no-repeat;
   width: 150px;
-  margin: 28px 5px 0 0;
+  /*margin: 28px 5px 0 0;*/
+  margin: 0;
 }
 .title-bar h2 {
   background: url("../../images/users_heading.png") -170px 50% no-repeat;
   width: 250px;
-  margin: 28px 5px 0 0;
+  /*margin: 28px 5px 0 0;*/
+  margin: 0;
 }
 .title-bar {
   margin-bottom: 0.5em;
   border-bottom: 1px dotted rgba(0,0,0,0.2);
-  background: url("../../images/people-line.png") 620px 0px no-repeat;
+  background: url("../../images/people-line.png") 475px 0px no-repeat;
+  padding-top: 65px;
 }
 
 table.users {
