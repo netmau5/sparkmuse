@@ -6,6 +6,7 @@ import net.sparkmuse.user.Votables;
 import net.sparkmuse.user.UserLogin;
 import net.sparkmuse.data.entity.*;
 import com.google.inject.Inject;
+import com.google.inject.internal.Nullable;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Iterables;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -181,6 +183,13 @@ public class TwigUserDao extends TwigDao implements UserDao {
     });
 
     return Sets.newHashSet(votes);
+  }
+
+  public Invitation findInvitation(String code) {
+    if (StringUtils.isEmpty(code)) return null;
+
+    return helper.only(datastore.find().type(Invitation.class)
+        .addFilter("code", EQUAL, code));
   }
 
 }

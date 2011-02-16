@@ -11,6 +11,7 @@ import net.sparkmuse.user.OAuthAuthenticationRequest;
 import net.sparkmuse.user.OAuthAuthenticationResponse;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.UserApplication;
+import net.sparkmuse.data.entity.Invitation;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.ajax.AjaxResponse;
@@ -91,8 +92,12 @@ public class Authorization extends SparkmuseController {
   }
 
   public static void applyInvitation(@Required(message="validation.required.invitationCode") String invitationCode) {
-    if (!userFacade.verifyInvitationCode()) {
+    Invitation invitation = userFacade.verifyInvitationCode(invitationCode);
+    if (null == invitation) {
       Validation.addError("invitationCode", "Could not verify code, please check if it was entered correctly.");
+    }
+    else if (invitation.isUsed()) {
+      Validation.addError("invitationCode", "Code is valid but it has already been used.");
     }
 
     if (validation.hasErrors()) {

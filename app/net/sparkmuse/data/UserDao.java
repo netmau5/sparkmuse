@@ -48,6 +48,7 @@ public interface UserDao extends CrudDao {
   void vote(Votable votable, UserVO voter);
   <T extends Entity<T>> void vote(Class<T> entityClass, Long id, UserVO voter);
   Set<UserVote> findVotesFor(Set<Votable> votables, UserVO user);
+  Invitation findInvitation(String code);
 
   <T extends Entity<T>> T update(T entity);
 }

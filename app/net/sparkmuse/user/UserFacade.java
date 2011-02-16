@@ -40,19 +40,27 @@ public class UserFacade {
     return twitterService.beginAuthentication();
   }
 
-  public boolean verifyInvitationCode() {
-    //@todo
-    return true;
+  /**
+   * @param code  Invitation code
+   * @return null if invitation does not exist
+   */
+  public Invitation verifyInvitationCode(String code) {
+    return userDao.findInvitation(code);
   }
 
   public UserVO registerAuthentication(OAuthAuthenticationResponse response, @Nullable String invitationCode) {
     UserVO user = userDao.findOrCreateUserBy(twitterService.registerAuthentication(response));
 
     if (user.isUnauthorized() && StringUtils.isNotBlank(invitationCode)) {
-      //@todo verify and remove invitation code
-      return updateUser(user.getId(), AccessLevel.USER, 1);
+      Invitation invitation = verifyInvitationCode(invitationCode);
+      if (Invitation.isValid(invitation)) {
+        UserVO newUser = updateUser(user.getId(), AccessLevel.USER, 1);
+        invitation.setUsed(true);
+        userDao.store(invitation);
+        return newUser;
+      }
     }
-
+    
     return user;
   }
 
