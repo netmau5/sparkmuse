@@ -1,5 +1,5 @@
 #{extends 'outsider.template.html' /}
-#{set title:'About Sparkmuse' /}
+#{set title:'Welcome to Sparkmuse!' /}
 
 <div class="page-canvas push-6 prepend-1 span-10 append-1">
 
@@ -7,11 +7,15 @@
 
   <p>
     We're glad you decided to stop by and check us out. People like you are the foundation
-    of this community and we hope to be able to provide you with as much value as your precense
-    benefits us. Please let us know what you like and don't like so we can evolve Sparkmuse
-    to better serve our community. You may contact us directly at
-    <a href="mailto:feedback@sparkmuse.com">feedback@sparkmuse.com</a> if you have anything
-    you'd like to say to us directly.
+    of this community. We hope to be able to provide you with as much value as your presence
+    does for us. Please let us know what you like and don't like so we can evolve Sparkmuse
+    to better serve our community. 
+  </p>
+
+  <p>
+    Feel free to contact me directly at
+    <a href="mailto:dave@sparkmuse.com">dave@sparkmuse.com</a> if there is anything
+    I can personally do to help you succeed.
   </p>
 
   <h3>Apply Your Invitation</h3>
@@ -20,13 +24,13 @@
   <form name="ApplyInvitationForm" action="@{Authorization.applyInvitation()}" method="POST">
     <div class="field">
       #{ifErrors}
-         <div class="error-message">#{error 'invitationCode' /}</div>
+         <div class="error-message error">#{error 'invitationCode' /}</div>
       #{/ifErrors}
-      <label>Invitation Code</label>
+      <label>Invitation Code <span class="subtext">(case sensitive)</span></label>
       <div class="input-wrapper"><input type="text" name="invitationCode" value="${flash.invitationCode}"/></div>
     </div>
     <div class="control-bar">
-      <a href="" onclick="document.ApplyInvitationForm.submit();" class="twitter-login">Sign in with Twitter</a>
+      <a href="#" onclick="document.ApplyInvitationForm.submit();" class="twitter-login">Sign in with Twitter</a>
     </div>
   </form>
 

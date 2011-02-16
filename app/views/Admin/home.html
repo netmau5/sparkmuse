@@ -38,6 +38,7 @@
       <ul>
         <li><a href="@{Admin.manageFeedback()}">Feedback</a></li>
         <li><a href="@{Admin.users()}">Users</a></li>
+        <li><a href="@{Admin.displayInvitationCodes()}">Invitations</a></li>
       </ul>
 
     </div>
@@ -50,6 +51,7 @@
       <ul>
         <li><a href='@{Tasks.execute("net.sparkmuse.task.ResetNotifiedPostTransformationTask")}' target="_blank">Reset Notified and Delete Activities</a></li>
         <li><a href='@{Tasks.execute("net.sparkmuse.task.ActivityUpdateMultiTask")}' target="_blank">Activity Update</a></li>
+        <li><a href='@{Tasks.execute("net.sparkmuse.task.GenerateInvitationCodesTask")}' target="_blank">Generate Codes</a></li>
       </ul>
 
     </div>

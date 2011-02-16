@@ -1,0 +1,59 @@
+#{extends 'bodytemplate.html' /}
+#{set title: 'Manage Feedback' /}
+
+<style type="text/css">
+  .content-container {
+    padding: 1em 10px 0 10px;
+  }
+</style>
+
+<div class="page-title prepend-1 span-22 append-1 first last">
+
+  <div class="title-bar span-22 first last">
+    <h2>Invitation Codes</h2>
+    <a href="@{Admin.home()}">Admin Home</a>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1 first last">
+
+  <div class="span-13 first">
+  <div class="content-wrapper">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <ol>
+      #{list items: invitations, as: "invitation"}
+        #{if !invitation.used}
+          <li>${invitation.code}</li>
+        #{/if}
+      #{/list}
+    </ol>
+
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 last">
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>Info</h4>
+
+      <p>
+        ${used} of ${invitations.size()} invitations have been used.
+      </p>
+
+      <p>
+        <a href='@{Tasks.execute("net.sparkmuse.task.GenerateInvitationCodesTask")}' target="_blank">Generate Codes</a>
+      </p>
+
+    </div>
+    </div>
+  </div>
+
+</div>
+
+

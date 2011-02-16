@@ -13,6 +13,9 @@ import javax.inject.Inject;
 import org.apache.commons.lang.StringUtils;
 import com.google.code.twig.ObjectDatastore;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
+import com.google.common.base.Predicate;
+import com.google.appengine.api.datastore.Query;
 
 import java.util.List;
 import java.util.Collection;
@@ -27,11 +30,11 @@ public class Admin extends SparkmuseController {
   @Inject static ObjectDatastore datastore;
   @Inject static UserFacade userFacade;
 
-  public static final void home() {
+  public static void home() {
     render();
   }
 
-  public static final void manageFeedback(String key) {
+  public static void manageFeedback(String key) {
     Feedback feedback = StringUtils.isEmpty(key) ? null : datastore.load(Feedback.class, key);
     List<Feedback> feedbacks = Lists.newArrayList(datastore.find(Feedback.class));
     if (null != feedback) {
@@ -42,7 +45,22 @@ public class Admin extends SparkmuseController {
     }
   }
 
-  public static final void saveFeedback(String key, String title, String content, String displayContent, boolean isPrivate, List<String> imageKeys) {
+  public static void displayInvitationCodes() {
+    List<Invitation> invitations = datastore.find().type(Invitation.class)
+        .addSort("created", Query.SortDirection.ASCENDING)
+        .returnAll()
+        .now();
+
+    int used = Iterables.size(Iterables.filter(invitations, new Predicate<Invitation>(){
+      public boolean apply(Invitation invitation) {
+        return invitation.isUsed();
+      }
+    }));
+
+    render(invitations, used);
+  }
+
+  public static void saveFeedback(String key, String title, String content, String displayContent, boolean isPrivate, List<String> imageKeys) {
     if (Validation.hasErrors()) {
       renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
     }
