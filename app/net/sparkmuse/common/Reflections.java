@@ -74,7 +74,12 @@ public class Reflections {
       final String getterName = "get" + StringUtils.capitalize(field);
       return clazz.getMethod(getterName, new Class[]{});
     } catch (NoSuchMethodException e) {
-      return null;
+      try {
+        final String getterName = "is" + StringUtils.capitalize(field);
+        return clazz.getMethod(getterName, new Class[]{});
+      } catch (NoSuchMethodException e1) {
+        return null;
+      }
     }
   }
 
