@@ -111,3 +111,43 @@ table.users td.column-avatar { width: 55px; padding: 3px; }
 .expertise-sales { background-position: 0 -320px; }
 .expertise-seo { background-position: 0 -352px; }
 .expertise-social-media { background-position: 0 -384px; }
+
+.how-to-container {
+  font-family: $FONT_FAMILY_TITLE;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin-bottom: 1em;
+  display: none; 
+}
+
+.how-to-container * {
+  height: 60px;
+  overflow: hidden;
+  text-indent: 11px;
+}
+
+.how-to-container .step-1 {
+  border-bottom: 4px solid #444;
+  background-color: #f9f9f9;
+}
+
+.how-to-container .step-2 {
+  color: #806f00;
+  background-color: #fff9b9;
+  border-bottom: 4px solid #f4e11f;
+  width: 10px;
+}
+
+.how-to-container .step-3 {
+  color: #85521c;
+  background-color: #ffbfa2;
+  border-bottom: 4px solid #dc6e3a;
+  width: 10px;
+}
+
+.how-to-container .step-4 {
+  color: #2b8f70;
+  background-color: #d6fff0;
+  border-bottom: 4px solid #72e2b8;
+  width: 10px;
+}
