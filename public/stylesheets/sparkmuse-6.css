@@ -605,7 +605,7 @@ input, textarea {
 }
 
 #header ul {
-  font-size: 16px;
+  font-size: 14px;
   font-variant: small-caps;
   letter-spacing: 1px;
   text-transform: lowercase;
@@ -613,6 +613,7 @@ input, textarea {
   float: right;
   height: 50px;
   margin: 0;
+  padding-left: 0;
 }
 
 #header ul li {
@@ -634,6 +635,7 @@ ol.nav {
   letter-spacing: 1px;
   list-style-type: none;
   margin: 0;
+  padding-left: 1em;
 }
 
   ol.nav li {
