@@ -55,14 +55,14 @@ table.users {
     cursor: pointer;
   }
 
-  table.users td { padding: 3px; }
+  table.users td { padding: 3px 10px 3px 3px; }
 
 .name {
   font-size: 18px;
   color: $LOGO_ORANGE;
 }
 
-.column-avatar { width: 55px; }
+table.users td.column-avatar { width: 55px; padding: 3px; }
 
 .column-expertise { min-width: 240px; font-family: $FONT_FAMILY_TITLE; } 
 
