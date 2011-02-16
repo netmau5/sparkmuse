@@ -157,7 +157,7 @@ public class UserFacade {
       }
 
       //see if user already applied
-      UserApplication app = userDao.findUserApplicationBy(friendUserName);
+      UserApplication app = userDao.findUserApplicationBy("@" + friendUserName);
 
       //give new user access
       newUser.setAccessLevel(AccessLevel.USER);
@@ -167,11 +167,11 @@ public class UserFacade {
       final int remainingInvites = inviterProfile.getInvites() - 1;
       inviterProfile.setInvites(remainingInvites);
       //update email if available
-      if (StringUtils.isNotBlank(app.email)) newUserProfile.setEmail(app.email);
+      if (null != app && StringUtils.isNotBlank(app.email)) newUserProfile.setEmail(app.email);
       updateProfile(inviterProfile);
 
       //email new user a notification
-      if (StringUtils.isNotBlank(app.email)) {
+      if (null != app && StringUtils.isNotBlank(app.email)) {
         mailService.prepareAndSendMessage(new InvitationEmail(
             inviter.getUserName(),
             friendUserName,
