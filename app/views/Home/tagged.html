@@ -1,0 +1,179 @@
+#{extends 'bodytemplate.html' /}
+#{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
+
+<style type="text/css">
+  .page-title {
+    height: 50px;
+  }
+
+    .page-title h2, .page-title h3 {
+      display: inline;
+    }
+
+    .page-title .title-bar { border-bottom: 1px dotted rgba(0,0,0,0.2); }
+
+    .page-title a {
+        float: right;
+        background-image: url("@{'public/images/landing-sprite.png'}");
+        background-repeat: no-repeat;
+        width: 150px;
+        height: 50px;
+        display: block;
+        text-indent: -9999px;
+      }
+
+        a#rss-link {
+          background-position: -1200px 0;
+        }
+
+        a#twitter-link {
+          background-position: -1350px 0;
+        }
+
+
+  .sparks-wrapper {
+    width: 100%;
+    /*padding: 0 10px 10px 0;*/
+  }
+
+  .spark {
+    color: #666666;
+  }
+
+  .spark:hover { background-image: none; }
+
+  .spark-inner {
+    margin-right: 115px;
+    padding: 0 0 0 10px;
+  }
+
+    .spark .stage {
+      float: right;
+      text-indent: -9999px;
+      width: 48px;
+      height: 48px;
+    }
+
+    .spark h3 {
+      font-size: 1.5em;
+      margin-bottom: 8px;
+    }
+
+    .spark .alt {
+      font-size: 14px;
+    }
+
+    .spark .details {
+      width: 75px;
+      vertical-align: top;
+      float: right;
+      margin: 0 0 0 20px;
+      padding: 0 0 0 20px;
+      background: transparent;
+      text-align: left;
+      border-left: 1px solid rgba(0,0,0,0.1);
+      line-height: 24px;
+    }
+
+      .spark .details .detail { margin-bottom: 8px; line-height: 16px; }
+
+      .spark .details .comments {
+        padding-left: 20px;
+        background: url("@{'/public/images/icons/silk/comments_faded.png'}") no-repeat;
+      }
+
+      .spark .details .likes {
+        font-family: inherit;
+        font-size: inherit;
+        color: inherit;
+      }
+
+    .spark .alt {
+      margin-bottom: 8px;
+    }
+
+    .spark .tags {
+      margin-bottom: 8px;
+    }
+
+</style>
+
+<div class="page-title prepend-1 span-22 append-1">
+
+  <div class="title-bar span-22 first last">
+    <div class="span-14 first">
+      <h2>Tagged</h2> <h3>[${tagged}]</h3>
+    </div>
+    <div class="span-8 last">
+      <a href="" id="rss-link" title="Subscribe (not implemented)">Subscribe</a>
+      <a href="#" id="twitter-link" >Follow</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <div class="span-14 first">
+
+    <div class="sparks-wrapper">
+
+      <!--<hr/>-->
+
+      #{list items: sparkSearch.sparks, as: 'spark'}
+      <div class='spark spark-${spark.stage.toWords().toLowerCase()}'>
+
+
+          <div class="details progress-${spark.stage.toWords().toLowerCase()}">
+            <div class="detail">${spark.stage.toWords()}</div>
+            <div class="detail">#{likeButton votable: spark, userVotes: userVotes, size: "medium" /}</div>
+            <div class="detail comments">${spark.postCount}</div>
+          </div>
+
+
+        <div class="spark-inner">
+          <h3>
+            <a href="@{Spark.view(spark.id)}">${spark.title}</a>
+          </h3>
+          <div class="alt">
+            #{nameTag user: spark.author /} &nbsp;&middot;&nbsp;
+
+            Created ${spark.created.format()}
+          </div>
+
+          <div class="tags">#{list items: spark.tags, as: 'tagName'}#{tag tagName /}#{/list}<div class="clear"></div></div>
+
+        </div>
+
+        <hr/>
+
+      </div>
+      #{/list}
+
+    </div>
+
+  </div>
+
+  <div class="span-8 last">
+
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>People</h4>
+
+      <p>
+        #{list items: assets.users, as: "user"}
+        <a href="http://www.twitter.com/#/${user.userName}" target="_blank">
+          <img class="avatar-normal" src="http://api.twitter.com/1/users/profile_image/${user.userName}.json?size=normal" alt="${user.userName}"/>
+        </a>
+        #{/list}
+      </p>
+
+    </div>
+    </div>
+
+  </div>
+
+  <div class="clear"></div>
+
+</div>

@@ -55,7 +55,7 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
     return helper.all(datastore.find()
         .type(SparkVO.class)
         .addFilter("tags", Query.FilterOperator.EQUAL, StringUtils.lowerCase(tag))
-        .addSort("created")
+        .addSort("created", Query.SortDirection.DESCENDING)
         .fetchMaximum(50));
   }
 }

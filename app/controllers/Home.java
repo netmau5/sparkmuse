@@ -6,6 +6,7 @@ import filters.AuthorizationFilter;
 import net.sparkmuse.discussion.SparkSearchResponse;
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.SparkSearchRequest;
+import net.sparkmuse.discussion.SparkAssets;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votables;
 import net.sparkmuse.user.UserVotes;
@@ -41,7 +42,8 @@ public class Home extends SparkmuseController {
   public static void tagged(String tagged) {
     SparkSearchResponse sparkSearch = sparkFacade.search(SparkSearchRequest.forTag(tagged));
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(sparkSearch), Authorization.getUserFromSession());
-    render(sparkSearch, userVotes);
+    final SparkAssets assets = new SparkAssets(sparkSearch);
+    render(sparkSearch, assets, userVotes, tagged);
   }
 
   public static void welcome() {

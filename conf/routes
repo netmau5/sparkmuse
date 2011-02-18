@@ -11,6 +11,7 @@ GET         /authorize                        Authorization.authorize
 
 *           /home/index                       Home.search(filter:'RECENT')
 *           /home/index/{<[A-Za-z]+>filter}   Home.search
+*           /home/tagged/{tagName}            Home.tagged
 
 *           /vote/{entity}/{id}               User.vote
 GET         /user/view/{userName}             User.view

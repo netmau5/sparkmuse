@@ -197,7 +197,7 @@
             Created ${spark.created.format()}
           </div>
 
-          <div class="tags">#{list items: spark.tags, as: 'tag'}<span class="tag">${tag}</span>#{/list}<div class="clear"></div></div>
+          <div class="tags">#{list items: spark.tags, as: 'tagName'}#{tag tagName /}#{/list}<div class="clear"></div></div>
 
         </div>
 
