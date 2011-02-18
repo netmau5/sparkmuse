@@ -5,6 +5,7 @@ import net.sparkmuse.data.twig.BatchDatastoreService;
 import net.sparkmuse.common.Cache;
 import com.google.code.twig.FindCommand;
 import com.google.code.twig.ObjectDatastore;
+import com.google.inject.Inject;
 
 /**
  * @author neteller
@@ -14,6 +15,7 @@ public class LowercaseSparkTagsTransformationTask extends TransformationTask<Spa
 
   private final ObjectDatastore datastore;
 
+  @Inject
   public LowercaseSparkTagsTransformationTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
     super(cache, batchService, datastore);
     this.datastore = datastore;
