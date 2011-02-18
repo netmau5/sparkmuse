@@ -16,8 +16,8 @@ import java.util.TreeSet;
  * @author neteller
  * @created: Nov 25, 2010
  */
-public class MostDiscussedSparks extends AbstractSparkSearchResponse
-    implements Cacheable<MostDiscussedSparks>, SparkSearchResponse {
+public class MostDiscussedSparks extends BasicSparkSearchResponse
+    implements Cacheable<MostDiscussedSparks> {
 
 
   public MostDiscussedSparks(final List<SparkVO> sparks) {

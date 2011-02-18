@@ -11,7 +11,29 @@ public class SparkSearchRequest {
   public enum Filter {
     RECENT,
     POPULAR,
-    DISCUSSED
+    DISCUSSED,
+    TAGGED
   }
 
+  private final Filter filter;
+
+  private String tag;
+
+  public SparkSearchRequest(Filter filter) {
+    this.filter = filter;
+  }
+
+  public static SparkSearchRequest forTag(final String tag) {
+    SparkSearchRequest request = new SparkSearchRequest(Filter.TAGGED);
+    request.tag = tag;
+    return request;
+  }
+
+  public Filter getFilter() {
+    return filter;
+  }
+
+  public String getTag() {
+    return tag;
+  }
 }

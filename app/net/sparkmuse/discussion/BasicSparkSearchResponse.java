@@ -16,14 +16,14 @@ import play.Logger;
  * @author neteller
  * @created: Nov 25, 2010
  */
-public abstract class AbstractSparkSearchResponse implements Serializable {
+public class BasicSparkSearchResponse implements Serializable, SparkSearchResponse {
 
   static final int MAX_SIZE = 60;
 
   private final TreeSet<SparkVO> sparks;
   private SparkSearchRequest.Filter filter;
 
-  public AbstractSparkSearchResponse(final TreeSet<SparkVO> sparks, final SparkSearchRequest.Filter filter) {
+  public BasicSparkSearchResponse(final TreeSet<SparkVO> sparks, final SparkSearchRequest.Filter filter) {
     Preconditions.checkNotNull(sparks);
     this.sparks = sparks;
     this.filter = filter;

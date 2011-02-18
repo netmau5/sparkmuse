@@ -33,7 +33,13 @@ public class Home extends SparkmuseController {
   }
 
   public static void search(SparkSearchRequest.Filter filter) {
-    SparkSearchResponse sparkSearch = sparkFacade.search(filter);
+    SparkSearchResponse sparkSearch = sparkFacade.search(new SparkSearchRequest(filter));
+    final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(sparkSearch), Authorization.getUserFromSession());
+    render(sparkSearch, userVotes);
+  }
+
+  public static void tagged(String tagged) {
+    SparkSearchResponse sparkSearch = sparkFacade.search(SparkSearchRequest.forTag(tagged));
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(sparkSearch), Authorization.getUserFromSession());
     render(sparkSearch, userVotes);
   }

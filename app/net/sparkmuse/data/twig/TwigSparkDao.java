@@ -2,6 +2,7 @@ package net.sparkmuse.data.twig;
 
 import com.google.inject.Inject;
 import com.google.common.base.Function;
+import com.google.appengine.api.datastore.Query;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.SparkDao;
 
@@ -48,4 +49,11 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
     );
   }
 
+  public List<SparkVO> loadTagged(String tag) {
+    return helper.all(datastore.find()
+        .type(SparkVO.class)
+        .addFilter("tags", Query.FilterOperator.EQUAL, tag)
+        .addSort("created")
+        .fetchMaximum(50));
+  }
 }

@@ -16,8 +16,8 @@ import java.util.TreeSet;
  * @author neteller
  * @created: Jul 18, 2010
  */
-public class PopularSparks extends AbstractSparkSearchResponse
-    implements Cacheable<PopularSparks>, SparkSearchResponse {
+public class PopularSparks extends BasicSparkSearchResponse
+    implements Cacheable<PopularSparks> {
 
   public PopularSparks(final List<SparkVO> sparks) {
     super(newTreeSet(sparks), SparkSearchRequest.Filter.POPULAR);

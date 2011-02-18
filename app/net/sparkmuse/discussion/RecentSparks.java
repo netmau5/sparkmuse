@@ -16,8 +16,8 @@ import java.util.TreeSet;
  * @author neteller
  * @created: Nov 25, 2010
  */
-public class RecentSparks extends AbstractSparkSearchResponse
-    implements Cacheable<RecentSparks>, SparkSearchResponse {
+public class RecentSparks extends BasicSparkSearchResponse
+    implements Cacheable<RecentSparks> {
 
   public RecentSparks(final List<SparkVO> sparks) {
     super(newTreeSet(sparks), SparkSearchRequest.Filter.RECENT);

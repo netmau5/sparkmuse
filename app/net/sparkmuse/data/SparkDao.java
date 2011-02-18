@@ -17,4 +17,5 @@ public interface SparkDao extends CrudDao {
   List<SparkVO> loadPopular();
   List<SparkVO> loadRecent();
   List<SparkVO> loadMostDiscussed();
+  List<SparkVO> loadTagged(String tag);
 }

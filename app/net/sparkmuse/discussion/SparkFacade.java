@@ -9,10 +9,17 @@ import net.sparkmuse.common.Orderings;
 import net.sparkmuse.user.UserFacade;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.TreeSet;
 
 import com.google.inject.Inject;
 import com.google.common.base.Preconditions;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Sets;
 import org.joda.time.DateTime;
+import org.apache.commons.lang.StringUtils;
 import play.Logger;
 
 /**
@@ -39,11 +46,19 @@ public class SparkFacade {
     this.userFacade = userFacade;
   }
 
-  public SparkSearchResponse search(final SparkSearchRequest.Filter filter) {
+  public SparkSearchResponse search(final SparkSearchRequest request) {
+    SparkSearchRequest.Filter filter = request.getFilter();
     if (SparkSearchRequest.Filter.DISCUSSED == filter) return getMostDiscussedSparks();
     else if (SparkSearchRequest.Filter.POPULAR == filter) return getPopularSparks();
     else if (SparkSearchRequest.Filter.RECENT == filter) return getRecentSparks();
+    else if (SparkSearchRequest.Filter.TAGGED == filter) return getTaggedSparks(request.getTag());
     else throw new IllegalArgumentException("Unknown spark search request.");
+  }
+
+  private SparkSearchResponse getTaggedSparks(final String tag) {
+    TreeSet taggedSparks = new TreeSet(new Orderings.ByRecency());
+    taggedSparks.addAll(sparkDao.loadTagged(tag));
+    return new BasicSparkSearchResponse(taggedSparks, SparkSearchRequest.Filter.TAGGED);
   }
 
   private PopularSparks getPopularSparks() {
@@ -89,6 +104,9 @@ public class SparkFacade {
     if (!isNew) {
       spark.setEdited(new DateTime());
     }
+
+    //make sure tags are lowercase for easier querying
+    spark.lowercaseTags();
 
     final SparkVO newSparkVO = sparkDao.store(spark);
 

@@ -9,10 +9,14 @@ import net.sparkmuse.activity.Notifiable;
 import java.util.List;
 
 import org.joda.time.DateTime;
+import org.apache.commons.lang.StringUtils;
 import play.data.validation.Required;
 import play.data.validation.CheckWith;
 import com.google.code.twig.annotation.Type;
 import com.google.appengine.api.datastore.Text;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
+import com.google.common.base.Function;
 
 /**
  * Created by IntelliJ IDEA.
@@ -88,6 +92,7 @@ public class SparkVO extends OwnedEntity<SparkVO>
   public SparkVO() {
     this.created = new DateTime();
     this.edited = new DateTime();
+    this.tags = Lists.newArrayList();
   }
 
   public int getPostCount() {
@@ -202,5 +207,14 @@ public class SparkVO extends OwnedEntity<SparkVO>
 
   public void setNotified(boolean notified) {
     this.notified = notified;
+  }
+
+  public SparkVO lowercaseTags() {
+    this.setTags(Lists.newArrayList(Iterables.transform(this.getTags(), new Function<String, String>(){
+      public String apply(String s) {
+        return StringUtils.lowerCase(s);
+      }
+    })));
+    return this;
   }
 }

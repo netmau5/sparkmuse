@@ -7,7 +7,7 @@ import net.sparkmuse.data.entity.OwnedEntity;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.NullTo;
-import net.sparkmuse.discussion.AbstractSparkSearchResponse;
+import net.sparkmuse.discussion.BasicSparkSearchResponse;
 import net.sparkmuse.discussion.RecentSparks;
 import net.sparkmuse.discussion.MostDiscussedSparks;
 import net.sparkmuse.discussion.PopularSparks;
@@ -110,7 +110,7 @@ public class After {
     return entityList;
   }
 
-  private static void update(AbstractSparkSearchResponse sparkSearch, SparkVO spark) {
+  private static void update(BasicSparkSearchResponse sparkSearch, SparkVO spark) {
     if (null != sparkSearch) sparkSearch.update(spark); //if cache not yet initialized, dont need to update
   }
 
