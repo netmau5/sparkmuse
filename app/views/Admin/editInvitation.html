@@ -1,0 +1,89 @@
+#{extends 'bodytemplate.html' /}
+#{set title: 'Manage Feedback' /}
+
+<style type="text/css">
+  .content-container {
+    padding: 1em 10px 0 10px;
+  }
+</style>
+
+<div class="page-title prepend-1 span-22 append-1 first last">
+
+  <div class="title-bar span-22 first last">
+    <h2>Invitation Codes</h2>
+    <a href="@{Admin.home()}">Admin Home</a>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1 first last">
+
+  <div class="span-13 first">
+  <div class="content-wrapper">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <form name="UpdateInvitationForm" action="@{Admin.updateInvitation()}" method="POST">
+      <div>
+
+        <input type="hidden" name="invitation.id" value="${invitation.id}"/>
+
+        <fieldset>
+          <div class="field">
+            <label>Group Name</label>
+            <div class="input-wrapper"><input type="text" name="invitation.groupName" maxlength="100" value="${invitation?.groupName}" /></div>
+           </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="field">
+            <label>Group Image</label>
+            <div class="input-wrapper"><input type="text" name="invitation.groupImage" maxlength="100" value="${invitation?.groupImage}" /></div>
+           </div>
+        </fieldset>
+
+        <fieldset>
+          <div class="field">
+            <label>Total Invites</label>
+            <div class="input-wrapper"><input type="text" name="invitation.totalInvites" maxlength="100" value="${invitation?.totalInvites}" /></div>
+           </div>
+        </fieldset>
+
+        <div class="control-bar">
+          <a href="#" onclick="$(document.UpdateInvitationForm).submit();" class="button positive">
+            <span>
+              <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
+              Update Invitation
+            </span>
+          </a>
+          <div class="clear"></div>
+        </div>
+
+      </div>
+      </form>
+
+
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 last">
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>Image</h4>
+
+      <p>
+        #{if invitation.groupImage}
+          <img src="${invitation.groupImage}" alt="Group Image"/>
+        #{/if}
+      </p>
+
+    </div>
+    </div>
+  </div>
+
+</div>
+
+

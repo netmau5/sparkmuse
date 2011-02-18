@@ -23,13 +23,18 @@
   <div class="content-inner">
   <div class="content-container">
 
-    <ol>
+    <table>
       #{list items: invitations, as: "invitation"}
         #{if !invitation.used}
-          <li>${invitation.code}</li>
+          <tr>
+            <td class="column-2"><a href="@{Admin.editInvitation(invitation.id)}">Edit</a></td>
+            <td class="column-2">${invitation.code}</td>
+            <td class="column-2">${invitation.usedInvites}/${invitation.totalInvites}</td>
+            <td class="column-4 last">${invitation.groupName}</td>
+          </tr>
         #{/if}
       #{/list}
-    </ol>
+    </table>
 
   </div>
   </div>

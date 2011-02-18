@@ -12,8 +12,36 @@ public class Invitation extends Entity<Invitation> {
   private boolean used;
   private DateTime created;
 
+  //for group invites
+  private int totalInvites = 1;
+  private int usedInvites;
+  private String groupName;
+  private String groupImage;
+
   public Invitation() {
     this.created = new DateTime();
+  }
+
+  public Invitation useInvite() {
+    this.usedInvites++;
+    if (usedInvites == totalInvites) used = true;
+    return this;
+  }
+
+  public int getTotalInvites() {
+    return totalInvites;
+  }
+
+  public void setTotalInvites(int totalInvites) {
+    this.totalInvites = totalInvites;
+  }
+
+  public int getUsedInvites() {
+    return usedInvites;
+  }
+
+  public void setUsedInvites(int usedInvites) {
+    this.usedInvites = usedInvites;
   }
 
   public String getCode() {
@@ -38,6 +66,22 @@ public class Invitation extends Entity<Invitation> {
 
   public void setCreated(DateTime created) {
     this.created = created;
+  }
+
+  public String getGroupName() {
+    return groupName;
+  }
+
+  public void setGroupName(String groupName) {
+    this.groupName = groupName;
+  }
+
+  public String getGroupImage() {
+    return groupImage;
+  }
+
+  public void setGroupImage(String groupImage) {
+    this.groupImage = groupImage;
   }
 
   public static boolean isValid(Invitation invitation) {

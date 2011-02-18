@@ -574,6 +574,8 @@ input, textarea {
   color: #2b8f70;
 }
 
+table { margin-bottom: 0.5em; }
+
 /* END <LIBRARY> */
 
 /* BEGIN <HEADER> */

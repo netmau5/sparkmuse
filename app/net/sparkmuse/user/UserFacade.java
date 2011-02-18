@@ -55,7 +55,7 @@ public class UserFacade {
       Invitation invitation = verifyInvitationCode(invitationCode);
       if (Invitation.isValid(invitation)) {
         UserVO newUser = updateUser(user.getId(), AccessLevel.USER, 1);
-        invitation.setUsed(true);
+        invitation.useInvite();
         userDao.store(invitation);
         return newUser;
       }

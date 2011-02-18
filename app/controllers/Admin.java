@@ -7,6 +7,7 @@ import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.user.UserFacade;
+import net.sparkmuse.common.Reflections;
 
 import javax.inject.Inject;
 
@@ -45,21 +46,6 @@ public class Admin extends SparkmuseController {
     }
   }
 
-  public static void displayInvitationCodes() {
-    List<Invitation> invitations = datastore.find().type(Invitation.class)
-        .addSort("created", Query.SortDirection.ASCENDING)
-        .returnAll()
-        .now();
-
-    int used = Iterables.size(Iterables.filter(invitations, new Predicate<Invitation>(){
-      public boolean apply(Invitation invitation) {
-        return invitation.isUsed();
-      }
-    }));
-
-    render(invitations, used);
-  }
-
   public static void saveFeedback(String key, String title, String content, String displayContent, boolean isPrivate, List<String> imageKeys) {
     if (Validation.hasErrors()) {
       renderJSON(new ValidationErrorAjaxResponse(validation.errorsMap()));
@@ -84,6 +70,34 @@ public class Admin extends SparkmuseController {
   public static void updateUser(long userId, AccessLevel accessLevel, int invites) {
     userFacade.updateUser(userId, accessLevel, invites);
     users();
+  }
+
+
+
+  public static void invitations() {
+    List<Invitation> invitations = datastore.find().type(Invitation.class)
+        .addSort("created", Query.SortDirection.ASCENDING)
+        .returnAll()
+        .now();
+
+    int used = Iterables.size(Iterables.filter(invitations, new Predicate<Invitation>(){
+      public boolean apply(Invitation invitation) {
+        return invitation.isUsed();
+      }
+    }));
+
+    renderTemplate("Admin/displayInvitationCodes.html", invitations, used);
+  }
+
+  public static void editInvitation(Long id) {
+    Invitation invitation = datastore.load(Invitation.class, id);
+    render(invitation);
+  }
+
+  public static void updateInvitation(Invitation invitation) {
+    Invitation existingInvite = datastore.load(Invitation.class, invitation.getId());
+    datastore.update(Reflections.overlay(existingInvite, invitation));
+    editInvitation(invitation.getId());
   }
 
 }
