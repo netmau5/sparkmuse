@@ -72,13 +72,20 @@
     <div class="blurb">
     <div class="blurb-inner">
 
-      <h4>Image</h4>
+      <h4>Info</h4>
 
+      #{if invitation.groupImage}
       <p>
-        #{if invitation.groupImage}
-          <img src="${invitation.groupImage}" alt="Group Image"/>
-        #{/if}
+        <img src="${invitation.groupImage}" alt="Group Image"/>
       </p>
+      #{/if}
+
+      #{if invitation.groupName}
+      <p>
+        <a href='http://www.sparkmuse.com/invitation/${invitation.groupName.replaceAll(" ", "-")}'>http://www.sparkmuse.com/invitation/${invitation.groupName.replaceAll(" ", "-")}</a>
+      </p>
+      #{/if}
+
 
     </div>
     </div>

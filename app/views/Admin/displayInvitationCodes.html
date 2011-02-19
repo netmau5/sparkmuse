@@ -27,7 +27,7 @@
       #{list items: invitations, as: "invitation"}
         #{if !invitation.used}
           <tr>
-            <td class="column-2"><a href="@{Admin.editInvitation(invitation.id)}">Edit</a></td>
+            <td class="column-2">${invitation_index}. <a href="@{Admin.editInvitation(invitation.id)}">Edit</a></td>
             <td class="column-2">${invitation.code}</td>
             <td class="column-2">${invitation.usedInvites}/${invitation.totalInvites}</td>
             <td class="column-4 last">${invitation.groupName}</td>

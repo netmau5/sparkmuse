@@ -434,6 +434,10 @@ a {
   font-family: $FONT_FAMILY_CONTROLS;
 }
 
+.title {
+  font-family: $FONT_FAMILY_TITLE;
+}
+
 /* END <TYPOGRAPHY> */
 
 /* BEGIN <GENERAL TEXT> */
