@@ -1,36 +1,33 @@
 #{extends 'outsider.template.html' /}
 
+<style type="text/css">
+
+  .carry-on {
+    padding-left: 56px;
+    background-image: url("@{public/images/hand.png}") 50% 0 no-repeat;
+  }
+
+</style>
+
 <div class="page-canvas push-6 prepend-1 span-10 append-1">
 
   <h2>Welcome @${user.userName}!</h2>
 
   <p>
-    Hello and welcome to the alpha release of Sparkmuse.  I wanted to take a moment
+    Hello and welcome to the beta release of Sparkmuse.  I wanted to take a moment
     to thank you for your participation. It really means a lot to me that you would
     take time out of your busy life to be a part of this project.  My hope is that you
     find something valuable here that will enable you to make your own ideas into
-    reality.
+    reality. Please feel welcome to
+    email me anytime at <a href="mailto:dave@sparkmuse.com">dave@sparkmuse.com</a> if
+    there is any way I can help you succeed.
   </p>
 
   <p>
     Below you will find a little information on where we're at now and how to get started.
     If you find Sparkmuse exciting, I would highly value your thoughts on how we can make
-    this community a kick-ass resource for entrepreneurial web professionals.  You are welcome to
-    email me anytime at <a href="mailto:dave@sparkmuse.com">dave@sparkmuse.com</a> now or in the future.
+    this community a kick-ass resource for entrepreneurial web professionals.
     You can add to the discussion on our #{feedbackLink /} page (also a Spark, how recursive!).
-  </p>
-
-  <h3>
-    What You Will Find
-  </h3>
-
-  <p>
-    I've tried to bring the essence of Sparkmuse to form in this alpha.  The discussion pages are
-    where I've spent the most effort trying to make a useful tool to document, discuss, and
-    collaborate on your ideas. You will stumble upon a few unimplemented features, several noticable
-    omissions (where are you pagination!), and probably a bug or two. My goal was to get the
-    concept in front of you sooner rather than later and learn how to shape the community and site
-    to empower your ambitions!
   </p>
 
   <h3>
@@ -52,10 +49,10 @@
       about connecting you with others who share your interests. Your bio is an opportunity for you to
       open the doors to these connections.
     </li>
-    <li>
-      Check out our <a href="@{Home.index()}">Sparks</a>, let people know your opinion! You will find a variety of posting options on each
-      Spark that will help you contribute to the discussion.
-    </li>
   </ol>
+
+  <div class="carry-on">
+    <a href="@{Home.index()}">Let's see those Sparks!</a>
+  </div>
 
 </div>
