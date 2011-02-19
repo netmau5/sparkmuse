@@ -47,12 +47,19 @@
 
     <table class="users">
       #{list items: profiles, as: 'profile'}
-      <tr>
-        <td class="column-1"><a href="@{Admin.user(profile.user.userName)}">Edit</a></td>
-        <td class="column-3">${profile.user.userName}</td>
-        <td class="column-4">${profile.user.accessLevel}</td>
-        <td class="column-2 last">${profile.invites}</td>
-      </tr>
+        #{if profile.user}
+          <tr>
+            <td class="column-1"><a href="@{Admin.user(profile.user.userName)}">Edit</a></td>
+            <td class="column-3">${profile.user.userName}</td>
+            <td class="column-4">${profile.user.accessLevel}</td>
+            <td class="column-2 last">${profile.invites}</td>
+          </tr>
+        #{/if}
+        #{else}
+          <tr>
+            <td class="last">No user found for profile</td>
+          </tr>
+        #{/else}
       #{/list}
     </table>
 
