@@ -3,9 +3,15 @@
 <style type="text/css">
 
   .carry-on {
-    padding-left: 56px;
-    background-image: url("@{public/images/hand.png}") 50% 0 no-repeat;
+    padding-right: 64px;
+    background: url("@{'/public/images/hand.png'}") right 50% no-repeat;
+    height: 50px;
+    line-height: 50px;
+    width: 150px;
+    margin: 0 auto;
   }
+
+  .carry-on a { font-size: 24px; }
 
 </style>
 
@@ -24,7 +30,7 @@
   </p>
 
   <p>
-    Below you will find a little information on where we're at now and how to get started.
+    Below you will find a little information on how to get started.
     If you find Sparkmuse exciting, I would highly value your thoughts on how we can make
     this community a kick-ass resource for entrepreneurial web professionals.
     You can add to the discussion on our #{feedbackLink /} page (also a Spark, how recursive!).
@@ -44,7 +50,7 @@
       form of discussion on Sparkmuse.
     </li>
     <li>
-      Please fill out your bio on your Profile page: #{nameTag user: currentUser /}. Sparkmuse isn't just
+      Please fill out your profile's bio: #{nameTag user: currentUser /}. Sparkmuse isn't just
       about discussing your ideas, it's
       about connecting you with others who share your interests. Your bio is an opportunity for you to
       open the doors to these connections.
@@ -52,7 +58,7 @@
   </ol>
 
   <div class="carry-on">
-    <a href="@{Home.index()}">Let's see those Sparks!</a>
+    <a href="@{Home.index()}">To the Sparks</a>
   </div>
 
 </div>

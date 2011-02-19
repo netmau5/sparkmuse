@@ -30,7 +30,8 @@ public class MostDiscussedSparks extends BasicSparkSearchResponse
   @Override
   public TreeSet<SparkVO> getSparks(PagingState state) {
     List<SparkVO> toReturn = Lists.newArrayList(getSparks());
-    return newTreeSet(toReturn.subList(state.pageSize() * (state.currentPage() - 1), state.pageSize() * state.currentPage()));
+    int endIndex = state.pageSize() * state.currentPage() > toReturn.size() ? toReturn.size() : state.pageSize() * state.currentPage();
+    return newTreeSet(toReturn.subList(state.pageSize() * (state.currentPage() - 1), endIndex));
   }
 
   public CacheKey<MostDiscussedSparks> getKey() {
