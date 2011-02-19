@@ -5,7 +5,7 @@
 
   .page-canvas {
     margin: 40px 0 160px 0;
-    background: none;
+    background-color: none;
   }
 
   .control-bar {
@@ -16,59 +16,68 @@
 
   .col-head { text-align: center; }
 
-  .message { font-size: 16px; }
+  .message { font-size: 16px; text-align: justify;}
 
-  .invites {
+  table.invites {
     margin-bottom: 0.5em;
-    text-align: center;
   }
 
-    .invites-remaining {
-      font-size: 64px;
-      font-weight: bold;
-      line-height: 1;
+    .invites td {
+      padding-right: 20px;
+      vertical-align: middle;
     }
 
-    .invites-total {
-      font-size: 16px;
-    }
+  .invite-status { text-align: center; }
 
-    .description { display: block; margin-top: 0.5em; }
+  .invites-remaining {
+    font-size: 64px;
+    font-weight: bold;
+    line-height: 1;
+  }
+
+  .invites-total {
+    font-size: 16px;
+  }
+
+  .description { display: block; margin-top: 0.5em; white-space: nowrap;}
 </style>
 
 <div class="page-canvas push-6 span-12 ">
 
-  <div class="span-6 first">
-    <div class="col-head">
-      <img src="${invitation.groupImage}" alt="${invitation.groupName}"/>
-    </div>
-    <div class="invites">
-      <span class="invites-remaining">${invitation.totalInvites - invitation.usedInvites}</span>
-      <span class="invites-total">/ ${invitation.totalInvites}</span>
-      <span class="description">
-        Invites Remaining
-        #{if invitation.used}:(#{/if}
-      </span>
-    </div>
-  </div>
-
-  <div class="span-6 last">
-    <p class="title message">
-      #{if invitation.used}
-      We're sorry, we're all out of invites. Please apply for an invitation on
-      our <a href="http://www.sparkmuse.com">homepage</a> if you'd still like to join.
-      #{/if}
-      #{if !invitation.used}
-      Welcome, we're glad you decided to stop by! Get a beta invite courtesy of <strong>${invitation.groupName}</strong> just
-      by signing in below.
-      #{/if}
-    </p>
-    #{if !invitation.used}
-    <div class="control-bar">
-      <a href="@{Authorization.applyInvitation(invitation.code)}" class="twitter-login">Sign in with Twitter</a>
-      <div class="subtext">(that's it!)</div>
-    </div>
-    #{/if}
-  </div>
+  <table class="invites">
+    <tr>
+      <td>
+        <div class="col-head">
+          <img src="${invitation.groupImage}" alt="${invitation.groupName}"/>
+        </div>
+        <div class="invite-status">
+          <span class="invites-remaining">${invitation.totalInvites - invitation.usedInvites}</span>
+          <span class="invites-total">/ ${invitation.totalInvites}</span>
+          <span class="description">
+            Invites Remaining
+            #{if invitation.used}:(#{/if}
+          </span>
+        </div>
+      </td>
+      <td>
+        <p class="title message">
+          #{if invitation.used}
+          We're sorry, we're all out of invites. Please apply for an invitation on
+          our <a href="http://www.sparkmuse.com">homepage</a> if you'd still like to join.
+          #{/if}
+          #{if !invitation.used}
+          Welcome! Get a beta invite courtesy of <strong>${invitation.groupName}</strong> just
+          by signing in below.
+          #{/if}
+        </p>
+        #{if !invitation.used}
+        <div class="control-bar">
+          <a href="@{Authorization.applyInvitation(invitation.code)}" class="twitter-login">Sign in with Twitter</a>
+          <div class="subtext">(that's it!)</div>
+        </div>
+        #{/if}
+      </td>
+    </tr>
+  </table>
 
 </div>
