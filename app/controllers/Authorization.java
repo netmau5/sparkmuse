@@ -103,7 +103,7 @@ public class Authorization extends SparkmuseController {
     if (validation.hasErrors()) {
       params.flash();
       validation.keep();
-      Application.invitation();
+      Application.invitation(null);
     }
 
     session.put(Constants.INVITATION_CODE, invitationCode);

@@ -6,7 +6,6 @@ import net.sparkmuse.user.Votables;
 import net.sparkmuse.user.UserLogin;
 import net.sparkmuse.data.entity.*;
 import com.google.inject.Inject;
-import com.google.inject.internal.Nullable;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Iterables;
@@ -87,9 +86,10 @@ public class TwigUserDao extends TwigDao implements UserDao {
   }
 
   public UserApplication findUserApplicationBy(String userName) {
-    return helper.only(datastore.find()
+    List<UserApplication> userApplications = helper.all(datastore.find()
         .type(UserApplication.class)
         .addFilter("userName", EQUAL, userName.toLowerCase()));
+    return CollectionUtils.size(userApplications) > 0 ? Iterables.getLast(userApplications) : null;
   }
 
   public List<UserProfile> getAllProfiles() {
@@ -192,4 +192,8 @@ public class TwigUserDao extends TwigDao implements UserDao {
         .addFilter("code", EQUAL, code));
   }
 
+  public Invitation findInvitationByGroup(String groupName) {
+    return helper.only(datastore.find().type(Invitation.class)
+          .addFilter("groupName", EQUAL, groupName));
+  }
 }

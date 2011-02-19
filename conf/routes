@@ -23,6 +23,7 @@ GET         /spark/view/{sparkId}             Spark.view
 *           /admin                            Admin.home
 
 GET         /feedback/{appName}               Application.feedback
+GET         /invitation/{groupName}           Application.invitation
 *           /{action}                         Application.{action}
 
 # Map static resources from the /app/public folder to the /public path

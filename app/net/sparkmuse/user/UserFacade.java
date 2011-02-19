@@ -48,6 +48,10 @@ public class UserFacade {
     return userDao.findInvitation(code);
   }
 
+  public Invitation findInvitationBy(String groupName) {
+    return userDao.findInvitationByGroup(groupName);
+  }
+
   public UserVO registerAuthentication(OAuthAuthenticationResponse response, @Nullable String invitationCode) {
     UserVO user = userDao.findOrCreateUserBy(twitterService.registerAuthentication(response));
 

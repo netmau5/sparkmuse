@@ -3,6 +3,7 @@ package controllers;
 import com.google.code.twig.ObjectDatastore;
 import com.google.common.collect.Lists;
 import com.google.inject.name.Named;
+import com.google.appengine.api.datastore.Query;
 
 import javax.inject.Inject;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import net.sparkmuse.data.entity.Feedback;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.Invitation;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.BlobService;
 import net.sparkmuse.common.Constants;
@@ -23,10 +25,6 @@ public class Application extends SparkmuseController {
   @Inject static ObjectDatastore datastore;
 
   @Inject static BlobService blobService;
-
-  public static final void manageFeedback(String key) {
-
-  }
 
   public static void logout() {
     session.clear();
@@ -46,8 +44,14 @@ public class Application extends SparkmuseController {
     render();
   }
 
-  public static void invitation() {
-    render();
+  public static void invitation(String groupName) {
+    if (StringUtils.isNotEmpty(groupName)) {
+      Invitation invitation = userFacade.findInvitationBy(groupName.replaceAll("-", " ")); //url encoding
+      renderTemplate("Application/invitationGroup.html", invitation);
+    }
+    else {
+      render();
+    }
   }
 
   public static void feedback(String appName) {
