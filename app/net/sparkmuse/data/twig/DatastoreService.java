@@ -5,11 +5,13 @@ import com.google.code.twig.FindCommand;
 import com.google.code.twig.LoadCommand;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Cursor;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.*;
 import com.google.inject.Inject;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.CacheKeyFactory;
 
@@ -116,6 +118,18 @@ public class DatastoreService {
     final QueryResultIterator<U> resultIterator = findCommand.fetchNextBy(200).now();
     final List<U> toReturn = Lists.newArrayList(resultIterator);
     return After.read(toReturn, this);
+  }
+
+  public final <U extends Entity<U>> List<U> all(PageChangeRequest pageChangeRequest, FindCommand.RootFindCommand<U> findCommand) {
+    final QueryResultIterator<U> resultIterator = pageChangeRequest.applyPaging(findCommand).now();
+    final List<U> rawResults = Lists.newArrayList();
+    for (int i = 0; i < pageChangeRequest.getState().pageSize() && resultIterator.hasNext(); i++) {
+      rawResults.add(resultIterator.next());
+    }
+    List<U> results = After.read(rawResults, this);
+    Cursor cursor = resultIterator.getCursor(); //get cursor before asking hasNext otherwise we bump the cursor forward one
+    pageChangeRequest.transition(resultIterator.hasNext(), cursor);
+    return results;
   }
 
   //CREATE/UPDATES

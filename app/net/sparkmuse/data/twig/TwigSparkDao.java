@@ -1,10 +1,11 @@
 package net.sparkmuse.data.twig;
 
 import com.google.inject.Inject;
-import com.google.common.base.Function;
 import com.google.appengine.api.datastore.Query;
+import com.google.code.twig.FindCommand;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.SparkDao;
+import net.sparkmuse.discussion.SparkSearchRequest;
 
 import java.util.List;
 
@@ -57,5 +58,23 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
         .addFilter("tags", Query.FilterOperator.EQUAL, StringUtils.lowerCase(tag))
         .addSort("created", Query.SortDirection.DESCENDING)
         .fetchMaximum(50));
+  }
+
+  public List<SparkVO> search(SparkSearchRequest request) {
+    FindCommand.RootFindCommand<SparkVO> find = datastore.find().type(SparkVO.class);
+    return helper.all(request.getPageChangeRequest(), addSort(find, request.getFilter()));
+  }
+
+  private static <T> FindCommand.RootFindCommand<T> addSort(FindCommand.RootFindCommand<T> find, SparkSearchRequest.Filter filter) {
+    if (SparkSearchRequest.Filter.DISCUSSED == filter) {
+      find.addSort("postCount");
+    }
+    else if (SparkSearchRequest.Filter.POPULAR == filter) {
+      find.addSort("rating");
+    }
+    else if (SparkSearchRequest.Filter.RECENT == filter) {
+      find.addSort("created");
+    }
+    return find;
   }
 }

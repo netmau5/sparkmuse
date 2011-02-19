@@ -1,8 +1,10 @@
 package net.sparkmuse.data;
 
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.discussion.SparkSearchRequest;
 
 import java.util.List;
+import java.util.Collection;
 
 import com.google.common.base.Function;
 
@@ -18,4 +20,5 @@ public interface SparkDao extends CrudDao {
   List<SparkVO> loadRecent();
   List<SparkVO> loadMostDiscussed();
   List<SparkVO> loadTagged(String tag);
+  List<SparkVO> search(SparkSearchRequest request);
 }

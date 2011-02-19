@@ -5,6 +5,7 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.data.paging.PagingState;
 import net.sparkmuse.discussion.SparkSearchResponse;
 
 import java.util.List;
@@ -55,6 +56,10 @@ public class VotablesTest {
             new SparkVO(),
             new SparkVO()
         ));
+      }
+
+      public TreeSet<SparkVO> getSparks(PagingState state) {
+        return getSparks();
       }
     };
 

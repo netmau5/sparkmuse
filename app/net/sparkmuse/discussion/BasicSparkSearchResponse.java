@@ -1,12 +1,12 @@
 package net.sparkmuse.discussion;
 
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.data.paging.PagingState;
 
 import java.util.TreeSet;
 import java.io.Serializable;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Iterables;
 import play.Logger;
 
@@ -17,8 +17,6 @@ import play.Logger;
  * @created: Nov 25, 2010
  */
 public class BasicSparkSearchResponse implements Serializable, SparkSearchResponse {
-
-  static final int MAX_SIZE = 60;
 
   private final TreeSet<SparkVO> sparks;
   private SparkSearchRequest.Filter filter;
@@ -33,6 +31,10 @@ public class BasicSparkSearchResponse implements Serializable, SparkSearchRespon
     return sparks;
   }
 
+  public TreeSet<SparkVO> getSparks(PagingState state) {
+    return getSparks();
+  }
+
   public SparkSearchRequest.Filter getFilter() {
     return filter;
   }
@@ -42,7 +44,7 @@ public class BasicSparkSearchResponse implements Serializable, SparkSearchRespon
     this.sparks.remove(spark); //different instances may .equal one another, remove old one
     Logger.debug("Adding spark from SparkSearchResponse [" + spark.getKey() + "] with size [" + sparks.size() + "]");
     this.sparks.add(spark);
-    if (this.sparks.size() > MAX_SIZE) this.sparks.remove(Iterables.getLast(this.sparks));
+    if (this.sparks.size() > MAX_CACHE_SIZE) this.sparks.remove(Iterables.getLast(this.sparks));
   }
   
 }

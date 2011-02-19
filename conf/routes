@@ -9,8 +9,8 @@ GET         /robots.txt                       Application.robots
 GET         /login                            Authorization.authenticate
 GET         /authorize                        Authorization.authorize
 
-*           /home/index                       Home.search(filter:'RECENT')
-*           /home/index/{<[A-Za-z]+>filter}   Home.search
+GET         /home/index                       Home.search(filter:'RECENT',page:'1')
+*           /home/index/{<[A-Za-z]+>filter}/{page}   Home.search
 *           /home/tagged/{tagName}            Home.tagged
 
 *           /vote/{entity}/{id}               User.vote

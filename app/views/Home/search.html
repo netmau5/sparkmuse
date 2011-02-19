@@ -156,9 +156,9 @@
 <div class="page-title prepend-1 span-22 append-1">
 
   <div class="span-14 first">
-    <a href="@{Home.search("DISCUSSED")}" id="discussed-link" class='${"DISCUSSED".equalsIgnoreCase(sparkSearch.filter.toString()) ? "selected" : ""}'>Discussed</a>
-    <a href="@{Home.search("POPULAR")}" id="popular-link" class='${"POPULAR".equalsIgnoreCase(sparkSearch.filter.toString()) ? "selected" : ""}'>Popular</a>
-    <a href="@{Home.search("RECENT")}" id="recent-link" class='${"RECENT".equalsIgnoreCase(sparkSearch.filter.toString()) ? "selected" : ""}'>Recent</a>
+    <a href="@{Home.search("DISCUSSED", 1)}" id="discussed-link" class='${"DISCUSSED".equalsIgnoreCase(filter.toString()) ? "selected" : ""}'>Discussed</a>
+    <a href="@{Home.search("POPULAR", 1)}" id="popular-link" class='${"POPULAR".equalsIgnoreCase(filter.toString()) ? "selected" : ""}'>Popular</a>
+    <a href="@{Home.search("RECENT", 1)}" id="recent-link" class='${"RECENT".equalsIgnoreCase(filter.toString()) ? "selected" : ""}'>Recent</a>
     <h1>Sparks</h1>
   </div>
   <div class="span-8 last">
@@ -176,7 +176,7 @@
 
       <hr/>
 
-      #{list items: sparkSearch.sparks, as: 'spark'}
+      #{list items: sparks, as: 'spark'}
       <div class='spark spark-${spark.stage.toWords().toLowerCase()}'>
 
 
@@ -201,10 +201,18 @@
 
         </div>
 
-        <hr/> 
+        <hr/>
 
       </div>
       #{/list}
+
+      #{if pagingState.currentPage() > 1}
+        <a href="@{Home.search(filter, pagingState.currentPage() - 1)}">Previous</a>
+      #{/if}
+      #{if pagingState.currentPage() > 1 && pagingState.hasMorePages()} | #{/if}
+      #{if pagingState.hasMorePages()}
+        <a href="@{Home.search(filter, pagingState.currentPage() + 1)}">Next</a>
+      #{/if}
 
     </div>
 

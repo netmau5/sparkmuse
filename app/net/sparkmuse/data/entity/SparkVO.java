@@ -5,6 +5,7 @@ import net.sparkmuse.discussion.SparkRanking;
 import net.sparkmuse.common.Dateable;
 import net.sparkmuse.client.NoScriptCheck;
 import net.sparkmuse.activity.Notifiable;
+import net.sparkmuse.data.paging.PagingSize;
 
 import java.util.List;
 
@@ -24,6 +25,7 @@ import com.google.common.base.Function;
  * @author neteller
  * @created: Jul 5, 2010
  */
+@PagingSize(20)
 public class SparkVO extends OwnedEntity<SparkVO> 
     implements Votable, Dateable, Notifiable {
 

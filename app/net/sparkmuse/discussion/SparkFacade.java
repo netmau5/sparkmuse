@@ -1,6 +1,8 @@
 package net.sparkmuse.discussion;
 
 import net.sparkmuse.data.*;
+import net.sparkmuse.data.paging.PagingState;
+import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.common.CacheKeyFactory;
@@ -47,11 +49,30 @@ public class SparkFacade {
   }
 
   public SparkSearchResponse search(final SparkSearchRequest request) {
+    PageChangeRequest pageChange = request.getPageChangeRequest();
+    if (request.getFilter() == SparkSearchRequest.Filter.TAGGED) {
+      return getTaggedSparks(request.getTag());
+    }
+    //cacheable + pageable stuff
+    else if(SparkSearchResponse.MAX_CACHE_SIZE < pageChange.maxResultIndex()) {
+      TreeSet results = new TreeSet(request.getFilter().getOrdering());
+      results.addAll(sparkDao.search(request));
+      return new BasicSparkSearchResponse(results, request.getFilter());
+    }
+    //pageable
+    else {
+      //paging state wont be updated by persistence as we are using cached stuff
+      SparkSearchResponse response = getCachedSparkSearchResponse(request);
+      pageChange.transition(response.getSparks().size() > pageChange.maxResultIndex(), null);
+      return response;
+    }
+  }
+
+  private SparkSearchResponse getCachedSparkSearchResponse(SparkSearchRequest request) {
     SparkSearchRequest.Filter filter = request.getFilter();
     if (SparkSearchRequest.Filter.DISCUSSED == filter) return getMostDiscussedSparks();
     else if (SparkSearchRequest.Filter.POPULAR == filter) return getPopularSparks();
     else if (SparkSearchRequest.Filter.RECENT == filter) return getRecentSparks();
-    else if (SparkSearchRequest.Filter.TAGGED == filter) return getTaggedSparks(request.getTag());
     else throw new IllegalArgumentException("Unknown spark search request.");
   }
 

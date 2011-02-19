@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Collection;
 
 import org.joda.time.DateTime;
+import net.sparkmuse.data.paging.PagingState;
 
 /**
  * Created by IntelliJ IDEA.
