@@ -138,17 +138,21 @@
   .clockframe-content {
     margin-top: -15px;
     padding: 0 8px;
+    text-align: center;
   }
     .clockframe-content h2 {
-      background: url("@{'public/images/welcome.png'}") no-repeat;
+      background: url("@{'public/images/welcome.png'}") center center no-repeat;
       display: block;
       height: 30px;
-      width: 120px;
       margin-bottom: 5px;
       text-indent: -9999px;
     }
 
-    .clockframe-content .buttons { padding: 0 0 0 70px;}
+    .clockframe-content .buttons {
+      height: 50px;
+      background: url("@{'/public/images/hand.png'}") 30px 50% no-repeat;
+      padding: 0 0 0 90px;
+    }
 
 
 </style>
@@ -226,12 +230,7 @@
           <div>
             <h2>Welcome</h2>
             <p>
-              Sparkmuse is an invite-only community where
-              <strong>entrepreneurial technologists can share and refine innovative ideas</strong>
-              with one another.
-              If you'd like to learn more, please check out our <a href="http://blog.sparkmuse.com/">blog</a>.
-              We're still in private alpha testing, but
-              #{feedbackLink}we'd love to hear about what you think#{/feedbackLink}!
+              Share your ideas and insights with us!
             </p>
           </div>
           <div class="buttons">
