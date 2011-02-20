@@ -163,7 +163,7 @@
 
       <p>
         #{list items: assets.users, as: "user"}
-        <a href="http://www.twitter.com/#/${user.userName}" target="_blank">
+        <a href="@{User.view(user.userName)}" title="${user.userName}" target="_blank">
           <img class="avatar-normal" src="http://api.twitter.com/1/users/profile_image/${user.userName}.json?size=normal" alt="${user.userName}"/>
         </a>
         #{/list}
