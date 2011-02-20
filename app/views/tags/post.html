@@ -50,6 +50,7 @@
             title="Reply to this post.">
           <img src="@{'public/images/icons/silk/comment_add.png'}" />
         </a>
+        <a href="#" onclick="SM.Spark.newReply('${_post.id}');" style="font-style: normal;">Reply</a> &nbsp;
       %{ } }%
       <label class="minor">Posted ${_post.created.format()}</label>
     </div>
