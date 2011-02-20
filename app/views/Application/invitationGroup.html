@@ -5,7 +5,7 @@
 
   .page-canvas {
     margin: 40px 0 160px 0;
-    background-color: none;
+    background: none;
   }
 
   .control-bar {
@@ -39,7 +39,7 @@
     font-size: 16px;
   }
 
-  .description { display: block; margin-top: 0.5em; white-space: nowrap;}
+  .description { display: block; margin-top: 0.5em; }
 </style>
 
 <div class="page-canvas push-6 span-12 ">
@@ -51,8 +51,10 @@
           <img src="${invitation.groupImage}" alt="${invitation.groupName}"/>
         </div>
         <div class="invite-status">
-          <span class="invites-remaining">${invitation.totalInvites - invitation.usedInvites}</span>
-          <span class="invites-total">/ ${invitation.totalInvites}</span>
+          <div style="white-space: nowrap;">
+            <span class="invites-remaining">${invitation.totalInvites - invitation.usedInvites}</span>
+            <span class="invites-total">/ ${invitation.totalInvites}</span>
+          </div>
           <span class="description">
             Invites Remaining
             #{if invitation.used}:(#{/if}
