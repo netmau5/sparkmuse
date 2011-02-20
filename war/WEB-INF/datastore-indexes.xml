@@ -27,5 +27,10 @@
     <property name="tags" direction="asc"/>
     <property name="created" direction="desc"/>
   </datastore-index>
+  
+  <datastore-index kind="net_sparkmuse_data_entity_AppStat" ancestor="false">
+    <property name="type" direction="asc"/>
+    <property name="created" direction="desc"/>
+  </datastore-index>
 
 </datastore-indexes>

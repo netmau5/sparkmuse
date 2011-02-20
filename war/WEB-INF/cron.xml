@@ -25,4 +25,9 @@
     <description>Determine if a user is elgible for placement on the people page</description>
     <schedule>every 30 minutes</schedule>
   </cron>
+  <cron>
+    <url>/Tasks/execute?taskClassName=net.sparkmuse.task.GatherAppStatisticsTask</url>
+    <description>Stats on system activity</description>
+    <schedule>every 12 hours</schedule>
+  </cron>
 </cronentries>
