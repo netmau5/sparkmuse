@@ -31,7 +31,7 @@ public class GatherAppStatisticsTask extends Task {
 
   protected Cursor runTask(@Nullable Cursor cursor) {
     //no filter used for isUSER so we dont need an index
-    int userCount = count(createCountQuery(UserVO.class).restrictEntities(new ActiveUserRestriction()).returnAll().now());
+    int userCount = count(createUserCountQuery().restrictEntities(new ActiveUserRestriction()).returnAll().now());
     int sparkCount = createCountQuery(SparkVO.class).returnCount().now();
     int postCount = createCountQuery(Post.class).returnCount().now();
 
@@ -62,6 +62,15 @@ public class GatherAppStatisticsTask extends Task {
 
   private <T> FindCommand.RootFindCommand<T> createCountQuery(Class<T> type) {
     return sinceLastMigration(datastore.find().type(type));
+  }
+
+  private FindCommand.RootFindCommand<UserVO> createUserCountQuery() {
+    FindCommand.RootFindCommand<UserVO> find = datastore.find().type(UserVO.class);
+    final Migration lastMigration = lastMigration();
+    if (null != lastMigration) { //has a value set for people elgible
+      find.addFilter("firstLogin", Query.FilterOperator.GREATER_THAN, lastMigration.getStarted().getMillis());
+    }
+    return find;
   }
 
 
