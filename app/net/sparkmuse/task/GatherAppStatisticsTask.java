@@ -9,12 +9,11 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.QueryResultIterator;
 
-import java.util.concurrent.Future;
-import java.util.concurrent.ExecutionException;
-
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.util.AccessLevel;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 /**
  * @author neteller
@@ -32,7 +31,7 @@ public class GatherAppStatisticsTask extends Task {
 
   protected Cursor runTask(@Nullable Cursor cursor) {
     //no filter used for isUSER so we dont need an index
-    int userCount = createCountQuery(UserVO.class).restrictEntities(new ActiveUserRestriction()).returnCount().now();
+    int userCount = count(createCountQuery(UserVO.class).restrictEntities(new ActiveUserRestriction()).returnAll().now());
     int sparkCount = createCountQuery(SparkVO.class).returnCount().now();
     int postCount = createCountQuery(Post.class).returnCount().now();
 
@@ -41,6 +40,10 @@ public class GatherAppStatisticsTask extends Task {
     datastore.store().instance(AppStat.newPostCount(previousCount(AppStat.Type.POSTS) + postCount)).later();
 
     return null;
+  }
+
+  private int count(List<UserVO> userVOs) {
+    return userVOs.size();
   }
 
   private int previousCount(AppStat.Type type) {
