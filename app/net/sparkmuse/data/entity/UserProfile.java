@@ -40,13 +40,16 @@ public class UserProfile extends Entity<UserProfile> {
   private String displayBio;
 
   private List<Expertise> expertises; //yea, i know, whatever
+  private List<Expertise> seekingExpertises;
 
   private Integer invites;
 
+  private boolean seekingConnections; //looking for partners
   private boolean peopleElgible; //has met requirements to be shown on people page
 
   public UserProfile() {
     this.expertises = Lists.newArrayList();
+    this.seekingExpertises = Lists.newArrayList();
   }
 
   public static UserProfile newProfile(UserVO storedNewUser) {
@@ -138,5 +141,20 @@ public class UserProfile extends Entity<UserProfile> {
   public void setPeopleElgible(boolean peopleElgible) {
     this.peopleElgible = peopleElgible;
   }
-  
+
+  public List<Expertise> getSeekingExpertises() {
+    return seekingExpertises;
+  }
+
+  public void setSeekingExpertises(List<Expertise> seekingExpertises) {
+    this.seekingExpertises = seekingExpertises;
+  }
+
+  public boolean isSeekingConnections() {
+    return seekingConnections;
+  }
+
+  public void setSeekingConnections(boolean seekingConnections) {
+    this.seekingConnections = seekingConnections;
+  }
 }

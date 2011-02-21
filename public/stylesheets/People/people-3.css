@@ -68,7 +68,10 @@ table.users {
 
 table.users td.column-avatar { width: 55px; padding: 3px; }
 
-.column-expertise { min-width: 240px; font-family: $FONT_FAMILY_TITLE; } 
+.column-expertise { min-width: 240px; font-family: $FONT_FAMILY_TITLE; }
+
+  .column-expertise .has { color: $LOGO_DARK_BLUE; }
+  .column-expertise .seeking { color: #806f00; }
 
 .thead-icon  {
   text-indent: -9999px;
@@ -88,29 +91,6 @@ table.users td.column-avatar { width: 55px; padding: 3px; }
   .sparks {
     background-image: url("../../images/icons/silk/asterisk_orange.png");
   }
-
-.expertise {
-  width: 32px;
-  height: 32px;
-  background-repeat: no-repeat;
-  background-image: url("../../images/icons/expertise-sprite.png");
-  display: block;
-  float: left;
-}
-
-.expertise-big-data { background-position: 0 0; }
-.expertise-business { background-position: 0 -32px; }
-.expertise-design { background-position: 0 -64px; }
-.expertise-domain-expertise { background-position: 0 -96px; }
-.expertise-engineering { background-position: 0 -128px; }
-.expertise-finance { background-position: 0 -160px; }
-.expertise-lean-methodology { background-position: 0 -192px; }
-.expertise-marketing { background-position: 0 -224px; }
-.expertise-mobile { background-position: 0 -256px; }
-.expertise-product-development { background-position: 0 -288px; }
-.expertise-sales { background-position: 0 -320px; }
-.expertise-seo { background-position: 0 -352px; }
-.expertise-social-media { background-position: 0 -384px; }
 
 .how-to-container {
   font-family: $FONT_FAMILY_TITLE;

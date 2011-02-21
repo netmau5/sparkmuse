@@ -1,6 +1,6 @@
 #{extends "User/user.template.html" /}
 
-<div class="span-10 first">
+<div class="span-9 first">
   <h3>Bio</h3>
   <div class="markdown-container">${profile?.displayBio?.raw()}</div>
   #{if !profile.displayBio}
@@ -8,11 +8,11 @@
   #{/if}
 </div>
 
-<div class="span-4 last">
+<div class="span-5 last">
   <h3>Expertise</h3>
-  <ul>
+  <ul class="expertise-list">
     #{list items: profile.expertises, as: "expertise"}
-      <li>${expertise.toDisplay()}</li>
+      <li><span class="expertise ${expertise.toCss()}"></span> ${expertise.toDisplay()}</li>
     #{/list}
   </ul>
   #{if !profile.expertises}

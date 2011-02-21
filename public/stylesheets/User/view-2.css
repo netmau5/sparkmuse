@@ -85,12 +85,21 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   }
 
   .invites .input-wrapper { margin-bottom: 0; }
-m
+
   .invites .button { float: none; display: inline-block; margin: 0; }
 
 .activity {
   height: 200px;
 }
+
+.expertise-list {
+  padding-left: 0;
+  list-style-type: none;
+  line-height: 32px;
+}
+
+  .expertise-list li { margin-bottom: 4px; }
+  .expertise-list .expertise { margin-right: 4px; }
 
 /** BEGIN <EDIT> **/
 

@@ -9,6 +9,7 @@ import com.google.code.twig.ObjectDatastore;
 import com.google.inject.Inject;
 import com.google.appengine.api.datastore.Query;
 import org.apache.commons.lang.StringUtils;
+import play.Play;
 
 /**
  * @author neteller
@@ -16,6 +17,7 @@ import org.apache.commons.lang.StringUtils;
  */
 public class PeoplePageElgibilityTransformationTask extends TransformationTask<UserProfile> {
 
+  private static final int MIN_REP = Integer.parseInt(Play.configuration.getProperty("people-page.min-rep"));
   private final ObjectDatastore datastore;
 
   @Inject
@@ -36,7 +38,7 @@ public class PeoplePageElgibilityTransformationTask extends TransformationTask<U
     }
 
     //earn at least 10 rep
-    if (userProfile.getUser().getReputation() < 5) {
+    if (userProfile.getUser().getReputation() < MIN_REP) {
       return userProfile;
     }
 

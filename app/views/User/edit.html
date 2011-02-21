@@ -27,12 +27,39 @@
       </tr>
       <tr>
         <td colspan="2" class="column-10 first last">
-          <label>Expertise</label>
-          <div class="field expertise">
+          <label>Your Expertise</label>
+          <div class="field expertise-options">
             <table>
               <tr>
                 #{list items: expertises, as: "expertise"}
                   <td><input type="checkbox" value="${expertise}" ${profile.expertises.contains(expertise) ? "checked" : ""} /> ${expertise.toWords()}</td>
+                  #{if expertise_index % 2 == 0}</tr><tr>#{/if}
+                #{/list}
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" class="column-10 first last">
+          <label>Potential Partners</label>
+          <div class="field">
+            <table>
+              <tr>
+                <td><input type="checkbox" name="seekingConnections" ${profile.seekingConnections ? "checked" : ""} /> Are You Looking to Connect with Others?</td>
+              </tr>
+            </table>
+          </div>
+        </td>
+      </tr>
+      <tr style='display: ${profile.seekingConnections ? "" : "none"}'>
+        <td colspan="2" class="column-10 first last">
+          <label>What kind of expertise are you looking for?</label>
+          <div class="field seeking-expertise-options">
+            <table>
+              <tr>
+                #{list items: expertises, as: "expertise"}
+                  <td><input type="checkbox" value="${expertise}" ${profile.seekingExpertises.contains(expertise) ? "checked" : ""} /> ${expertise.toWords()}</td>
                   #{if expertise_index % 2 == 0}</tr><tr>#{/if}
                 #{/list}
               </tr>
@@ -80,13 +107,19 @@
           location: f.location.value,
           email: f.email.value,
           website: f.website.value,
-          expertises: $(".expertise input:checked").map(function() { return this.value; }),
+          expertises: $(".expertise-options input:checked").map(function() { return this.value; }),
+          seekingConnections: f.seekingConnections.checked,
+          seekingExpertises: $(".seeking-expertise-options input:checked").map(function() { return this.value; }),
           bio: f.bio.value,
           displayBio: converter.makeHtml(f.bio.value)
         }
       }
     }).bind(SM.Events.Submit, SM.formSubmitModal)
       .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
+
+    $(f.seekingConnections).click(function(){
+      $(".seeking-expertise").parents("tr").toggle();
+    })
 
   });
 

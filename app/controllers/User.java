@@ -60,7 +60,19 @@ public class User extends SparkmuseController {
     }
 
     final UserProfile existingProfile = userFacade.getUserProfile(Authorization.getUserFromSession().getUserName());
-    userFacade.updateProfile(Reflections.overlay(existingProfile, profile));
+    userFacade.updateProfile(Reflections.overlay(
+        existingProfile,
+        profile,
+        "name",
+        "location",
+        "email",
+        "website",
+        "expertises",
+        "seekingConnections",
+        "seekingExpertises",
+        "bio",
+        "displayBio"
+    ));
 
     Map<String, Object> args = new HashMap();
     args.put("userName", existingProfile.getUser().getUserName());

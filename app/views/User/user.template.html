@@ -2,7 +2,7 @@
 
 #{set title: profile.user.userName.toWords() + "'s Profile" /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/User/view.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/User/view-2.css'}" type="text/css" />
 
 <!--<div class="prepend-3 span-18 append-3 last">-->
 <div class="span-24 first last">
@@ -22,7 +22,7 @@
             #{if profile.location} | ${profile.location}#{/if}
             #{if profile.website} | <a href="${profile.website?.url()}" target="_blank" alt="Member's website">Website</a>#{/if}
             #{if profile.user.userName} | <a href="http://www.twitter.com/#/${profile.user.userName}" target="_blank">@${profile.user.userName}</a>#{/if}
-            #{if currentUser == profile.user} | <a href="@{User.edit(profile.user.userName)}">Edit&nbsp;Profile&nbsp; &rarr;</a>#{/if}
+            #{if isView && currentUser == profile.user} | <a href="@{User.edit(profile.user.userName)}">Edit&nbsp;Profile&nbsp; &rarr;</a>#{/if}
           </div>
         </td>
       </tr>

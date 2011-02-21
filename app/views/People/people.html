@@ -2,7 +2,7 @@
 #{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
 #{set nav:'PEOPLE' /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/People/people-2.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/People/people-3.css'}" type="text/css" />
 
 <div class="page-title prepend-1 span-22 append-1 first last">
 
@@ -25,7 +25,7 @@
           <td><div class="thead-icon rep" title="Reputation">Rep</div></td>
           <td><div class="thead-icon posts" title="Posts">Posts</div></td>
           <td><div class="thead-icon sparks" title="Sparks">Sparks</div></td>
-          <td class="column-expertise">Expertise</td>
+          <td class="column-expertise"><span class="has">Expertise</span> / <span class="seeking">Seeking Expertise</span> </td>
         </tr>
       </thead>
       <tbody>
@@ -47,6 +47,11 @@
             #{list items: profile.expertises, as: "expertise"}
               <span class="expertise ${expertise.toCss()}" title="${expertise.toDisplay()}"></span>
             #{/list}
+            #{if profile.seekingConnections}
+              #{list items: profile.seekingExpertises, as: "seekingExpertise"}
+                <span class="seeking-expertise ${seekingExpertise.toCss()}" title="Seeking ${seekingExpertise.toDisplay()}"></span>
+              #{/list}
+            #{/if}
           </td>
         </tr>
         #{/list}

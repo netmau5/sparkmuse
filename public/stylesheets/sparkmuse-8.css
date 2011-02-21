@@ -19,6 +19,7 @@
     <OPTIONS>       Option boxes
     <TWITTER>
     <REPUTATION>
+    <EXPERTISE>
     <FOLLOW>
     <MARKDOWN>
 */
@@ -1720,6 +1721,42 @@ a.twitter-login:active {
 }
 
 /* END <REPUTATION> */
+
+/* BEGIN <EXPERTISE> */
+
+.expertise {
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-image: url("../images/icons/expertise-sprite.png");
+  display: block;
+  float: left;
+}
+
+.seeking-expertise {
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  background-image: url("../images/icons/expertise-sprite-wtb.png");
+  display: block;
+  float: left;
+}
+
+.expertise-big-data { background-position: 0 0; }
+.expertise-business { background-position: 0 -32px; }
+.expertise-design { background-position: 0 -64px; }
+.expertise-domain-expertise { background-position: 0 -96px; }
+.expertise-engineering { background-position: 0 -128px; }
+.expertise-finance { background-position: 0 -160px; }
+.expertise-lean-methodology { background-position: 0 -192px; }
+.expertise-marketing { background-position: 0 -224px; }
+.expertise-mobile { background-position: 0 -256px; }
+.expertise-product-development { background-position: 0 -288px; }
+.expertise-sales { background-position: 0 -320px; }
+.expertise-seo { background-position: 0 -352px; }
+.expertise-social-media { background-position: 0 -384px; }
+
+/* END <EXPERTISE> */
 
 /* BEGIN <FOLLOW> */
 
