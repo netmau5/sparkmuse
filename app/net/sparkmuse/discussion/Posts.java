@@ -33,20 +33,41 @@ public class Posts {
     this.spark = spark;
     this.posts = ImmutableList.copyOf(posts);
 
-    final List<Entry<Post, Resource>> resources = Lists.newArrayList();
-    final List<Entry<Post, Visual>> visuals = Lists.newArrayList();
-    final List<Entry<Post, Offer>> offers = Lists.newArrayList();
-
-    for (final Post post: posts) {
-      resources.addAll(toEntries(post, post.getResources()));
-      visuals.addAll(toEntries(post, post.getVisuals()));
-      offers.addAll(toEntries(post, post.getOffers()));
-    }
+    List<Entry<Post, Resource>> resources = collectResources(posts);
+    final List<Entry<Post, Visual>> visuals = collectVisuals(posts);
+    final List<Entry<Post, Offer>> offers = collectOffers(posts);
 
     final Orderings.ByVotesEntry orderingByVotes = new Orderings.ByVotesEntry();
     this.resources = orderingByVotes.sortedCopy(resources);
     this.visuals = orderingByVotes.sortedCopy(visuals);
     this.offers = orderingByVotes.sortedCopy(offers);
+  }
+
+  private List<Entry<Post, Resource>> collectResources(Iterable<Post> posts) {
+    List<Entry<Post, Resource>> resources = Lists.newArrayList();
+    for (final Post post: posts) {
+      resources.addAll(toEntries(post, post.getResources()));
+      resources.addAll(collectResources(post.getReplies()));
+    }
+    return resources;
+  }
+
+  private List<Entry<Post, Visual>> collectVisuals(Iterable<Post> posts) {
+    List<Entry<Post, Visual>> resources = Lists.newArrayList();
+    for (final Post post: posts) {
+      resources.addAll(toEntries(post, post.getVisuals()));
+      resources.addAll(collectVisuals(post.getReplies()));
+    }
+    return resources;
+  }
+
+  private List<Entry<Post, Offer>> collectOffers(Iterable<Post> posts) {
+    List<Entry<Post, Offer>> resources = Lists.newArrayList();
+    for (final Post post: posts) {
+      resources.addAll(toEntries(post, post.getOffers()));
+      resources.addAll(collectOffers(post.getReplies()));
+    }
+    return resources;
   }
 
   public <T> Collection<Entry<Post, T>> toEntries(final Post post, Iterable<T> items) {

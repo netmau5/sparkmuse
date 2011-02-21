@@ -124,7 +124,7 @@
         <h4>Offers</h4>
         <ol>
           #{list items: posts.offers, as: "offerEntry"}
-            <li><strong>${offerEntry.value.expertise.toWords()}</strong>&nbsp;&nbsp;#{nameTag user: offerEntry.key.author /}</li>
+            <li>${offerEntry.value.expertise.toDisplay()}&nbsp;&nbsp;#{nameTag user: offerEntry.key.author /}</li>
           #{/list}
         </ol>
       </div>

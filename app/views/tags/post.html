@@ -21,7 +21,7 @@
       <div class="content offer">
         #{list items: _post.offers, as: "offer"}
           <p>
-            @${_post.author.userName} is offering help with <strong>${offer.expertise.toWords()}</strong>.
+            <a href="@{User.view(_post.author.userName)}">${_post.author.userName}</a> is offering help with <strong>${offer.expertise.toDisplay()}</strong>.
           </p>
         #{/list}
       </div>
