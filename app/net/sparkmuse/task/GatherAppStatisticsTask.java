@@ -32,44 +32,29 @@ public class GatherAppStatisticsTask extends Task {
 
   protected Cursor runTask(@Nullable Cursor cursor) {
     //no filter used for isUSER so we dont need an index
-    Future<Integer> userCount = createCountQuery(UserVO.class).restrictEntities(new ActiveUserRestriction()).returnCount().later();
-    Future<Integer> sparkCount = createCountQuery(SparkVO.class).returnCount().later();
-    Future<Integer> postCount = createCountQuery(Post.class).returnCount().later();
+    int userCount = createCountQuery(UserVO.class).restrictEntities(new ActiveUserRestriction()).returnCount().now();
+    int sparkCount = createCountQuery(SparkVO.class).returnCount().now();
+    int postCount = createCountQuery(Post.class).returnCount().now();
 
-    //get previous counts
-    Future<QueryResultIterator<AppStat>> previousUserCount = createPreviousCountQuery(AppStat.Type.USERS);
-    Future<QueryResultIterator<AppStat>> previousSparkCount = createPreviousCountQuery(AppStat.Type.USERS);
-    Future<QueryResultIterator<AppStat>> previousPostCount = createPreviousCountQuery(AppStat.Type.USERS);
-
-    try {
-      datastore.store().instance(AppStat.newUserCount(previousCount(previousUserCount) + userCount.get())).later();
-      datastore.store().instance(AppStat.newSparkCount(previousCount(previousSparkCount) + sparkCount.get())).later();
-      datastore.store().instance(AppStat.newPostCount(previousCount(previousPostCount) + postCount.get())).later();
-    } catch (ExecutionException e) {
-      throw new RuntimeException(e);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
-    }
+    datastore.store().instance(AppStat.newUserCount(previousCount(AppStat.Type.USERS) + userCount)).later();
+    datastore.store().instance(AppStat.newSparkCount(previousCount(AppStat.Type.SPARKS) + sparkCount)).later();
+    datastore.store().instance(AppStat.newPostCount(previousCount(AppStat.Type.POSTS) + postCount)).later();
 
     return null;
   }
 
-  private int previousCount(Future<QueryResultIterator<AppStat>> query) throws ExecutionException, InterruptedException {
-    QueryResultIterator<AppStat> statQueryResultIterator = query.get();
+  private int previousCount(AppStat.Type type) {
+    QueryResultIterator<AppStat> statQueryResultIterator = datastore.find().type(AppStat.class)
+        .addFilter("type", Query.FilterOperator.EQUAL, type.toString())
+        .addSort("created", Query.SortDirection.DESCENDING)
+        .fetchMaximum(1)
+        .now();
     if (statQueryResultIterator.hasNext()) {
       return statQueryResultIterator.next().getCount();
     }
     else {
       return 0;
     }
-  }
-
-  private Future<QueryResultIterator<AppStat>> createPreviousCountQuery(AppStat.Type type) {
-    return datastore.find().type(AppStat.class)
-        .addFilter("type", Query.FilterOperator.EQUAL, type.toString())
-        .addSort("created", Query.SortDirection.DESCENDING)
-        .fetchMaximum(1)
-        .later();
   }
 
   private <T> FindCommand.RootFindCommand<T> createCountQuery(Class<T> type) {
