@@ -2,7 +2,7 @@
 #{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
 #{set nav:'PEOPLE' /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/People/people.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/People/people-2.css'}" type="text/css" />
 
 <div class="page-title prepend-1 span-22 append-1 first last">
 
@@ -58,20 +58,21 @@
   <div class="span-7 last">
 
     <div class="how-to-container">
-      <div class="step-1">
-        Who's Here? 
+      <div class="back">
+        <div class="inner">
+          <ol>
+            <li>Update Your Profile</li>
+            <li>Contribute to the discussion</li>
+            <li>Earn 5 Reputation</li>
+          </ol>
+        </div>
       </div>
-      <div class="step-2">
-        Update Your Profile
-      </div>
-      <div class="step-3">
-        Contribute tp a Spark or Create Your Own
-      </div>
-      <div class="step-4">
-        Get At Least 5 Reputation
+      <div class="front">
+        <div class="inner">
+          How do I get listed?
+        </div>
       </div>
     </div>
-
 
     #{include "standardBlurbs.html" /}
 
@@ -87,6 +88,14 @@
     $(".column-name a").click(function(e){
       e.stopPropagation();
     });
+
+    $('.how-to-container').hover(function(){
+      $(this).children('.front').stop().animate({'left' : '-300px'}, 500);
+    },
+    function(){
+      $(this).children('.front').stop().animate({'top' : '0px', 'left' : '0px'}, 500);
+    });
+
   })
 
 </script>

@@ -114,40 +114,54 @@ table.users td.column-avatar { width: 55px; padding: 3px; }
 
 .how-to-container {
   font-family: $FONT_FAMILY_TITLE;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
   margin-bottom: 1em;
-  display: none; 
+
+  position:relative;
+  height:96px;
+  overflow:hidden;
+
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+  -moz-border-radius-topleft: 5px;
+  -moz-border-radius-topright: 5px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+
+  -moz-box-shadow: 1px 1px 3px #b2b2b2;
+  -webkit-box-shadow: 1px 1px 3px #b2b2b2;
+  box-shadow: 1px 1px 3px #b2b2b2;
 }
 
-.how-to-container * {
-  height: 60px;
-  overflow: hidden;
-  text-indent: 11px;
-}
+  .how-to-container > div {
+    top:0;
+    left:0;
+    position:absolute;
+    height:92px;
+    width: 100%;
+    cursor: pointer;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
 
-.how-to-container .step-1 {
-  border-bottom: 4px solid #444;
-  background-color: #f9f9f9;
-}
+  .how-to-container div.inner {
+    padding: 10px 10px 10px 25px;
+  }
 
-.how-to-container .step-2 {
-  color: #806f00;
-  background-color: #fff9b9;
-  border-bottom: 4px solid #f4e11f;
-  width: 10px;
-}
+  .how-to-container .front {
+    color: #2b8f70;
+    border-bottom: 4px solid #72e2b8;
+    font-size: 18px;
+    background: #d6fff0 url("../../images/hand.png") 200px 50% no-repeat;
+    line-height: 76px;
+  }
 
-.how-to-container .step-3 {
-  color: #85521c;
-  background-color: #ffbfa2;
-  border-bottom: 4px solid #dc6e3a;
-  width: 10px;
-}
 
-.how-to-container .step-4 {
-  color: #2b8f70;
-  background-color: #d6fff0;
-  border-bottom: 4px solid #72e2b8;
-  width: 10px;
-}
+  .how-to-container .back {
+    color: #806f00;
+    background-color: #fff9b9;
+    border-bottom: 4px solid #f4e11f;
+  }
