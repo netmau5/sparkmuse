@@ -536,6 +536,7 @@ div.selector select {
 
 div.checker {
   position: relative;
+  top: -2px;
 }
 
 div.checker span {
