@@ -44,6 +44,7 @@ public class UserProfile extends Entity<UserProfile> {
 
   private Integer invites;
 
+  private boolean showEmail; //can we show your email?
   private boolean seekingConnections; //looking for partners
   private boolean peopleElgible; //has met requirements to be shown on people page
 
@@ -157,4 +158,13 @@ public class UserProfile extends Entity<UserProfile> {
   public void setSeekingConnections(boolean seekingConnections) {
     this.seekingConnections = seekingConnections;
   }
+
+  public boolean isShowEmail() {
+    return showEmail;
+  }
+
+  public void setShowEmail(boolean showEmail) {
+    this.showEmail = showEmail;
+  }
+  
 }

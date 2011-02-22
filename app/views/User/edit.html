@@ -15,7 +15,7 @@
       </tr>
       <tr>
         <td class="column-5 first">
-          <label>Email #{tip}We will send activity updates to this email address#{/tip}</label>
+          <label>Email #{tip}We will send activity updates to this email address, but we will never share it without your permission.#{/tip}</label>
           <div class="error-message" parameter="profile.email"></div>
           <div class="input-wrapper"><input type="text" name="email" value="${profile.email}" /></div>
         </td>
@@ -23,6 +23,20 @@
           <label>Website</label>
           <div class="error-message" parameter="profile.website"></div>
           <div class="input-wrapper"><input type="text" name="website" value="${profile.website}" /></div>
+        </td>
+      </tr>
+      <tr style='display: ${profile.email ? "" : "none"}'>
+        <td colspan="2" class="column-10 first last">
+          <label>Email Settings</label>
+          <div class="field email-options">
+          <table>
+            <tr>
+              <td>
+                <input type="checkbox" name="showEmail" ${profile.showEmail && profile.email ? "checked" : ""} /> May we share your email address on your profile?
+              </td>
+            </tr>
+          </table>
+          </div>
         </td>
       </tr>
       <tr>
@@ -107,6 +121,7 @@
           location: f.location.value,
           email: f.email.value,
           website: f.website.value,
+          showEmail: f.showEmail.checked,
           expertises: $(".expertise-options input:checked").map(function() { return this.value; }),
           seekingConnections: f.seekingConnections.checked,
           seekingExpertises: $(".seeking-expertise-options input:checked").map(function() { return this.value; }),
@@ -119,7 +134,11 @@
 
     $(f.seekingConnections).click(function(){
       $(".seeking-expertise-options").parents("tr").toggle();
-    })
+    });
+
+    $(f.email).keyup(function(){
+      $(".email-options").parents("tr").toggle(!!this.value);
+    });
 
   });
 

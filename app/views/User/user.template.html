@@ -22,6 +22,7 @@
             #{if profile.location} | ${profile.location}#{/if}
             #{if profile.website} | <a href="${profile.website?.url()}" target="_blank" alt="Member's website">Website</a>#{/if}
             #{if profile.user.userName} | <a href="http://www.twitter.com/#/${profile.user.userName}" target="_blank">@${profile.user.userName}</a>#{/if}
+            #{if profile.email && profile.showEmail} | <a href="mailto:${profile.email}" target="_blank">${profile.email}</a>#{/if}
             #{if isView && currentUser == profile.user} | <a href="@{User.edit(profile.user.userName)}">Edit&nbsp;Profile&nbsp; &rarr;</a>#{/if}
           </div>
         </td>

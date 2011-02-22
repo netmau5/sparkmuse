@@ -67,6 +67,7 @@ public class User extends SparkmuseController {
         "location",
         "email",
         "website",
+        "showEmail",
         "expertises",
         "seekingConnections",
         "seekingExpertises",
