@@ -173,6 +173,23 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
       .comment blockquote textarea { height: 175px; }
 
+      .comment blockquote blockquote {
+        color: #4f4d4d;
+        border: none;
+        background: none;
+        font-style: italic;
+
+        -moz-box-shadow: 0 0 0;
+        -webkit-box-shadow: 0 0 0;
+        box-shadow: 0 0 0;
+
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+
+        padding-top: 0;
+      }
+
   .comment .replies { margin-left: 1em; padding-left: 1em; border-left: 2px solid #f1f1f1; }
 
   .comment .post-actions { margin-bottom: 1em; } 
