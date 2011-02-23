@@ -17,6 +17,7 @@ GET         /home/index                       Home.search(filter:'RECENT',page:'
 GET         /user/view/{userName}             User.view
 
 GET         /spark/view/{sparkId}             Spark.view
+GET         /{<[0-9]+>sparkId}                Spark.view
 
 *           /activity/{action}                ActivityController.{action}
 
