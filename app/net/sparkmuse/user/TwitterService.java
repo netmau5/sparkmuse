@@ -80,7 +80,7 @@ public class TwitterService {
     } catch (TwitterException e) {
       if (e.getStatusCode() == 401) {
         Logger.error(e, "Twitter denied access.");
-        return null;
+        throw TwitterAuthenticationException.accessDenied();
       }
       Logger.error(e, "Error connecting with Twitter.");
       throw new RuntimeException(e);

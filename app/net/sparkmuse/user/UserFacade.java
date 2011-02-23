@@ -94,9 +94,15 @@ public class UserFacade {
     final UserVO user = findUserBy(userId);
     user.setAccessLevel(accessLevel);
     userDao.store(user);
-    final UserProfile userProfile = getUserProfile(user.getUserName());
-    userProfile.setInvites(invites);
+    UserProfile userProfile = getUserProfile(user.getUserName());
+
+    //errors can occur where user is saved without profile
+    if (null == userProfile) {
+      userProfile = UserProfile.newProfile(user);
+      userProfile.setInvites(invites);
+    }
     userDao.store(userProfile);
+
     return user;
   }
 

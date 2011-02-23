@@ -7,7 +7,7 @@ import net.sparkmuse.ajax.*;
 import net.sparkmuse.common.ResponseCode;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.user.UserFacade;
-import net.sparkmuse.user.TwitterLoginExpiredException;
+import net.sparkmuse.user.TwitterAuthenticationException;
 
 import javax.inject.Inject;
 
@@ -26,13 +26,14 @@ public class SparkmuseController extends Controller {
   @Inject static UserFacade userFacade;
   @Inject static ObjectDatastore datastore;
 
-  @Catch(TwitterLoginExpiredException.class)
-  static void handleException(TwitterLoginExpiredException e) {
-    Logger.error(e, "Twitter Login Expired");
+  @Catch(TwitterAuthenticationException.class)
+  static void handleException(TwitterAuthenticationException e) {
+    String message = e.getMessage();
+    Logger.error(e, message);
     if (request.isAjax()) {
       renderJSON(new RedirectAjaxResponse(Router.reverse("Authorization.authenticate").url));
     }
-    Authorization.authenticate();
+    renderTemplate("Home/twitterLoginError.html", message);
   }
 
   @Catch(ApiProxy.CapabilityDisabledException.class)

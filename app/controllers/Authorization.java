@@ -65,7 +65,7 @@ public class Authorization extends SparkmuseController {
         StringUtils.isNotBlank(request.params.get("denied"))) {
       User.farewell();
     }
-
+    
     final OAuthAuthenticationResponse response = new OAuthAuthenticationResponse(
         new RequestToken(session.get(Constants.REQUEST_TOKEN), session.get(Constants.REQUEST_TOKEN_SECRET)),
         oauth_token,

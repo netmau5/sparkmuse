@@ -1,0 +1,25 @@
+#{extends 'outsider.template.html' /}
+#{set title:'Sparkmuse Login Error' /}
+
+<div class="page-canvas push-6 prepend-1 span-10 append-1">
+
+    <h2>We're Sorry</h2>
+
+    <p>
+      There was an issue authenticating you: <strong>${message}</strong>.
+      We will automatically redirect you to try again or you may click below.
+    </p>
+
+    <div class="control-bar">
+      <a href="@{Authorization.authenticate()}" class="twitter-login">Sign in with Twitter</a>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    setTimeout(function(){
+      window.location = "@{Authorization.authenticate()}";
+    }, 5000);
+  });
+</script>

@@ -88,9 +88,8 @@ public class Application extends SparkmuseController {
     response.direct = is; // renderBinary() will override any caching headers.
   }
 
-
   public static void get(String blobKey) {
     redirect(blobService.createServeUrl(blobKey));
   }
-
+  
 }
