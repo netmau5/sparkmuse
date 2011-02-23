@@ -2,6 +2,7 @@ package net.sparkmuse.user;
 
 import com.google.inject.Inject;
 import com.google.inject.internal.Nullable;
+import com.google.common.collect.Maps;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
@@ -9,11 +10,14 @@ import net.sparkmuse.data.entity.*;
 import net.sparkmuse.ajax.InvalidRequestException;
 import net.sparkmuse.mail.MailService;
 import net.sparkmuse.mail.InvitationEmail;
+import net.sparkmuse.mail.EmailTemplate;
 
 import java.util.Set;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import play.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -191,5 +195,32 @@ public class UserFacade {
 
   public void tweet(UserVO from, String message) {
     twitterService.tweet(from, message);
+  }
+
+  public void farewell(final String medicine) {
+    Logger.info(medicine);
+    mailService.prepareAndSendMessage(new EmailTemplate(){
+      public String getToEmail() {
+        return "dave@sparkmuse.com";
+      }
+
+      public String getSubject() {
+        return "Farewell Message";
+      }
+
+      public String getUpdateeName() {
+        return "Dave";
+      }
+
+      public Map<String, Object> getTemplateArguments() {
+        final Map<String, Object> args = Maps.newHashMap();
+        args.put("medicine", medicine);
+        return args;
+      }
+
+      public String getTemplate() {
+        return "Mail/Farewell.html";
+      }
+    });
   }
 }

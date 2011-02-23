@@ -1,0 +1,51 @@
+#{extends 'outsider.template.html' /}
+#{set title:'Farewell' /}
+
+<style type="text/css">
+  form input {
+    width: 100%;
+  }
+</style>
+
+<div class="page-canvas push-6 prepend-1 span-10 append-1">
+
+    <h2>Farewell Friend</h2>
+
+    <p>
+      We're sorry to see you go, but we wish you nothing but successful ventures
+      and sandy beaches. Sparkmuse will never be the same without you.
+    </p>
+
+    <div id="farewell">
+      <h3>Give us our Hard Medicine</h3>
+      <form name="FarewellForm" action="@{User.farewellFeedback()}" method="POST">
+        <p>
+          <label>What could we do better? <span class="subtext">(totally anonymous)</span></label>
+          <div class="input-wrapper"><textarea name="medicine"></textarea></div>
+        </p>
+
+        <button type="submit" class="create-spark">
+          <img src="@{'public/images/favicon.png'}" alt="Apply"/>
+          Send
+        </button>
+      </form>
+    </div>
+    <script type="text/html" id="thanks-for-feedback">
+      <h3>Thank you!</h3>
+      <p>
+        We appreciate the feedback and hope you will check us out again one day.
+      </p>
+    </script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        var f = document.FarewellForm;
+        $(f).formHandler(function(){
+          var farewell = $("#farewell");
+          farewell.css("display", "none");
+          farewell.html($("#thanks-for-feedback").html());
+          farewell.fadeIn(1000);
+          return { medicine: f.medicine.value };
+        });
+      });
+    </script>
+</div>

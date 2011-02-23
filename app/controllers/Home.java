@@ -14,6 +14,7 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.data.paging.PagingState;
 import net.sparkmuse.common.Cache;
+import net.sparkmuse.ajax.AjaxResponse;
 
 import javax.inject.Inject;
 import java.util.TreeSet;

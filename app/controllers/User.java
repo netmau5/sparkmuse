@@ -105,4 +105,14 @@ public class User extends SparkmuseController {
     renderJSON(new AjaxResponse());
   }
 
+  //user denied access to app, tell them we're sorry
+  public static void farewell(){
+    render();
+  }
+
+  public static void farewellFeedback(String medicine) {
+    userFacade.farewell(medicine);
+    renderJSON(new AjaxResponse());
+  }
+
 }
