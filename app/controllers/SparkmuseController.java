@@ -13,6 +13,7 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import com.google.apphosting.api.ApiProxy;
+import com.google.apphosting.api.DeadlineExceededException;
 import com.google.code.twig.ObjectDatastore;
 
 /**
@@ -33,20 +34,35 @@ public class SparkmuseController extends Controller {
     if (request.isAjax()) {
       renderJSON(new RedirectAjaxResponse(Router.reverse("Authorization.authenticate").url));
     }
-    renderTemplate("Home/twitterLoginError.html", message);
+    renderTemplate("Application/twitterLoginError.html", message);
   }
 
   @Catch(ApiProxy.CapabilityDisabledException.class)
   static void handleMaintenanceMode(ApiProxy.CapabilityDisabledException e) {
     Logger.error(e, "App engine disabled.");
-    //@todo handle this error somewhere, it will be thrown when GAE goes into read-only mode for scheduled maintenance
+    handleException(new InvalidRequestException("Our data center has gone offline and we cannot handle new requests."));
+  }
+
+  @Catch(DeadlineExceededException.class)
+  static void handleDeadlineExceeded(DeadlineExceededException e) throws Exception {
+    Logger.error(e, "Deadline Exceeded");
+    if (request.isAjax()) {
+      handleException(new InvalidRequestException("Your request timed out, please try again."));
+    }
+    //@todo handle else
+    throw new Exception(e);
   }
 
   @Catch(InvalidRequestException.class)
-  static void handleException(InvalidRequestException e) throws Exception {
-    Logger.info(e, e.getMessage());
+  static void handleException(InvalidRequestException e) {
+    String message = e.getMessage();
+    Logger.info(e, message);
+
     if (request.isAjax()) {
-      renderJSON(new InvalidRequestErrorAjaxResponse(e.getMessage()));
+      renderJSON(new InvalidRequestErrorAjaxResponse(message));
+    }
+    else {
+      renderTemplate("Application/error.html", message);
     }
   }
 

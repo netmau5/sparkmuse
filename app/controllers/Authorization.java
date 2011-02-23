@@ -16,6 +16,7 @@ import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
+import net.sparkmuse.ajax.InvalidRequestException;
 import org.apache.commons.lang.StringUtils;
 import twitter4j.http.RequestToken;
 
@@ -65,9 +66,14 @@ public class Authorization extends SparkmuseController {
         StringUtils.isNotBlank(request.params.get("denied"))) {
       User.farewell();
     }
-    
+
+    String requestToken = session.get(Constants.REQUEST_TOKEN);
+    if (StringUtils.isEmpty(requestToken)) {
+      throw new InvalidRequestException("It appears you have cookies disabled. We cannot presently process logins without them.");
+    }
+
     final OAuthAuthenticationResponse response = new OAuthAuthenticationResponse(
-        new RequestToken(session.get(Constants.REQUEST_TOKEN), session.get(Constants.REQUEST_TOKEN_SECRET)),
+        new RequestToken(requestToken, session.get(Constants.REQUEST_TOKEN_SECRET)),
         oauth_token,
         oauth_verifier
     );
