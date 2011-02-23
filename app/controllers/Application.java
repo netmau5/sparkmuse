@@ -31,7 +31,6 @@ public class Application extends SparkmuseController {
     Landing.index();
   }
   
-  //@todo create credits page
   public static void credits(){
     render();
   }

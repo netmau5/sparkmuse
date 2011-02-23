@@ -19,7 +19,7 @@
               <li><a href="@{Application.guidelines()}">Guidelines</a></li>
               #{if currentUser?.isUser()}<li>#{feedbackLink /}</li>#{/if}
               <li><a href="@{Application.about()}">About</a></li>
-              <li><a href="footer.html#">Credits</a></li>
+              <li><a href="@{Application.credits()}">Credits</a></li>
             </ul>
           </td>
         </tr>
