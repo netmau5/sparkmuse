@@ -99,8 +99,8 @@ public class UserFacade {
     //errors can occur where user is saved without profile
     if (null == userProfile) {
       userProfile = UserProfile.newProfile(user);
-      userProfile.setInvites(invites);
     }
+    userProfile.setInvites(invites);
     userDao.store(userProfile);
 
     return user;
