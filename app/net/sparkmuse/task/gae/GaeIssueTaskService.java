@@ -3,6 +3,7 @@ package net.sparkmuse.task.gae;
 import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.task.Task;
 import net.sparkmuse.data.Cacheable;
+import net.sparkmuse.common.NullTo;
 import com.google.appengine.api.labs.taskqueue.Queue;
 import com.google.appengine.api.labs.taskqueue.TaskOptions;
 import static com.google.appengine.api.labs.taskqueue.TaskOptions.Builder.*;
@@ -13,6 +14,8 @@ import com.google.inject.internal.Nullable;
 import play.mvc.Router;
 
 import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,34 +40,14 @@ public class GaeIssueTaskService implements IssueTaskService {
     queue.add(taskOptions);
   }
 
-  public void issueSparkRatingUpdate(String cursor) {
-    final Map<String,Object> parameters = Maps.newHashMap();
-    parameters.put("cursor", cursor);
-    queue.add(url(Router.reverse(
-        "Tasks.updateSparkRatings",
-        parameters
-    ).url));
-  }
-
-  /**
-   * Invokes a task to repair post counts on Sparks.
-   *
-   * @param cursor
-   */
-  public void issuePostCountRepairer(String cursor) {
-    final Map<String,Object> parameters = Maps.newHashMap();
-    parameters.put("cursor", cursor);
-    queue.add(url(Router.reverse(
-        "Tasks.commentRepair",
-        parameters
-    ).url));
-  }
-
   public void issue(String action, Map<String, Object> parameters) {
-    queue.add(url(Router.reverse(
-        action,
-        parameters
-    ).url));
+    TaskOptions options = url(Router.reverse(action).url);
+
+    for (Map.Entry<String, Object> entry: parameters.entrySet()) {
+      if (null != entry.getValue()) options.param(entry.getKey(), entry.getValue().toString());
+    }
+
+    queue.add(options);
   }
 
   public <T extends Task> void issue(Class<T> taskClass, @Nullable Cursor cursor) {

@@ -49,13 +49,59 @@
       <h4>Common Tasks</h4>
 
       <ul>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.ResetCacheTask")}' target="_blank">Clear Cache</a></li>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.ActivityUpdateMultiTask")}' target="_blank">Activity Update</a></li>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.GenerateInvitationCodesTask")}' target="_blank">Generate Codes</a></li>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.UserProfileRepairTransformationTask")}' target="_blank">Repair Null User Profiles</a></li>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.GatherAppStatisticsTask")}' target="_blank">Gather App Stats</a></li>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.UserApplicationCleanupTransformationTask")}' target="_blank">Remove Invited User's Applications</a></li>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.PeoplePageElgibilityTransformationTask")}' target="_blank">People Page Elgibility</a></li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.ResetCacheTask")}' target="_blank">Clear Cache</a>
+          <div class="subtext">Reset the cache.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.ActivityUpdateMultiTask")}' target="_blank">Activity Update</a>
+          <div class="subtext">Update Activity page and send update emails.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.GenerateInvitationCodesTask")}' target="_blank">Generate Codes</a>
+          <div class="subtext">Generates 10 invitation codes.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.GatherAppStatisticsTask")}' target="_blank">Gather App Stats</a>
+          <div class="subtext">Measures users, sparks, and posts.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.UserApplicationCleanupTransformationTask")}' target="_blank">Remove Invited User's Applications</a>
+          <div class="subtext">Remove UserApplication records of people who have received invites already.</div>
+        </li>
+        <li><a href='@{Tasks.execute("net.sparkmuse.task.PeoplePageElgibilityTransformationTask")}' target="_blank">People Page Elgibility</a>
+          <div class="subtext">Determines if a user meets the requirements to be listed on the People page.</div>
+        </li>
+      </ul>
+
+    </div>
+    </div>
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>Data Integrity Tasks</h4>
+
+      <ul>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.DataIntegrityMultiTask")}' target="_blank">Data Integrity</a>
+          <div class="subtext">Runs data integrity checks.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.UpdateUserStatisticsTransformationTask")}' target="_blank">Update User Statistics</a>
+          <div class="subtext">Updates the correct number of posts and sparks that a user has made.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.UserProfileRepairTransformationTask")}' target="_blank">Repair User Profiles</a>
+          <div class="subtext">Finds [null] UserProfiles and restores them.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.UpdateSparkRatingsTransformationTask")}' target="_blank">Update Spark Ratings</a>
+          <div class="subtext">Updates the ratings on sparks, these should degrade over time.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.PostCountRepairTransformationTask")}' target="_blank">Repair Post Counts</a>
+          <div class="subtext">Ensures sparks maintain the proper post count for comments.</div>
+        </li>
       </ul>
 
     </div>
@@ -66,8 +112,14 @@
       <h4>One Time Tasks</h4>
 
       <ul>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.ResetNotifiedPostTransformationTask")}' target="_blank">Reset Notified and Delete Activities</a></li>
-        <li><a href='@{Tasks.execute("net.sparkmuse.task.LowercaseSparkTagsTransformationTask")}' target="_blank">Lowercase Spark Tags</a></li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.ResetNotifiedPostTransformationTask")}' target="_blank">Reset Notified and Delete Activities</a>
+          <div class="subtext">Resets the notified flag on all posts. This makes them elgible for activity updates again if the previously successful migrations are deleted.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.LowercaseSparkTagsTransformationTask")}' target="_blank">Lowercase Spark Tags</a>
+          <div class="subtext">Forces all tag names to be lowercase for easier querying. This is done by default when Sparks are saved.</div>
+        </li>
       </ul>
 
     </div>

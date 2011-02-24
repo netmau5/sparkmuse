@@ -23,22 +23,6 @@ public interface IssueTaskService {
    */
   <T extends Cacheable<T>> void issueCachePersistTask(Cacheable<T> cacheable);
 
-  /**
-   * Invokes a task to update spark ratings from the given cursor.  This should not
-   * be called without a cursor as the first job should be initiated via cron.  If the
-   * first job doesn't complete, issue a task to complete it here.
-   *
-   * @param cursor
-   */
-  void issueSparkRatingUpdate(String cursor);
-
-  /**
-   * Invokes a task to repair post counts on Sparks.
-   *
-   * @param cursor
-   */
-  void issuePostCountRepairer(String cursor);
-
   void issue(String action, Map<String, Object> parameters);
 
   <T extends Task> void issue(Class<T> taskClass, @Nullable Cursor cursor);
