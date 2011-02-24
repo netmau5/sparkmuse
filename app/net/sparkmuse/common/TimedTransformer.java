@@ -2,9 +2,10 @@ package net.sparkmuse.common;
 
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
+import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.appengine.api.datastore.Cursor;
 
 import java.util.List;
-import java.util.Iterator;
 
 /**
  * Provides object transformation logic in a time-sensitive executor.
@@ -19,9 +20,11 @@ public class TimedTransformer<T> {
   private final Function<T, T> transformation;
   private final long millis;
 
+  private Cursor lastSuccessfulTransform; //the cursor before the last transformation
+
   public TimedTransformer(Function<T, T> transformation) {
     this.transformation = transformation;
-    this.millis = 8 * 60 * 1000; //8 minutes by default, task request limit is now 10 mins
+    this.millis = 5 * 60 * 1000; //5 minutes by default, task request limit is now 10 mins
   }
 
   public TimedTransformer(long millis, Function<T, T> transformation) {
@@ -29,10 +32,11 @@ public class TimedTransformer<T> {
     this.millis = millis;
   }
 
-  public List<T> transform(Iterator<T> iterator) {
+  public List<T> transform(QueryResultIterator<T> iterator) {
     final List<T> toReturn = Lists.newArrayList();
     long startTime = System.currentTimeMillis();
     while (iterator.hasNext()) {
+      this.lastSuccessfulTransform = iterator.getCursor();
       toReturn.add(transformation.apply(iterator.next()));
       if (System.currentTimeMillis() - startTime >= millis) {
         break;
@@ -41,6 +45,8 @@ public class TimedTransformer<T> {
     return toReturn;
   }
 
-
+  public Cursor cursorFromLastSuccessfulTransform() {
+    return lastSuccessfulTransform;
+  }
 
 }

@@ -7,8 +7,10 @@ import com.google.code.twig.FindCommand;
 import com.google.code.twig.ObjectDatastore;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.appengine.api.datastore.Cursor;
+import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.inject.internal.Nullable;
 import com.google.inject.Inject;
+import play.Logger;
 
 /**
  * @author neteller
@@ -62,7 +64,13 @@ public class BatchDatastoreService {
       }
     };
 
-    new TimedTransformer(transformFunction).transform(iterator);
+    TimedTransformer timedTransformer = new TimedTransformer(transformFunction);
+    try {
+      timedTransformer.transform(iterator);
+    } catch (DatastoreTimeoutException timeout) {
+      Logger.warn(timeout, "Datastore timeout occured during batch tranformation.");
+      return timedTransformer.cursorFromLastSuccessfulTransform();
+    }
 
     if (iterator.hasNext()) return iterator.getCursor();
     else return null;
