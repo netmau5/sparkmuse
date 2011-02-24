@@ -6,6 +6,7 @@ import net.sparkmuse.data.entity.Post;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import net.sparkmuse.data.twig.BatchDatastoreService;
 import com.google.code.twig.ObjectDatastore;
+import com.google.code.twig.FindCommand;
 import com.google.inject.Inject;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.common.base.Function;
@@ -18,57 +19,39 @@ import org.apache.commons.lang.StringUtils;
  * @author neteller
  * @created: Jan 17, 2011
  */
-public class PostCountRepairTask {
+public class PostCountRepairTask extends TransformationTask<SparkVO> {
 
   private final Cache cache;
   private final ObjectDatastore datastore;
-  private final IssueTaskService taskService;
-  private final BatchDatastoreService batch;
 
   @Inject
-  public PostCountRepairTask(Cache cache, ObjectDatastore datastore, IssueTaskService taskService, BatchDatastoreService batch) {
+  public PostCountRepairTask(Cache cache, ObjectDatastore datastore, BatchDatastoreService batch) {
+    super(cache, batch, datastore);
     this.cache = cache;
     this.datastore = datastore;
-    this.taskService = taskService;
-    this.batch = batch;
   }
 
-  public void execute(String cursorString) {
-    Logger.info("Updating spark post count.");
+  protected SparkVO transform(SparkVO sparkVO) {
+    final Integer count = datastore.find()
+        .type(Post.class)
+        .addFilter("sparkId", EQUAL, sparkVO.getId())
+        .returnCount()
+        .now();
 
-    final Cursor cursor = StringUtils.isNotBlank(cursorString) ? Cursor.fromWebSafeString(cursorString) : null;
-    final Cursor newCursor = batch.transform(SparkVO.class, createTransformation(), cursor);
-    if (null == cursor) {
-      cleanup();
-      Logger.info("Completed updating spark post count.");
+    if (sparkVO.getPostCount() != count) {
+      Logger.error("Spark [" + sparkVO.getTitle() + "] reported a post count of [" + sparkVO.getPostCount() + "] but had [" + count + "] posts.");
+      sparkVO.setPostCount(count);
     }
-    else {
-      Logger.info("Did not complete updating spark post count, issuing a new task to restart from " + newCursor);
-      taskService.issueSparkRatingUpdate(newCursor.toWebSafeString());
-    }
+
+    return sparkVO;
   }
 
-  private Function<SparkVO, SparkVO> createTransformation() {
-    final Function<SparkVO, SparkVO> transformation = new Function<SparkVO, SparkVO>() {
-      public SparkVO apply(SparkVO sparkVO) {
-        final Integer count = datastore.find()
-            .type(Post.class)
-            .addFilter("sparkId", EQUAL, sparkVO.getId())
-            .returnCount()
-            .now();
-
-        if (sparkVO.getPostCount() != count) {
-          Logger.error("Spark [" + sparkVO.getTitle() + "] reported a post count of [" + sparkVO.getPostCount() + "] but had [" + count + "] posts.");
-          sparkVO.setPostCount(count);
-        }
-
-        return sparkVO;
-      }
-    };
-    return transformation;
+  protected FindCommand.RootFindCommand<SparkVO> find(boolean isNew) {
+    return datastore.find().type(SparkVO.class);
   }
 
-  private void cleanup() {
+  @Override
+  protected void onEnd() {
     cache.clear();
   }
 

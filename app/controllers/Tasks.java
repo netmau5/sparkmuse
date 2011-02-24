@@ -22,9 +22,6 @@ import org.apache.commons.lang.StringUtils;
  */
 public class Tasks extends SparkmuseController {
 
-  @Inject static UpdateSparkRatingsTask updateSparkRatings;
-  @Inject static PostCountRepairTask postCountRepairTask;
-
   @Inject static IssueTaskService taskService;
   @Inject static Injector injector;
 
@@ -38,14 +35,6 @@ public class Tasks extends SparkmuseController {
   static void handleDeadlineExceeded(DeadlineExceededException e) {
     Logger.error(e, "Deadline exceeded while processing task " + request.url + ", retrying now.");
     taskService.issue(request.action, Maps.<String, Object>newHashMap(request.params.allSimple()));
-  }
-
-  public static void updateSparkRatings(String cursor) {
-    updateSparkRatings.execute(cursor);
-  }
-
-  public static void commentRepair(String cursor) {
-    postCountRepairTask.execute(cursor);
   }
 
   public static <T extends Task> void execute(String taskClassName, String cursor) {

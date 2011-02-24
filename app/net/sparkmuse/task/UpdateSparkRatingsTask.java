@@ -3,6 +3,8 @@ package net.sparkmuse.task;
 import com.google.common.base.Function;
 import com.google.inject.Inject;
 import com.google.appengine.api.datastore.Cursor;
+import com.google.code.twig.ObjectDatastore;
+import com.google.code.twig.FindCommand;
 import net.sparkmuse.data.twig.BatchDatastoreService;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.discussion.SparkRanking;
@@ -16,42 +18,29 @@ import org.apache.commons.lang.StringUtils;
  * @author neteller
  * @created: Nov 7, 2010
  */
-public class UpdateSparkRatingsTask {
+public class UpdateSparkRatingsTask extends TransformationTask<SparkVO> {
 
-  private final IssueTaskService taskService;
-  private final BatchDatastoreService batch;
   private final Cache cache;
+  private final ObjectDatastore datastore;
 
   @Inject
-  public UpdateSparkRatingsTask(IssueTaskService taskService, BatchDatastoreService batch, Cache cache) {
-    this.taskService = taskService;
-    this.batch = batch;
+  public UpdateSparkRatingsTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
+    super(cache, batchService, datastore);
     this.cache = cache;
+    this.datastore = datastore;
   }
 
-  public void execute(String cursorString) {
-    Logger.info("Updating spark ratings.");
-    final Function<SparkVO, SparkVO> transformation = newTransformer();
-
-    final Cursor cursor = StringUtils.isNotBlank(cursorString) ? Cursor.fromWebSafeString(cursorString) : null;
-    final Cursor newCursor = batch.transform(SparkVO.class, transformation, cursor);
-    if (null == newCursor) {
-      cache.clear();
-      Logger.info("Completed updating spark ratings.");
-    }
-    else {
-      Logger.info("Did not complete updating spark ratings, issuing a new task to restart from " + newCursor);
-      taskService.issueSparkRatingUpdate(newCursor.toWebSafeString());
-    }
+  protected SparkVO transform(SparkVO sparkVO) {
+    sparkVO.setRating(SparkRanking.calculateRating(sparkVO));
+    return sparkVO;
   }
 
-  Function<SparkVO, SparkVO> newTransformer() {
-    final Function<SparkVO, SparkVO> transformation = new Function<SparkVO, SparkVO>() {
-      public SparkVO apply(SparkVO sparkVO) {
-        sparkVO.setRating(SparkRanking.calculateRating(sparkVO));
-        return sparkVO;
-      }
-    };
-    return transformation;
+  protected FindCommand.RootFindCommand<SparkVO> find(boolean isNew) {
+    return datastore.find().type(SparkVO.class);
+  }
+
+  @Override
+  protected void onEnd() {
+    cache.clear(); //@todo just clear spark stuff.
   }
 }

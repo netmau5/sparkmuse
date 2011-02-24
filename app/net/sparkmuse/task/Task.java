@@ -32,8 +32,21 @@ public abstract class Task {
     return this.getClass().getName();
   }
 
+  /**
+   * Called when task begins for any initialization logic.
+   */
+  protected void onBegin() {}
+
+  /**
+   * Called when task ends (no cursor)
+   */
+  protected void onEnd() {}
+
   public final Cursor execute(@Nullable Cursor cursor) {
-    if (null == cursor) storeBegin();
+    if (null == cursor) {
+      onBegin();
+      storeBegin();
+    }
 
     try {
       lastCursor = runTask(cursor);
@@ -42,7 +55,10 @@ public abstract class Task {
       throw new RuntimeException(e);
     }
 
-    if (isComplete()) storeEnd();
+    if (isComplete()) {
+      onEnd();
+      storeEnd();
+    }
     return lastCursor;
   }
 

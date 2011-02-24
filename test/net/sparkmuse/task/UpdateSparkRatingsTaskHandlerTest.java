@@ -7,6 +7,7 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.common.Cache;
 import com.google.common.base.Function;
 import com.google.appengine.api.datastore.Cursor;
+import com.google.code.twig.ObjectDatastore;
 import play.test.UnitTest;
 
 /**
@@ -21,9 +22,9 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
   public void shouldBeginTransformFromNullCursor() {
     final BatchDatastoreService batch = Mockito.mock(BatchDatastoreService.class);
     final UpdateSparkRatingsTask handler = new UpdateSparkRatingsTask(
-        Mockito.mock(IssueTaskService.class),
+        Mockito.mock(Cache.class),
         batch,
-        Mockito.mock(Cache.class)
+        Mockito.mock(ObjectDatastore.class)
     );
     handler.execute(null);
     Mockito.verify(batch).transform(SparkVO.class, Mockito.any(Function.class), (Cursor) Mockito.eq(null));
@@ -33,12 +34,13 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
   public void shouldContinueFromGivenCursor() {
     final BatchDatastoreService batch = Mockito.mock(BatchDatastoreService.class);
     final UpdateSparkRatingsTask handler = new UpdateSparkRatingsTask(
-        Mockito.mock(IssueTaskService.class),
+        Mockito.mock(Cache.class),
         batch,
-        Mockito.mock(Cache.class)
+        Mockito.mock(ObjectDatastore.class)
     );
-    handler.execute("cursor");
-    Mockito.verify(batch).transform(SparkVO.class, Mockito.any(Function.class), Mockito.eq(Cursor.fromWebSafeString("cursor")));
+    Cursor cursor = Cursor.fromWebSafeString("cursor");
+    handler.execute(cursor);
+    Mockito.verify(batch).transform(SparkVO.class, Mockito.any(Function.class), Mockito.eq(cursor));
   }
 
 //  @Test

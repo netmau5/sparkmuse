@@ -10,6 +10,7 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.inject.internal.Nullable;
 import com.google.inject.Inject;
+import com.google.apphosting.api.DeadlineExceededException;
 import play.Logger;
 
 /**
@@ -69,6 +70,9 @@ public class BatchDatastoreService {
       timedTransformer.transform(iterator);
     } catch (DatastoreTimeoutException timeout) {
       Logger.warn(timeout, "Datastore timeout occured during batch tranformation.");
+      return timedTransformer.cursorFromLastSuccessfulTransform();
+    } catch (DeadlineExceededException deadline) {
+      Logger.warn(deadline, "Deadline exceeded during batch tranformation.");
       return timedTransformer.cursorFromLastSuccessfulTransform();
     }
 
