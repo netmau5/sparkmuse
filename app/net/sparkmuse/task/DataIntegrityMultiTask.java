@@ -20,8 +20,8 @@ public class DataIntegrityMultiTask extends MultiTask {
     return Lists.<Class>newArrayList(
         UpdateUserStatisticsTransformationTask.class,
         UserProfileRepairTransformationTask.class,
-        UpdateSparkRatingsTask.class,
-        PostCountRepairTask.class
+        UpdateSparkRatingsTransformationTask.class,
+        PostCountRepairTransformationTask.class
     );
   }
 }

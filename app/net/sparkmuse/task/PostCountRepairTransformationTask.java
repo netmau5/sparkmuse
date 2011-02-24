@@ -19,13 +19,13 @@ import org.apache.commons.lang.StringUtils;
  * @author neteller
  * @created: Jan 17, 2011
  */
-public class PostCountRepairTask extends TransformationTask<SparkVO> {
+public class PostCountRepairTransformationTask extends TransformationTask<SparkVO> {
 
   private final Cache cache;
   private final ObjectDatastore datastore;
 
   @Inject
-  public PostCountRepairTask(Cache cache, ObjectDatastore datastore, BatchDatastoreService batch) {
+  public PostCountRepairTransformationTask(Cache cache, ObjectDatastore datastore, BatchDatastoreService batch) {
     super(cache, batch, datastore);
     this.cache = cache;
     this.datastore = datastore;

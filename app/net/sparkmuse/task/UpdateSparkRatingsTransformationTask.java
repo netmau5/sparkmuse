@@ -18,13 +18,13 @@ import org.apache.commons.lang.StringUtils;
  * @author neteller
  * @created: Nov 7, 2010
  */
-public class UpdateSparkRatingsTask extends TransformationTask<SparkVO> {
+public class UpdateSparkRatingsTransformationTask extends TransformationTask<SparkVO> {
 
   private final Cache cache;
   private final ObjectDatastore datastore;
 
   @Inject
-  public UpdateSparkRatingsTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
+  public UpdateSparkRatingsTransformationTask(Cache cache, BatchDatastoreService batchService, ObjectDatastore datastore) {
     super(cache, batchService, datastore);
     this.cache = cache;
     this.datastore = datastore;

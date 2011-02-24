@@ -21,7 +21,7 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
   @Test
   public void shouldBeginTransformFromNullCursor() {
     final BatchDatastoreService batch = Mockito.mock(BatchDatastoreService.class);
-    final UpdateSparkRatingsTask handler = new UpdateSparkRatingsTask(
+    final UpdateSparkRatingsTransformationTask handler = new UpdateSparkRatingsTransformationTask(
         Mockito.mock(Cache.class),
         batch,
         Mockito.mock(ObjectDatastore.class)
@@ -33,7 +33,7 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
   @Test
   public void shouldContinueFromGivenCursor() {
     final BatchDatastoreService batch = Mockito.mock(BatchDatastoreService.class);
-    final UpdateSparkRatingsTask handler = new UpdateSparkRatingsTask(
+    final UpdateSparkRatingsTransformationTask handler = new UpdateSparkRatingsTransformationTask(
         Mockito.mock(Cache.class),
         batch,
         Mockito.mock(ObjectDatastore.class)
@@ -50,7 +50,7 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
 //    Mockito.when(sparkDao.transform(Mockito.any(Function.class), Mockito.any(String.class)))
 //        .thenReturn("cursor");
 //
-//    final UpdateSparkRatingsTask handler = new UpdateSparkRatingsTask(sparkDao, issueTaskService);
+//    final UpdateSparkRatingsTransformationTask handler = new UpdateSparkRatingsTransformationTask(sparkDao, issueTaskService);
 //    handler.execute(null);
 //    Mockito.verify(issueTaskService).issueSparkRatingUpdate("cursor");
 //  }
@@ -58,7 +58,7 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
 //  @Test
 //  public void transformationShouldSetSparkRating() {
 //    final SparkDao sparkDao = Mockito.mock(SparkDao.class);
-//    final UpdateSparkRatingsTask handler = new UpdateSparkRatingsTask(sparkDao, Mockito.mock(IssueTaskService.class));
+//    final UpdateSparkRatingsTransformationTask handler = new UpdateSparkRatingsTransformationTask(sparkDao, Mockito.mock(IssueTaskService.class));
 //
 //    final Function<SparkVO, SparkVO> transformation = handler.newTransformer();
 //    final SparkVO sparkVO = new SparkVO();
