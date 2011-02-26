@@ -11,6 +11,7 @@ import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.inject.internal.Nullable;
 import com.google.inject.Inject;
 import com.google.apphosting.api.DeadlineExceededException;
+import com.google.apphosting.api.ApiProxy;
 import play.Logger;
 
 /**
@@ -74,7 +75,11 @@ public class BatchDatastoreService {
     } catch (DeadlineExceededException deadline) {
       Logger.warn(deadline, "Deadline exceeded during batch tranformation.");
       return timedTransformer.cursorFromLastSuccessfulTransform();
+    } catch (ApiProxy.ApiDeadlineExceededException deadline) {
+      Logger.warn(deadline, "API deadline exceeded during batch tranformation.");
+      return timedTransformer.cursorFromLastSuccessfulTransform();
     }
+    
 
     if (iterator.hasNext()) return iterator.getCursor();
     else return null;
