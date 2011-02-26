@@ -31,7 +31,7 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   public List<SparkVO> loadPopular() {
     return helper.all(datastore.find()
         .type(SparkVO.class)
-        .addSort("rating")
+        .addSort("rating", Query.SortDirection.DESCENDING)
         .fetchMaximum(50)
     );
   }
@@ -39,7 +39,7 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   public List<SparkVO> loadRecent() {
     return helper.all(datastore.find()
         .type(SparkVO.class)
-        .addSort("created")
+        .addSort("created", Query.SortDirection.DESCENDING)
         .fetchMaximum(50)
     );
   }
@@ -47,7 +47,7 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   public List<SparkVO> loadMostDiscussed() {
     return helper.all(datastore.find()
         .type(SparkVO.class)
-        .addSort("postCount")
+        .addSort("postCount", Query.SortDirection.DESCENDING)
         .fetchMaximum(50)
     );
   }
