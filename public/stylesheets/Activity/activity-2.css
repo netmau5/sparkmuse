@@ -36,8 +36,8 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 .title-bar {
   margin-bottom: 0.5em;
   border-bottom: 1px dotted rgba(0,0,0,0.2);
-  background: url("../../images/truck-line.png") 420px 20px no-repeat;
-  padding-top: 65px;
+  background: url("../../images/truck-line.png") 420px 10px no-repeat;
+  padding-top: 55px;
 }
 
 .activity {
