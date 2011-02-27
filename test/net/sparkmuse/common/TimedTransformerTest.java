@@ -7,6 +7,8 @@ import java.util.List;
 
 import play.test.UnitTest;
 import com.google.common.base.Function;
+import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.appengine.api.datastore.Cursor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +18,7 @@ import com.google.common.base.Function;
  */
 public class TimedTransformerTest extends UnitTest {
 
-  private static class InfiniteIterator implements Iterator {
+  private static class InfiniteIterator implements QueryResultIterator<Object> {
 
     private static final Object NEW_OBJECT = new Object();
 
@@ -30,6 +32,10 @@ public class TimedTransformerTest extends UnitTest {
 
     public void remove() {
       //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public Cursor getCursor() {
+      return null;
     }
   }
 

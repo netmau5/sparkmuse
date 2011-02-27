@@ -7,6 +7,7 @@ import static org.hamcrest.Matchers.*;
 import org.hamcrest.MatcherAssert;
 
 import java.util.Date;
+import java.util.Map;
 import java.lang.reflect.Field;
 
 /**
