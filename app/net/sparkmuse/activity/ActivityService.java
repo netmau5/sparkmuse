@@ -52,7 +52,32 @@ public class ActivityService {
     return everyone;
   }
 
+  public UserVote notify(UserVote userVote) {
+    if (userVote.isNotified()) return userVote;
+
+    if (StringUtils.equals(userVote.entityClassName, SparkVO.class.getName())) {
+      final SparkVO spark = daoProvider.getSparkDao().load(SparkVO.class, userVote.entityId);
+      //dont show personal upvotes
+      if (spark.getAuthor().getId() != userVote.authorUserId) {
+        store(Activity.newSparkVoteActivity(spark, userVote), userVote);
+      }
+    }
+    else if (StringUtils.equals(userVote.entityClassName, Post.class.getName())) {
+      Post post = daoProvider.getPostDao().load(Post.class, userVote.entityId);
+      //dont show personal upvotes
+      if (post.getAuthor().getId() != userVote.authorUserId) {
+        SparkVO spark = getSpark(post);
+        store(Activity.newPostVoteActivity(spark, post, userVote), userVote);
+      }
+    }
+
+    userVote.isNotified = true;
+    return userVote;
+  }
+
   public void notify(SparkVO newSpark) {
+    if (newSpark.isNotified()) return;
+
     store(Activity.newSparkActivity(newSpark), newSpark);
     store(Activity.newUserSparkActivity(newSpark), newSpark);
     
@@ -122,9 +147,6 @@ public class ActivityService {
 
   private void store(Activity activity, Notifiable notifiable) {
     if (!notifiable.isNotified()) {
-      //@todo
-      //in the future we will need to check for overlap.  right now Source.PERSONAL and Source.REPLY
-      //cannot overlap, but that will change with the implementation of Source.FOLLOWER
       daoProvider.getActivityDao().store(activity);
       cache.delete(GLOBAL_ACTIVITY);
     }

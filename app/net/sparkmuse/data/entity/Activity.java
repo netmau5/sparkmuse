@@ -29,6 +29,7 @@ public class Activity extends Entity<Activity>
   public enum Source {
 //    FOLLOWER,
     REPLY,
+    LIKE,
     PERSONAL
   }
 
@@ -70,6 +71,27 @@ public class Activity extends Entity<Activity>
   }
 
   /**
+   * A Spark liked by a user
+   *
+   * @param spark     Spark posted to
+   * @return
+   */
+  public static Activity newSparkVoteActivity(SparkVO spark, UserVote userVote) {
+    Activity activity = new Activity();
+
+    activity.kind = Kind.SPARK;
+    activity.contentKey = spark.getId();
+    activity.population = Population.USER;
+    activity.userId = userVote.authorUserId;
+
+    activity.sources = Sets.newHashSet(Source.LIKE);
+    activity.summary = new ItemSummary(spark, spark.getAuthor(), "You liked this Spark");
+    activity.created = spark.getCreated();
+
+    return activity;
+  }
+
+  /**
    * A new post, visible as general activity to everyone.
    *
    * @param spark     Spark posted to
@@ -105,6 +127,28 @@ public class Activity extends Entity<Activity>
     activity.population = Population.EVERYONE;
 
     activity.summary = new ItemSummary(spark, newPost.getAuthor(), "");
+    activity.created = newPost.getCreated();
+
+    return activity;
+  }
+
+  /**
+   * A post liked by a user.
+   *
+   * @param spark     Spark posted to
+   * @param newPost   Post to the spark
+   * @return
+   */
+  public static Activity newPostVoteActivity(SparkVO spark, Post newPost, UserVote userVote) {
+    Activity activity = new Activity();
+
+    activity.kind = Kind.POST;
+    activity.contentKey = newPost.getId();
+    activity.population = Population.USER;
+    activity.userId = userVote.authorUserId;
+
+    activity.sources = Sets.newHashSet(Source.LIKE);
+    activity.summary = new ItemSummary(spark, newPost.getAuthor(), "You liked this post");
     activity.created = newPost.getCreated();
 
     return activity;
@@ -205,6 +249,10 @@ public class Activity extends Entity<Activity>
     return this.sources.contains(Source.REPLY);
   }
 
+  public boolean isLike() {
+    return this.sources.contains(Source.LIKE);
+  }
+
   public Kind getKind() {
     return kind;
   }
@@ -264,6 +312,12 @@ public class Activity extends Entity<Activity>
   public int compareTo(Activity activity) {
     if (activity.kind == kind && activity.contentKey.equals(contentKey)) return 0;
     else return activity.created.compareTo(created);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Activity)) return false;
+    return 0 == ((Activity) o).compareTo(this);
   }
 
   public static class ItemSummary implements Serializable {

@@ -3,6 +3,7 @@ package net.sparkmuse.task;
 import net.sparkmuse.data.twig.BatchDatastoreService;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.Migration;
+import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.common.Cache;
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
@@ -23,7 +24,7 @@ import org.joda.time.DateTime;
  * @author neteller
  * @created: Jan 22, 2011
  */
-public abstract class TransformationTask<T extends Entity> extends Task {
+public abstract class TransformationTask<T> extends Task {
 
   private final Cache cache;
   private final BatchDatastoreService batchService;
@@ -46,7 +47,9 @@ public abstract class TransformationTask<T extends Entity> extends Task {
     return new Function<T, T>() {
       public T apply(T t) {
         final T entity = transform(t);
-        cache.delete(entity);
+        if (entity instanceof Cacheable) {
+          cache.delete((Cacheable) entity);
+        }
         return entity;
       }
     };

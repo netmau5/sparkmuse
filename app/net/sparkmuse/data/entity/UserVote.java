@@ -3,6 +3,8 @@ package net.sparkmuse.data.entity;
 import com.google.code.twig.annotation.Id;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.user.Votables;
+import net.sparkmuse.activity.Notifiable;
+import org.joda.time.DateTime;
 
 /**
  * Created by IntelliJ IDEA.
@@ -10,7 +12,7 @@ import net.sparkmuse.user.Votables;
  * @author neteller
  * @created: Nov 28, 2010
  */
-public class UserVote {
+public class UserVote implements Notifiable {
 
   @Id
   private String key; //should be [entityClassName]|[entityId]
@@ -19,6 +21,13 @@ public class UserVote {
   public String entityClassName;
   public Long entityId;
   public Long authorUserId;
+
+  public DateTime created;
+  public boolean isNotified;
+
+  public UserVote() {
+    this.created = new DateTime();
+  }
 
   public String getKey() {
     return key;
@@ -34,6 +43,14 @@ public class UserVote {
 
   public void setVoteWeight(int voteWeight) {
     this.voteWeight = voteWeight;
+  }
+
+  public boolean isNotified() {
+    return this.isNotified;
+  }
+
+  public void setNotified(boolean notified) {
+    this.isNotified = notified;
   }
 
   public static UserVote newUpVote(Votable votable, UserVO voter) {

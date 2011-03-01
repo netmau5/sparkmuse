@@ -8,9 +8,11 @@ import net.sparkmuse.data.entity.UserVO;
 
 import java.util.List;
 import java.util.TreeSet;
+import java.util.ArrayList;
 import java.io.Serializable;
 
 import org.joda.time.DateTime;
+import org.apache.commons.lang.StringUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -87,8 +89,35 @@ public class ActivityStream implements Serializable {
       }
       else {
         Preconditions.checkNotNull(after);
-        return new ActivityStream(activityDao.findUser(user, after));
+        return new ActivityStream(mergeDuplicates(activityDao.findUser(user, after)));
       }
+    }
+
+    private static List<Activity> mergeDuplicates(List<Activity> activities) {
+      List<Activity> toReturn = Lists.newArrayList();
+      for (Activity activity: activities) {
+        int index = toReturn.indexOf(activity);
+        if (index >= 0) {
+          Activity existingActivity = toReturn.get(index);
+          existingActivity.getSources().addAll(activity.getSources());
+          Activity.ItemSummary existingSummary = existingActivity.getSummary();
+          if (StringUtils.isBlank(existingSummary.getNote())) {
+            existingSummary.setNote(activity.getSummary().getNote());
+          }
+          else if (StringUtils.isNotBlank(activity.getSummary().getNote())) {
+            existingSummary.setNote(
+                existingSummary.getNote() +
+                ", " +
+                activity.getSummary().getNote().substring(0, 1).toLowerCase() +
+                activity.getSummary().getNote().substring(1)
+            );
+          }
+        }
+        else {
+          toReturn.add(activity);
+        }
+      }
+      return toReturn;
     }
 
   }

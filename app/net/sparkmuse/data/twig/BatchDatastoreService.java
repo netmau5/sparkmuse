@@ -35,12 +35,12 @@ public class BatchDatastoreService {
    * @param <U>
    * @return
    */
-  public <U extends Entity<U>> Cursor transform(Class<U> entityClass, final Function<U, U> transformation, @Nullable final Cursor cursor) {
+  public <U> Cursor transform(Class<U> entityClass, final Function<U, U> transformation, @Nullable final Cursor cursor) {
     final FindCommand.RootFindCommand<U> find = datastore.find().type(entityClass).fetchNextBy(200);
     return transform(find, transformation, cursor);
   }
 
-  public <U extends Entity<U>> Cursor transform(FindCommand.RootFindCommand<U> find, final Function<U, U> transformation, @Nullable final Cursor cursor) {
+  public <U> Cursor transform(FindCommand.RootFindCommand<U> find, final Function<U, U> transformation, @Nullable final Cursor cursor) {
     if (null != cursor) find.continueFrom(cursor);
     return execute(transformation, find);
   }
@@ -54,7 +54,7 @@ public class BatchDatastoreService {
    * @param find
    * @return serialized cursor
    */
-  private <U extends Entity<U>> Cursor execute(final Function<U, U> transformer, final FindCommand.RootFindCommand<U> find) {
+  private <U> Cursor execute(final Function<U, U> transformer, final FindCommand.RootFindCommand<U> find) {
     final QueryResultIterator<U> iterator = find.now();
 
     final Function<U, U> transformFunction = new Function<U, U>() {

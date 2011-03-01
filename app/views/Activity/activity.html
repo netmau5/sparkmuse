@@ -20,6 +20,7 @@
     <ul id="filters" class="floated option-set">
       <li><a href="#" data-filter="*" class="selected">everything</a></li>
       <li><a href="#" data-filter=".replies">replies</a></li>
+      <li><a href="#" data-filter=".activity-likes">likes</a></li>
       <li><a href="#" data-filter=".you">you</a></li>
     </ul>
 
@@ -40,6 +41,7 @@
            kind="${activity.kind}"
           class="activity
           #{if activity.isReply()} replies #{/if}
+          #{if activity.isLike()} activity-likes #{/if}
           #{if activity.isPersonal()} you #{/if}
           ">
       <div class="activity-inner">
