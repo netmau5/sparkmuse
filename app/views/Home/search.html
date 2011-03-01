@@ -2,6 +2,8 @@
 #{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
 #{set nav:'SPARKS' /}
 
+<link rel="stylesheet" href="@{'/public/stylesheets/Home/sparklist.css'}" type="text/css" />
+
 <style type="text/css">
   .page-title {
     height: 50px;
@@ -58,72 +60,6 @@
         background-position: -1050px 0;
       }
 
-  .sparks-wrapper {
-    width: 100%;
-    /*padding: 0 10px 10px 0;*/
-
-  }
-
-  .spark {
-    color: #666666;
-  }
-
-  .spark:hover { background-image: none; }
-
-  .spark-inner {
-    margin-right: 115px;
-    padding: 0 0 0 10px;
-  }
-
-    .spark .stage {
-      float: right;
-      text-indent: -9999px;
-      width: 48px;
-      height: 48px;
-    }
-
-    .spark h3 {
-      font-size: 1.5em;
-      margin-bottom: 8px;
-    }
-
-    .spark .alt {
-      font-size: 14px;
-    }
-
-    .spark .details {
-      width: 75px;
-      vertical-align: top;
-      float: right;
-      margin: 0 0 0 20px;
-      padding: 0 0 0 20px;
-      background: transparent;
-      text-align: left;
-      border-left: 1px solid rgba(0,0,0,0.1);
-      line-height: 24px;
-    }
-
-      .spark .details .detail { margin-bottom: 8px; line-height: 16px; }
-
-      .spark .details .comments {
-        padding-left: 20px;
-        background: url("@{'/public/images/icons/silk/comments_faded.png'}") no-repeat;
-      }
-
-      .spark .details .likes {
-        font-family: inherit;
-        font-size: inherit;
-        color: inherit;
-      }
-
-    .spark .alt {
-      margin-bottom: 8px;
-    }
-
-    .spark .tags {
-      margin-bottom: 8px;
-    }
-
   <!-- side bar content frame -->
 
   .clockframe-container {
@@ -154,7 +90,6 @@
       padding: 0 0 0 90px;
     }
 
-
 </style>
 
 <div class="page-title prepend-1 span-22 append-1">
@@ -181,33 +116,7 @@
       <hr/>
 
       #{list items: sparks, as: 'spark'}
-      <div class='spark spark-${spark.stage.toWords().toLowerCase()}'>
-
-
-          <div class="details progress-${spark.stage.toWords().toLowerCase()}">
-            <div class="detail">${spark.stage.toWords()}</div>
-            <div class="detail">#{likeButton votable: spark, userVotes: userVotes, size: "medium" /}</div>
-            <div class="detail comments">${spark.postCount}</div>
-          </div>
-
-
-        <div class="spark-inner">
-          <h3>
-            <a href="@{Spark.view(spark.id)}">${spark.title}</a>
-          </h3>
-          <div class="alt">
-            #{nameTag user: spark.author /} &nbsp;&middot;&nbsp;
-
-            Created ${spark.created.format()}
-          </div>
-
-          <div class="tags">#{list items: spark.tags, as: 'tagName'}#{tag tagName /}#{/list}<div class="clear"></div></div>
-
-        </div>
-
-        <hr/>
-
-      </div>
+        #{sparkInfo spark: spark, userVotes: userVotes /}
       #{/list}
 
       #{if pagingState.currentPage() > 1}

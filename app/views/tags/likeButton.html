@@ -8,4 +8,5 @@
 <a href="#!%{ if(!isLiked){ }%@{User.vote(_votable.class.name, _votable.id)}%{ } }%"
    #{if _size == "small"} title="${_votable.votes} Likes" #{/if}
    callback="SM.LikedCallback"
-   class='likes likes-${_size} ${isLiked ? "liked" : ""}'>${_votable.votes}</a>
+   class='likes likes-${_size} ${isLiked ? "liked" : ""}'
+   title='#{if isLiked}You liked this.#{/if}#{else}Click to like.#{/else}'>${_votable.votes}</a>

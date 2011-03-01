@@ -32,7 +32,7 @@
         #{list items: profiles, as: "profile"}
         <tr class="${profile_parity}" onclick="window.location='@{User.view(profile.user.userName)}';"> *{ even/odd }*
           <td class="column-avatar">
-            <img class="avatar avatar-normal" src="http://api.twitter.com/1/users/profile_image/${profile.user.userName}.json?size=normal" alt="Twitter avatar"/>
+            #{avatar profile.user.userName /}
           </td>
           <td class="column-name">
             #{if profile.name}

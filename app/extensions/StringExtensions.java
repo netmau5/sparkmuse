@@ -17,27 +17,27 @@ public class StringExtensions extends JavaExtensions {
 
   /**
    * Abbreviates to the maximum length but does not chop word boundaries.
-   * Any markup is cleaned.
+   * Any markup is cleaned. If the markup includes paragraphs, only the first is
+   * used.
    *
    * @param s
    * @param maxLength
    * @return
    */
   public static String abbreviate(String s, int maxLength) {
-    if (StringUtils.isBlank(s) || StringUtils.length(s) <= maxLength) return s;
+    if (StringUtils.isBlank(s)) return s;
 
     List<String> words = Lists.newArrayList();
     maxLength -= 3; //elipsis
-    final String[] tokens = s.replaceAll("<p>", "")
-        .replaceAll("</p>", "")
-        .replaceAll("<.*>.*</.*>", "")
+    final String[] tokens = (s.contains("</p>") ? s.split("</p>")[0] : s)
+        .replaceAll("<.*>", "")
         .split(" ");
     for (int i = 0; maxLength > 0 && i < tokens.length; i++) {
       words.add(tokens[i]);
       maxLength -= tokens[i].length() + 1; //1 for implicit space
     }
 
-    return Joiner.on(" ").join(words) + "...";
+    return Joiner.on(" ").join(words) + (maxLength > 0 ? "" : "...");
   }
 
   /**

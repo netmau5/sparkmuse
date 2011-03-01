@@ -47,7 +47,7 @@
           <table>
             <tr>
               <td class="author">
-                <img class="avatar avatar-normal" src="http://api.twitter.com/1/users/profile_image/${activity.summary.userName}.json?size=normal" alt="Twitter avatar"/>
+                #{avatar activity.summary.userName /}
               </td>
               <td class="summary">
                 #{if activity.isSpark()}

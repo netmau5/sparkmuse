@@ -1297,6 +1297,13 @@ a.icon-button.resource:active {
 
 /* BEGIN <STAGES>*/
 
+.stage-desc {
+  padding: 1px 3px;
+  display: inline-block;
+  font-style: normal;
+  font-family: $FONT_FAMILY_TITLE;
+}
+
 ol.stages { padding: 0; margin-top: 5px; }
 
 .stages li {
@@ -1323,12 +1330,13 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-new {
   background-image: url("../images/icons/stages/light-72.png");
 }
+.stage-desc-new,
 .stage-new:hover, .stage-new.selected {
   background-color:#fdf5ce;
   border-color: #fbcb09;
   color:#c77405;
 }
-
+/*.stage-desc-new:hover,*/
 .stage-new:active {
   text-decoration: none;
   background-color: #c77405;
@@ -1339,11 +1347,13 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-prototype {
   background-image: url("../images/icons/stages/small-tiles-72.png");
 }
+.stage-desc-prototype,
 .stage-prototype:hover, .stage-prototype.selected {
   background-color:#F5D9B5;
   border-color: #EB8500;
   color:#915200;
 }
+/*.stage-desc-prototype:hover,*/
 .stage-prototype:active {
   text-decoration: none;
   background-color:#915200;
@@ -1354,11 +1364,13 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-beta {
   background-image: url("../images/icons/stages/monitor-72.png");
 }
+.stage-desc-beta,
 .stage-beta:hover, .stage-beta.selected {
   background-color:#dff4ff;
   border-color: #c2e1ef;
   color:#336699;
 }
+/*.stage-desc-beta:hover,*/
 .stage-beta:active {
   text-decoration: none;
   background-color:#6299c5;
@@ -1369,12 +1381,15 @@ ol.stages { padding: 0; margin-top: 5px; }
 .stage-launched {
   background-image: url("../images/icons/stages/seal-72.png");
 }
+.stage-desc-launched,
 .stage-launched:hover, .stage-launched.selected {
   background-color:#E6EFC2;
   border-color: #C6D880;
   color:#529214;
 }
+/*.stage-desc-launched:hover,*/
 .stage-launched:active {
+  text-decoration: none;
   background-color:#529214;
   border-color: #529214;
   color:#fff;
@@ -1709,10 +1724,30 @@ a.twitter-login:active {
   }
 
 .likes-medium {
-  padding-left: 20px;
+  background-color: #f6f6f6;
+  border: 1px solid #cccccc;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  width: 20px;
+  padding: 2px 2px 2px 28px;
   height: 16px;
   color: $COLOR_ALT;
+  background-position: 8px 2px;
+  text-align: left;
 }
+
+  .likes-medium.liked,
+  .likes-medium:hover {
+    background-color:#fdf5ce;
+    border:1px solid #fbcb09;
+    color:#c77405 !important;
+  }
+
+  .likes-medium:active {
+    background-color: #c77405;
+    border:1px solid #c77405;
+    color:#fff !important;
+  }
 
 .likes-small {
   text-indent: -9999px;
