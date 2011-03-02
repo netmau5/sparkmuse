@@ -18,6 +18,7 @@ import net.sparkmuse.data.entity.Invitation;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.BlobService;
 import net.sparkmuse.common.Constants;
+import net.sparkmuse.ajax.AjaxResponse;
 import org.apache.commons.lang.StringUtils;
 
 public class Application extends SparkmuseController {
@@ -89,6 +90,16 @@ public class Application extends SparkmuseController {
 
   public static void get(String blobKey) {
     redirect(blobService.createServeUrl(blobKey));
+  }
+
+  //user denied access to app, tell them we're sorry
+  public static void farewell(){
+    render();
+  }
+
+  public static void farewellFeedback(String medicine) {
+    userFacade.farewell(medicine);
+    renderJSON(new AjaxResponse());
   }
   
 }

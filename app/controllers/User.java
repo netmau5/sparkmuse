@@ -24,8 +24,10 @@ import play.data.validation.Valid;
 import play.data.validation.Validation;
 import play.data.validation.Required;
 import play.mvc.Router;
+import play.mvc.With;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang.StringUtils;
+import filters.AuthorizationFilter;
 
 
 /**
@@ -34,6 +36,7 @@ import org.apache.commons.lang.StringUtils;
  * @author neteller
  * @created: Nov 24, 2010
  */
+@With(AuthorizationFilter.class)
 public class User extends SparkmuseController {
 
   @Inject static UserFacade userFacade;
@@ -102,16 +105,6 @@ public class User extends SparkmuseController {
     if (StringUtils.isNotBlank(message)) {
       userFacade.tweet(Authorization.getUserFromSessionOrAuthenticate(true), message);
     }
-    renderJSON(new AjaxResponse());
-  }
-
-  //user denied access to app, tell them we're sorry
-  public static void farewell(){
-    render();
-  }
-
-  public static void farewellFeedback(String medicine) {
-    userFacade.farewell(medicine);
     renderJSON(new AjaxResponse());
   }
 
