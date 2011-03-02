@@ -57,6 +57,7 @@ public class Spark extends SparkmuseController {
     }
     else {
       final UserVO currentUser = Authorization.getUserFromSessionOrAuthenticate(true);
+
       if (currentUser.isAdmin() && StringUtils.isNotBlank(userName)) {
         final UserProfile profile = userFacade.getUserProfile(userName);
         if (null == profile) {
@@ -64,9 +65,15 @@ public class Spark extends SparkmuseController {
         }
         spark.setAuthor(profile.getUser());
       }
+      else if (null != spark.getId()) {
+        if (sparkFacade.findSparkBy(spark.getId()).getAuthor().getId() != currentUser.getId()) {
+          renderJSON(ValidationErrorAjaxResponse.only("spark", "You may only edit your own Spark."));
+        }
+      }
       else {
         spark.setAuthor(currentUser);
       }
+
       final SparkVO savedSpark = sparkFacade.storeSpark(overlay(spark));
       final HashMap<String, Object> parameters = Maps.newHashMap();
       parameters.put("sparkId", savedSpark.getId());
