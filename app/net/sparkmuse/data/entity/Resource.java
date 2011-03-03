@@ -2,6 +2,7 @@ package net.sparkmuse.data.entity;
 
 import play.data.validation.Required;
 import play.data.validation.URL;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * @author neteller
@@ -34,7 +35,8 @@ public class Resource extends Entity<Resource> {
   }
 
   public String getTitle() {
-    return title;
+    if (StringUtils.isBlank(title)) return url;
+    else return title;
   }
 
   public void setTitle(String title) {
