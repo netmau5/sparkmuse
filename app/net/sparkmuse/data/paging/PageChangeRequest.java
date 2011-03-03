@@ -11,27 +11,30 @@ import com.google.appengine.api.datastore.Cursor;
  */
 public class PageChangeRequest {
 
-  public static PageChangeRequest NO_PAGING = new PageChangeRequest(Target.SAME, null, null);
+  public static PageChangeRequest NO_PAGING = new PageChangeRequest(null, null, null);
 
   private final Target target;
   private final PagingState state;
   private final Cache cache;
 
-  public enum Target {
-    PREVIOUS(-1),
-    SAME(0),
-    NEXT(1);
+  public static class Target {
 
-    int modifier;
-
-    Target(int modifier) {
-      this.modifier = modifier;
+    public Target(int currentPage, int newPage) {
+      this.modifier = newPage - currentPage;
     }
 
-    static Target determine(int currentPage, int newPage) {
-      if (currentPage < newPage) return NEXT;
-      else if (currentPage > newPage) return PREVIOUS;
-      else return SAME;
+    private final int modifier;
+
+    public boolean isPrevious() {
+      return modifier < 0;
+    }
+
+    public boolean isSame() {
+      return 0 == modifier;
+    }
+
+    public boolean isNext() {
+      return modifier > 0;
     }
   }
 
@@ -39,10 +42,6 @@ public class PageChangeRequest {
     this.target = target;
     this.state = state;
     this.cache = cache;
-  }
-
-  public Target getTarget() {
-    return target;
   }
 
   public PagingState getState() {
@@ -53,18 +52,19 @@ public class PageChangeRequest {
     if (this == NO_PAGING) return find;
 
     int newPage = this.state.currentPage() + this.target.modifier;
-    Cursor cursor = state.cursorBeforePage(newPage);
+    Cursor cursor = state.cursorFromPage(newPage - 1);
     int pageSize = this.state.pageSize();
-
+    
     find.fetchMaximum(pageSize + 1);
     find.fetchFirst(pageSize + 1);
 
+    //A cursor is not a relative position in the list (it's not an offset);
+    //it's a marker to which the datastore can jump when starting an index scan for results
     if (null != cursor) {
       find.continueFrom(cursor);
     }
-    else {
-      find.startFrom(this.state.currentPage() * pageSize);
-    }
+
+    find.startFrom(this.state.calculateOffset());
 
     return find;
   }
@@ -74,18 +74,18 @@ public class PageChangeRequest {
     return this.state.pageSize() * (this.target.modifier + this.state.currentPage());
   }
 
+  /**
+   * After a page result has been calculated, set the existing page state from this point.
+   * Do we have more results (show next button), what page are we on?
+   * 
+   * @param hasNext
+   * @param cursor  Nullable
+   */
   public void transition(boolean hasNext, Cursor cursor) {
     if (NO_PAGING == this) return;
 
-    if (Target.NEXT == this.target) {
-      this.state.increment(cursor, hasNext);
-    }
-    else if (Target.PREVIOUS == this.target) {
-      this.state.decrement();
-    }
-    else {
-      this.state.same(hasNext);
-    }
+    this.state.transition(this.target.modifier, hasNext || !this.target.isNext(), cursor);
+
     this.cache.set(this.state);
   }
 
@@ -103,7 +103,7 @@ public class PageChangeRequest {
    */
   public static PageChangeRequest newInstance(int newPage, Cache cache, UserVO currentUser, Class type, String uniqueId) {
     PagingState state = PagingState.retrieve(cache, currentUser, type, uniqueId);
-    return new PageChangeRequest(Target.determine(state.currentPage(), newPage), state, cache);
+    return new PageChangeRequest(new Target(state.currentPage(), newPage), state, cache);
   }
 
   public static PageChangeRequest noPaging() {

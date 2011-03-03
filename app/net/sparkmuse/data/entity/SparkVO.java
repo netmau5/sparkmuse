@@ -25,7 +25,7 @@ import com.google.common.base.Function;
  * @author neteller
  * @created: Jul 5, 2010
  */
-@PagingSize(20)
+@PagingSize(2)
 public class SparkVO extends OwnedEntity<SparkVO> 
     implements Votable, Dateable, Notifiable {
 

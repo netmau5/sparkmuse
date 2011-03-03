@@ -54,7 +54,7 @@ public class SparkFacade {
       return getTaggedSparks(request.getTag());
     }
     //cacheable + pageable stuff
-    else if(SparkSearchResponse.MAX_CACHE_SIZE < pageChange.maxResultIndex()) {
+    else if(SparkSearchResponse.MAX_CACHE_SIZE <= pageChange.maxResultIndex()) {
       TreeSet results = new TreeSet(request.getFilter().getOrdering());
       results.addAll(sparkDao.search(request));
       return new BasicSparkSearchResponse(results, request.getFilter());
@@ -65,7 +65,7 @@ public class SparkFacade {
       SparkSearchResponse response = getCachedSparkSearchResponse(request);
       pageChange.transition(response.getSparks().size() > pageChange.maxResultIndex(), null);
       return response;
-    }
+    } 
   }
 
   private SparkSearchResponse getCachedSparkSearchResponse(SparkSearchRequest request) {

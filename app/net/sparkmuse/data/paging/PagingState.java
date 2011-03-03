@@ -4,8 +4,8 @@ import net.sparkmuse.data.Cacheable;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.Cache;
-import com.google.appengine.api.datastore.Cursor;
 import com.google.common.collect.Maps;
+import com.google.appengine.api.datastore.Cursor;
 
 import java.util.Map;
 import java.io.Serializable;
@@ -38,18 +38,10 @@ public class PagingState implements Cacheable, Serializable {
     return this.currentPage;
   }
 
-  void increment(Cursor lastCursor, boolean hasMorePages) {
-    cursors.put(currentPage++, lastCursor);
-    this.morePages = hasMorePages;
-  }
-
-  void decrement() {
-    currentPage--;
-    this.morePages = true;
-  }
-
-  void same(boolean hasMorePages) {
-    this.morePages = hasMorePages;
+  void transition(int pageModifier, boolean hasMorePages, Cursor lastCursor) {
+    currentPage += pageModifier;
+    if (null != lastCursor) cursors.put(currentPage, lastCursor);
+    morePages = hasMorePages;
   }
 
   public boolean hasMorePages() {
@@ -57,19 +49,29 @@ public class PagingState implements Cacheable, Serializable {
   }
 
   /**
-   * Gives the cursor that you would continue from to get
-   * to a page of results.
+   * Gives the cursor that you would continue from the given
+   * page to the next.
    *
    * @param page
    * @return
    */
-  public Cursor cursorBeforePage(int page) {
-    return cursors.get(--page);
+  public Cursor cursorFromPage(int page) {
+    return cursors.get(page);
   }
 
   public int pageSize() {
     PagingSize pageSize = (PagingSize) this.type.getAnnotation(PagingSize.class);
     return pageSize.value();
+  }
+
+  public int calculateOffset() {
+    //any preceding pages without a cursor should be offset, they are assumed to be cached
+    int cachedPages = this.currentPage();
+    for (int i = cachedPages; i > 0; i--) {
+      if (null != this.cursors.get(i)) cachedPages--;
+    }
+
+    return cachedPages * this.pageSize();
   }
 
   public CacheKey getKey() {

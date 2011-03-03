@@ -67,13 +67,13 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
 
   private static <T> FindCommand.RootFindCommand<T> addSort(FindCommand.RootFindCommand<T> find, SparkSearchRequest.Filter filter) {
     if (SparkSearchRequest.Filter.DISCUSSED == filter) {
-      find.addSort("postCount");
+      find.addSort("postCount", Query.SortDirection.DESCENDING);
     }
     else if (SparkSearchRequest.Filter.POPULAR == filter) {
-      find.addSort("rating");
+      find.addSort("rating", Query.SortDirection.DESCENDING);
     }
     else if (SparkSearchRequest.Filter.RECENT == filter) {
-      find.addSort("created");
+      find.addSort("created", Query.SortDirection.DESCENDING);
     }
     return find;
   }

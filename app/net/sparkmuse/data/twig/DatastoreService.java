@@ -128,6 +128,7 @@ public class DatastoreService {
     }
     List<U> results = After.read(rawResults, this);
     Cursor cursor = resultIterator.getCursor(); //get cursor before asking hasNext otherwise we bump the cursor forward one
+    cursor = Cursor.fromWebSafeString(cursor.toWebSafeString()); //immutable
     pageChangeRequest.transition(resultIterator.hasNext(), cursor);
     return results;
   }
