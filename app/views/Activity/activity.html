@@ -2,7 +2,7 @@
 #{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
 #{set nav:'ACTIVITY' /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/Activity/activity-2.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/Activity/activity-3.css'}" type="text/css" />
 
 <div class="page-title prepend-1 span-22 append-1 first last">
 
@@ -39,12 +39,15 @@
 
       <div created="${activity.created.getMillis()}"
            kind="${activity.kind}"
+           contentKey="${activity.contentKey}"
+           id="${activity.kind}-${activity.contentKey}"
           class="activity
           #{if activity.isReply()} replies #{/if}
           #{if activity.isLike()} activity-likes #{/if}
           #{if activity.isPersonal()} you #{/if}
           ">
       <div class="activity-inner">
+        
         <div class="title">
           <table>
             <tr>
@@ -58,7 +61,15 @@
                 #{if activity.isPost()}
                   <h3 class="stripe-orange">Post</h3>
                 #{/if}
-                <a href="@{Spark.view(activity.summary.sparkId)}">${activity.summary.sparkTitle}</a>
+                <div class="name">
+                  ${activity.summary.sparkTitle}
+                </div>
+                <div class="links">
+                  <a href="#"
+                     class="show-link">Show</a> &middot;
+                  <a href="@{Spark.view(activity.summary.sparkId)}">Go to Spark &rarr;</a>
+                </div>
+                <div class="content"></div>
                 <div class="alt">
                   #{if activity.summary.note}
                     ${activity.summary.note}
@@ -69,9 +80,9 @@
               </td>
             </tr>
           </table>
-
         </div>
-        <div class="content"></div>
+
+
       </div>
       </div>
 
@@ -91,7 +102,7 @@
     $('#activities').isotope({
       // options
       itemSelector: '.activity',
-      layoutMode: 'fitRows',
+      layoutMode: 'masonry',
       getSortData: {
         kind: function($elem) {
           return $elem.attr('kind');
@@ -121,6 +132,43 @@
     $('.option-set > li > a').click(function(){
       $(this).parent().parent().find("a").removeClass('selected');
       $(this).addClass('selected');
+    });
+
+    SM.Activity = {
+
+      createShowResponseHandler: function(activity) {
+        return function(response) {
+          if (activity.hasClass("content-visible")) {
+            $(".content", activity).html(response.fragment);
+          }
+          $('#activities').isotope('reLayout');
+        }
+      }
+
+    };
+
+    $("a.show-link").live("click", function() {
+      var activity = $(this).parents(".activity");
+      if (activity.hasClass("content-visible")) {
+        $(this).html("Show");
+        $(".content", activity).html("").toggle(false);
+        activity.removeClass("content-visible");
+        $('#activities').isotope('reLayout');
+      }
+      else {
+        $(".content", activity)
+            .html("<img src='@{'public/images/spinner.gif'}' title='Loading...'/>")
+            .toggle(true);
+        activity.addClass("content-visible")
+
+        $.get(
+            "@{ActivityController.show()}",
+            { kind: activity.attr("kind"), contentKey: activity.attr("contentKey") },
+            SM.Activity.createShowResponseHandler(activity)
+        );
+
+        $(this).html("Hide");
+      }
     })
 
   });

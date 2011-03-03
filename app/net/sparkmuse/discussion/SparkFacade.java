@@ -114,6 +114,10 @@ public class SparkFacade {
     return new Posts(spark, Orderings.sort(posts));
   }
 
+  public Post findPostBy(final Long id) {
+    return postDao.load(Post.class, id);
+  }
+
   public SparkVO findSparkBy(final Long id) {
     final SparkVO sparkVO = cache.get(CacheKeyFactory.newSparkKey(id));
     return null == sparkVO ? sparkDao.findById(id) : sparkVO;
