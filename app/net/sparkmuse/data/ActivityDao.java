@@ -17,4 +17,6 @@ public interface ActivityDao extends CrudDao {
 
   List<Activity> findUser(UserVO user, DateTime after);
 
+  List<Activity> findUser(UserVO user, Activity.Source source);
+
 }

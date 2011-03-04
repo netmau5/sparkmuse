@@ -60,8 +60,12 @@ public class BatchDatastoreService {
     final Function<U, U> transformFunction = new Function<U, U>() {
       public U apply(U u) {
         final U transformedEntity = transformer.apply(u);
-        DatastoreUtils.associate(transformedEntity, datastore);
-        datastore.update(transformedEntity);
+
+        if (null != transformedEntity) {
+          DatastoreUtils.associate(transformedEntity, datastore);
+          datastore.update(transformedEntity);
+        }
+
         return transformedEntity;
       }
     };

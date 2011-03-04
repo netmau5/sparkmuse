@@ -28,7 +28,7 @@ public class SparkActivityTransformationTask extends TransformationTask<SparkVO>
     this.activityService = activityService;
   }
 
-  protected String getTaskName() {
+  public String getTaskName() {
     return TASK_NAME;
   }
 

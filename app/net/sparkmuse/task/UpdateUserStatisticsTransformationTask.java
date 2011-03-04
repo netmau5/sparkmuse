@@ -25,7 +25,7 @@ public class UpdateUserStatisticsTransformationTask extends TransformationTask<U
     this.datastore = datastore;
   }
 
-  protected String getTaskName() {
+  public String getTaskName() {
     return "Update User Statistics Task";
   }
 

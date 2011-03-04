@@ -23,6 +23,12 @@
     <property name="created" direction="desc"/>
   </datastore-index>
 
+  <datastore-index kind="net_sparkmuse_data_entity_Activity" ancestor="false">
+    <property name="sources" direction="asc"/>
+    <property name="userId" direction="asc"/>
+    <property name="created" direction="desc"/>
+  </datastore-index>
+
   <datastore-index kind="net_sparkmuse_data_entity_SparkVO" ancestor="false">
     <property name="tags" direction="asc"/>
     <property name="created" direction="desc"/>

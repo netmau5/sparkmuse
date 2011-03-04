@@ -34,6 +34,13 @@ public class ActivityController extends SparkmuseController{
     renderTemplate("Activity/activity.html", stream);
   }
 
+  public static void more(@Required Activity.Source source) {
+    ActivityStream stream = activityService.getActivity(Authorization.getUserFromSession(), source);
+    renderJSON(new FragmentAjaxResponse("tags/activities.html", ImmutableMap.<String, Object>of(
+        "_arg", stream
+    )));
+  }
+
   public static void show(@Required Activity.Kind kind, @Required Long contentKey) {
     if (kind == Activity.Kind.SPARK) {
       SparkVO spark = sparkFacade.findSparkBy(contentKey);

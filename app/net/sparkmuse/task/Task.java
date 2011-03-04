@@ -28,7 +28,7 @@ public abstract class Task {
     return lastCursor == null;
   }
 
-  protected String getTaskName() {
+  public String getTaskName() {
     return this.getClass().getName();
   }
 
@@ -94,6 +94,7 @@ public abstract class Task {
   }
 
   protected Migration currentMigration() {
+    //@todo if we fail, the current migration is turned into an error. if so, we need to recreate current migration for retry attempts
     return datastore.find().type(Migration.class)
         .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.STARTED.toString())
         .addFilter("taskName", Query.FilterOperator.EQUAL, getTaskName())

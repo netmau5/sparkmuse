@@ -1,14 +1,11 @@
 package net.sparkmuse.activity;
 
-import net.sparkmuse.common.Cache;
-import net.sparkmuse.common.Orderings;
 import net.sparkmuse.data.ActivityDao;
 import net.sparkmuse.data.entity.Activity;
 import net.sparkmuse.data.entity.UserVO;
 
 import java.util.List;
 import java.util.TreeSet;
-import java.util.ArrayList;
 import java.io.Serializable;
 
 import org.joda.time.DateTime;
@@ -68,6 +65,7 @@ public class ActivityStream implements Serializable {
 
     private UserVO user;
     private DateTime after;
+    private Activity.Source source;
 
     private Builder(ActivityDao activityDao) {
       this.activityDao = activityDao;
@@ -83,13 +81,26 @@ public class ActivityStream implements Serializable {
       return this;
     }
 
+    public Builder in(Activity.Source source) {
+      this.source = source;
+      return this;
+    }
+
     public ActivityStream build() {
+      Preconditions.checkState(!(null != after && null != source), "Cannot query on both created and source.");
       if (null == user) {
         return new ActivityStream(activityDao.findEveryone(50));
       }
-      else {
+      else if (null != after) {
         Preconditions.checkNotNull(after);
         return new ActivityStream(mergeDuplicates(activityDao.findUser(user, after)));
+      }
+      else if (null != source) {
+        Preconditions.checkNotNull(source);
+        return new ActivityStream(mergeDuplicates(activityDao.findUser(user, source)));
+      }
+      else {
+        throw new IllegalStateException("Invalid query");
       }
     }
 

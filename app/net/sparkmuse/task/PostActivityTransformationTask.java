@@ -24,7 +24,7 @@ public class PostActivityTransformationTask extends TransformationTask<Post> {
     this.activityService = activityService;
   }
 
-  protected String getTaskName() {
+  public String getTaskName() {
     return TASK_NAME;
   }
 

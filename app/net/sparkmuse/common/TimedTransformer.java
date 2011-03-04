@@ -37,7 +37,11 @@ public class TimedTransformer<T> {
     long startTime = System.currentTimeMillis();
     while (iterator.hasNext()) {
       this.lastSuccessfulTransform = iterator.getCursor();
-      toReturn.add(transformation.apply(iterator.next()));
+      T t = transformation.apply(iterator.next());
+      if (null != t) {
+        //was deleted
+        toReturn.add(t);
+      }
       if (System.currentTimeMillis() - startTime >= millis) {
         break;
       }

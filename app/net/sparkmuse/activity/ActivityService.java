@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import com.google.inject.Inject;
+import com.google.code.twig.ObjectDatastore;
 
 /**
  * Produces activity notifications for new events.
@@ -26,12 +27,14 @@ public class ActivityService {
   private final DaoProvider daoProvider;
   private final Cache cache;
   private final MailService mailService;
+  private final ObjectDatastore datastore;
 
   @Inject
-  public ActivityService(Cache cache, MailService mailService, DaoProvider daoProvider) {
+  public ActivityService(Cache cache, MailService mailService, DaoProvider daoProvider, ObjectDatastore datastore) {
     this.cache = cache;
     this.mailService = mailService;
     this.daoProvider = daoProvider;
+    this.datastore = datastore;
   }
 
   public ActivityStream getActivity(UserVO user) {
@@ -41,6 +44,13 @@ public class ActivityService {
         .after(globalActivity.getOldestTime())
         .build();
     return globalActivity.overlay(userActivity);
+  }
+
+  public ActivityStream getActivity(UserVO user, Activity.Source source) {
+    return ActivityStream.builder(daoProvider.getActivityDao())
+        .forUser(user)
+        .in(source)
+        .build();
   }
 
   private ActivityStream getGlobalActivity() {
@@ -58,14 +68,29 @@ public class ActivityService {
     if (StringUtils.equals(userVote.entityClassName, SparkVO.class.getName())) {
       final SparkVO spark = daoProvider.getSparkDao().load(SparkVO.class, userVote.entityId);
       //dont show personal upvotes
-      if (spark.getAuthor().getId() != userVote.authorUserId) {
+
+      if (null == spark) {
+        Logger.error("Spark [" + userVote.entityId + "] doesn't exist but has a vote [" + userVote.getKey() + "].");
+        datastore.delete(userVote); //@todo direct datastore access no goot
+        return null;
+      }
+
+      UserVO sparkAuthor = spark.getAuthor();
+      if (!sparkAuthor.getId().equals(userVote.authorUserId)) {
         store(Activity.newSparkVoteActivity(spark, userVote), userVote);
       }
     }
     else if (StringUtils.equals(userVote.entityClassName, Post.class.getName())) {
       Post post = daoProvider.getPostDao().load(Post.class, userVote.entityId);
+
+      if (null == post) {
+        Logger.error("Post [" + userVote.entityId + "] doesn't exist but has a vote [" + userVote.getKey() + "].");
+        datastore.delete(userVote); //@todo direct datastore access no goot
+        return null;
+      }
+
       //dont show personal upvotes
-      if (post.getAuthor().getId() != userVote.authorUserId) {
+      if (!post.getAuthor().getId().equals(userVote.authorUserId)) {
         SparkVO spark = getSpark(post);
         store(Activity.newPostVoteActivity(spark, post, userVote), userVote);
       }

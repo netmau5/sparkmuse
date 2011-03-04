@@ -1,0 +1,53 @@
+*{ param[0]: stream }*
+#{list items: _arg.activities, as:'activity'}
+
+<div created="${activity.created.getMillis()}"
+     kind="${activity.kind}"
+     contentKey="${activity.contentKey}"
+     id="${activity.kind}-${activity.contentKey}"
+    class="activity
+    #{if activity.isReply()} replies #{/if}
+    #{if activity.isLike()} activity-likes #{/if}
+    #{if activity.isPersonal()} you #{/if}
+    ">
+<div class="activity-inner">
+
+  <div class="title">
+    <table>
+      <tr>
+        <td class="author">
+          #{avatar activity.summary.userName /}
+        </td>
+        <td class="summary">
+          #{if activity.isSpark()}
+            <h3 class="stripe-yellow">Spark</h3>
+          #{/if}
+          #{if activity.isPost()}
+            <h3 class="stripe-orange">Post</h3>
+          #{/if}
+          <div class="name">
+            ${activity.summary.sparkTitle}
+          </div>
+          <div class="links">
+            <a href="activities.html#"
+               class="show-link">Show</a> &middot;
+            <a href="@{Spark.view(activity.summary.sparkId)}">Go to Spark &rarr;</a>
+          </div>
+          <div class="content"></div>
+          <div class="alt">
+            #{if activity.summary.note}
+              ${activity.summary.note}
+              &nbsp;&middot;&nbsp;
+            #{/if}
+            ${activity.created.format()}
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+
+
+</div>
+</div>
+
+#{/list}

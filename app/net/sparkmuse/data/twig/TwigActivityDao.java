@@ -35,4 +35,12 @@ public class TwigActivityDao extends TwigDao implements ActivityDao {
         .addFilter("created", Query.FilterOperator.GREATER_THAN_OR_EQUAL, after.getMillis()));
   }
 
+  public List<Activity> findUser(UserVO user, Activity.Source source) {
+    return helper.all(datastore.find().type(Activity.class)
+        .addFilter("userId", Query.FilterOperator.EQUAL, user.getId())
+        .addSort("created", Query.SortDirection.DESCENDING)
+        .addFilter("sources", Query.FilterOperator.EQUAL, source.toString())
+        .fetchMaximum(20));
+  }
+
 }
