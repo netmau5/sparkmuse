@@ -6,6 +6,7 @@ import com.google.appengine.api.datastore.Cursor;
 import com.google.appengine.api.datastore.Query;
 import com.google.inject.internal.Nullable;
 import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 import play.Logger;
 import org.joda.time.DateTime;
 
@@ -64,12 +65,14 @@ public abstract class Task {
 
   protected abstract Cursor runTask(@Nullable Cursor cursor);
 
-  private void storeBegin() {
+  private Migration storeBegin() {
     Logger.info("Beginning task [" + this.getClass() + "].");
 
     final Migration migration = new Migration(getTaskName(), Migration.State.STARTED);
 
     datastore.store(migration);
+
+    return migration;
   }
 
   private void storeEnd() {
@@ -94,15 +97,21 @@ public abstract class Task {
   }
 
   protected Migration currentMigration() {
-    //@todo if we fail, the current migration is turned into an error. if so, we need to recreate current migration for retry attempts
-    return datastore.find().type(Migration.class)
+    List<Migration> migrationList = datastore.find().type(Migration.class)
         .addFilter("state", Query.FilterOperator.EQUAL, Migration.State.STARTED.toString())
         .addFilter("taskName", Query.FilterOperator.EQUAL, getTaskName())
         .addSort("started", Query.SortDirection.DESCENDING)
         .fetchMaximum(1)
         .returnAll()
-        .now()
-        .get(0);
+        .now();
+
+    //if we fail, the current migration is turned into an error. if so, we need to recreate current migration for retry attempts
+    if (Iterables.isEmpty(migrationList)) {
+      return storeBegin();
+    }
+    else {
+      return migrationList.get(0);
+    }
   }
 
   protected Migration lastMigration() {

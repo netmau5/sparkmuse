@@ -161,4 +161,11 @@ public class SparkFacade {
     return newPost;
   }
 
+  public void deleteSpark() {
+    //delete Activity
+    //delete UserVote
+    //delete Post (do we need to remove offer, resource, visual?)
+    //delete Spark
+  }
+
 }

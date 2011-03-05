@@ -66,7 +66,7 @@ public class Spark extends SparkmuseController {
         spark.setAuthor(profile.getUser());
       }
       else if (null != spark.getId()) {
-        if (sparkFacade.findSparkBy(spark.getId()).getAuthor().getId() != currentUser.getId()) {
+        if (!sparkFacade.findSparkBy(spark.getId()).getAuthor().getId().equals(currentUser.getId())) {
           renderJSON(ValidationErrorAjaxResponse.only("spark", "You may only edit your own Spark."));
         }
       }
