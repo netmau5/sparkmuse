@@ -6,6 +6,7 @@ import net.sparkmuse.mail.ActivityUpdate;
 import net.sparkmuse.mail.MailService;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.Cache;
+import net.sparkmuse.discussion.Posts;
 import play.Logger;
 
 import java.util.List;
@@ -201,4 +202,13 @@ public class ActivityService {
     return spark;
   }
 
+  public void deleteActivitiesFor(SparkVO spark) {
+    daoProvider.getActivityDao().deleteAll(Activity.Kind.SPARK, spark.getId());
+  }
+
+  public void deleteActivitiesFor(Posts posts) {
+    for (Post post: posts.getAllPosts()) {
+      daoProvider.getActivityDao().deleteAll(Activity.Kind.POST, post.getId());
+    }
+  }
 }

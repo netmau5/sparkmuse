@@ -2,6 +2,7 @@ package net.sparkmuse.data;
 
 import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.discussion.Posts;
 
 import java.util.Collection;
 import java.util.List;
@@ -15,4 +16,5 @@ import java.util.List;
 public interface PostDao extends CrudDao {
   Collection<Post> findPostsBySpark(SparkVO spark);
   List<Post> findSiblings(Post post); //returns null if this post isn't a reply
+  void deleteAll(Posts posts);
 }

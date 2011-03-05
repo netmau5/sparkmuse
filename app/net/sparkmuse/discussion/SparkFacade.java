@@ -9,6 +9,7 @@ import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.Orderings;
 import net.sparkmuse.user.UserFacade;
+import net.sparkmuse.activity.ActivityService;
 
 import java.util.Collection;
 import java.util.List;
@@ -36,16 +37,19 @@ public class SparkFacade {
   private final PostDao postDao;
   private final Cache cache;
   private final UserFacade userFacade;
+  private final ActivityService activityService;
 
   @Inject
   public SparkFacade(DaoProvider daoProvider,
                      Cache cache,
-                     UserFacade userFacade
+                     UserFacade userFacade,
+                     ActivityService activityService
   ) {
     this.sparkDao = daoProvider.getSparkDao();
     this.postDao = daoProvider.getPostDao();
     this.cache = cache;
     this.userFacade = userFacade;
+    this.activityService = activityService;
   }
 
   public SparkSearchResponse search(final SparkSearchRequest request) {
@@ -161,11 +165,30 @@ public class SparkFacade {
     return newPost;
   }
 
-  public void deleteSpark() {
+  public void deleteSpark(Long sparkId) {
+    SparkVO spark = findSparkBy(sparkId);
+
     //delete Activity
+    activityService.deleteActivitiesFor(spark);
+
     //delete UserVote
-    //delete Post (do we need to remove offer, resource, visual?)
+    userFacade.deleteVotesFor(spark);
+
+    //delete Post
+    deletePosts(findPostsFor(spark));
+
     //delete Spark
+    sparkDao.delete(spark);
+
+    cache.clear();
+  }
+
+  private void deletePosts(Posts posts) {
+    activityService.deleteActivitiesFor(posts);
+    for (Post post: posts.getAllPosts()) {
+      userFacade.deleteVotesFor(post);
+    }
+    postDao.deleteAll(posts);
   }
 
 }

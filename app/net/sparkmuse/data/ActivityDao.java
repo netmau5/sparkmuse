@@ -2,6 +2,7 @@ package net.sparkmuse.data;
 
 import net.sparkmuse.data.entity.Activity;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.SparkVO;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public interface ActivityDao extends CrudDao {
 
   List<Activity> findUser(UserVO user, Activity.Source source);
 
+  void deleteAll(Activity.Kind kind, Long contentKey);
 }

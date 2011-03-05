@@ -143,6 +143,10 @@ public class UserFacade {
     }
   }
 
+  public void deleteVotesFor(Votable votable) {
+    userDao.deleteVotesFor(votable);
+  }
+
   public void recordNewSpark(UserVO user) {
     user.setSparks(user.getSparks() + 1);
     userDao.store(user);

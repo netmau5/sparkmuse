@@ -53,4 +53,5 @@ public interface UserDao extends CrudDao {
 
   <T extends Entity<T>> T update(T entity);
 
+  void deleteVotesFor(Votable votable);
 }

@@ -7,8 +7,10 @@ import net.sparkmuse.user.UserLogin;
 import net.sparkmuse.data.entity.*;
 import com.google.inject.Inject;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
+import com.google.appengine.api.datastore.Query;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.base.Predicate;
 
 import java.util.Set;
@@ -177,8 +179,8 @@ public class TwigUserDao extends TwigDao implements UserDao {
 
     //filter out nulls
     final Iterable<UserVote> votes = Iterables.filter(voteMap.values(), new Predicate<UserVote>(){
-      public boolean apply(UserVote voteModel) {
-        return null != voteModel;
+      public boolean apply(UserVote userVote) {
+        return null != userVote;
       }
     });
 
@@ -195,5 +197,13 @@ public class TwigUserDao extends TwigDao implements UserDao {
   public Invitation findInvitationByGroup(String groupName) {
     return helper.only(datastore.find().type(Invitation.class)
           .addFilter("groupName", EQUAL, groupName));
+  }
+
+  public void deleteVotesFor(Votable votable) {
+    List<UserVote> votes = datastore.find().type(UserVote.class)
+        .addFilter("entityId", Query.FilterOperator.EQUAL, votable.getId())
+        .returnAll()
+        .now();
+    datastore.deleteAll(Lists.newArrayList(Iterables.filter(votes, UserVote.isType(votable.getClass()))));
   }
 }

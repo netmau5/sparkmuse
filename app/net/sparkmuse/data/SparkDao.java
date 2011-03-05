@@ -21,4 +21,5 @@ public interface SparkDao extends CrudDao {
   List<SparkVO> loadMostDiscussed();
   List<SparkVO> loadTagged(String tag);
   List<SparkVO> search(SparkSearchRequest request);
+  void delete(SparkVO spark);
 }

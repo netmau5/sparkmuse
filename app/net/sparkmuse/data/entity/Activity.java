@@ -2,6 +2,7 @@ package net.sparkmuse.data.entity;
 
 import com.google.code.twig.annotation.Embedded;
 import com.google.common.collect.Sets;
+import com.google.common.base.Predicate;
 import org.joda.time.DateTime;
 
 import java.util.Set;
@@ -368,6 +369,14 @@ public class Activity extends Entity<Activity>
     public void setNote(String note) {
       this.note = note;
     }
+  }
+
+  public static Predicate<Activity> isKind(final Kind kind) {
+    return new Predicate<Activity>(){
+      public boolean apply(Activity activity) {
+        return activity.kind == kind;
+      }
+    };
   }
 
 }

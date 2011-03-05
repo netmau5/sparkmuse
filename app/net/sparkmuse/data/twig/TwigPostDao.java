@@ -9,6 +9,7 @@ import com.google.common.base.Predicate;
 import net.sparkmuse.data.entity.Post;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.PostDao;
+import net.sparkmuse.discussion.Posts;
 
 import java.util.Collection;
 import java.util.List;
@@ -64,5 +65,12 @@ public class TwigPostDao extends TwigDao implements PostDao {
         return null == post.getInReplyToId();
       }
     }));
+  }
+
+  public void deleteAll(Posts posts) {
+    datastore.deleteAll(posts.getResources());
+    datastore.deleteAll(posts.getVisuals());
+    datastore.deleteAll(posts.getOffers());
+    datastore.deleteAll(posts.getAllPosts());
   }
 }

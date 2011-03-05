@@ -5,6 +5,8 @@ import net.sparkmuse.data.entity.Activity;
 import net.sparkmuse.data.entity.UserVO;
 import com.google.inject.Inject;
 import com.google.appengine.api.datastore.Query;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 
 import java.util.List;
 
@@ -41,6 +43,13 @@ public class TwigActivityDao extends TwigDao implements ActivityDao {
         .addSort("created", Query.SortDirection.DESCENDING)
         .addFilter("sources", Query.FilterOperator.EQUAL, source.toString())
         .fetchMaximum(20));
+  }
+
+  public void deleteAll(Activity.Kind kind, Long contentKey) {
+    List<Activity> activityList = helper.all(datastore.find().type(Activity.class)
+        .addFilter("contentKey", Query.FilterOperator.EQUAL, contentKey)
+        .fetchMaximum(1000));
+    datastore.deleteAll(Lists.newArrayList(Iterables.filter(activityList, Activity.isKind(kind))));
   }
 
 }
