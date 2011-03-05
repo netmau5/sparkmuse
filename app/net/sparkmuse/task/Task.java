@@ -7,10 +7,12 @@ import com.google.appengine.api.datastore.Query;
 import com.google.inject.internal.Nullable;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import play.Logger;
 import org.joda.time.DateTime;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author neteller
@@ -20,9 +22,19 @@ public abstract class Task {
 
   private final ObjectDatastore datastore;
   private Cursor lastCursor;
+  private final Map<String, String> parameters;
 
   public Task(ObjectDatastore datastore) {
     this.datastore = datastore;
+    this.parameters = Maps.newHashMap();
+  }
+
+  public void addParameters(Map<String, String> parameters) {
+    this.parameters.putAll(parameters);
+  }
+
+  protected String getParameter(String name) {
+    return this.parameters.get(name);
   }
 
   public boolean isComplete() {

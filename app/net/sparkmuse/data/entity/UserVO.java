@@ -160,11 +160,6 @@ public class UserVO extends Entity<UserVO> {
     this.oauthTokenSecret = oauthTokenSecret;
   }
 
-  @Override
-  public String toString() {
-    return userName;
-  }
-
   public DateTime getFirstLogin() {
     return firstLogin;
   }
@@ -187,6 +182,11 @@ public class UserVO extends Entity<UserVO> {
 
   public void setPosts(int posts) {
     this.posts = posts;
+  }
+
+  @Override
+  public String toString() {
+    return userName;
   }
 
   public static Function<UserVO, Long> asUserIds = new Function<UserVO, Long>(){

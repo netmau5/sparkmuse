@@ -20,7 +20,10 @@ import net.sparkmuse.discussion.Posts;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.user.Votables;
+import net.sparkmuse.task.IssueTaskService;
+import net.sparkmuse.task.DeleteSparkTask;
 import com.google.common.collect.Maps;
+import com.google.common.collect.ImmutableMap;
 
 import java.util.Map;
 
@@ -39,6 +42,7 @@ import org.apache.commons.lang.StringUtils;
 public class Spark extends SparkmuseController {
 
   @Inject static SparkFacade sparkFacade;
+  @Inject static IssueTaskService taskService;
 
   public static void create() {
     boolean isEditMode = false;
@@ -109,6 +113,20 @@ public class Spark extends SparkmuseController {
     final String content = template.render(args);
 
     renderJSON(new FragmentAjaxResponse(content));
+  }
+
+  public static void delete(@Required Long sparkId) {
+    final UserVO currentUser = Authorization.getUserFromSessionOrAuthenticate(true);
+    if (currentUser.isAdmin()) {
+      taskService.issue(
+          DeleteSparkTask.class,
+          ImmutableMap.of(DeleteSparkTask.PARM_SPARKID, sparkId),
+          null
+      );
+    }
+    else {
+      Logger.error("SECURITY VIOLATION. USER [" + currentUser + "] ATTEMPTED TO DELETE SPARK [" + sparkId + "]");
+    }
   }
 
   /**

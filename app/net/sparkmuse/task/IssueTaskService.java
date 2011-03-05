@@ -26,4 +26,6 @@ public interface IssueTaskService {
   void issue(String action, Map<String, Object> parameters);
 
   <T extends Task> void issue(Class<T> taskClass, @Nullable Cursor cursor);
+
+  <T extends Task> void issue(Class<T> taskClass, Map<?, ?> parameters, @Nullable Cursor cursor);
 }
