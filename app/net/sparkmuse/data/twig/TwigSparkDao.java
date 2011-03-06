@@ -79,6 +79,7 @@ public class TwigSparkDao extends TwigDao implements SparkDao {
   }
 
   public void delete(SparkVO spark) {
+    DatastoreUtils.associate(spark, datastore);
     datastore.delete(spark);
   }
 }

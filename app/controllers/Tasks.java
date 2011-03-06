@@ -40,6 +40,7 @@ public class Tasks extends SparkmuseController {
   public static <T extends Task> void execute(String taskClassName, String cursor) {
     final Class<T> taskClass = getTaskClass(taskClassName);
     final T task = injector.getInstance(taskClass);
+    task.addParameters(request.params.allSimple());
     final Cursor newCursor = task.execute(StringUtils.isNotBlank(cursor) ? Cursor.fromWebSafeString(cursor) : null);
     if (!task.isComplete()) { 
       Logger.info("Did not complete task [" + taskClass + "], issuing a new task to restart from cursor [" + newCursor.toWebSafeString() + "].");

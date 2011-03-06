@@ -34,10 +34,21 @@
     <servlet-name>remote_api</servlet-name>
     <url-pattern>/remote_api</url-pattern>
   </servlet-mapping>
+
+   <servlet>
+     <servlet-name>appstats</servlet-name>
+     <servlet-class>com.google.appengine.tools.appstats.AppstatsServlet</servlet-class>
+   </servlet>
+   <servlet-mapping>
+       <servlet-name>appstats</servlet-name>
+       <url-pattern>/appstats/*</url-pattern>
+   </servlet-mapping>
   
   <security-constraint>
     <web-resource-collection>
       <url-pattern>/Tasks/*</url-pattern>
+      <url-pattern>/appstats/*</url-pattern>
+      <url-pattern>/admin/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>admin</role-name>

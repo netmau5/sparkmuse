@@ -1,10 +1,10 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
 
 	<application>sparkmuse</application>
-	<version>25</version>
+	<version>27</version>
 
   <!--<application>sparkmuse-staging</application>-->
-	<!--<version>25</version>-->
+	<!--<version>27</version>-->
 
   <static-files>
     <include path="/public/**.*" />
@@ -12,7 +12,12 @@
 
   <!-- used in caching -->
   <env-variables>
-    <env-var name="CURRENT_VERSION_ID" value="25" />
+    <env-var name="CURRENT_VERSION_ID" value="27" />
   </env-variables>
+
+  <admin-console>
+    <page name="Appstats" url="/stats" />
+    <page name="Sparkmuse Admin" url="/admin" />
+  </admin-console>
 
 </appengine-web-app>
