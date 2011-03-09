@@ -16,7 +16,7 @@
   </env-variables>
 
   <admin-console>
-    <page name="Appstats" url="/stats" />
+    <page name="Appstats" url="/appstats" />
     <page name="Sparkmuse Admin" url="/admin" />
   </admin-console>
 
