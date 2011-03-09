@@ -4,7 +4,9 @@ import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.NullTo;
 import net.sparkmuse.user.UserLogin;
+import net.sparkmuse.user.SaltedPassword;
 import com.google.common.base.Function;
+import com.google.code.twig.annotation.Embedded;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import twitter4j.http.AccessToken;
@@ -35,6 +37,10 @@ public class UserVO extends Entity<UserVO> {
   private int reputation;
   private int sparks;
   private int posts;
+
+  //email-based validation
+  @Embedded
+  private SaltedPassword saltedPassword;
 
   public boolean isAuthorizedFor(final AccessLevel accessLevel) {
     return this.accessLevel.hasAuthorizationLevel(accessLevel);
@@ -182,6 +188,14 @@ public class UserVO extends Entity<UserVO> {
 
   public void setPosts(int posts) {
     this.posts = posts;
+  }
+
+  public SaltedPassword getSaltedPassword() {
+    return saltedPassword;
+  }
+
+  public void setSaltedPassword(SaltedPassword saltedPassword) {
+    this.saltedPassword = saltedPassword;
   }
 
   @Override
