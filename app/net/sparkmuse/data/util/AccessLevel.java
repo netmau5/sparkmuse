@@ -8,6 +8,7 @@ package net.sparkmuse.data.util;
  */
 public enum AccessLevel {
   UNAUTHORIZED,
+  FOUNDRY,
   USER,
   ADMIN,
   DIETY;
