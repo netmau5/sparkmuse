@@ -120,6 +120,7 @@ SM.formSubmitModalClose = function(){
       if (!response.type) throw "Unknown response format.";
       switch(response.type){
         case "SUCCESS": return FormHandler.handleSuccessResponse;
+        case "JSON": return FormHandler.handleSuccessResponse;
         case "VALIDATION_ERROR": return FormHandler.handleValidationErrorResponse;
         case "SYSTEM_ERROR": return FormHandler.newFailureResponseHandler;
         case "REDIRECT": return FormHandler.handleRedirectResponse;

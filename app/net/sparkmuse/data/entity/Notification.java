@@ -1,6 +1,7 @@
 package net.sparkmuse.data.entity;
 
 import org.joda.time.DateTime;
+import com.google.code.twig.annotation.Id;
 
 /**
  * @author neteller
@@ -8,12 +9,14 @@ import org.joda.time.DateTime;
  */
 public class Notification {
 
+  private Long id; //we generate this
   private String displayMessage;
   private DateTime created;
   private DateTime expireDate;
 
   public Notification() {
     this.created = new DateTime();
+    this.id = System.currentTimeMillis();
   }
 
   public Notification(String displayMessage) {
@@ -45,4 +48,11 @@ public class Notification {
     this.expireDate = expireDate;
   }
 
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
 }

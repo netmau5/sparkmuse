@@ -1,0 +1,31 @@
+#{if currentUser.hasNotifications()}
+
+  <div id="notification-container">
+
+    #{list items: currentUser.notificationsToShow, as: "notification"}
+      <div class="notification" id="notification-${notification.id}">
+        ${notification.displayMessage.raw()}
+        <a href="#!@{User.clearNotification(notification.id)}" class="notification-clear">Dismiss</a>
+      </div>
+    #{/list}
+    
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+
+      function isEmpty() {
+        $(this).remove();
+        var container = $("#notification-container");
+        if (container.children().size() == 0) {
+          container.remove();
+        }
+      }
+
+      $(".notification-clear").click(function(){
+        $(this).parent(".notification").fadeToggle(500, "linear", isEmpty);
+      });
+    });
+  </script>
+
+#{/if}

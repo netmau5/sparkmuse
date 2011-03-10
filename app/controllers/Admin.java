@@ -2,10 +2,12 @@ package controllers;
 
 import play.mvc.With;
 import play.data.validation.Validation;
+import play.data.validation.Required;
 import filters.AdminAuthorizationFilter;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
+import net.sparkmuse.ajax.JsonAjaxResponse;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.common.Reflections;
 
@@ -98,6 +100,20 @@ public class Admin extends SparkmuseController {
     Invitation existingInvite = datastore.load(Invitation.class, invitation.getId());
     datastore.update(Reflections.overlay(existingInvite, invitation));
     editInvitation(invitation.getId());
+  }
+
+  public static void manageNotifications() {
+    render();
+  }
+
+  public static void addNotification(@Required String userName, @Required String displayNotification) {
+    UserVO user = userFacade.addNotification(userName, displayNotification);
+    renderJSON(new JsonAjaxResponse(user));
+  }
+
+  public static void getUser(String userName) {
+    UserProfile userProfile = userFacade.getUserProfile(userName);
+    renderJSON(new JsonAjaxResponse(null != userProfile ? userProfile.getUser() : null));
   }
 
 }

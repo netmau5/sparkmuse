@@ -7,10 +7,13 @@ import net.sparkmuse.user.UserLogin;
 import net.sparkmuse.data.entity.SaltedPassword;
 import net.sparkmuse.data.entity.Notification;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
 import com.google.code.twig.annotation.Embedded;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.apache.commons.collections.CollectionUtils;
 import twitter4j.http.AccessToken;
 
 import java.util.List;
@@ -225,6 +228,24 @@ public class UserVO extends Entity<UserVO> {
     return this;
   }
 
+  public boolean hasNotifications() {
+    return CollectionUtils.size(this.notifications) > 0;
+  }
+
+  /**
+   * Returns the list of notifications that should be shown to a user.
+   *
+   * @return
+   */
+  public List<Notification> getNotificationsToShow() {
+    final DateTime now = new DateTime();
+    return Lists.newArrayList(Iterables.filter(this.notifications, new Predicate<Notification>(){
+      public boolean apply(Notification notification) {
+        return null == notification.getExpireDate() || now.compareTo(notification.getExpireDate()) < 0;
+      }
+    }));
+  }
+
   @Override
   public String toString() {
     return userName;
@@ -235,4 +256,13 @@ public class UserVO extends Entity<UserVO> {
       return entity.getId();
     }
   };
+
+  public UserVO removeNotification(final Long notificationId) {
+    Iterables.removeIf(this.notifications, new Predicate<Notification>(){
+      public boolean apply(Notification notification) {
+        return notification.getId().equals(notificationId);
+      }
+    });
+    return this;
+  }
 }

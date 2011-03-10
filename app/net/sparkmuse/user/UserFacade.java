@@ -234,8 +234,18 @@ public class UserFacade {
     });
   }
 
-  public void addNotification(Long userId, String displayNotification) {
+  public UserVO addNotification(Long userId, String displayNotification) {
     UserVO user = findUserBy(userId);
     userDao.update(user.addNotification(new Notification(displayNotification)));
+    return user;
+  }
+
+  public void clearNotification(UserVO user, Long notificationId) {
+    userDao.update(user.removeNotification(notificationId));
+  }
+
+  public UserVO addNotification(String userName, String displayNotification) {
+    UserVO user = getUserProfile(userName).getUser();
+    return addNotification(user.getId(), displayNotification);
   }
 }

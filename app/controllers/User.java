@@ -108,4 +108,9 @@ public class User extends SparkmuseController {
     renderJSON(new AjaxResponse());
   }
 
+  public static void clearNotification(Long notificationId) {
+    userFacade.clearNotification(Authorization.getUserFromSessionOrAuthenticate(true), notificationId);
+    renderJSON(new AjaxResponse());
+  }
+
 }

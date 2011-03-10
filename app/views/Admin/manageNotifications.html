@@ -1,0 +1,114 @@
+#{extends 'bodytemplate.html' /}
+#{set title: 'Manage Notifications' /}
+
+<style type="text/css">
+  .content-container {
+    padding: 1em 10px 0 10px;
+  }
+</style>
+
+<div class="page-title prepend-1 span-22 append-1 first last">
+
+  <div class="title-bar span-22 first last">
+    <h2>Manage Notifications</h2>
+    <a href="@{Admin.home()}">Admin Home</a>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1 first last">
+
+  <div class="span-13 first">
+  <div class="content-wrapper">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <form name="NotificationForm" action="@{Admin.addNotification()}" method="POST">
+
+    <div>
+
+      <fieldset>
+        <div class="field">
+          <label>User Name</label>
+          <div class="error-message" parameter="key"></div>
+          <div class="input-wrapper"><input type="text" name="userName" maxlength="100"/></div>
+         </div>
+      </fieldset>
+
+      <fieldset>
+        <div class="field">
+          <label>
+            Notification
+          </label>
+          <div class="error-message" parameter="content"></div>
+          <div class="input-wrapper"><textarea name="notification"></textarea></div>
+         </div>
+      </fieldset>
+
+    </div>
+
+    <div class="control-bar">
+      <a href="#" onclick="$(document.NotificationForm).submit();" class="button positive">
+        <span>
+          <img src="@{'public/images/icons/silk/add.png'}" alt="Save"/>
+          Add
+        </span>
+      </a>
+      <div class="clear"></div>
+    </div>
+
+    </form>
+
+  </div>
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 last">
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>Current Notifications</h4>
+
+      <div id="user-notifications">
+        <em>Select a user</em>
+      </div>
+
+    </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/html" id="template-notifications">
+  {{#notifications}}
+    <div>{{displayMessage}}</div>
+  {{/notifications}}
+</script>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    function handleNotifications(r) {
+      $("#user-notifications").html(Mustache.to_html($("#template-notifications").html(), {
+        notifications: r.data.notifications || []
+      }));
+    }
+
+    $(document.NotificationForm.userName).blur(function(){
+      $.get("@{Admin.getUser()}", { userName: $(this).val()}, handleNotifications);
+    });
+
+    var converter = new Attacklab.showdown.converter();
+
+    $(document.NotificationForm).formHandler(function(){
+      return {
+        userName: this.userName.value,
+        displayNotification: converter.makeHtml(this.notification.value.replace(/_/g, "&#95;")),
+        _json: handleNotifications
+      };
+    }).bind(SM.Events.Submit, SM.formSubmitModal)
+      .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
+
+  });
+</script>

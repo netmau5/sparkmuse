@@ -22,6 +22,7 @@
     <EXPERTISE>
     <FOLLOW>
     <MARKDOWN>
+    <NOTIFICATIONS>
 */
 $LOGO_LIGHT_YELLOW: #fdf9d2;
 $LOGO_YELLOW: #f5e21f;
@@ -1863,4 +1864,43 @@ a.twitter-login:active {
 
 
 /* END <MARKDOWN> */
+
+/* BEGIN <NOTIFICATIONS> */
+
+  #notification-container {
+    background-color:#fdf5ce;
+    border-bottom: 2px solid #fbcb09;
+    color:#c77405;
+    letter-spacing: 1px;
+  }
+
+  #notification-container em {
+    font-style:italic;
+    color: #c77405;
+  }
+
+  #notification-container p {
+    margin: 0;
+  }
+
+
+  #notification-container a {
+    text-decoration: underline;
+    font-weight: bold;
+    color: #c77405;
+  }
+
+  .notification {
+    padding: 4px 0;
+    text-align: center;
+    position: relative;
+  }
+
+    .notification .notification-clear {
+      position: absolute;
+      right: 15px;
+      top: 5px;
+    }
+
+/* END <NOTIFICATIONS> */
 
