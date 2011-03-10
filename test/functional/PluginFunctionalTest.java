@@ -10,6 +10,8 @@ import com.google.apphosting.api.ApiProxy;
 import com.google.code.twig.ObjectDatastore;
 import net.sparkmuse.data.twig.DatastoreService;
 
+import java.io.File;
+
 /**
  * Created by IntelliJ IDEA.
  *
@@ -20,6 +22,12 @@ public abstract class PluginFunctionalTest extends FunctionalTest {
 
   public ObjectDatastore datastore;
   public DatastoreService datastoreService;
+
+  static {
+    File root = new File("/Users/neteller/dev/sparkmuse");
+    root.canWrite();
+    Play.init(root, "FunctionTests");
+  }
 
   @Before
   public void setup(){

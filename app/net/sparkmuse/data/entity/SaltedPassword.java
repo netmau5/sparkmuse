@@ -1,6 +1,4 @@
-package net.sparkmuse.user;
-
-import net.sparkmuse.data.entity.UserVO;
+package net.sparkmuse.data.entity;
 
 import java.util.Arrays;
 import java.security.SecureRandom;

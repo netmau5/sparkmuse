@@ -42,7 +42,7 @@ public class DatePrinterTest extends BaseTest {
   @Test
   public void testTimeElapsedSinceForMonths() {
     assertThat(DatePrinter.timeElapsedSince(new DateTime().minusMonths(20)), endsWith(" months ago"));
-    assertThat(DatePrinter.timeElapsedSince(new DateTime().minusMonths(1)), endsWith(" month ago"));
+    assertThat(DatePrinter.timeElapsedSince(new DateTime().minusDays(30)), endsWith(" month ago"));
   }
 
 }

@@ -1,14 +1,19 @@
-package net.sparkmuse.task;
+package functional.tasks;
 
 import org.junit.Test;
 import org.mockito.Mockito;
 import net.sparkmuse.data.twig.BatchDatastoreService;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.common.Cache;
+import net.sparkmuse.task.UpdateSparkRatingsTransformationTask;
 import com.google.common.base.Function;
 import com.google.appengine.api.datastore.Cursor;
 import com.google.code.twig.ObjectDatastore;
+import com.google.code.twig.FindCommand;
 import play.test.UnitTest;
+import play.test.FunctionalTest;
+import functional.FunctionalTestUtils;
+import functional.PluginFunctionalTest;
 
 /**
  * Created by IntelliJ IDEA.
@@ -16,7 +21,7 @@ import play.test.UnitTest;
  * @author neteller
  * @created: Nov 8, 2010
  */
-public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
+public class UpdateSparkRatingsTaskHandlerTest extends PluginFunctionalTest {
 
   @Test
   public void shouldBeginTransformFromNullCursor() {
@@ -24,10 +29,10 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
     final UpdateSparkRatingsTransformationTask handler = new UpdateSparkRatingsTransformationTask(
         Mockito.mock(Cache.class),
         batch,
-        Mockito.mock(ObjectDatastore.class)
+        FunctionalTestUtils.getInstance(ObjectDatastore.class)
     );
     handler.execute(null);
-    Mockito.verify(batch).transform(SparkVO.class, Mockito.any(Function.class), (Cursor) Mockito.eq(null));
+    Mockito.verify(batch).transform(Mockito.any(FindCommand.RootFindCommand.class), Mockito.any(Function.class), (Cursor) Mockito.eq(null));
   }
 
   @Test
@@ -36,11 +41,11 @@ public class UpdateSparkRatingsTaskHandlerTest extends UnitTest {
     final UpdateSparkRatingsTransformationTask handler = new UpdateSparkRatingsTransformationTask(
         Mockito.mock(Cache.class),
         batch,
-        Mockito.mock(ObjectDatastore.class)
+        FunctionalTestUtils.getInstance(ObjectDatastore.class)
     );
     Cursor cursor = Cursor.fromWebSafeString("cursor");
     handler.execute(cursor);
-    Mockito.verify(batch).transform(SparkVO.class, Mockito.any(Function.class), Mockito.eq(cursor));
+    Mockito.verify(batch).transform(Mockito.any(FindCommand.RootFindCommand.class), Mockito.any(Function.class), Mockito.eq(cursor));
   }
 
 //  @Test

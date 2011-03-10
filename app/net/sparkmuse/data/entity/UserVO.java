@@ -4,12 +4,16 @@ import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.NullTo;
 import net.sparkmuse.user.UserLogin;
-import net.sparkmuse.user.SaltedPassword;
+import net.sparkmuse.data.entity.SaltedPassword;
+import net.sparkmuse.data.entity.Notification;
 import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.google.code.twig.annotation.Embedded;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 import twitter4j.http.AccessToken;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -41,6 +45,13 @@ public class UserVO extends Entity<UserVO> {
   //email-based validation
   @Embedded
   private SaltedPassword saltedPassword;
+
+  @Embedded
+  private List<Notification> notifications; //these can include markup
+
+  public UserVO() {
+    this.notifications = Lists.newArrayList();
+  }
 
   public boolean isAuthorizedFor(final AccessLevel accessLevel) {
     return this.accessLevel.hasAuthorizationLevel(accessLevel);
@@ -196,6 +207,22 @@ public class UserVO extends Entity<UserVO> {
 
   public void setSaltedPassword(SaltedPassword saltedPassword) {
     this.saltedPassword = saltedPassword;
+  }
+
+  public List<Notification> getNotifications() {
+    return notifications;
+  }
+
+  public void setNotifications(List<Notification> notifications) {
+    this.notifications = notifications;
+  }
+
+  public UserVO addNotification(Notification notification) {
+    if (this.notifications == null) {
+      this.notifications = Lists.newArrayList();
+    }
+    this.notifications.add(notification);
+    return this;
   }
 
   @Override

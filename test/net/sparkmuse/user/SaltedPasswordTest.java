@@ -5,6 +5,7 @@ import org.junit.Test;
 import static org.hamcrest.Matchers.*;
 import org.hamcrest.MatcherAssert;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.SaltedPassword;
 
 /**
  * @author neteller

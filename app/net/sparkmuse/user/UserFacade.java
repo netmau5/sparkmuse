@@ -233,4 +233,9 @@ public class UserFacade {
       }
     });
   }
+
+  public void addNotification(Long userId, String displayNotification) {
+    UserVO user = findUserBy(userId);
+    userDao.update(user.addNotification(new Notification(displayNotification)));
+  }
 }

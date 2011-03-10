@@ -7,9 +7,11 @@ import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.paging.PagingState;
 import net.sparkmuse.discussion.SparkSearchResponse;
+import net.sparkmuse.common.Orderings;
 
 import java.util.List;
 import java.util.TreeSet;
+import java.util.ArrayList;
 
 import com.google.common.collect.Lists;
 
@@ -52,10 +54,17 @@ public class VotablesTest {
   public void shouldCollectVotablesFromSparkSearchResponse() {
     final SparkSearchResponse response = new SparkSearchResponse() {
       public TreeSet<SparkVO> getSparks() {
-        return new TreeSet(Lists.newArrayList(
-            new SparkVO(),
-            new SparkVO()
-        ));
+        SparkVO s1 = new SparkVO();
+        s1.setId(1L);
+        SparkVO s2 = new SparkVO();
+        s2.setId(2L);
+        ArrayList<SparkVO> sparks = Lists.newArrayList(
+            s1,
+            s2
+        );
+        TreeSet treeSet = new TreeSet(new Orderings.ByRecency());
+        treeSet.addAll(sparks);
+        return treeSet;
       }
 
       public TreeSet<SparkVO> getSparks(PagingState state) {
