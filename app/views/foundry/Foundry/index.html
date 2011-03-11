@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.</title>
+  #{meta /}
+  #{includes /}
+  
+  <style type="text/css">
+    body {
+      width: 100%;
+      background-color: #f4fffe;
+    }
+
+    .top {
+      height:875px;
+      position: relative;
+      background-color: white;
+      border-bottom: 1px solid #c4fffa;
+    }
+    
+    #city-landing {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 6;
+    }
+    #sky-bg {
+      width:100%;
+      z-index: 2;
+      position: absolute;
+      left: 0;
+    }
+    #cliff {
+      position: absolute;
+      top: 260px;
+      left: 0;
+      z-index: 7;
+    }
+    #mountain-bg {
+      width:100%;
+      z-index: 3;
+      position: absolute;
+      left: 0;
+      bottom: 60px;
+    }
+    #blades {
+      position: absolute;
+      left: 75px;
+      top: 170px;
+      z-index: 8;
+    }
+    #moon {
+      position: absolute;
+      top: 0;
+      /*left: 25%;*/
+      right: 360px;
+      z-index: 5;
+    }
+    #clouds {
+      position: absolute;
+      top: 100px;
+      left: 15%;
+      z-index: 4;
+    }
+    .animated {
+      position: absolute;
+      display: none;
+      z-index: 5;
+    }
+    .grass {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      margin-left: -530px;
+      height: 64px;
+      z-index: 5;
+      background: transparent url("@{'public/images/grass.png'}") top left repeat-x;
+    }
+    .billboard {
+      position: absolute;
+      bottom: 190px;
+      right: 360px;
+      z-index: 10;
+      width:580px;
+    }
+    .billboard-top {
+      height: 100px;
+      background: transparent url("@{'public/images/billboard.png'}") 0 0 no-repeat;
+    }
+    .billboard-center {
+      height: 100px;
+      background: transparent url("@{'public/images/billboard.png'}") -592px 0 repeat-y;
+    }
+    .billboard-bottom {
+      height: 28px;
+      background: transparent url("@{'public/images/billboard.png'}") -1170px 0 no-repeat;
+    }
+    .billboard-leg-left {
+      position: absolute;
+      left: 75px;
+      height: 160px;
+      width: 30px;
+      background: transparent url("@{'public/images/billboard-legs.png'}") bottom left no-repeat;
+    }
+    .billboard-leg-right {
+      position: absolute;
+      right: 75px;
+      height: 160px;
+      width: 30px;
+      background: transparent url("@{'public/images/billboard-legs.png'}") bottom right no-repeat;
+    }
+
+    .footer {
+      border-top: 1px solid white;
+      background-color: #f4fffe;
+    }
+
+    #registration-container {
+      position: absolute;
+      cursor: move;
+      z-index: 6;
+      bottom: 50px;
+      left: 25%;
+    }
+    #registration {
+      border-width: 80px 15px 10px 15px;
+      -moz-border-image: url("@{'public/images/content-box.png'}") 102 53 26 48;
+      -webkit-border-image: url("@{'public/images/content-box.png'}") 102 53 26 48;
+      border-image: url("@{'public/images/content-box.png'}") 102 53 26 48;
+    }
+    #registration .content {
+      margin-top: -10px;
+      padding: 0 5px;
+    }
+    #registration p {
+      font-size: 16px;
+    }
+    #registration h4 { font-weight: bold; }
+
+    .content .inner {
+      padding: 3px 5px;
+    }
+
+
+    form button {
+      float: none;
+      margin: 0 auto;
+    }
+
+    fieldset { margin-bottom: 1em; }
+
+  </style>
+
+  <!--[if IE]>
+  <style type="text/css">
+    #registration {
+      border-width: 2px;
+      border-color: #72e2b8;
+      background-color: white;
+    }
+    #registration .content {
+      margin-top: 0;
+    }
+  </style>
+  <![endif]-->
+</head>
+<body>
+
+<div class="top">
+  <img src="@{'public/images/sky.jpg'}" id="sky-bg"/>
+  <img src="@{'public/images/mountains.png'}" id="mountain-bg"/>
+  <img src="@{'public/images/city2.png'}" id="city-landing"/>
+  <img src="@{'public/images/moon.png'}" id="moon"/>
+  <img src="@{'public/images/clouds.png'}" id="clouds"/>
+  <img src="@{'public/images/cliff.png'}" id="cliff"/>
+  <img src="@{'public/images/blades_small_animated.gif'}" id="blades"/>
+  <div class="billboard">
+    <div class="billboard-top"></div>
+    <div class="billboard-center"></div>
+    <div class="billboard-bottom"></div>
+    <div class="billboard-leg-left"></div>
+    <div class="billboard-leg-right"></div>
+  </div>
+  <div class="grass"></div>
+</div>
+<div class="footer">
+
+</div>
+
+#{includesBottom /}
+<script type="text/javascript" src="@{'public/javascripts/jqueryui/jquery-ui-1.8.2.custom.min.js'}"></script>
+<script type="text/javascript" src="@{'public/javascripts/jquery/jquery.preload-min.js'}"></script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $.preload([
+        "@@{'public/images/redcar.png'}",
+        "@@{'public/images/greencar.png'}",
+        "@@{'public/images/dirigible.png'}",
+        "@@{'public/images/spark.png'}"
+    ]);
+
+    $("#registration-container").draggable();
+
+    var animator = function(travelTime, ltr, width, imgFactory) {
+      var img = imgFactory();
+      $(document.body).append(img);
+      img.fadeIn(1500, 'linear');
+      var distance = parseInt($(window).width()) - width - parseInt(ltr ? img.css("left") : img.css("right"));
+      var toPosition = ltr ? {left: "+=" + distance} : {right: "+=" + distance};
+      img.animate(toPosition, travelTime, 'linear', function() {
+        img.fadeOut(1500, function() {
+          img.detach();
+        });
+      }).dequeue();
+    }
+
+    var loop = function(start, interval, func) {
+      setTimeout(func, start);
+      setInterval(func, interval);
+    }
+
+    loop(1000, 20000, function() {
+      animator(15000, false, 143, function(){
+        return $('<img src="' + "@{'public/images/redcar.png'}" + '" class="animated" style="top: 310px; right: 100px;" />');
+      });
+    });
+
+    loop(7500, 30000, function() {
+      animator(10000, true, 143, function(){
+        return $('<img src="' + "@{'public/images/greencar.png'}" + '" class="animated" style="top: 200px; left: 50px;" />');
+      });
+    });
+
+    loop(15000, 60000, function() {
+      animator(50000, true, 393, function(){
+        return $('<img src="' + "@{'public/images/dirigible.png'}" + '" class="animated" style="top: 150px; left: 100px;" />');
+      });
+    });
+
+    var sparkFactory = function() { return $('<img src="' + "@{'public/images/spark.png'}" + '" class="animated" style="top: -50px; left: 200px; z-index: 0;"/>'); };
+    loop(10000, 60000, function() {
+      var img = sparkFactory();
+      $(document.body).append(img);
+      img.fadeIn(100, 'linear');
+      var toPosition = {left: 0, top: 100};
+      img.animate(toPosition, 1200, 'linear', function() {
+        img.fadeOut(200, function() {
+          img.detach();
+        });
+      }).dequeue();
+    });
+
+  });
+</script>
+
+</body>
+</html>

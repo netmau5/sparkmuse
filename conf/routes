@@ -2,6 +2,8 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
+# SPARKMUSE
+
 GET			    /				                          Landing.index
 GET         /favicon.ico                      Application.favicon
 GET         /robots.txt                       Application.robots
@@ -22,6 +24,13 @@ GET         /{<[0-9]+>sparkId}                Spark.view
 *           /activity/{action}                ActivityController.{action}
 
 *           /admin                            Admin.home
+
+# FOUNDRY
+
+*           /foundry                          foundry.Foundry.index
+
+# APPLICATION
+
 
 GET         /feedback/{appName}               Application.feedback
 GET         /invitation/{groupName}           Application.invitation
