@@ -555,7 +555,7 @@ input, textarea {
 }
 
 .section {
-  margin-bottom: 1em; 
+  margin-bottom: 1em;
 }
 
 
@@ -865,63 +865,98 @@ a.top-arrow {
 
 #city {
   position: absolute;
-  bottom: 0px;
+  bottom:3px;
   right: 0px;
 }
 
 #footer-container {
   font-size: 16px;
-  border-top: 4px solid #9FB8A1;
-  background: url("../images/greennoise.jpg");
-  padding-top: 1.5em;
-  overflow: hidden;
+  background: url("../images/footerbg.png") top left repeat-x;
+  padding: 1em 0 0 0;
+  margin-top: -10px;
 }
 
 #footer {
-  min-height: 320px;
   text-shadow: 0 1px 0 #f4ffe9;
   position: relative;
-  padding-left: 165px;
-  background: url("../images/blades_small.gif") 0 80px no-repeat;
+  padding: 0 300px 0 165px;
+  background: url("../images/blades_small.gif") bottom left no-repeat;
+  min-height: 280px;
+  color: #0c2e2d;
+  font-size:80%; 
 }
 
-#footer h4 { color: #8c9982; }
+#footer h4 { color: #1a6462; }
 
-#footer a { color: #526643; }
+#footer a { color: #26817e; }
 
-#footer table { margin-bottom: 1em; }
+#footer table { padding: 0; margin-bottom: 15px; }
 
 #footer table tr td {
-  padding: 0 30px;
+  padding: 0 40px;
   vertical-align: top;
-  border-style: solid;
-  border-width: 0 1px;
-  border-left-color: rgba(0,0,0,0.1);
-  border-right-color: rgba(255,255,255,0.3);
 }
 
-  #footer table tr td.first { border-width: 0 1px 0 0; padding: 0 30px 0 0; }
-  #footer table tr td.last { border-width: 0 0 0 1px; padding: 0 0 0 30px; }
 
 #footer ul {
   list-style-type: none;
+  padding-left: 0;
 }
 
 #footer ul li {
-  
+
 }
 
 #footer ul li a {
 }
 
-#footer .tweet {
-  min-height: 48px;
-  color: #697a6b;
-  width: 350px;
-  padding-bottom: 0.5em;
-  padding-left: 58px;
-  background: url("http://api.twitter.com/1/users/profile_image/sparkmuse.json?size=normal") top left no-repeat;
+#signature {
+  padding: 20px 0 5px 0;
+  font-size: 12px;
+  position: relative;
+  top: -10px;
+  z-index: 5;
+  background: transparent url("../images/grass.png") top left repeat-x;
 }
+
+  #signature .author a {
+    text-decoration: underline;
+  }
+
+  #signature .copyright { float: right; color: #999; }
+
+.partners { padding: 15px 0 0 0; margin-bottom: 25px; }
+
+  .partner {
+    cursor: pointer;
+    text-indent: -9999px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: block;
+    float: left;
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  }
+
+  .partner:hover {
+    opacity: 1;
+    filter: alpha(opacity=100);
+    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  }
+
+  .partners .startup-america {
+    padding-right: 40px;
+    background-image: url("../images/startupamerica.gif");
+    width: 253px;
+    height: 100px;
+  }
+
+  .partners .microsoft-bizspark {
+    background-image: url("../images/bizspark.png");
+    width: 260px;
+    height: 100px;
+  }
 
 /* END <FOOTER> */
 
@@ -934,7 +969,7 @@ a.top-arrow {
   -moz-box-shadow: 0px 1px 0px white;
   box-shadow: 0px 1px 0px white;
   background-color:#fff;
-  border:1px solid #bbb; 
+  border:1px solid #bbb;
   padding: 3px 4px;
 }
 
@@ -1687,7 +1722,7 @@ a.twitter-login:active {
   }
 
   .likes.liked { cursor: default; }
-  
+
 
 .likes-big {
   height: 16px;
@@ -1702,7 +1737,7 @@ a.twitter-login:active {
   border-radius: 5px;
   border-width: 2px;
   border-style: solid;
-  
+
   background-position: 4px 4px;
 
   background-color: #f5f5f5;
@@ -1818,7 +1853,7 @@ a.twitter-login:active {
 /* BEGIN <MARKDOWN> */
 
 .markdown-container h1,
-.markdown-container h2, 
+.markdown-container h2,
 .markdown-container h3,
 .markdown-container h4,
 .markdown-container h5 {

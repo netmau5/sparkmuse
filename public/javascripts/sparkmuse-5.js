@@ -348,7 +348,7 @@ $(document).ready(function() {
 
   //lightboxes
   $(document.body).append("<div style='display:none;' id='modal-lightbox'></div>");
-  $(".lightbox").click(function(){
+  $(".lightbox:not(iframe)").click(function(){
     $("#modal-lightbox").html("")
         .append($(this).clone().removeClass("lightbox"))
         .modal({
