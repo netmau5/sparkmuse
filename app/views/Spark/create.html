@@ -192,8 +192,8 @@
     var converter = new Attacklab.showdown.converter();
 
     $(document.NewSparkForm).formHandler(function(){
-      var tagNames = this.tagNames.value;
-      if (tagNames) { tagNames = tagNames.split(","); }
+      var tagNames = $.trim(this.tagNames.value),
+          tags = tagNames ? tagNames.split(",") : [];
 
       return {
         #{if currentUser.isAdmin()}
@@ -206,7 +206,7 @@
           displayProblem: converter.makeHtml(this.problem.value),
           solution: this.solution.value,
           displaySolution: converter.makeHtml(this.solution.value),
-          tags: tagNames,
+          tags: tags,
           id: "${spark?.id}"
         }
       };
