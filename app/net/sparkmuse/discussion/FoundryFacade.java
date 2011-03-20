@@ -13,6 +13,8 @@ import com.google.common.collect.Sets;
 
 import java.util.List;
 
+import jj.play.org.eclipse.mylyn.wikitext.core.util.anttask.MarkupToXslfoTask;
+
 /**
  * Manages wishes and comments within The Spark Foundry.
  *
@@ -64,4 +66,13 @@ public class FoundryFacade {
     );
   }
 
+  public Wish store(Wish wish) {
+    wish = wish.updateTitleTokens().lowercaseTags();
+    foundryDao.store(wish);
+    return wish;
+  }
+
+  public Wish findWishBy(Long id) {
+    return foundryDao.load(Wish.class, id);
+  }
 }

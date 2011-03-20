@@ -10,7 +10,6 @@
   <style type="text/css">
     body {
       width: 100%;
-      background-color: #f4fffe;
     }
 
     .top {
@@ -32,12 +31,6 @@
       position: absolute;
       left: 0;
     }
-    #cliff {
-      position: absolute;
-      top: 260px;
-      left: 0;
-      z-index: 7;
-    }
     #mountain-bg {
       width:100%;
       z-index: 3;
@@ -45,17 +38,10 @@
       left: 0;
       bottom: 60px;
     }
-    #blades {
-      position: absolute;
-      left: 75px;
-      top: 170px;
-      z-index: 8;
-    }
     #moon {
       position: absolute;
       top: 0;
-      /*left: 25%;*/
-      right: 360px;
+      left: 25%;
       z-index: 5;
     }
     #clouds {
@@ -81,17 +67,13 @@
     .billboard {
       position: absolute;
       bottom: 190px;
-      right: 360px;
+      left: 50px;
       z-index: 10;
       width:580px;
     }
     .billboard-top {
       height: 100px;
       background: transparent url("@{'public/images/billboard.png'}") 0 0 no-repeat;
-    }
-    .billboard-center {
-      height: 100px;
-      background: transparent url("@{'public/images/billboard.png'}") -592px 0 repeat-y;
     }
     .billboard-bottom {
       height: 28px;
@@ -111,6 +93,14 @@
       width: 30px;
       background: transparent url("@{'public/images/billboard-legs.png'}") bottom right no-repeat;
     }
+    .billboard-center {
+      background: transparent url("@{'public/images/billboard.png'}") -592px 0 repeat-y;
+      padding: 0 50px;
+      margin-top: -15px;
+    }
+      .billboard-center h2 { text-align: center; }
+      .billboard-center textarea { height: 60px; }
+      .billboard-center .control-bar { text-align: right; margin: 0; }
 
     .footer {
       border-top: 1px solid white;
@@ -174,27 +164,87 @@
   <img src="@{'public/images/city2.png'}" id="city-landing"/>
   <img src="@{'public/images/moon.png'}" id="moon"/>
   <img src="@{'public/images/clouds.png'}" id="clouds"/>
-  <img src="@{'public/images/cliff.png'}" id="cliff"/>
-  <img src="@{'public/images/blades_small_animated.gif'}" id="blades"/>
   <div class="billboard">
     <div class="billboard-top"></div>
-    <div class="billboard-center"></div>
+    <div class="billboard-center">
+
+      <h2>${isEditMode ? "Edit" : "Share"} Idea</h2>
+      <form action="@{Foundry.submit()}" method="POST" name="CreateWishForm">
+
+        <div class="error-message" parameter="wish"></div>
+
+        #{if currentUser.isAdmin()}
+          <div class="field">
+            <label>User Name</label>
+            <div class="error-message" parameter="userName"></div>
+            <div class="input-wrapper"><input type="text" name="userName" value="${wish?.author?.userName}" /></div>
+          </div>
+        #{/if}
+
+        <div class="field">
+          <label>
+            Title
+          </label>
+          <div class="error-message" parameter="wish.title"></div>
+          <div class="input-wrapper"><input type="text" name="title" value="${wish?.title}" maxlength="100" /></div>
+         </div>
+        <div class="field">
+          <label>
+            Description <span class="subtext">Optional</span>
+          </label>
+          <div class="error-message" parameter="wish.description"></div>
+          <div class="input-wrapper"><textarea name="description">${wish?.description}</textarea></div>
+         </div>
+        <div class="field">
+          <label>
+            Tags
+            #{tip}
+              Use tag names that are descriptive of your idea.  Multiple tags can be separated with a comma.
+            #{/tip}
+          </label>
+          <div class="error-message" parameter="spark.tags"></div>
+          <input type="text" name="tagNames" value='${wish?.tags?.join(",")}' id="tag-entry"/>
+        </div>
+      </form>
+
+      <div class="control-bar">
+        <a href="@{Foundry.index()}" class="button negative">
+          <span>
+            <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel"/>
+            Cancel
+          </span>
+        </a>
+        <a href="#" onclick="$(document.CreateWishForm).submit();" class="button positive">
+          <span>
+            <img src="@{'public/images/icons/silk/accept.png'}" alt="Create Spark"/>
+            ${isEditMode ? "Edit" : "Share"} Idea
+          </span>
+        </a>
+        <div class="clear"></div>
+      </div>
+
+    </div>
     <div class="billboard-bottom"></div>
     <div class="billboard-leg-left"></div>
     <div class="billboard-leg-right"></div>
   </div>
   <div class="grass"></div>
 </div>
-<div class="footer">
 
-</div>
+#{include "minifooter.html" /}
 
 #{includesBottom /}
-<script type="text/javascript" src="@{'public/javascripts/jqueryui/jquery-ui-1.8.2.custom.min.js'}"></script>
 <script type="text/javascript" src="@{'public/javascripts/jquery/jquery.preload-min.js'}"></script>
+<script type="text/javascript" src="@{'public/javascripts/jquery/jquery.tagsinput.js'}"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
+
+    $("#tag-entry").tagsInput({
+      defaultText: "Add comma-separated tags",
+      width: $(document.CreateWishForm.title).width(),
+      height: "64px"
+    });
 
     $.preload([
         "@@{'public/images/redcar.png'}",
@@ -203,7 +253,23 @@
         "@@{'public/images/spark.png'}"
     ]);
 
-    $("#registration-container").draggable();
+    $(document.CreateWishForm).formHandler(function(){
+      var tagNames = $.trim(this.tagNames.value),
+          tags = tagNames ? tagNames.split(",") : [];
+
+      return {
+        #{if currentUser.isAdmin()}
+          userName: this.userName.value,
+        #{/if}
+        wish: {
+          title: this.title.value,
+          description: this.description.value,
+          tags: tags,
+          id: "${wish?.id}"
+        }
+      };
+    }).bind(SM.Events.Submit, SM.formSubmitModal)
+      .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
 
     var animator = function(travelTime, ltr, width, imgFactory) {
       var img = imgFactory();
@@ -231,7 +297,7 @@
 
     loop(7500, 30000, function() {
       animator(10000, true, 143, function(){
-        return $('<img src="' + "@{'public/images/greencar.png'}" + '" class="animated" style="top: 200px; left: 50px;" />');
+        return $('<img src="' + "@{'public/images/greencar.png'}" + '" class="animated" style="top: 120px; left: 50px;" />');
       });
     });
 

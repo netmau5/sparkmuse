@@ -39,7 +39,7 @@ $COLOR_ALT: #666;
 
 $FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
-$FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
+$FONT_FAMILY_STANDARD: "Lucida Grande", Georgia, "Times New Roman", Times, serif;
 
 /* BEGIN <RESET> */
 
@@ -962,8 +962,20 @@ a.top-arrow {
 
 /* BEGIN <TAGS> */
 
+div.tagsinput { overflow-y: auto;}
+  div.tagsinput .tag { font-size: 1em; line-height: 1em; }
+  div.tagsinput input { width:100%; margin:0px; border:1px solid transparent; padding:5px; background: transparent; color: #000; outline:0px; }
+  div.tagsinput div {
+    display: inline-block;
+    float: left;
+    width: 150px;
+  }
+  .tags_clear { clear: both; width: 100%; height: 0px; }
+
 .tagsinput {
-  margin: 0.5em 0;
+  font-size: 16px;
+  width: 100%;
+  margin: 0 0 0.5em 0;
   background: transparent url("../images/input-bg.png") no-repeat 0px 0px;
   -webkit-box-shadow: 0px 1px 0px white;
   -moz-box-shadow: 0px 1px 0px white;

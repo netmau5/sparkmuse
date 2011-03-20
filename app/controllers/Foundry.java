@@ -4,12 +4,26 @@ import controllers.SparkmuseController;
 import controllers.Authorization;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Wish;
+import net.sparkmuse.data.entity.UserProfile;
+import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.discussion.FoundryFacade;
 import net.sparkmuse.discussion.WishSearchResponse;
 import net.sparkmuse.common.Cache;
+import net.sparkmuse.common.Reflections;
+import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
+import net.sparkmuse.ajax.RedirectAjaxResponse;
 
 import javax.inject.Inject;
+
+import org.apache.commons.lang.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import com.google.common.collect.Maps;
+import play.mvc.Router;
+import play.data.validation.Valid;
 
 /**
  * @author neteller
@@ -32,8 +46,47 @@ public class Foundry extends SparkmuseController {
     render(wishSearchResponse);
   }
 
-  public static void create() {
+  public static void view(Long wishId) {
     render();
+  }
+
+  public static void create() {
+    boolean isEditMode = false;
+    render(isEditMode);
+  }
+
+  public static void submit(@Valid Wish wish, String userName) {
+    final UserVO currentUser = Authorization.getUserFromSessionOrAuthenticate(true);
+
+    Wish existingWish = null != wish.getId() ? foundryFacade.findWishBy(wish.getId()) : null;
+    if (currentUser.isAdmin() && StringUtils.isNotBlank(userName)) {
+      final UserProfile profile = userFacade.getUserProfile(userName);
+      if (null == profile) {
+        renderJSON(ValidationErrorAjaxResponse.only("userName", "User does not exist."));
+      }
+      wish.setAuthor(profile.getUser());
+    }
+    else if (null != wish.getId()) {
+      if (!existingWish.getAuthor().getId().equals(currentUser.getId())) {
+        renderJSON(ValidationErrorAjaxResponse.only("wish", "You may only edit your own Wish."));
+      }
+    }
+    else {
+      wish.setAuthor(currentUser);
+    }
+
+    final Wish savedSpark = foundryFacade.store(Reflections.overlay(
+        existingWish,
+        wish,
+        "title",
+        "description",
+        "tags",
+        "user",
+        "authorUserId"
+    ));
+    final Map<String, Object> parameters = Maps.newHashMap();
+    parameters.put("wishId", savedSpark.getId());
+    renderJSON(new RedirectAjaxResponse(Router.reverse("Foundry.view", parameters).url));
   }
 
 }

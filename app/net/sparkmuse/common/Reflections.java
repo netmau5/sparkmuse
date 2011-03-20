@@ -35,14 +35,15 @@ public class Reflections {
    * BE CAREFUL when attempting to overlay objects with primitives as they will
    * never be null and thus always be copied.
    *
-   * @param existingObject
+   * @param existingObject  nullable, if null newObject is returned (for create use-case)
    * @param newObject
    * @param properties      list of properties to copy, if empty all non-null properties
    *                        will be copied
    * @return
    */
   public static <T> T overlay(T existingObject, T newObject, String... properties) {
-    Preconditions.checkNotNull(existingObject);
+    if (null == existingObject) return newObject;
+    
     Preconditions.checkNotNull(newObject);
 
     final Iterable<Field> existingObjectFields = Iterables.filter(
