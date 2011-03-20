@@ -1,7 +1,6 @@
 package net.sparkmuse.discussion;
 
 import net.sparkmuse.data.*;
-import net.sparkmuse.data.paging.PagingState;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
@@ -12,17 +11,11 @@ import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.activity.ActivityService;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.TreeSet;
 
 import com.google.inject.Inject;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Function;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Sets;
 import org.joda.time.DateTime;
-import org.apache.commons.lang.StringUtils;
 import play.Logger;
 
 /**

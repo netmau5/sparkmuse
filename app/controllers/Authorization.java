@@ -19,6 +19,7 @@ import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.InvalidRequestException;
 import org.apache.commons.lang.StringUtils;
 import twitter4j.http.RequestToken;
+import controllers.Foundry;
 
 /**
  * Created by IntelliJ IDEA.
@@ -80,12 +81,15 @@ public class Authorization extends SparkmuseController {
     UserVO user = userFacade.registerAuthentication(response, session.get(Constants.INVITATION_CODE));
     session.put(Constants.SESSION_USER_ID, user.getId());
 
-    if (user.isAuthorizedFor(AccessLevel.USER)) {
+    if (user.isAuthorizedFor(AccessLevel.FOUNDRY)) {
       if (user.isNewUser()) {
         Home.welcome();
       }
-      else {
+      else if (user.isUser()) {
         Home.index();
+      }
+      else {
+        Foundry.index(1);
       }
     }
     else {

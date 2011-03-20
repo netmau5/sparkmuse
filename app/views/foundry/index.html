@@ -1,0 +1,64 @@
+#{extends "bodytemplate.html" /}
+#{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
+#{set nav:'FOUNDRY' /}
+
+
+<div class="page-title prepend-1 span-22 append-1">
+
+  <h1>
+    Tell us the problems you want solved
+  </h1>
+  <h1>
+    Inspire entrepreneurs to create them
+  </h1>
+  <h1>
+    Find out when your dream becomes a reality
+  </h1>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <div class="span-14 first">
+
+    <div class="sparks-wrapper">
+
+      <hr/>
+
+      #{list items: wishSearchResponse.wishes, as: 'wish'}
+        WISH
+      #{/list}
+
+      #{paging state: wishSearchResponse.pagingState, action: "Foundry.index()" /}
+
+    </div>
+
+  </div>
+
+  <div class="span-8 last">
+
+    <div class="how-it-works">
+      How It Works
+    </div>
+
+    <ol class="controls">
+      <li>Login</li>
+      <li>Sign Up</li>
+    </ol>
+
+    <ol class="controls">
+      <li>New Post</li>
+    </ol>
+
+    <div class="info">
+      <h3>Activity</h3>
+      <div>41 Posts</div>
+      <div>163 Members</div>
+      <div>322 Votes</div>
+    </div>
+
+  </div>
+
+  <div class="clear"></div>
+
+</div>

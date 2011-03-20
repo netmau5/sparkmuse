@@ -3,6 +3,7 @@ package net.sparkmuse.user;
 import com.google.inject.Inject;
 import com.google.inject.internal.Nullable;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
@@ -158,6 +159,7 @@ public class UserFacade {
   }
 
   public UserVotes findUserVotesFor(Set<Votable> votables, UserVO user) {
+    if (null == user) return new UserVotes(Sets.<UserVote>newHashSet());
     final Set<UserVote> userVotes = userDao.findVotesFor(votables, user);
     return new UserVotes(userVotes);
   }

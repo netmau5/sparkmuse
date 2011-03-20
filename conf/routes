@@ -11,9 +11,14 @@ GET         /robots.txt                       Application.robots
 GET         /login                            Authorization.authenticate
 GET         /authorize                        Authorization.authorize
 
-GET         /home/index                       Home.search(filter:'RECENT',page:'1')
-*           /home/index/{<[A-Za-z]+>filter}/{page}   Home.search
-*           /home/tagged/{tagged}             Home.tagged
+GET         /home/index                               Home.search(filter:'RECENT',page:'1')
+*           /home/index/{<[A-Za-z]+>filter}/{page}    Home.search
+*           /home/tagged/{tagged}                     Home.tagged
+
+GET         /foundry/index                                        Foundry.index(page:'1')
+GET         /foundry/index/{<[A-Za-z]+>filter}/{page}             Foundry.index
+GET         /foundry/tagged/{tagged}/{page}                       Foundry.tagged(page:'1')
+GET         /foundry/tagged/{tagged}                              Foundry.tagged
 
 *           /vote/{entity}/{id}               User.vote
 GET         /user/view/{userName}             User.view
@@ -27,7 +32,7 @@ GET         /{<[0-9]+>sparkId}                Spark.view
 
 # FOUNDRY
 
-*           /foundry                          foundry.Foundry.index
+*           /foundry                          Foundry.index
 
 # APPLICATION
 

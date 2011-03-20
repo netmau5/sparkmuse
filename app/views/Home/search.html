@@ -119,13 +119,9 @@
         #{sparkInfo spark: spark, userVotes: userVotes /}
       #{/list}
 
-      #{if pagingState.currentPage() > 1}
-        <a href="@{Home.search(filter, pagingState.currentPage() - 1)}">Previous</a>
-      #{/if}
-      #{if pagingState.currentPage() > 1 && pagingState.hasMorePages()} | #{/if}
-      #{if pagingState.hasMorePages()}
-        <a href="@{Home.search(filter, pagingState.currentPage() + 1)}">Next</a>
-      #{/if}
+      #{paging state: pagingState,
+        action: "Home.search()",
+        filter: filter /}
 
     </div>
 

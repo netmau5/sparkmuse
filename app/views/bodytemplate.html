@@ -14,15 +14,21 @@
 <div id="header-container-wrapper">
 <div id="header-container">
   <div class="page-container clearfix" id="header">
-    <div class="span-14">
+    <div class="span-16">
       <a class="logo" href="@{Home.index()}"></a>
-      <ol class="nav">
-        <li><a href="@{Home.index()}" class="#{if nav=='SPARKS'}active#{/if}">SPARKS</a></li>
-        <li><a href="@{People.view()}" class="#{if nav=='PEOPLE'}active#{/if}">PEOPLE</a></li>
-        <li><a href="@{ActivityController.view()}" class="#{if nav=='ACTIVITY'}active#{/if}">ACTIVITY</a></li>
-      </ol>
+      #{if currentUser.isUser() }
+        <ol class="nav">
+          <li><a href="@{Home.index()}" class="#{if nav=='SPARKS'}active#{/if}">SPARKS</a></li>
+          <li><a href="@{People.view()}" class="#{if nav=='PEOPLE'}active#{/if}">PEOPLE</a></li>
+          <li><a href="@{ActivityController.view()}" class="#{if nav=='ACTIVITY'}active#{/if}">ACTIVITY</a></li>
+          <li><a href="@{Foundry.index()}" class="#{if nav=='FOUNDRY'}active#{/if}">FOUNDRY</a></li>
+        </ol>
+      #{/if}
+      #{else}
+        <span class="foundry-title">The Spark Foundry</span>
+      #{/else}
     </div>
-    <div class="span-10 last">
+    <div class="span-8 last">
       <ul>
         <li><a href="@{Application.logout()}">Logout</a></li>
         <li>#{nameTag user: currentUser /} <img src="@{'public/images/icons/silk/lightbulb.png'}" alt="Reputation" /> ${currentUser.reputation}</li>
