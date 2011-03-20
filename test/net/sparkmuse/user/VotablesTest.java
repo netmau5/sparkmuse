@@ -5,11 +5,12 @@ import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.data.entity.UserVote;
 import net.sparkmuse.data.paging.PagingState;
 import net.sparkmuse.discussion.SparkSearchResponse;
 import net.sparkmuse.common.Orderings;
+import net.sparkmuse.task.IssueTaskService;
 
-import java.util.List;
 import java.util.TreeSet;
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class VotablesTest {
         return 0;  //To change body of implemented methods use File | Settings | File Templates.
       }
 
-      public void upVote() {
+      public void upVote(UserVote userVote, IssueTaskService issueTaskService) {
         //To change body of implemented methods use File | Settings | File Templates.
       }
 

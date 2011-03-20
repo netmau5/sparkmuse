@@ -121,6 +121,10 @@ public class UserFacade {
     return userDao.findUserProfileBy(userName);
   }
 
+  public UserProfile findUserProfileBy(final Long userId) {
+    return userDao.findUserProfileBy(userId);
+  }
+
   public UserProfile updateProfile(UserProfile profile) {
     return userDao.update(profile);
   }

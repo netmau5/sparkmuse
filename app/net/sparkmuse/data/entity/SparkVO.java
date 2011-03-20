@@ -6,6 +6,7 @@ import net.sparkmuse.common.Dateable;
 import net.sparkmuse.client.NoScriptCheck;
 import net.sparkmuse.activity.Notifiable;
 import net.sparkmuse.data.paging.PagingSize;
+import net.sparkmuse.task.IssueTaskService;
 
 import java.util.List;
 
@@ -105,7 +106,7 @@ public class SparkVO extends OwnedEntity<SparkVO>
     this.postCount = postCount;
   }
 
-  public void upVote() {
+  public void upVote(UserVote userVote, IssueTaskService issueTaskService) {
     votes += 1;
     this.setRating(SparkRanking.calculateRating(this));
   }

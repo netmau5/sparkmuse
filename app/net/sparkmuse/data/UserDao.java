@@ -26,6 +26,7 @@ public interface UserDao extends CrudDao {
   UserVO findUserBy(Long id);
 
   UserProfile findUserProfileBy(String userName);
+  UserProfile findUserProfileBy(Long userId);
 
   UserApplication findUserApplicationBy(String userName);
 

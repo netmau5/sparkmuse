@@ -7,6 +7,7 @@ import play.data.validation.Required;
 import play.data.validation.CheckWith;
 import net.sparkmuse.client.NoScriptCheck;
 import net.sparkmuse.user.Votable;
+import net.sparkmuse.task.IssueTaskService;
 
 /**
  * @author neteller
@@ -82,7 +83,7 @@ public class Comment extends OwnedEntity<Comment> implements Votable {
     this.votes = votes;
   }
 
-  public void upVote() {
+  public void upVote(UserVote userVote, IssueTaskService issueTaskService) {
     this.votes++;
   }
 

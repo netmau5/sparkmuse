@@ -5,6 +5,7 @@ import net.sparkmuse.user.Votable;
 import net.sparkmuse.user.Votables;
 import net.sparkmuse.user.UserLogin;
 import net.sparkmuse.data.entity.*;
+import net.sparkmuse.task.IssueTaskService;
 import com.google.inject.Inject;
 import static com.google.appengine.api.datastore.Query.FilterOperator.*;
 import com.google.appengine.api.datastore.Query;
@@ -28,9 +29,12 @@ import org.apache.commons.lang.StringUtils;
  */
 public class TwigUserDao extends TwigDao implements UserDao {
 
+  private final IssueTaskService issueTaskService;
+
   @Inject
-  public TwigUserDao(DatastoreService service) {
+  public TwigUserDao(DatastoreService service, IssueTaskService issueTaskService) {
     super(service);
+    this.issueTaskService = issueTaskService;
   }
 
   public UserVO findOrCreateUserBy(UserLogin login) {
@@ -78,6 +82,17 @@ public class TwigUserDao extends TwigDao implements UserDao {
     final UserVO user = helper.only(datastore.find()
         .type(UserVO.class)
         .addFilter("userNameLowercase", EQUAL, userName.toLowerCase()));
+
+    if (null == user) return null;
+
+    return helper.only(datastore.find()
+        .type(UserProfile.class)
+        .ancestor(user)
+    );
+  }
+
+  public UserProfile findUserProfileBy(Long userId) {
+    final UserVO user = datastore.load(UserVO.class, userId);
 
     if (null == user) return null;
 
@@ -140,11 +155,12 @@ public class TwigUserDao extends TwigDao implements UserDao {
     //check for existing vote
     if (null == voteModel) {
       //store vote later so we can check if user has voted on whatever
-      datastore.store().instance(UserVote.newUpVote(votable, voter)).parent(voter).later();
+      UserVote newUserVote = UserVote.newUpVote(votable, voter);
+      datastore.store().instance(newUserVote).parent(voter).later();
 
       //record aggregate vote count on entity
       if (votable instanceof Entity) {
-        votable.upVote();
+        votable.upVote(newUserVote, issueTaskService);
         helper.update((Entity) votable);
       }
 

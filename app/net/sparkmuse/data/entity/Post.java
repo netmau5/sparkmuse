@@ -5,8 +5,8 @@ import net.sparkmuse.common.Dateable;
 import net.sparkmuse.common.NullTo;
 import net.sparkmuse.client.NoScriptCheck;
 import net.sparkmuse.activity.Notifiable;
+import net.sparkmuse.task.IssueTaskService;
 import org.joda.time.DateTime;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.appengine.api.datastore.Text;
 import com.google.code.twig.annotation.Type;
@@ -61,7 +61,7 @@ public class Post extends OwnedEntity<Post>
     this.created = new DateTime();
   }
 
-  public void upVote() {
+  public void upVote(UserVote userVote, IssueTaskService issueTaskService) {
     votes += 1;
   }
 

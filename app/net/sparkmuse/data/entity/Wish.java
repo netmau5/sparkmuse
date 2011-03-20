@@ -6,6 +6,7 @@ import com.google.appengine.api.datastore.Text;
 import com.google.code.twig.annotation.Type;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.base.Function;
 import com.google.common.base.Splitter;
 
@@ -15,6 +16,8 @@ import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import net.sparkmuse.data.paging.PagingSize;
 import net.sparkmuse.user.Votable;
+import net.sparkmuse.task.IssueTaskService;
+import net.sparkmuse.task.foundry.HandleWishVoteTask;
 
 /**
  * @author neteller
@@ -131,8 +134,12 @@ public class Wish extends OwnedEntity<Wish> implements Votable {
     this.notified = notified;
   }
 
-  public void upVote() {
+  public void upVote(UserVote userVote, IssueTaskService issueTaskService) {
     this.votes++;
+    issueTaskService.issue(HandleWishVoteTask.class, ImmutableMap.<String, Object>of(
+        HandleWishVoteTask.PARAM_VOTER_USER_ID, userVote.authorUserId,
+        HandleWishVoteTask.PARAM_WISH_ID, userVote.entityId
+    ), null);
   }
 
   public void downVote() {

@@ -88,4 +88,5 @@ public class FoundryFacade {
   public Wish findWishBy(Long id) {
     return foundryDao.load(Wish.class, id);
   }
+
 }

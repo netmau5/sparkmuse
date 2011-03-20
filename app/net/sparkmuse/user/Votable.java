@@ -1,6 +1,8 @@
 package net.sparkmuse.user;
 
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.UserVote;
+import net.sparkmuse.task.IssueTaskService;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,7 +28,7 @@ public interface Votable {
 
   int getVotes();
 
-  void upVote();
+  void upVote(UserVote userVote, IssueTaskService issueTaskService);
 
   void downVote();
 
