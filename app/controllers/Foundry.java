@@ -36,18 +36,19 @@ public class Foundry extends SparkmuseController {
 
   public static void index(int page) {
     UserVO user = Authorization.getUserFromSession();
-    WishSearchResponse wishSearchResponse = foundryFacade.findTaggedWishes(user, PageChangeRequest.newInstance(page, cache, user, Wish.class, "Wish"));
+    WishSearchResponse wishSearchResponse = foundryFacade.findRecentWishes(user, PageChangeRequest.newInstance(page, cache, user, Wish.class, "Wish"));
     render(wishSearchResponse);
   }
 
-  public static void tagged(int page) {
+  public static void tagged(String tag, int page) {
     UserVO user = Authorization.getUserFromSession();
-    WishSearchResponse wishSearchResponse = foundryFacade.findTaggedWishes(user, PageChangeRequest.newInstance(page, cache, user, Wish.class, "TaggedWish"));
+    WishSearchResponse wishSearchResponse = foundryFacade.findTaggedWishes(tag, user, PageChangeRequest.newInstance(page, cache, user, Wish.class, "TaggedWish"));
     render(wishSearchResponse);
   }
 
   public static void view(Long wishId) {
-    render();
+    Wish wish = foundryFacade.findWishBy(wishId);
+    render(wish);
   }
 
   public static void create() {

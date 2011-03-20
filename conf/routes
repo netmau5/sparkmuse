@@ -19,6 +19,7 @@ GET         /foundry/index                                        Foundry.index(
 GET         /foundry/index/{<[A-Za-z]+>filter}/{page}             Foundry.index
 GET         /foundry/tagged/{tagged}/{page}                       Foundry.tagged(page:'1')
 GET         /foundry/tagged/{tagged}                              Foundry.tagged
+GET         /foundry/view/{wishId}                                Foundry.view
 
 *           /vote/{entity}/{id}               User.vote
 GET         /user/view/{userName}             User.view

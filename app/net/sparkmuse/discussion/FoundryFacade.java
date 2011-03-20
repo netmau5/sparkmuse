@@ -14,6 +14,7 @@ import com.google.common.collect.Sets;
 import java.util.List;
 
 import jj.play.org.eclipse.mylyn.wikitext.core.util.anttask.MarkupToXslfoTask;
+import org.joda.time.DateTime;
 
 /**
  * Manages wishes and comments within The Spark Foundry.
@@ -41,7 +42,7 @@ public class FoundryFacade {
    * @param request
    * @return
    */
-  public WishSearchResponse findTaggedWishes(UserVO user, PageChangeRequest request) {
+  public WishSearchResponse findRecentWishes(UserVO user, PageChangeRequest request) {
     List<Wish> wishes = foundryDao.findRecentWishes(request);
     return new WishSearchResponse(
         wishes,
@@ -57,7 +58,7 @@ public class FoundryFacade {
    * @param request
    * @return
    */
-  public WishSearchResponse findRecentWishes(String tag, UserVO user, PageChangeRequest request) {
+  public WishSearchResponse findTaggedWishes(String tag, UserVO user, PageChangeRequest request) {
     List<Wish> wishes = foundryDao.findTaggedWishes(tag, request);
     return new WishSearchResponse(
         wishes,
@@ -67,8 +68,20 @@ public class FoundryFacade {
   }
 
   public Wish store(Wish wish) {
+    boolean isNew = null == wish.getId();
+
+    if (!isNew) {
+      wish.setEdited(new DateTime());
+    }
+
+    //make sure tags are lowercase for easier querying
     wish = wish.updateTitleTokens().lowercaseTags();
+
     foundryDao.store(wish);
+
+    //author implicitly votes for spark; thus, they will not be able to vote for it again
+    userFacade.recordUpVote(wish, wish.getAuthor().getId());
+
     return wish;
   }
 
