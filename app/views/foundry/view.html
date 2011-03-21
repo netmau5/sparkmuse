@@ -2,5 +2,116 @@
 #{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
 #{set nav:'FOUNDRY' /}
 
+<link rel="stylesheet" href="@{'/public/stylesheets/Foundry/index-1.css'}" type="text/css" />
 <link rel="stylesheet" href="@{'/public/stylesheets/Foundry/view-1.css'}" type="text/css" />
+
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <div class="span-14 first">
+
+    <div class="breadcrumbs"><a href="@{Foundry.index()}">Foundry</a> &rsaquo; Problem</div>
+
+    <div class="sidebox">
+      #{wishInfo wish: wishResponse.wish, userVotes: wishResponse.userVotes /}
+
+      <div class="share">
+        <div>
+          <a href="http://twitter.com/share" class="twitter-share-button" data-text="Sparkmuse, a community to discuss, refine, and act on innovative tech ideas. http://sparkmuse.com @sparkmuse" data-count="horizontal" data-via="sparkmuse">Tweet</a>
+          <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+          <iframe src="http://www.facebook.com/plugins/like.php?href=http://www.sparkmuse.com&layout=button_count&show_faces=false&width=80;&action=like&font&colorscheme=light&height=25"
+                  scrolling="no"
+                  frameborder="0"
+                  style="border:none; width: 80px; height: 25px; overflow:hidden;"></iframe>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="clear"></div>
+
+    <div class="comments-panel-wrapper wrapper last">
+    <div class="comments-panel inner">
+
+      <div id="comments-container">
+
+        #{list items: wishResponse.comments, as: "comment"}
+          comment
+        #{/list}
+
+        #{if wishResponse.comments?.size() == 0}
+          <div id="no-posts">
+            <em>No Comments</em>
+            <a href="#" onclick="SM.Spark.newReply(); $('#no-posts').remove();">Be the first!</a>
+          </div>
+        #{/if}
+
+      </div>
+
+    </div>
+    </div>
+
+  </div>
+
+  <div class="span-8 last">
+
+    <div class="content-wrapper">
+    <div class="content-inner">
+    <div class="content-container">
+
+    <!--<div class="sidebar">-->
+
+      <div class="takers">
+        <span class="count">33</span> Takers
+      </div>
+
+      <ol class="controls">
+        <li>
+          <a href="#" class="button positive">
+            <span>
+              <img src="@{'public/images/icons/silk/add.png'}" alt="Comment" />
+              Comment
+            </span>
+          </a>
+        </li>
+      </ol>
+
+      <div class="big-button first">
+        <h4>Commit to See</h4>
+        <p>You'd like to be notified when if this problem gets solved.</p>
+        <div class="counter">[Spark icon] <span class="count">23</span> Takers</div>
+      </div>
+      <div class="big-button">
+        <h4>Commit to Try</h4>
+        <p>
+          You're pretty sure you'd use a solution to this problem and want to be registered
+          for any betas being offered for it.
+        </p>
+        <div class="takers">[Spark icon] 23 Takers</div>
+      </div>
+      <div class="big-button">
+        <h4>Commit to Survey</h4>
+        <p>
+          You'd be happy to give feedback or explain the problem in more depth to entrepreneurs
+          trying to figure out how to solve this problem.
+        </p>
+        <div class="takers">[Spark icon] 23 Takers</div>
+      </div>
+      <div class="big-button last">
+        <h4>Commit to Buy</h4>
+        <p>
+          You want this problem solved so badly that you'd be willing to pay for it to exist.
+        </p>
+        <div class="takers">[Spark icon] 23 Takers</div>
+      </div>
+
+    </div>
+    </div>
+    </div>
+    
+  </div>
+
+  <div class="clear"></div>
+
+</div>
 

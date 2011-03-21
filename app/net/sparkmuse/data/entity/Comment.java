@@ -29,6 +29,9 @@ public class Comment extends OwnedEntity<Comment> implements Votable {
 
   private boolean notified;
 
+  @Required
+  private Long wishId;
+
   private int votes;
 
   public Comment() {
@@ -65,6 +68,14 @@ public class Comment extends OwnedEntity<Comment> implements Votable {
 
   public void setEdited(DateTime edited) {
     this.edited = edited;
+  }
+
+  public Long getWishId() {
+    return wishId;
+  }
+
+  public void setWishId(Long wishId) {
+    this.wishId = wishId;
   }
 
   public boolean isNotified() {

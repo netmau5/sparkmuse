@@ -23,6 +23,7 @@
     <FOLLOW>
     <MARKDOWN>
     <NOTIFICATIONS>
+    <COMMENTS>      commenting/posts on a wish/spark
 */
 $LOGO_LIGHT_YELLOW: #fdf9d2;
 $LOGO_YELLOW: #f5e21f;
@@ -1972,4 +1973,133 @@ a.twitter-login:active {
     }
 
 /* END <NOTIFICATIONS> */
+
+/* BEGIN <COMMENTS> */
+
+
+.comments-panel-wrapper {
+}
+
+  .comments-panel-wrapper .header-wrapper {
+    border-bottom: 1px solid $COLOR_NEUTRAL;
+    margin-bottom: 1em;
+  }
+
+  .comments-panel-wrapper .header-wrapper .button {
+    margin: 1px 1px 0 0;
+    float: right;
+  }
+
+  .comments-panel-wrapper .header-wrapper .header {
+    border-bottom: 4px solid $LOGO_LIGHT_BLUE;
+  }
+
+    .comments-panel-wrapper .header-wrapper .header h3 {
+      padding-left: 40px;
+      background: url("../images/comment.png") 0 50% no-repeat;
+      height: 32px;
+      line-height: 32px;
+      margin-bottom: 0.2em;
+    }
+
+  .comments-panel {
+    padding-right: 1em;
+  }
+
+  .comment { margin-bottom: 0.5em; }
+
+    .comment .author {
+      position: relative;
+      bottom: -1px;
+      display: block;
+      padding: 0 0 14px 4px;
+      font-size: 12px;
+      line-height: 24px;
+      height: 24px;
+      background: url("../images/comment_hook.png") 36px 28px no-repeat;
+    }
+
+      .comment .author cite {
+        display: inline-block;
+        font-style: normal;
+      }
+
+      .comment .author .likes {
+        margin-right: 8px;
+        height: 24px;
+        background-position: 0 4px;
+        display: block;
+        float: left;
+      }
+
+      .comment .author .button {
+        margin: 1px 1px 0 0;
+        float: right;
+      }
+
+
+    .comment blockquote {
+      border: 1px solid #c9c2c1;
+      padding: 1em 1em 0 1em;
+      margin-bottom: 1em;
+      background-color: white;
+
+      -moz-border-radius: 5px;
+      -webkit-border-radius: 5px;
+      border-radius: 5px;
+
+      -moz-box-shadow: 1px 1px 1px #b2b2b2;
+      -webkit-box-shadow: 1px 1px 1px #b2b2b2;
+      box-shadow: 1px 1px 1px #4f4d4d;
+
+      font-family: $FONT_FAMILY_STANDARD;
+      font-size: 14px;
+      line-height: 20px;
+      color: #353434;
+    }
+
+      .comment blockquote > .input-wrapper { margin-bottom: 1em; }
+
+      .comment blockquote textarea { height: 175px; }
+
+      .comment blockquote blockquote {
+        color: #4f4d4d;
+        border: none;
+        background: none;
+        font-style: italic;
+
+        -moz-box-shadow: 0 0 0;
+        -webkit-box-shadow: 0 0 0;
+        box-shadow: 0 0 0;
+
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+
+        padding-top: 0;
+      }
+
+  .comment .replies { margin-left: 1em; padding-left: 1em; border-left: 2px solid #f1f1f1; }
+
+  .comment .post-actions { margin-bottom: 1em; }
+
+  #new-reply .comment blockquote { margin-bottom: 0; padding: 0.5em 1em 0 1em; }
+
+#no-posts {
+  margin: 0 auto;
+  padding: 40px 5px 0 0;
+  text-align: center;
+  width: 298px;
+  height: 110px;
+  background: url("../images/dirigible_blank.png");
+}
+
+  #no-posts * { display: block; }
+
+.control-bar { line-height: 24px; padding: 0 10px; }
+  .control-bar .attachments { display: inline-block; }
+  .control-bar .attachments a { vertical-align: middle; }
+  .control-bar .controls { float: right; }
+
+/* END <COMMENTS> */
 

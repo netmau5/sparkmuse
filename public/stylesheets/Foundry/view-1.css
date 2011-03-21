@@ -13,4 +13,80 @@ $COLOR_ALT: #666;
 
 $FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
-$FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
+$FONT_FAMILY_STANDARD: "Georgia", "Times New Roman", Times, serif;
+
+/* WISH */
+
+.breadcrumbs {
+  font-size: 12px;
+  line-height: 16px;
+  border-bottom: 1px dotted rgba(0,0,0,0.2);
+  margin-bottom: 12px;
+  color: #666;
+}
+
+.wish hr { display: none; }
+
+/* COMMENTS */
+
+#no-posts {
+  margin-top: 40px; 
+}
+
+/* SIDEBAR */
+
+.content-inner {
+  border: 1px solid rgba(255,255,255,0.1);
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+.takers {
+  background: transparent;
+  font-family: $FONT_FAMILY_TITLE;
+  font-size: 16px;
+  color: #111;
+}
+
+  .takers .count {
+    font-size: 28px;
+  }
+
+ol.controls {
+  padding: 0 15px 8px 15px;
+  margin-bottom: 0;
+  border-bottom: 1px solid rgba(0,0,0,.1);
+}
+
+  .controls li {
+    list-style-type: none;
+    margin-bottom: 2px;
+  }
+
+  .controls li .button {
+    float: none;
+    display: block;
+
+    padding: 8px;
+
+    font-size: 18px;
+    line-height: 24px;
+  }
+  .controls a.button img { margin: 0 0px -2px 0 !important; }
+  .controls li .button span { padding: 0; width: 100%; }
+
+.big-button {
+  background: -moz-linear-gradient(top, $COLOR_LIGHT_NEUTRAL 0%, #F3F4F2 100%); /* firefox */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$COLOR_LIGHT_NEUTRAL), color-stop(100%,#F3F4F2)); /* webkit */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$COLOR_LIGHT_NEUTRAL', endColorstr='#F3F4F2',GradientType=0 ); /* ie */
+  border-top: 1px solid white;
+  border-bottom: 1px solid rgba(0,0,0,.1);  
+}
+
+  .big-button.first {
+  }
+
+  .big-button.last {
+    border-bottom: 0;
+  }

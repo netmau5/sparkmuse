@@ -5,6 +5,7 @@ import net.sparkmuse.data.FoundryDao;
 import net.sparkmuse.data.DaoProvider;
 import net.sparkmuse.data.entity.Wish;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.Comment;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votable;
@@ -12,6 +13,8 @@ import com.google.inject.Inject;
 import com.google.common.collect.Sets;
 
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
 
 import jj.play.org.eclipse.mylyn.wikitext.core.util.anttask.MarkupToXslfoTask;
 import org.joda.time.DateTime;
@@ -89,4 +92,21 @@ public class FoundryFacade {
     return foundryDao.load(Wish.class, id);
   }
 
+  public WishResponse findWishContent(Long wishId, UserVO requestingUser) {
+    Wish wish = findWishBy(wishId);
+    List<Comment> comments = findWishCommentsBy(wishId);
+
+    Set<Votable> votables = Sets.<Votable>newHashSet(comments);
+    votables.add(wish);
+    
+    return new WishResponse(
+        wish,
+        comments,
+        userFacade.findUserVotesFor(votables, requestingUser)
+    );
+  }
+
+  private List<Comment> findWishCommentsBy(Long wishId) {
+    return foundryDao.findWishCommentsBy(wishId);
+  }
 }

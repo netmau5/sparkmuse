@@ -2,6 +2,7 @@ package net.sparkmuse.data;
 
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.data.entity.Wish;
+import net.sparkmuse.data.entity.Comment;
 
 import java.util.List;
 
@@ -15,4 +16,5 @@ public interface FoundryDao extends CrudDao {
 
   List<Wish> findTaggedWishes(String tag, PageChangeRequest pageChangeRequest);
 
+  List<Comment> findWishCommentsBy(Long wishId);
 }

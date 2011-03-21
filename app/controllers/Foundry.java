@@ -9,6 +9,7 @@ import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.discussion.FoundryFacade;
 import net.sparkmuse.discussion.WishSearchResponse;
+import net.sparkmuse.discussion.WishResponse;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.Reflections;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
@@ -47,8 +48,8 @@ public class Foundry extends SparkmuseController {
   }
 
   public static void view(Long wishId) {
-    Wish wish = foundryFacade.findWishBy(wishId);
-    render(wish);
+    WishResponse wishResponse = foundryFacade.findWishContent(wishId, Authorization.getUserFromSession());
+    render(wishResponse);
   }
 
   public static void create() {
