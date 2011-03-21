@@ -15,14 +15,62 @@ $FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
+/* HEADER */
+
+.page-title h2 {
+  text-align: justify;
+  color: #444;
+  font-size: 2em;
+  line-height: 1.5em;
+  font-weight: bold;
+}
+
+  .page-title h2 em { }
+  .page-title h2 em.problem { color: #c77405; }
+  .page-title h2 em.action { color: #915200; }
+  .page-title h2 em.solution { color: #336699; }
+
+/* CONTENT AREAS */
+
 .wishes-panel-wrapper {
-  width: 664px;
+  width: 672px;
   float: left;
 }
 
-.wishes-panel {
-  padding: 0 10px;
+  .wishes-panel {
+    padding: 0 10px;
+  }
+
+.wish-info-wrapper {
+
 }
+
+  .wish-info {
+    padding: 0 15px;
+  }
+
+  .wish-info ol {
+    padding: 0;
+  }
+
+  .wish-info ol.controls li {
+    list-style-type: none;
+    margin-bottom: 2px;
+  }
+
+  .wish-info ol.controls li .button {
+    float: none;
+    display: block;
+
+    padding: 8px;
+
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .wish-info ol.controls li .button span { padding: 0; width: 100%; }
+
+/* INDIVIDUAL WISHES */
 
 .wish {
   color: #666666;
@@ -95,11 +143,13 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
     margin-bottom: 8px;
   }
 
+/* WISH DETAILS RIBBON */
+
 .wish-details {
   background: url("../../images/ribbon-foundry-how.png") top left no-repeat;
   position: relative;
   top: -1.3em;
-  left: -10px;
+  left: -35px;
   height: 100px;
   width: 248px;
 }

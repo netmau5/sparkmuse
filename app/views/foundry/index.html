@@ -7,9 +7,9 @@
 <div class="page-title prepend-1 span-22 append-1">
 
   <h2>
-    Tell us the <em class="problems">problems</em> you want solved,
+    Tell us the <em class="problem">problems</em> you want solved,
     inspire entrepreneurs to <em class="action">act</em> on them,
-    and find out when your dream becomes a <em class="built">reality</em>.
+    and find out when your dream becomes a <em class="solution">reality</em>.
   </h2>
 
 </div>
@@ -46,19 +46,38 @@
     </div>
 
     <ol class="controls">
-      <li>Login</li>
-      <li>Sign Up</li>
+      <li>
+      <a href="#" class="button">
+          <span>Sign Up</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" class="button">
+          <span>Login</span>
+        </a>
+      </li>
     </ol>
 
     <ol class="controls">
-      <li><a href="@{Foundry.create()}">New Post</a></li>
+      <li>
+        <a href="@{Foundry.create()}" class="button create-spark">
+          <span>
+            <img src="@{'public/images/icons/silk/asterisk_yellow.png'}" alt=""/>
+            New Idea
+          </span>
+        </a>
+      </li>
     </ol>
 
-    <div class="info">
-      <h3>Activity</h3>
-      <div>41 Posts</div>
-      <div>163 Members</div>
-      <div>322 Votes</div>
+    <div class="sidebox">
+    <div class="sidebox-inner">
+      <h4>Activity</h4>
+      <div>
+        <div>41 Posts</div>
+        <div>163 Members</div>
+        <div>322 Votes</div>
+      </div>
+    </div>
     </div>
 
 

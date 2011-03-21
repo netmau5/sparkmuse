@@ -426,6 +426,7 @@ h1, h2, h3, h4, h5 {
 h1, h2 {
   color: $LOGO_ORANGE;
   text-shadow: #b3b3b3 0 1px;
+  text-shadow: rgba(255, 255, 255, 0.4) 0 1px;
 }
 
 h3, h4, h5 {
@@ -711,11 +712,6 @@ ol.nav {
   position: relative;
 }
 
-.sidebox {
-  padding: 8px;
-  color: #f3f3f3;
-}
-
 .blurb {
   background-color: $COLOR_LIGHT_NEUTRAL;
   border-bottom: 5px solid $LOGO_LIGHT_BLUE;
@@ -733,7 +729,7 @@ ol.nav {
 
   font-family: $FONT_FAMILY_STANDARD;
 
-  color: #373a29;
+  color: #222;
 
   margin-bottom: 1em;
 }
@@ -745,7 +741,7 @@ ol.nav {
   .blurb h4 {
     font-size: 1.2em;
     display: block;
-    color: #adb780;
+    color: #555;
   }
 
   .blurb p {
@@ -761,6 +757,37 @@ ol.nav {
   }
 
   .blurb .actions {
+    text-align: right;
+  }
+
+.sidebox {
+  border-bottom: 5px solid $LOGO_LIGHT_BLUE;
+  font-family: $FONT_FAMILY_STANDARD;
+  color: #222;
+  margin-bottom: 1em;
+}
+
+  .sidebox-inner {
+  }
+
+  .sidebox h4 {
+    font-size: 1.2em;
+    display: block;
+    line-height: 1.8em;
+    color: #555;
+    border-bottom: 1px dotted rgba(0,0,0,0.2);
+  }
+
+  .sidebox p {
+    font-size: 14px;
+    line-height: 21px;
+  }
+
+  .sidebox-inner > * {
+    margin-bottom: 8px;
+  }
+
+  .sidebox .actions {
     text-align: right;
   }
 
@@ -1573,11 +1600,6 @@ a.negative:active, button.negative:active {
 }
 
 /* Spark */
-
-body a.create-spark span, body button.create-spark span {
-  font-size: 16px;
-  line-height: 24px;
-}
 
 a.create-spark img { margin-bottom: -2px !important; }
 

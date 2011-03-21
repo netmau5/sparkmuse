@@ -31,6 +31,8 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   .page-title #follow-link { position: absolute; right: 43px; }
 
 
+/* BEGIN <SIDEBAR> */
+
 .spark-info-wrapper {
   background-color: $COLOR_NEUTRAL;
   border-right: 1px solid #999;
@@ -86,6 +88,17 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   }
 
   .spark-details .votes.liked { cursor: auto; }
+
+
+.blurb {
+  color: #373a29;
+}
+
+  .blurb h4 {
+    color: #adb780;
+  }
+
+/* END <SIDEBAR> */
 
 .comments-panel-wrapper {
   margin-left: 350px;

@@ -1,0 +1,104 @@
+$LOGO_LIGHT_YELLOW: #fdf9d2;
+$LOGO_YELLOW: #f5e21f;
+$LOGO_DARK_YELLOW: #FFC91F;
+$LOGO_BLUE: #69D2E7;
+$LOGO_LIGHT_BLUE: #A7DBD8;
+$LOGO_DARK_BLUE: #007160;
+$LOGO_ORANGE: #FA6900;
+$LOGO_LIGHT_ORANGE: #F38630;
+$COLOR_NEUTRAL: #E0E4CC;
+$COLOR_LIGHT_NEUTRAL: #fefffa;
+$COLOR_DARK_NEUTRAL: #d1d9a9;
+$COLOR_ALT: #666;
+
+$FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
+
+.sparks-wrapper {
+  width: 100%;
+  /*padding: 0 10px 10px 0;*/
+}
+
+.spark {
+  color: #666666;
+}
+
+.spark:hover { background-image: none; }
+
+.spark-inner {
+  margin-left: 75px;
+  padding: 0 0 0 10px;
+}
+
+  .spark .stage {
+    float: right;
+    text-indent: -9999px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .spark h3 {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+  }
+
+  .spark p {
+    margin-bottom: 8px;
+  }
+
+  .spark .alt {
+    font-size: 14px;
+  }
+
+  .spark .details {
+    vertical-align: top;
+    float: left;
+    margin: 0 15px 0 5px;
+    padding: 0 0px 0 0px;
+    background: transparent;
+    text-align: left;
+    line-height: 24px;
+  }
+
+    .spark .details .detail { margin-bottom: 6px; line-height: 16px; }
+
+    .spark .details .comments {
+      display: block;
+      background: url("../../images/icons/silk/comments_faded.png") no-repeat;
+
+      background-color: #FEFFFA;
+      border: 1px solid #cccccc;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      width: 20px;
+      padding: 2px 2px 2px 28px;
+      height: 16px;
+      color: $COLOR_ALT;
+      background-position: 8px 2px;
+
+      font-size: 12px;
+      font-family: $FONT_FAMILY_CONTROLS;
+    }
+
+    .spark .details .likes {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+
+      font-size: 12px;
+      font-family: $FONT_FAMILY_CONTROLS;
+    }
+
+  .spark .alt {
+    margin-bottom: 8px;
+  }
+
+  .spark .tags {
+    margin-bottom: 8px;
+  }
+
+body a.create-spark span, body button.create-spark span {
+  font-size: 16px;
+  line-height: 24px;
+}
