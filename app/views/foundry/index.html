@@ -2,37 +2,47 @@
 #{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
 #{set nav:'FOUNDRY' /}
 
+<link rel="stylesheet" href="@{'/public/stylesheets/Foundry/index-1.css'}" type="text/css" />
 
 <div class="page-title prepend-1 span-22 append-1">
 
   <h2>
-    Tell us the problems you want solved, inspire entrepreneurs to create them, and find out when your dream becomes a reality.
+    Tell us the <em class="problems">problems</em> you want solved,
+    inspire entrepreneurs to <em class="action">act</em> on them,
+    and find out when your dream becomes a <em class="built">reality</em>.
   </h2>
 
 </div>
 
 <div class="page-canvas prepend-1 span-22 append-1">
 
-  <div class="span-14 first">
+<div class="span-22 first last content-wrapper">
+<div class="content-inner">
+<div class="content-container">
 
-    <div class="sparks-wrapper">
+  <div class="wishes-panel-wrapper wrapper first">
+  <div class="wishes-panel inner">
 
-      <hr/>
+    #{list items: wishSearchResponse.wishes, as: 'wish'}
+      #{wishInfo wish: wish, userVotes: wishSearchResponse.userVotes /}
+    #{/list}
 
-      #{list items: wishSearchResponse.wishes, as: 'wish'}
-        WISH
-      #{/list}
-
-      #{paging state: wishSearchResponse.pagingState, action: "Foundry.index()" /}
-
-    </div>
+    #{paging state: wishSearchResponse.pagingState, action: "Foundry.index()" /}
 
   </div>
+  </div>
 
-  <div class="span-8 last">
+  <div class="span-6 wish-info-wrapper wrapper last">
+  <div class="wish-info inner">
 
-    <div class="how-it-works">
-      How It Works
+    <div class="wish-details">
+    <div class="wish-details-inner">
+      <div class="how-it-works">
+        <div class="hand"></div>
+        <a href="@{Foundry.howItWorks()}">Learn</a>
+        <span class="subtext">How it Works</span>
+      </div>
+    </div>
     </div>
 
     <ol class="controls">
@@ -51,8 +61,14 @@
       <div>322 Votes</div>
     </div>
 
+
+  </div>
   </div>
 
   <div class="clear"></div>
+
+</div>
+</div>
+</div>
 
 </div>

@@ -56,6 +56,10 @@ public class Foundry extends SparkmuseController {
     render(isEditMode);
   }
 
+  public static void howItWorks() {
+    render();
+  }
+
   public static void submit(@Valid Wish wish, String userName) {
     final UserVO currentUser = Authorization.getUserFromSessionOrAuthenticate(true);
 

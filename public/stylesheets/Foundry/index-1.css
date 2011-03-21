@@ -1,0 +1,152 @@
+$LOGO_LIGHT_YELLOW: #fdf9d2;
+$LOGO_YELLOW: #f5e21f;
+$LOGO_DARK_YELLOW: #FFC91F;
+$LOGO_BLUE: #69D2E7;
+$LOGO_LIGHT_BLUE: #A7DBD8;
+$LOGO_DARK_BLUE: #007160;
+$LOGO_ORANGE: #FA6900;
+$LOGO_LIGHT_ORANGE: #F38630;
+$COLOR_NEUTRAL: #E0E4CC;
+$COLOR_LIGHT_NEUTRAL: #fefffa;
+$COLOR_DARK_NEUTRAL: #d1d9a9;
+$COLOR_ALT: #666;
+
+$FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
+
+.wishes-panel-wrapper {
+  width: 664px;
+  float: left;
+}
+
+.wishes-panel {
+  padding: 0 10px;
+}
+
+.wish {
+  color: #666666;
+}
+
+.wish:hover { background-image: none; }
+
+.wish-inner {
+  margin-left: 75px;
+  padding: 0 0 0 10px;
+}
+
+  .wish h3 {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+  }
+
+  .wish p {
+    margin-bottom: 8px;
+  }
+
+  .wish .alt {
+    font-size: 14px;
+  }
+
+  .wish .details {
+    vertical-align: top;
+    float: left;
+    margin: 0 15px 0 5px;
+    padding: 0 0px 0 0px;
+    background: transparent;
+    text-align: left;
+    line-height: 24px;
+  }
+
+    .wish .details .detail { margin-bottom: 6px; line-height: 16px; }
+
+    .wish .details .comments {
+      display: block;
+      background: url("../../images/icons/silk/comments_faded.png") no-repeat;
+
+      background-color: #FEFFFA;
+      border: 1px solid #cccccc;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      width: 20px;
+      padding: 2px 2px 2px 28px;
+      height: 16px;
+      color: $COLOR_ALT;
+      background-position: 8px 2px;
+
+      font-size: 12px;
+      font-family: $FONT_FAMILY_CONTROLS;
+    }
+
+    .wish .details .likes {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+
+      font-size: 12px;
+      font-family: $FONT_FAMILY_CONTROLS;
+    }
+
+  .wish .alt {
+    margin-bottom: 8px;
+  }
+
+  .wish .tags {
+    margin-bottom: 8px;
+  }
+
+.wish-details {
+  background: url("../../images/ribbon-foundry-how.png") top left no-repeat;
+  position: relative;
+  top: -1.3em;
+  left: -10px;
+  height: 100px;
+  width: 248px;
+}
+
+  .wish-details-inner {
+    display: table-cell;
+    vertical-align: middle;
+    height: 90px;
+  }
+
+  .wish-details-inner .how-it-works {
+    display: block;
+    padding: 0 71px 0 64px;
+    height: 50px;
+    margin: 0 20px 0 5px;
+    text-align: right;
+    position: relative;
+  }
+
+    .how-it-works a {
+      font-size: 24px;
+      color: $LOGO_DARK_BLUE;
+      text-shadow: 0 1px 0 white;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+      display: block;
+    }
+
+    .how-it-works .hand {
+      height: 50px;
+      width: 50px;
+      position: absolute;
+      right: 0;
+      background: url("../../images/hand.png") right 50% no-repeat;
+      -webkit-transition: all 200ms linear;
+      -moz-transition: all 200ms linear;
+      -o-transition: all 200ms linear;
+      transition: all 200ms linear;
+    }
+
+    .how-it-works:hover .hand {
+      -moz-transform: rotate(20deg);
+      -webkit-transform: rotate(20deg);
+      -o-transform: rotate(20deg);
+      -ms-transform: rotate(20deg);
+      transform: rotate(20deg);
+    }
+
+    
+
+

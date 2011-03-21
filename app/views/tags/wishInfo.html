@@ -12,6 +12,7 @@
     <h3>
       <a href="@{Foundry.view(_wish.id)}">${_wish.title}</a>
     </h3>
+    <p>${_wish.description.abbreviate(200)}</p>
     <div class="alt">
       Created ${_wish.created.format()}
     </div>
