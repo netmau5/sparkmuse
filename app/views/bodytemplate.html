@@ -11,11 +11,12 @@
 
 #{include 'notifications.html' /}
 
+<div id="dickbar"></div>
 <div id="header-container-wrapper">
 <div id="header-container">
   <div class="page-container clearfix" id="header">
     <div class="span-16">
-      <a class="logo" href="@{Home.index()}"></a>
+      <a class="logo #{if nav=='FOUNDRY'}foundry#{/if}" href="@{Home.index()}"></a>
       #{if currentUser.isUser() }
         <ol class="nav">
           <li><a href="@{Home.index()}" class="#{if nav=='SPARKS'}active#{/if}">SPARKS</a></li>

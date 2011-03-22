@@ -588,7 +588,7 @@ table { margin-bottom: 0.5em; }
 
 /* BEGIN <HEADER> */
 
-#message-container {
+#dickbar {
   background: url("../images/horizontal-rainbow.gif") repeat-x 0 -4px;
   height: 6px;
   position: relative;
@@ -638,6 +638,10 @@ table { margin-bottom: 0.5em; }
   width: 198px;
   height: 48px;
 }
+
+  .logo.foundry {
+    background: url("/public/images/logocomplete-anvil.png") no-repeat;
+  }
 
 ol.nav {
   float: left;
