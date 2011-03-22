@@ -12,8 +12,10 @@ import net.sparkmuse.discussion.WishSearchResponse;
 import net.sparkmuse.discussion.WishResponse;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.Reflections;
+import net.sparkmuse.common.CommitmentType;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
+import net.sparkmuse.ajax.AjaxResponse;
 
 import javax.inject.Inject;
 
@@ -26,6 +28,7 @@ import com.google.common.collect.Maps;
 import play.mvc.Router;
 import play.mvc.With;
 import play.data.validation.Valid;
+import play.data.validation.Required;
 import filters.AuthorizationFilter;
 
 /**
@@ -96,6 +99,11 @@ public class Foundry extends SparkmuseController {
     final Map<String, Object> parameters = Maps.newHashMap();
     parameters.put("wishId", savedSpark.getId());
     renderJSON(new RedirectAjaxResponse(Router.reverse("Foundry.view", parameters).url));
+  }
+
+  public static void commit(@Required Long wishId, @Required CommitmentType commitmentType) {
+    foundryFacade.commit(foundryFacade.findWishBy(wishId), commitmentType, Authorization.getUserFromSessionOrAuthenticate(true));
+    renderJSON(new AjaxResponse());
   }
 
 }

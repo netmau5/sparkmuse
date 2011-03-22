@@ -3,6 +3,7 @@ package net.sparkmuse.discussion;
 import net.sparkmuse.data.entity.Comment;
 import net.sparkmuse.data.entity.Wish;
 import net.sparkmuse.data.entity.Commitment;
+import net.sparkmuse.data.util.Counters;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.common.CommitmentType;
 
@@ -60,6 +61,22 @@ public class WishResponse {
 
   public boolean hasCommittedToSee() {
     return null != this.commitments.get(CommitmentType.SEE);
+  }
+
+  public int getCommittedToTryCount() {
+    return Counters.WISH_TRYCOMMIT_COUNTER.count(wish);
+  }
+
+  public int getCommittedToBuyCount() {
+    return Counters.WISH_BUYCOMMIT_COUNTER.count(wish);
+  }
+
+  public int getCommittedToSurveyCount() {
+    return Counters.WISH_SURVEYCOMMIT_COUNTER.count(wish);
+  }
+  
+  public int getCommittedToSeeCount() {
+    return Counters.WISH_SEECOMMIT_COUNTER.count(wish);
   }
 
 }

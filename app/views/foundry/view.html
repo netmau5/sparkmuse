@@ -81,40 +81,40 @@
         </li>
       </ol>
 
-      <div class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"} first'>
+      <div commitmentType="SEE" class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"} first'>
         <h4>Commit to See</h4>
         <p>You'd like to be notified when if this problem gets solved.</p>
-        <div class="counter" count="23">
-          23 Takers
+        <div class="counter" count="${wishResponse.committedToSeeCount}">
+          ${wishResponse.committedToSeeCount} Takers
         </div>
       </div>
-      <div class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"}'>
+      <div commitmentType="TRY" class='big-button big-button-${wishResponse.hasCommittedToTry() ? "committed" : "uncommitted"}'>
         <h4>Commit to Try</h4>
         <p>
           You're pretty sure you'd use a solution to this problem and want to be registered
           for any betas being offered for it.
         </p>
-        <div class="counter" count="23">
-          23 Takers
+        <div class="counter" count="${wishResponse.committedToTryCount}">
+          ${wishResponse.committedToTryCount} Takers
         </div>
       </div>
-      <div class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"}'>
+      <div commitmentType="SURVEY" class='big-button big-button-${wishResponse.hasCommittedToSurvey() ? "committed" : "uncommitted"}'>
         <h4>Commit to Survey</h4>
         <p>
           You'd be happy to give feedback or explain the problem in more depth to entrepreneurs
           trying to figure out how to solve this problem.
         </p>
-        <div class="counter" count="23">
-          23 Takers
+        <div class="counter" count="${wishResponse.committedToSurveyCount}">
+          ${wishResponse.committedToSurveyCount} Takers
         </div>
       </div>
-      <div class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"} last'>
+      <div commitmentType="BUY" class='big-button big-button-${wishResponse.hasCommittedToBuy() ? "committed" : "uncommitted"} last'>
         <h4>Commit to Buy</h4>
         <p>
           You want this problem solved so badly that you'd be willing to pay for it to exist.
         </p>
-        <div class="counter" count="23">
-          23 Takers
+        <div class="counter" count="${wishResponse.committedToBuyCount}">
+          ${wishResponse.committedToBuyCount} Takers
         </div>
       </div>
 
@@ -126,3 +126,36 @@
 
 </div>
 
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+    $(".big-button").click(function() {
+      var button = $(this);
+
+      if (button.hasClass("big-button-uncommitted")) {
+        //no existing commits, also increment takers
+        if (!$(".big-button-committed").size()) {
+          var totalTakers = $(".takers .count");
+          totalTakers.html(parseInt(totalTakers.html()) + 1);
+        }
+
+        button.removeClass("big-button-uncommitted");
+        button.addClass("big-button-committed");
+
+        var counter = $(button).find(".counter");
+        counter.html(parseInt(counter.attr("count")) + 1 + " Takers");
+
+        $.post(
+          "@{Foundry.commit()}",
+          {
+            wishId: ${wishResponse.wish.id},
+            commitmentType: button.attr("commitmentType")
+          }
+        );
+      }
+    });
+
+  });
+
+</script>

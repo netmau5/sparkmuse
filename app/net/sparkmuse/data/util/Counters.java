@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.CounterModel;
+import net.sparkmuse.data.entity.Wish;
 
 import java.util.ConcurrentModificationException;
 import java.util.Collection;
@@ -30,10 +31,10 @@ public class Counters {
   @Inject
   static Cache cache;
 
-  public static final EntityCounter WISH_TRYCOMMIT_COUNTER = new EntityCounter("WISH_TRYCOMMIT_COUNTER", 1);
-  public static final EntityCounter WISH_SEECOMMIT_COUNTER = new EntityCounter("WISH_SEECOMMIT_COUNTER", 1);
-  public static final EntityCounter WISH_SURVEYCOMMIT_COUNTER = new EntityCounter("WISH_SURVEYCOMMIT_COUNTER", 1);
-  public static final EntityCounter WISH_BUYCOMMIT_COUNTER = new EntityCounter("WISH_BUYCOMMIT_COUNTER", 1);
+  public static final EntityCounter<Wish> WISH_TRYCOMMIT_COUNTER = new EntityCounter("WISH_TRYCOMMIT_COUNTER", 1);
+  public static final EntityCounter<Wish> WISH_SEECOMMIT_COUNTER = new EntityCounter("WISH_SEECOMMIT_COUNTER", 1);
+  public static final EntityCounter<Wish> WISH_SURVEYCOMMIT_COUNTER = new EntityCounter("WISH_SURVEYCOMMIT_COUNTER", 1);
+  public static final EntityCounter<Wish> WISH_BUYCOMMIT_COUNTER = new EntityCounter("WISH_BUYCOMMIT_COUNTER", 1);
 
   private static int count(Collection<CounterModel> newCounters) {
     if (CollectionUtils.size(newCounters) == 0) return 0;
