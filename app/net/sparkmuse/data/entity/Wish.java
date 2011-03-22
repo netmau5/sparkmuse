@@ -18,6 +18,7 @@ import net.sparkmuse.data.paging.PagingSize;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.task.foundry.HandleWishVoteTask;
+import net.sparkmuse.common.CommitmentType;
 
 /**
  * @author neteller
@@ -136,9 +137,14 @@ public class Wish extends OwnedEntity<Wish> implements Votable {
 
   public void upVote(UserVote userVote, IssueTaskService issueTaskService) {
     this.votes++;
+    commit(issueTaskService, userVote.authorUserId, userVote.entityId, CommitmentType.SEE);
+  }
+
+  public static void commit(IssueTaskService issueTaskService, Long committingUserId, Long wishId, CommitmentType commitmentType) {
     issueTaskService.issue(HandleWishVoteTask.class, ImmutableMap.<String, Object>of(
-        HandleWishVoteTask.PARAM_VOTER_USER_ID, userVote.authorUserId,
-        HandleWishVoteTask.PARAM_WISH_ID, userVote.entityId
+        HandleWishVoteTask.PARAM_VOTER_USER_ID, committingUserId,
+        HandleWishVoteTask.PARAM_WISH_ID, wishId,
+        HandleWishVoteTask.PARAM_COMMITMENT_TYPE, commitmentType
     ), null);
   }
 

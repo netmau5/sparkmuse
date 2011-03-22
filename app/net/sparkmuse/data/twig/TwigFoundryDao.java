@@ -4,6 +4,8 @@ import net.sparkmuse.data.FoundryDao;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.data.entity.Wish;
 import net.sparkmuse.data.entity.Comment;
+import net.sparkmuse.data.entity.Commitment;
+import net.sparkmuse.data.entity.UserVO;
 import com.google.inject.Inject;
 import com.google.appengine.api.datastore.Query;
 import com.google.code.twig.FindCommand;
@@ -38,6 +40,12 @@ public class TwigFoundryDao extends TwigDao implements FoundryDao {
     FindCommand.RootFindCommand<Comment> findCommand = datastore.find().type(Comment.class)
         .addFilter("wishId", Query.FilterOperator.EQUAL, wishId)
         .addSort("created", Query.SortDirection.DESCENDING);
+    return helper.all(findCommand);
+  }
+
+  public List<Commitment> findCommitmentsFor(UserVO requestingUser) {
+    FindCommand.RootFindCommand<Commitment> findCommand = datastore.find().type(Commitment.class)
+        .addFilter("user", Query.FilterOperator.EQUAL, requestingUser.getId());
     return helper.all(findCommand);
   }
 }

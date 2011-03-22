@@ -3,10 +3,8 @@ package net.sparkmuse.data.entity;
 import org.joda.time.DateTime;
 import org.apache.commons.lang.StringUtils;
 
-import javax.persistence.Id;
-
-import com.google.common.base.Preconditions;
 import play.Logger;
+import net.sparkmuse.common.CommitmentType;
 
 /**
  * Represents a voter who applied for this idea.
@@ -14,30 +12,40 @@ import play.Logger;
  * @author neteller
  * @created: Mar 20, 2011
  */
-public class WishEmailEntry extends Entity<WishEmailEntry> {
+public class Commitment extends Entity<Commitment> {
 
   private Wish wish;
   private UserVO user;
 
   private String email;
+  private CommitmentType commitmentType;
 
   private DateTime created;
 
-  public WishEmailEntry() {
+  public Commitment() {
     this.created = new DateTime();
   }
 
-  public static WishEmailEntry newInstance(Wish wish, UserProfile profile) {
+  public static Commitment newInstance(Wish wish, UserProfile profile, CommitmentType commitmentType) {
     if (StringUtils.isBlank(profile.getEmail())) {
-      Logger.error("Email is required for a WishEmailEntry");
+      Logger.error("Email is required for a Commitment");
       return null;
     }
 
-    WishEmailEntry emailEntry = new WishEmailEntry();
-    emailEntry.wish = wish;
-    emailEntry.user = profile.getUser();
-    emailEntry.email = profile.getEmail();
-    return emailEntry;
+    Commitment commitment = new Commitment();
+    commitment.wish = wish;
+    commitment.user = profile.getUser();
+    commitment.email = profile.getEmail();
+    commitment.commitmentType = commitmentType;
+    return commitment;
+  }
+
+  public CommitmentType getCommitmentType() {
+    return commitmentType;
+  }
+
+  public void setCommitmentType(CommitmentType commitmentType) {
+    this.commitmentType = commitmentType;
   }
 
   public Wish getWish() {

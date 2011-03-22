@@ -1,14 +1,17 @@
 package net.sparkmuse.discussion;
 
 import net.sparkmuse.common.Cache;
+import net.sparkmuse.common.CommitmentType;
 import net.sparkmuse.data.FoundryDao;
 import net.sparkmuse.data.DaoProvider;
 import net.sparkmuse.data.entity.Wish;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Comment;
+import net.sparkmuse.data.entity.Commitment;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votable;
+import net.sparkmuse.task.IssueTaskService;
 import com.google.inject.Inject;
 import com.google.common.collect.Sets;
 
@@ -29,12 +32,14 @@ public class FoundryFacade {
 
   private final FoundryDao foundryDao;
   private final UserFacade userFacade;
+  private final IssueTaskService issueTaskService;
   private final Cache cache;
 
   @Inject
-  public FoundryFacade(DaoProvider daoProvider, UserFacade userFacade, Cache cache) {
+  public FoundryFacade(DaoProvider daoProvider, UserFacade userFacade, IssueTaskService issueTaskService, Cache cache) {
     this.foundryDao = daoProvider.getFoundryDao();
     this.cache = cache;
+    this.issueTaskService = issueTaskService;
     this.userFacade = userFacade;
   }
 
@@ -102,8 +107,18 @@ public class FoundryFacade {
     return new WishResponse(
         wish,
         comments,
-        userFacade.findUserVotesFor(votables, requestingUser)
+        userFacade.findUserVotesFor(votables, requestingUser),
+        findCommitmentsFor(requestingUser)
     );
+  }
+
+  public void commit(Wish wish, CommitmentType type, UserVO requestingUser) {
+    userFacade.recordUpVote(wish, requestingUser.getId());
+    Wish.commit(issueTaskService, requestingUser.getId(), wish.getId(), type);
+  }
+
+  public List<Commitment> findCommitmentsFor(UserVO requestingUser) {
+    return foundryDao.findCommitmentsFor(requestingUser);
   }
 
   private List<Comment> findWishCommentsBy(Long wishId) {
