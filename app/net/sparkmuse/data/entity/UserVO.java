@@ -68,6 +68,10 @@ public class UserVO extends Entity<UserVO> {
     return isAuthorizedFor(AccessLevel.USER);
   }
 
+  public boolean hasFoundryAccess() {
+    return isAuthorizedFor(AccessLevel.FOUNDRY);
+  }
+
   public boolean isUnauthorized() {
     return this.accessLevel == AccessLevel.UNAUTHORIZED;
   }

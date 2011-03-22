@@ -1,0 +1,7 @@
+*{ _arg: userprofile }*
+#{if !_arg?.user || !_arg?.user?.hasFoundryAccess()}
+  Login to vote.
+#{/if}
+#{elseif !_arg?.email}
+  Must add valid email to profile.
+#{/elseif}

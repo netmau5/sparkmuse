@@ -166,5 +166,9 @@ public class UserProfile extends Entity<UserProfile> {
   public void setShowEmail(boolean showEmail) {
     this.showEmail = showEmail;
   }
+
+  public boolean canVoteOnFoundry() {
+    return null != user && user.hasFoundryAccess() && StringUtils.isNotBlank(email);
+  }
   
 }

@@ -1,10 +1,25 @@
-*{ args: 1- wish, 2- userVotes }*
+*{ args: 1- wish, 2- userVotes, 3-userProfile }*
 
 <div class='wish'>
 
   <div class="details">
     <div class="detail">#{avatar _wish.author.userName /}</div>
-    <div class="detail">#{likeButton votable: _wish, userVotes: _userVotes, size: "medium" /}</div>
+    <div class="detail">
+
+      #{if _userProfile?.canVoteOnFoundry()}
+        %{ isLiked = _userVotes.hasUpVoted(_wish) }%
+        <a href="#!%{ if(!isLiked){ }%@{User.vote(_wish.class.name, _wish.id)}%{ } }%"
+           callback="SM.LikedCallback"
+           class='likes likes-medium ${isLiked ? "liked" : ""}'
+           title='#{if isLiked}You liked this.#{/if}#{else}Click to like.#{/else}'>${_wish.votes}</a>
+      #{/if}
+      #{else}
+        <a href="#"
+           title="#{foundry/voteTooltip/}"
+           class='likes likes-medium'>${_wish.votes}</a>
+      #{/else}
+
+    </div>
     <div class="detail"><span class="comments">${_wish.commentCount}</span></div>
   </div>
 

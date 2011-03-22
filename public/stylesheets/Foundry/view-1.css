@@ -115,10 +115,15 @@ ol.controls {
   border-bottom: 1px solid rgba(0,0,0,.1);
   border-left: 1px solid rgba(0,0,0,.1);
   border-right: 1px solid rgba(0,0,0,.1);
-  cursor: pointer;
   padding-top: 8px;
   color: #666;
 }
+
+  .big-button .counter {
+    background: transparent url("../../images/icons/silk/asterisk_orange.png") center left no-repeat;
+    padding-left: 24px;
+    font-size:12px;
+  }
 
   .big-button > * { margin: 0 10px 8px 10px; }
 
@@ -129,37 +134,35 @@ ol.controls {
   .big-button.last {
   }
 
-  .big-button-uncommitted:hover {
-    background:#fdf5ce !important;
-    border-color:#fbcb09;
-    color:#c77405;
+  .big-button-uncommitted {
+    cursor: pointer;
   }
 
-    .big-button-uncommitted:hover h4 {
+    .big-button-uncommitted:hover {
+      background:#fdf5ce !important;
+      border-color:#fbcb09;
       color:#c77405;
     }
 
-  .big-button-uncommitted:active {
-    background: #c77405 !important;
-    border-color: #c77405;
-    color:#fff;
-  }
+      .big-button-uncommitted:hover h4 {
+        color:#c77405;
+      }
 
-    .big-button-uncommitted:active h4 {
+    .big-button-uncommitted:active {
+      background: #c77405 !important;
+      border-color: #c77405;
       color:#fff;
     }
 
-  .big-button .counter {
-    background: transparent url("../../images/icons/silk/asterisk_orange.png") center left no-repeat;
-    padding-left: 24px;
-    font-size:12px;
-  }
+      .big-button-uncommitted:active h4 {
+        color:#fff;
+      }
 
   .big-button-committed {
 
   }
 
     .big-button-committed .counter {
-      background-image: url("../../images/icons/silk/accept.png")
+      background-image: url("../../images/icons/silk/accept.png");
     }
 

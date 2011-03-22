@@ -8,6 +8,7 @@ import net.sparkmuse.common.ResponseCode;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.TwitterAuthenticationException;
+import net.sparkmuse.data.entity.UserProfile;
 
 import javax.inject.Inject;
 
@@ -79,7 +80,9 @@ public class SparkmuseController extends Controller {
   static void fillCurrentUserRenderArg() {
     final String userId = session.get(Constants.SESSION_USER_ID);
     if (StringUtils.isNotBlank(userId)) {
-      renderArgs.put("currentUser", userFacade.findUserBy(Long.valueOf(userId)));
+      UserProfile userProfile = userFacade.findUserProfileBy(Long.valueOf(userId));
+      renderArgs.put("currentUser", userProfile.getUser());
+      renderArgs.put("currentUserProfile", userProfile);
     }
   }
 
