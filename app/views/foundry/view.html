@@ -12,23 +12,32 @@
 
     <div class="breadcrumbs"><a href="@{Foundry.index()}">Foundry</a> &rsaquo; Problem</div>
 
-    <div class="sidebox">
-      #{wishInfo wish: wishResponse.wish, userVotes: wishResponse.userVotes /}
+    <div class="sidebox wishbox">
 
-      <div class="share">
-        <div>
+      <h2>
+        <a href="@{Foundry.view(wishResponse.wish.id)}">${wishResponse.wish.title}</a>
+      </h2>
+
+      <p>
+        <em>Last updated ${wishResponse.wish.edited.format()} -</em>
+        ${wishResponse.wish.description}
+      </p>
+
+      <div class="details">
+        <span class="detail">By #{nameTag user: wishResponse.wish.author /}</span>
+        <span class="detail comment">${wishResponse.wish.commentCount} Comment${wishResponse.wish.commentCount.pluralize()}</span>
+        <span class="detail facebook">
+          <iframe src="http://www.facebook.com/plugins/like.php?href=http://www.sparkmuse.com&layout=button_count&show_faces=false&width=80;&action=like&font&colorscheme=light&height=20"
+              scrolling="no"
+              frameborder="0"
+              style="border:none; width: 80px; height: 20px; overflow:hidden;"></iframe>
+        </span>
+        <span class="detail twitter">
           <a href="http://twitter.com/share" class="twitter-share-button" data-text="Sparkmuse, a community to discuss, refine, and act on innovative tech ideas. http://sparkmuse.com @sparkmuse" data-count="horizontal" data-via="sparkmuse">Tweet</a>
-          <script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-          <iframe src="http://www.facebook.com/plugins/like.php?href=http://www.sparkmuse.com&layout=button_count&show_faces=false&width=80;&action=like&font&colorscheme=light&height=25"
-                  scrolling="no"
-                  frameborder="0"
-                  style="border:none; width: 80px; height: 25px; overflow:hidden;"></iframe>
-        </div>
+        </span>
       </div>
 
     </div>
-
-    <div class="clear"></div>
 
     <div class="comments-panel-wrapper wrapper last">
     <div class="comments-panel inner">
@@ -55,14 +64,10 @@
 
   <div class="span-8 last">
 
-    <div class="content-wrapper">
-    <div class="content-inner">
-    <div class="content-container">
-
-    <!--<div class="sidebar">-->
+    <div class="sidebar">
 
       <div class="takers">
-        <span class="count">33</span> Takers
+        <span class="count">${wishResponse.wish.votes}</span> Taker${wishResponse.wish.votes.pluralize()}
       </div>
 
       <ol class="controls">
@@ -76,37 +81,43 @@
         </li>
       </ol>
 
-      <div class="big-button first">
+      <div class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"} first'>
         <h4>Commit to See</h4>
         <p>You'd like to be notified when if this problem gets solved.</p>
-        <div class="counter">[Spark icon] <span class="count">23</span> Takers</div>
+        <div class="counter" count="23">
+          23 Takers
+        </div>
       </div>
-      <div class="big-button">
+      <div class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"}'>
         <h4>Commit to Try</h4>
         <p>
           You're pretty sure you'd use a solution to this problem and want to be registered
           for any betas being offered for it.
         </p>
-        <div class="takers">[Spark icon] 23 Takers</div>
+        <div class="counter" count="23">
+          23 Takers
+        </div>
       </div>
-      <div class="big-button">
+      <div class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"}'>
         <h4>Commit to Survey</h4>
         <p>
           You'd be happy to give feedback or explain the problem in more depth to entrepreneurs
           trying to figure out how to solve this problem.
         </p>
-        <div class="takers">[Spark icon] 23 Takers</div>
+        <div class="counter" count="23">
+          23 Takers
+        </div>
       </div>
-      <div class="big-button last">
+      <div class='big-button big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"} last'>
         <h4>Commit to Buy</h4>
         <p>
           You want this problem solved so badly that you'd be willing to pay for it to exist.
         </p>
-        <div class="takers">[Spark icon] 23 Takers</div>
+        <div class="counter" count="23">
+          23 Takers
+        </div>
       </div>
 
-    </div>
-    </div>
     </div>
     
   </div>

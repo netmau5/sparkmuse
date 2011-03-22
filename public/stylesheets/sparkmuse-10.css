@@ -490,6 +490,14 @@ strong, .strong {
 
 /* BEGIN <LIBRARY> */
 
+h2 a {
+  font-size: inherit;
+  color: inherit;
+  font-family: inherit;
+  line-height: inherit;
+  text-decoration: inherit;
+}
+
 hr {
   border: 0;
   border-top: 1px solid #000;

@@ -24,12 +24,15 @@ import java.util.Map;
 
 import com.google.common.collect.Maps;
 import play.mvc.Router;
+import play.mvc.With;
 import play.data.validation.Valid;
+import filters.AuthorizationFilter;
 
 /**
  * @author neteller
  * @created: Mar 10, 2011
  */
+@With(AuthorizationFilter.class) //@todo need to change for open access
 public class Foundry extends SparkmuseController {
 
   @Inject static FoundryFacade foundryFacade;

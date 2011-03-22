@@ -34,6 +34,7 @@ public class Wish extends OwnedEntity<Wish> implements Votable {
   private List<String> titleWordsLowercase; //for title searching
 
   @Type(Text.class)
+  @MaxSize(900)
   private String description;
 
   private List<String> tags;
@@ -51,6 +52,7 @@ public class Wish extends OwnedEntity<Wish> implements Votable {
 
   public Wish() {
     this.created = new DateTime();
+    this.edited = new DateTime();
     this.tags = Lists.newArrayList();
     this.titleWordsLowercase = Lists.newArrayList();
   }

@@ -15,7 +15,7 @@ $FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
 $FONT_FAMILY_STANDARD: "Georgia", "Times New Roman", Times, serif;
 
-/* WISH */
+/* HEADER */
 
 .breadcrumbs {
   font-size: 12px;
@@ -25,7 +25,26 @@ $FONT_FAMILY_STANDARD: "Georgia", "Times New Roman", Times, serif;
   color: #666;
 }
 
-.wish hr { display: none; }
+.wishbox {}
+
+  .wishbox > * { margin-bottom: 10px; }
+  .wishbox h2 { line-height: 1; }
+  .wishbox .details {
+    color: #666;
+    font-family: $FONT_FAMILY_TITLE;
+    font-size: 12px;
+  }
+    .wishbox .details .detail {
+      padding-right: 10px;
+      display: inline-block;
+    }
+    .wishbox .details .comment {
+      padding-left: 24px;
+      background: url("../../images/icons/silk/comments.png") center left no-repeat;
+    }
+    .wishbox .details iframe { vertical-align: middle;}
+    .wishbox .details .twitter,
+    .wishbox .details .facebook { float: right; }
 
 /* COMMENTS */
 
@@ -47,16 +66,26 @@ $FONT_FAMILY_STANDARD: "Georgia", "Times New Roman", Times, serif;
   font-family: $FONT_FAMILY_TITLE;
   font-size: 16px;
   color: #111;
+  background: url("../../images/truck-single.png") center center no-repeat;
+  text-align: center;
+  height: 100px;
+  padding: 25px 0 0 6px;
+  color: #555;
+  text-shadow: 0 1px 0 white;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.4);
+  margin-bottom: 8px;
 }
 
   .takers .count {
     font-size: 28px;
+    display: block;
+    color: black;
+    line-height: 32px;
   }
 
 ol.controls {
-  padding: 0 15px 8px 15px;
-  margin-bottom: 0;
-  border-bottom: 1px solid rgba(0,0,0,.1);
+  padding: 0 15px 0 15px;
+  margin-bottom: 8px;
 }
 
   .controls li {
@@ -76,17 +105,61 @@ ol.controls {
   .controls a.button img { margin: 0 0px -2px 0 !important; }
   .controls li .button span { padding: 0; width: 100%; }
 
+.share { margin-bottom: 8px; line-height: 20px; }
+
 .big-button {
   background: -moz-linear-gradient(top, $COLOR_LIGHT_NEUTRAL 0%, #F3F4F2 100%); /* firefox */
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$COLOR_LIGHT_NEUTRAL), color-stop(100%,#F3F4F2)); /* webkit */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$COLOR_LIGHT_NEUTRAL', endColorstr='#F3F4F2',GradientType=0 ); /* ie */
   border-top: 1px solid white;
-  border-bottom: 1px solid rgba(0,0,0,.1);  
+  border-bottom: 1px solid rgba(0,0,0,.1);
+  border-left: 1px solid rgba(0,0,0,.1);
+  border-right: 1px solid rgba(0,0,0,.1);
+  cursor: pointer;
+  padding-top: 8px;
+  color: #666;
 }
 
+  .big-button > * { margin: 0 10px 8px 10px; }
+
   .big-button.first {
+    border-top: 1px solid rgba(0,0,0,.1);
   }
 
   .big-button.last {
-    border-bottom: 0;
   }
+
+  .big-button-uncommitted:hover {
+    background:#fdf5ce !important;
+    border-color:#fbcb09;
+    color:#c77405;
+  }
+
+    .big-button-uncommitted:hover h4 {
+      color:#c77405;
+    }
+
+  .big-button-uncommitted:active {
+    background: #c77405 !important;
+    border-color: #c77405;
+    color:#fff;
+  }
+
+    .big-button-uncommitted:active h4 {
+      color:#fff;
+    }
+
+  .big-button .counter {
+    background: transparent url("../../images/icons/silk/asterisk_orange.png") center left no-repeat;
+    padding-left: 24px;
+    font-size:12px;
+  }
+
+  .big-button-committed {
+
+  }
+
+    .big-button-committed .counter {
+      background-image: url("../../images/icons/silk/accept.png")
+    }
+

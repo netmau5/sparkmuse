@@ -20,14 +20,6 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
   .page-title h2 { display: inline-block; margin-right: 90px; }
 
-  .page-title h2 a {
-    font-size: inherit;
-    color: inherit;
-    font-family: inherit;
-    line-height: inherit;
-    text-decoration: inherit;
-  }
-
   .page-title #follow-link { position: absolute; right: 43px; }
 
 
