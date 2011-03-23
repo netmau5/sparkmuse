@@ -27,6 +27,24 @@ public class Application extends SparkmuseController {
 
   @Inject static BlobService blobService;
 
+  public static void home() {
+    UserVO user = Authorization.getUserFromSession();
+
+    if (null == user) {
+      Landing.index();
+    }
+
+    if (user.isUser()) {
+      Home.index();
+    }
+    else if (user.hasFoundryAccess()) {
+      Foundry.index(1);
+    }
+    else {
+      Landing.index();
+    }
+  }
+
   public static void logout() {
     session.clear();
     Landing.index();

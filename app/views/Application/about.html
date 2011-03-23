@@ -3,6 +3,8 @@
 
 <div class="page-canvas push-6 prepend-1 span-10 append-1">
 
+    <div class="breadcrumbs"><a href="@{Application.home()}">Home</a> &rsaquo; About</div>
+
     <h2>About</h2>
 
     <p>
@@ -76,5 +78,7 @@
       pivot town on it.  I promise it will be for the better.
     </p>
 
-    #{applyForInvitation /}
+    #{if !currentUser}
+      #{applyForInvitation /}
+    #{/if}
 </div>
