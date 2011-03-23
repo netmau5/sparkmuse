@@ -15,25 +15,31 @@ GET         /home/index                               Home.search(filter:'RECENT
 *           /home/index/{<[A-Za-z]+>filter}/{page}    Home.search
 *           /home/tagged/{tagged}                     Home.tagged
 
+# FOUNDRY
+
+GET         /foundry                                              Foundry.index(page:'1')
 GET         /foundry/index                                        Foundry.index(page:'1')
-GET         /foundry/index/{<[A-Za-z]+>filter}/{page}             Foundry.index
+GET         /foundry/index/{page}                                 Foundry.index
 GET         /foundry/tagged/{tagged}/{page}                       Foundry.tagged(page:'1')
 GET         /foundry/tagged/{tagged}                              Foundry.tagged
 GET         /foundry/view/{wishId}                                Foundry.view
 
+# USER
+
 *           /vote/{entity}/{id}               User.vote
 GET         /user/view/{userName}             User.view
 
+# SPARK
+
 GET         /spark/view/{sparkId}             Spark.view
 GET         /{<[0-9]+>sparkId}                Spark.view
+
+# MISC
 
 *           /activity/{action}                ActivityController.{action}
 
 *           /admin                            Admin.home
 
-# FOUNDRY
-
-*           /foundry                          Foundry.index
 
 # APPLICATION
 

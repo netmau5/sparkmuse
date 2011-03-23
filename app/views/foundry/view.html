@@ -45,7 +45,7 @@
       <div id="comments-container">
 
         #{list items: wishResponse.comments, as: "comment"}
-          comment
+          #{comment comment: comment, userVotes: wishResponse.userVotes /}
         #{/list}
 
         #{if wishResponse.comments?.size() == 0}

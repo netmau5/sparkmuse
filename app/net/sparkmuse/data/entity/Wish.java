@@ -15,6 +15,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import net.sparkmuse.data.paging.PagingSize;
+import net.sparkmuse.data.paging.CachePages;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.task.foundry.HandleWishVoteTask;
@@ -25,6 +26,7 @@ import net.sparkmuse.common.CommitmentType;
  * @created: Mar 15, 2011
  */
 @PagingSize(25)
+@CachePages(0) //@todo not fully implemented, handle automatically instead of just depending on SparkSearchResponses to do this size
 public class Wish extends OwnedEntity<Wish> implements Votable {
 
   @Required

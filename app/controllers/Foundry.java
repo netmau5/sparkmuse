@@ -111,7 +111,7 @@ public class Foundry extends SparkmuseController {
   public static void reply(@Valid Comment comment) {
     final UserVO author = Authorization.getUserFromSessionOrAuthenticate(true);
     comment.setAuthor(author);
-//    comment = foundryFacade.createComment(post);
+    comment = foundryFacade.createComment(comment);
 
     final Template template = TemplateLoader.load("tags/comment.html");
     final Map<String, Object> args = Maps.newHashMap();

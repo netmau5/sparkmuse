@@ -64,14 +64,30 @@ public class PagingState implements Cacheable, Serializable {
     return pageSize.value();
   }
 
-  public int calculateOffset() {
-    //any preceding pages without a cursor should be offset, they are assumed to be cached
-    int cachedPages = this.currentPage();
-    for (int i = cachedPages; i > 0; i--) {
-      if (null != this.cursors.get(i)) cachedPages--;
-    }
+  public int cachedPages() {
+    CachePages cachePages = (CachePages) this.type.getAnnotation(CachePages.class);
+    return cachePages.value();
+  }
 
-    return cachedPages * this.pageSize();
+  /**
+   * @param newPage page we are going to
+   * @return
+   */
+  public int calculateOffset(int newPage) {
+    //any preceding pages without a cursor should be offset, they are assumed to be cached
+//    int pagesWithoutPrecursor = this.currentPage();
+//    for (int i = pagesWithoutPrecursor; i > 0; i--) {
+//      if (null != this.cursors.get(i)) pagesWithoutPrecursor--;
+//    }
+//
+//    return pagesWithoutPrecursor * this.pageSize();
+//
+    if (newPage > this.cachedPages()) {
+      return this.cachedPages() * this.pageSize();
+    }
+    else {
+      return 0;
+    }
   }
 
   public CacheKey getKey() {

@@ -14,6 +14,7 @@ import net.sparkmuse.user.Votable;
 import net.sparkmuse.task.IssueTaskService;
 import com.google.inject.Inject;
 import com.google.common.collect.Sets;
+import com.google.common.base.Preconditions;
 
 import java.util.List;
 import java.util.Set;
@@ -123,5 +124,22 @@ public class FoundryFacade {
 
   private List<Comment> findWishCommentsBy(Long wishId) {
     return foundryDao.findWishCommentsBy(wishId);
+  }
+
+  public Comment createComment(Comment comment) {
+    Preconditions.checkArgument(null == comment.getId());
+    final Comment newComment = foundryDao.store(comment);
+
+    //modify post count
+    final Wish wish = findWishBy(comment.getWishId());
+    wish.setCommentCount(wish.getCommentCount() + 1);
+    foundryDao.store(wish);
+    userFacade.recordNewPost(newComment.getAuthor());
+
+    //author implicitly votes for post; thus, they will not be able to vote for it again
+    userFacade.recordUpVote(newComment, newComment.getAuthor().getId());
+
+    return newComment;
+
   }
 }

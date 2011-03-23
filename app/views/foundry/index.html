@@ -27,7 +27,7 @@
       #{wishInfo wish: wish, userVotes: wishSearchResponse.userVotes, userProfile: currentUserProfile /}
     #{/list}
 
-    #{paging state: wishSearchResponse.pagingState, action: "Foundry.index()" /}
+    #{paging state: wishSearchResponse.pagingState, action: "Foundry.index" /}
 
   </div>
   </div>
@@ -60,7 +60,7 @@
 
     <ol class="controls">
       <li>
-        <a href="#{if currentUserProfile?.canVoteOnFoundry()}@{Foundry.create()}#{/if}#" 
+        <a href="#{if currentUserProfile?.canVoteOnFoundry()}@{Foundry.create()}#{/if}#"
            class="button create-spark"
            title="#{foundry/voteTooltip currentUserProfile /}">
           <span>

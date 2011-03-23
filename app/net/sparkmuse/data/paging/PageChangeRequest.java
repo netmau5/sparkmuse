@@ -64,7 +64,7 @@ public class PageChangeRequest {
       find.continueFrom(cursor);
     }
 
-    find.startFrom(this.state.calculateOffset());
+    find.startFrom(this.state.calculateOffset(newPage));
 
     return find;
   }
@@ -84,7 +84,7 @@ public class PageChangeRequest {
   public void transition(boolean hasNext, Cursor cursor) {
     if (NO_PAGING == this) return;
 
-    this.state.transition(this.target.modifier, hasNext || !this.target.isNext(), cursor);
+    this.state.transition(this.target.modifier, hasNext, cursor);
 
     this.cache.set(this.state);
   }

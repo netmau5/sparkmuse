@@ -6,6 +6,7 @@ import net.sparkmuse.common.Dateable;
 import net.sparkmuse.client.NoScriptCheck;
 import net.sparkmuse.activity.Notifiable;
 import net.sparkmuse.data.paging.PagingSize;
+import net.sparkmuse.data.paging.CachePages;
 import net.sparkmuse.task.IssueTaskService;
 
 import java.util.List;
@@ -27,7 +28,8 @@ import com.google.common.base.Function;
  * @created: Jul 5, 2010
  */
 @PagingSize(25)
-public class SparkVO extends OwnedEntity<SparkVO> 
+@CachePages(2) //@todo not fully implemented, handle automatically instead of just depending on SparkSearchResponses to do this size
+public class SparkVO extends OwnedEntity<SparkVO>
     implements Votable, Dateable, Notifiable {
 
   @Required
