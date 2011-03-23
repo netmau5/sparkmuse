@@ -30,6 +30,8 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
   .page-title h2 em.action { color: #915200; }
   .page-title h2 em.solution { color: #336699; }
 
+.tagname > * { display: inline; }
+
 /* CONTENT AREAS */
 
 .wishes-panel-wrapper {

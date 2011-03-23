@@ -80,6 +80,7 @@ public class FoundryFacade {
     return new WishSearchResponse(
         wishes,
         userFacade.findUserVotesFor(Sets.<Votable>newHashSet(wishes), user),
+        getTopTags(),
         request.getState()
     );
   }

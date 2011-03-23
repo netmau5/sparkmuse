@@ -23,6 +23,14 @@
   <div class="wishes-panel-wrapper wrapper first">
   <div class="wishes-panel inner">
 
+    #{if isTagPage}
+      <div class="tagname">
+        <h2>Tagged</h2>
+        <h3>[${tag}]</h3>
+      </div>
+      <hr/>
+    #{/if}
+
     #{list items: wishSearchResponse.wishes, as: 'wish'}
       #{wishInfo wish: wish, userVotes: wishSearchResponse.userVotes, userProfile: currentUserProfile /}
     #{/list}
