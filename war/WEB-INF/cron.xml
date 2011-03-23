@@ -20,4 +20,9 @@
     <description>Stats on system activity</description>
     <schedule>every 12 hours</schedule>
   </cron>
+  <cron>
+    <url>/Tasks/execute?taskClassName=net.sparkmuse.task.foundry.AccumulateWishTagTransformationTask</url>
+    <description>Popular tags for Wishes</description>
+    <schedule>every 24 hours</schedule>
+  </cron>
 </cronentries>

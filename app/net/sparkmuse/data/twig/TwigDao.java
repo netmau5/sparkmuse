@@ -48,4 +48,7 @@ public class TwigDao implements CrudDao {
     return helper.load(entityClass, id);
   }
 
+  public <T> T load(Class<T> entityClass, String key) {
+    return datastore.load(entityClass, key);
+  }
 }

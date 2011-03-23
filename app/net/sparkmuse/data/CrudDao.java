@@ -15,4 +15,6 @@ public interface CrudDao {
   <T extends Entity<T>> T store(T entity);
 
   <T extends Entity<T>> T load(Class<T> entityClass, Long id);
+
+  <T > T load(Class<T> entityClass, String key);
 }

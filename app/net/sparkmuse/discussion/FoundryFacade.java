@@ -4,16 +4,14 @@ import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.CommitmentType;
 import net.sparkmuse.data.FoundryDao;
 import net.sparkmuse.data.DaoProvider;
-import net.sparkmuse.data.entity.Wish;
-import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.Comment;
-import net.sparkmuse.data.entity.Commitment;
+import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.task.IssueTaskService;
 import com.google.inject.Inject;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Lists;
 import com.google.common.base.Preconditions;
 
 import java.util.List;
@@ -44,6 +42,15 @@ public class FoundryFacade {
     this.userFacade = userFacade;
   }
 
+  public List<String> getTopTags() {
+    TagCount count = cache.get("TopWishTags", TagCount.class);
+    if (null == count) {
+      count = foundryDao.load(TagCount.class, TagCount.NAME_WISH_TAG_COUNTER);
+      if (null != count) cache.set("TopWishTags", count);
+    }
+    return null == count ? Lists.<String>newArrayList() : count.getTopTags();
+  }
+
   /**
    * Find recent wishes.
    *
@@ -56,6 +63,7 @@ public class FoundryFacade {
     return new WishSearchResponse(
         wishes,
         userFacade.findUserVotesFor(Sets.<Votable>newHashSet(wishes), user),
+        getTopTags(),
         request.getState()
     );
   }

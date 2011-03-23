@@ -73,12 +73,11 @@
 
     <div class="sidebox">
     <div class="sidebox-inner">
-      <h4>Activity</h4>
-      <div>
-        <div>41 Posts</div>
-        <div>163 Members</div>
-        <div>322 Votes</div>
-      </div>
+      <h4>Popular Topics</h4>
+      #{list items: wishSearchResponse.topTags, as: 'tagName' }
+        #{foundry/tag tagName /}
+      #{/list}
+      <div class="clear"></div>
     </div>
     </div>
 
