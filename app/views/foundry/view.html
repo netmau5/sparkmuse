@@ -51,7 +51,7 @@
         #{if wishResponse.comments?.size() == 0}
           <div id="no-posts">
             <em>No Comments</em>
-            <a href="#" onclick="SM.Spark.newReply(); $('#no-posts').remove();">Be the first!</a>
+            <a href="#" onclick="SM.Wish.newReply(); $('#no-posts').remove();">Be the first!</a>
           </div>
         #{/if}
 
@@ -70,16 +70,35 @@
         <span class="count">${wishResponse.wish.votes}</span> Taker${wishResponse.wish.votes.pluralize()}
       </div>
 
-      <ol class="controls">
-        <li>
-          <a href="#" class="button positive">
-            <span>
-              <img src="@{'public/images/icons/silk/add.png'}" alt="Comment" />
-              Comment
-            </span>
-          </a>
-        </li>
-      </ol>
+      #{if currentUser}
+        <ol class="controls">
+          <li>
+            <a href="#" onclick="SM.Wish.newReply()" class="button positive">
+              <span>
+                <img src="@{'public/images/icons/silk/add.png'}" alt="Comment" />
+                Comment
+              </span>
+            </a>
+          </li>
+        </ol>
+      #{/if}
+      #{else}
+        <div class="sidebox">
+          <h4>Login to Comment</h4>
+          <ol class="controls">
+            <li>
+              <a href="#" class="button">
+                <span>Sign Up</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="button">
+                <span>Login</span>
+              </a>
+            </li>
+          </ol>
+        </div>
+      #{/else}
 
       %{
         committedToSeeCount = wishResponse.committedToSeeCount
@@ -187,6 +206,129 @@
       }
     });
 
+    var s = SM.Wish = {
+
+      converter: new Attacklab.showdown.converter(),
+
+      replyMode: false,
+
+      endReply: function() {
+        if (s.replyMode) {
+          s.replyMode = false;
+
+          //clean up
+          $(document.Reply).unbind();
+          $("#new-reply textarea").unbind();
+
+          //remove
+          $("#new-reply").remove();
+        }
+      },
+
+      newReply: function(inReplyToId) {
+        if (!s.replyMode) {
+          s.replyMode = true;
+
+          $('#no-posts').remove();
+
+          var replyForm = Mustache.to_html($("#template-reply").html(), {
+            isRootPost: !inReplyToId
+          });
+          if (!inReplyToId) {
+            $("#comments-container").prepend(replyForm);
+          }
+          else {
+            $(".comment[post=" + inReplyToId + "] > .replies").append(replyForm);
+          }
+
+          var newReply = $("#new-reply");
+          if (newReply.offset().top > $(window).height()) {
+            $(document.body).animate({scrollTop: newReply.offset().top}, "fast");
+          }
+
+          var reply = document.Reply;
+          $(reply).formHandler(function(){
+            return {
+              comment: {
+                wishId: "${wishResponse.wish.id}",
+                content: this.content.value,
+                displayContent: s.converter.makeHtml(this.content.value)
+              },
+              _fragment: function(r) {
+                if (r.fragment) {
+                  $("#comments-container").prepend(r.fragment);
+                }
+              }
+
+            }
+          }).bind(SM.Events.Submit, SM.formSubmitModal)
+            .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose)
+            .bind(SM.Events.SubmitEnd, s.endReply);
+        }
+        else {
+          alert("Finish current reply");
+        }
+      },
+
+      _startReplyIfNotStarted: function() {
+        if (!s.replyMode) {
+          s.newReply();
+        }
+      },
+
+      deleteContent: function(el) {
+        $(el).parents(".content").animate({
+            opacity: 0,
+            height: 0
+          },
+          function() {
+            $(this).remove();
+          }
+        );
+      }
+    }
+
   });
+
+</script>
+
+<script type="text/html" id="template-reply">
+
+  <div class="new-reply-wrapper" id="new-reply">
+
+    <form name="Reply" method="POST" action="@{Foundry.reply()}">
+      <div class="comment">
+        <div class="author">
+          <cite>
+            #{nameTag user:currentUser /}
+          </cite>
+        </div>
+        <blockquote>
+          <label>Comment #{markdownEnabled /}</label>
+          <div class="error-message" parameter="wish.displayContent"></div>
+          <div class="input-wrapper"><textarea name="content"></textarea></div>
+        </blockquote>
+      </div>
+    </form>
+
+    <div class="control-bar">
+      <div class="controls">
+        <a href="#" onclick="$(document.Reply).submit();" class="button positive">
+          <span>
+            <img src="@{'public/images/icons/silk/accept.png'}" alt="Submit Reply" />
+            Submit
+          </span>
+        </a>
+        <a href="#" onclick="SM.Wish.endReply();" class="button negative">
+          <span>
+            <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel" />
+            Cancel
+          </span>
+        </a>
+      </div>
+      <div class="clear"></div>
+    </div>
+
+  </div>
 
 </script>

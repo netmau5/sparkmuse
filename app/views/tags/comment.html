@@ -1,0 +1,22 @@
+*{
+    parameters:
+      comment: comment object,
+      userVotes: UserVotes object
+}*
+<div class="comment" comment="${_comment.id}">
+  <div class="author">
+    #{likeButton votable: _comment, userVotes: _userVotes /}
+    <cite>
+      #{nameTag user: _comment.author /}
+    </cite>
+  </div>
+  <blockquote>
+    <div class="markdown-container">
+      ${_comment.displayContent?.raw()}
+    </div>
+
+    <div class="post-actions alt">
+      <label class="minor">Posted ${_comment.created.format()}</label>
+    </div>
+  </blockquote>
+</div>

@@ -2,10 +2,7 @@ package controllers;
 
 import controllers.SparkmuseController;
 import controllers.Authorization;
-import net.sparkmuse.data.entity.UserVO;
-import net.sparkmuse.data.entity.Wish;
-import net.sparkmuse.data.entity.UserProfile;
-import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.discussion.FoundryFacade;
 import net.sparkmuse.discussion.WishSearchResponse;
@@ -16,6 +13,8 @@ import net.sparkmuse.common.CommitmentType;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.AjaxResponse;
+import net.sparkmuse.ajax.FragmentAjaxResponse;
+import net.sparkmuse.user.UserVotes;
 
 import javax.inject.Inject;
 
@@ -29,6 +28,9 @@ import play.mvc.Router;
 import play.mvc.With;
 import play.data.validation.Valid;
 import play.data.validation.Required;
+import play.data.validation.Validation;
+import play.templates.Template;
+import play.templates.TemplateLoader;
 import filters.AuthorizationFilter;
 
 /**
@@ -104,6 +106,20 @@ public class Foundry extends SparkmuseController {
   public static void commit(@Required Long wishId, @Required CommitmentType commitmentType) {
     foundryFacade.commit(foundryFacade.findWishBy(wishId), commitmentType, Authorization.getUserFromSessionOrAuthenticate(true));
     renderJSON(new AjaxResponse());
+  }
+
+  public static void reply(@Valid Comment comment) {
+    final UserVO author = Authorization.getUserFromSessionOrAuthenticate(true);
+    comment.setAuthor(author);
+//    comment = foundryFacade.createComment(post);
+
+    final Template template = TemplateLoader.load("tags/comment.html");
+    final Map<String, Object> args = Maps.newHashMap();
+    args.put("_comment", comment);
+    args.put("_userVotes", UserVotes.only(comment, author));
+    final String content = template.render(args);
+
+    renderJSON(new FragmentAjaxResponse(content));
   }
 
 }
