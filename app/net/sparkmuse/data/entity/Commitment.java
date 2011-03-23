@@ -15,7 +15,9 @@ import net.sparkmuse.common.CommitmentType;
 public class Commitment extends Entity<Commitment> {
 
   private Wish wish;
+  private Long wishId;
   private UserVO user;
+  private Long userId;
 
   private String email;
   private CommitmentType commitmentType;
@@ -28,13 +30,14 @@ public class Commitment extends Entity<Commitment> {
 
   public static Commitment newInstance(Wish wish, UserProfile profile, CommitmentType commitmentType) {
     if (StringUtils.isBlank(profile.getEmail())) {
-      Logger.error("Email is required for a Commitment");
-      return null;
+      throw new IllegalArgumentException("Email is required for a commitment");
     }
 
     Commitment commitment = new Commitment();
     commitment.wish = wish;
+    commitment.wishId = wish.getId();
     commitment.user = profile.getUser();
+    commitment.userId = profile.getUser().getId();
     commitment.email = profile.getEmail();
     commitment.commitmentType = commitmentType;
     return commitment;
@@ -78,5 +81,21 @@ public class Commitment extends Entity<Commitment> {
 
   public void setCreated(DateTime created) {
     this.created = created;
+  }
+
+  public Long getWishId() {
+    return wishId;
+  }
+
+  public void setWishId(Long wishId) {
+    this.wishId = wishId;
+  }
+
+  public Long getUserId() {
+    return userId;
+  }
+
+  public void setUserId(Long userId) {
+    this.userId = userId;
   }
 }

@@ -20,5 +20,5 @@ public interface FoundryDao extends CrudDao {
 
   List<Comment> findWishCommentsBy(Long wishId);
 
-  List<Commitment> findCommitmentsFor(UserVO requestingUser);
+  List<Commitment> findCommitmentsFor(Long requestingUserId, Long wishId);
 }

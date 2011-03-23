@@ -9,6 +9,7 @@ import com.google.code.twig.Property;
 import com.google.code.twig.util.SimpleProperty;
 import com.google.code.twig.util.generic.GenericTypeReflector;
 import net.sparkmuse.data.*;
+import net.sparkmuse.data.util.Counters;
 import net.sparkmuse.data.twig.*;
 import net.sparkmuse.common.PlayCache;
 import net.sparkmuse.common.Cache;
@@ -33,18 +34,23 @@ public class DataModule extends AbstractModule {
 
   @Override
   protected void configure() {
+    ObjectDatastore datastore = new DatastoreProvider().get();
+
     bind(PostDao.class).to(TwigPostDao.class);
     bind(SparkDao.class).to(TwigSparkDao.class);
     bind(UserDao.class).to(TwigUserDao.class);
     bind(ActivityDao.class).to(TwigActivityDao.class);
     bind(FoundryDao.class).to(TwigFoundryDao.class);
-    bind(ObjectDatastore.class).toInstance(new DatastoreProvider().get());
+    bind(ObjectDatastore.class).toInstance(datastore);
     if (Play.mode == Play.Mode.PROD) {
       bind(Cache.class).to(JCache.class);
     }
     else {
       bind(Cache.class).to(PlayCache.class);
     }
+
+    Counters.cache = new JCache();
+    Counters.datastore = datastore;
   }
 
   private static class DatastoreProvider implements Provider<ObjectDatastore> {

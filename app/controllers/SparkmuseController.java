@@ -81,7 +81,7 @@ public class SparkmuseController extends Controller {
     final String userId = session.get(Constants.SESSION_USER_ID);
     if (StringUtils.isNotBlank(userId)) {
       UserProfile userProfile = userFacade.findUserProfileBy(Long.valueOf(userId));
-      renderArgs.put("currentUser", userProfile.getUser());
+      renderArgs.put("currentUser", null != userProfile ? userProfile.getUser() : null);
       renderArgs.put("currentUserProfile", userProfile);
     }
   }

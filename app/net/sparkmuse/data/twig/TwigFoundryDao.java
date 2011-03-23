@@ -8,7 +8,10 @@ import net.sparkmuse.data.entity.Commitment;
 import net.sparkmuse.data.entity.UserVO;
 import com.google.inject.Inject;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.code.twig.FindCommand;
+import com.google.code.twig.standard.KeySpecification;
+import com.google.code.twig.standard.TranslatorObjectDatastore;
 
 import java.util.List;
 
@@ -43,9 +46,10 @@ public class TwigFoundryDao extends TwigDao implements FoundryDao {
     return helper.all(findCommand);
   }
 
-  public List<Commitment> findCommitmentsFor(UserVO requestingUser) {
+  public List<Commitment> findCommitmentsFor(Long requestingUserId, Long wishId) {
     FindCommand.RootFindCommand<Commitment> findCommand = datastore.find().type(Commitment.class)
-        .addFilter("user", Query.FilterOperator.EQUAL, requestingUser.getId());
+        .addFilter("userId", Query.FilterOperator.EQUAL, requestingUserId)
+        .addFilter("wishId", Query.FilterOperator.EQUAL, wishId);
     return helper.all(findCommand);
   }
 }

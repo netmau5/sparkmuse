@@ -108,7 +108,7 @@ public class FoundryFacade {
         wish,
         comments,
         userFacade.findUserVotesFor(votables, requestingUser),
-        findCommitmentsFor(requestingUser)
+        findCommitmentsFor(requestingUser.getId(), wishId)
     );
   }
 
@@ -117,8 +117,8 @@ public class FoundryFacade {
     Wish.commit(issueTaskService, requestingUser.getId(), wish.getId(), type);
   }
 
-  public List<Commitment> findCommitmentsFor(UserVO requestingUser) {
-    return foundryDao.findCommitmentsFor(requestingUser);
+  public List<Commitment> findCommitmentsFor(Long userId, Long wishId) {
+    return foundryDao.findCommitmentsFor(userId, wishId);
   }
 
   private List<Comment> findWishCommentsBy(Long wishId) {

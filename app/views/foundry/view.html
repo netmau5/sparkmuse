@@ -81,12 +81,23 @@
         </li>
       </ol>
 
+      %{
+        committedToSeeCount = wishResponse.committedToSeeCount
+        committedToTryCount = wishResponse.committedToTryCount
+        committedToSurveyCount = wishResponse.committedToSurveyCount
+        committedToBuyCount = wishResponse.committedToBuyCount
+      }%
       <div commitmentType="SEE" title="#{foundry/voteTooltip currentUserProfile /}"
            class='big-button #{if currentUserProfile?.canVoteOnFoundry()}big-button-${wishResponse.hasCommittedToSee() ? "committed" : "uncommitted"}#{/if} first'>
         <h4>Commit to See</h4>
         <p>You'd like to be notified when if this problem gets solved.</p>
-        <div class="counter" count="${wishResponse.committedToSeeCount}">
-          ${wishResponse.committedToSeeCount} Takers
+        <div class="counter" count="${committedToSeeCount}">
+          #{if wishResponse.hasCommittedToSee()}
+            You and ${committedToSeeCount - 1} other Taker${(committedToSeeCount - 1).pluralize()}
+          #{/if}
+          #{else}
+            ${committedToSeeCount} Taker${committedToSeeCount.pluralize()}
+          #{/else}
         </div>
       </div>
       <div commitmentType="TRY" title="#{foundry/voteTooltip currentUserProfile /}"
@@ -96,8 +107,13 @@
           You're pretty sure you'd use a solution to this problem and want to be registered
           for any betas being offered for it.
         </p>
-        <div class="counter" count="${wishResponse.committedToTryCount}">
-          ${wishResponse.committedToTryCount} Takers
+        <div class="counter" count="${committedToTryCount}">
+          #{if wishResponse.hasCommittedToTry()}
+            You and ${committedToTryCount - 1} other Taker${(committedToTryCount - 1).pluralize()}
+          #{/if}
+          #{else}
+            ${committedToTryCount} Taker${committedToTryCount.pluralize()}
+          #{/else}
         </div>
       </div>
       <div commitmentType="SURVEY" title="#{foundry/voteTooltip currentUserProfile /}"
@@ -108,7 +124,12 @@
           trying to figure out how to solve this problem.
         </p>
         <div class="counter" count="${wishResponse.committedToSurveyCount}">
-          ${wishResponse.committedToSurveyCount} Takers
+          #{if wishResponse.hasCommittedToSurvey()}
+            You and ${committedToSurveyCount - 1} other Taker${(committedToSurveyCount - 1).pluralize()}
+          #{/if}
+          #{else}
+            ${committedToSurveyCount} Taker${committedToSurveyCount.pluralize()}
+          #{/else}
         </div>
       </div>
       <div commitmentType="BUY" title="#{foundry/voteTooltip currentUserProfile /}"
@@ -118,7 +139,12 @@
           You want this problem solved so badly that you'd be willing to pay for it to exist.
         </p>
         <div class="counter" count="${wishResponse.committedToBuyCount}">
-          ${wishResponse.committedToBuyCount} Takers
+          #{if wishResponse.hasCommittedToBuy()}
+            You and ${committedToBuyCount - 1} other Taker${(committedToBuyCount - 1).pluralize()}
+          #{/if}
+          #{else}
+            ${committedToBuyCount} Taker${committedToBuyCount.pluralize()}
+          #{/else}
         </div>
       </div>
 
@@ -148,8 +174,8 @@
         button.addClass("big-button-committed");
 
         var counter = $(button).find(".counter"),
-            newCount = parseInt(counter.attr("count")) + 1;
-        counter.html(newCount + " Taker" + (1 !== newCount ? "s" : ""));
+            count = parseInt(counter.attr("count"));
+        counter.html("You and " + count + " other Taker" + (1 !== count ? "s" : ""));
 
         $.post(
           "@{Foundry.commit()}",

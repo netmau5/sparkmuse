@@ -4,7 +4,9 @@ import com.google.code.twig.ObjectDatastore;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.common.base.Function;
+import com.google.common.base.Predicates;
 
 import javax.inject.Inject;
 
@@ -25,11 +27,9 @@ import org.apache.commons.collections.CollectionUtils;
  */
 public class Counters {
 
-  @Inject
-  static ObjectDatastore datastore;
-
-  @Inject
-  static Cache cache;
+  //injected by guice, yea i know...
+  public static ObjectDatastore datastore;
+  public static Cache cache;
 
   public static final EntityCounter<Wish> WISH_TRYCOMMIT_COUNTER = new EntityCounter("WISH_TRYCOMMIT_COUNTER", 1);
   public static final EntityCounter<Wish> WISH_SEECOMMIT_COUNTER = new EntityCounter("WISH_SEECOMMIT_COUNTER", 1);
@@ -49,7 +49,7 @@ public class Counters {
         return counterModel.getKey();
       }
     }));
-    Collection<CounterModel> models = datastore.loadAll(CounterModel.class, keys).values();
+    Collection<CounterModel> models = Maps.filterValues(datastore.loadAll(CounterModel.class, keys), Predicates.<CounterModel>notNull()).values();
 
     int toReturn = 0;
     for (CounterModel model: models) {
@@ -84,12 +84,12 @@ public class Counters {
     finally {
       if (tx.isActive()) tx.rollback();
       //remove from cache
-      cache.delete(cacheKeyFor(counter.getQueryKey()));
+      cache.delete(cacheKeyFor(updateCounter.getQueryKey()));
     }
   }
 
   private static String cacheKeyFor(String queryKey) {
-    return "cache" + queryKey;
+    return "CACHE:" + queryKey;
   }
 
   public static class EntityCounter<T extends Entity> {

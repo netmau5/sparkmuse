@@ -4,6 +4,7 @@ import net.sparkmuse.task.Task;
 import net.sparkmuse.data.FoundryDao;
 import net.sparkmuse.data.entity.Commitment;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.entity.Wish;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.discussion.FoundryFacade;
 import net.sparkmuse.common.CommitmentType;
@@ -43,8 +44,7 @@ public class HandleWishVoteTask extends Task {
     long voterUserId = Long.parseLong(getParameter(PARAM_VOTER_USER_ID));
     final CommitmentType commitmentType = CommitmentType.valueOf(getParameter(PARAM_COMMITMENT_TYPE));
 
-    UserVO user = userFacade.findUserBy(voterUserId);
-    List<Commitment> commitments = foundryFacade.findCommitmentsFor(user);
+    List<Commitment> commitments = foundryFacade.findCommitmentsFor(voterUserId, wishId);
     boolean hasCommitment = Iterables.any(commitments, new Predicate<Commitment>(){
       public boolean apply(Commitment commitment) {
         return commitmentType == commitment.getCommitmentType();
@@ -53,12 +53,15 @@ public class HandleWishVoteTask extends Task {
 
 
     if (!hasCommitment) {
+      Wish wish = foundryFacade.findWishBy(wishId);
       Commitment commitment = Commitment.newInstance(
-          foundryFacade.findWishBy(wishId),
+          wish,
           userFacade.findUserProfileBy(voterUserId),
           commitmentType
       );
-      if (null != commitment) foundryDao.store(commitment);
+      foundryDao.store(commitment);
+      
+      commitmentType.getCounter().increment(wish);
     }
 
     return null;

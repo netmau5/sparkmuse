@@ -77,7 +77,7 @@ public class CounterModel {
   public static Collection<CounterModel> allInstances(String name, int maxShards, Object identifier) {
     List<CounterModel> toReturn = Lists.newArrayList();
 
-    for (int i = 1; i < maxShards; i++) {
+    for (int i = 1; i <= maxShards; i++) {
       CounterModel counterModel = new CounterModel();
       counterModel.key = CounterModel.keyFor(name, i, identifier);
       counterModel.queryKey = CounterModel.querykeyFor(name, identifier);
