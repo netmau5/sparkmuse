@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 
 import java.util.*;
+import java.io.Serializable;
 
 /**
  * @author neteller
@@ -75,29 +76,6 @@ public class AccumulateWishTagTransformationTask extends TransformationTask<Wish
 
   protected FindCommand.RootFindCommand<Wish> find(boolean isNew) {
     return datastore.find().type(Wish.class);
-  }
-
-  private class WishCounter extends Entity {
-
-    private Map<String, Integer> tagCount;
-
-    public WishCounter() {
-      this.tagCount = Maps.newHashMap();
-    }
-
-    public Map<String, Integer> getTagCount() {
-      return tagCount;
-    }
-
-    public void increment(String tag) {
-      Integer tagCount = this.tagCount.get(tag);
-      if (null == tagCount) {
-        this.tagCount.put(tag, 1);
-      }
-      else {
-        this.tagCount.put(tag, tagCount + 1);
-      }
-    }
   }
 
 }
