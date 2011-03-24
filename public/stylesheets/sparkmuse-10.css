@@ -979,38 +979,10 @@ a.top-arrow {
   background: url("../images/partners.png") bottom center no-repeat;
   margin-bottom: 25px;
   padding: 15px 0 0 0;
+  opacity: 0.5;
 }
 
-  .partner {
-    cursor: pointer;
-    text-indent: -9999px;
-    background-repeat: no-repeat;
-    background-position: center center;
-    display: block;
-    float: left;
-    opacity: 0.5;
-    filter: alpha(opacity=50);
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-  }
-
-  .partner:hover {
-    opacity: 1;
-    filter: alpha(opacity=100);
-    -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
-  }
-
-  .partners .startup-america {
-    padding-right: 40px;
-    background-image: url("../images/startupamerica.gif");
-    width: 253px;
-    height: 100px;
-  }
-
-  .partners .microsoft-bizspark {
-    background-image: url("../images/bizspark.png");
-    width: 260px;
-    height: 100px;
-  }
+  .partners:hover { opacity: 1; }
 
 /* END <FOOTER> */
 
