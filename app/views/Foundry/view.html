@@ -27,7 +27,7 @@
         <span class="detail">By #{nameTag user: wishResponse.wish.author /}</span>
         <span class="detail comment">${wishResponse.wish.commentCount} Comment${wishResponse.wish.commentCount.pluralize()}</span>
         <span class="detail facebook">
-          <iframe src="http://www.facebook.com/plugins/like.php?href=http://www.sparkmuse.com&layout=button_count&show_faces=false&width=80;&action=like&font&colorscheme=light&height=20"
+          <iframe src="http://www.facebook.com/plugins/like.php?href=@@{Foundry.view(wishResponse.wish.id)}&layout=button_count&show_faces=false&width=80;&action=like&font&colorscheme=light&height=20"
               scrolling="no"
               frameborder="0"
               style="border:none; width: 80px; height: 20px; overflow:hidden;"></iframe>
