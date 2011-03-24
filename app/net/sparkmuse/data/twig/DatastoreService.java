@@ -139,10 +139,7 @@ public class DatastoreService {
     if (null == entity) return null;
 
     //set the key on the model object
-    final Key key = datastore.store().instance(entity).now();
-    entity.setId(key.getId());
-
-    return After.write(entity, this);
+    return After.write(DatastoreUtils.store(entity, datastore), this);
   }
 
   public final <U extends Entity<U>> U update(U entity) {

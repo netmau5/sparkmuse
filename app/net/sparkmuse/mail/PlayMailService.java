@@ -16,10 +16,12 @@ import java.util.List;
 import com.google.common.collect.Maps;
 import com.google.code.twig.ObjectDatastore;
 import com.google.appengine.api.datastore.Query;
+import com.google.inject.Inject;
 import net.sparkmuse.common.Templates;
 import net.sparkmuse.common.Reflections;
 import net.sparkmuse.data.entity.Mailing;
 import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.twig.DatastoreUtils;
 
 /**
  * @author neteller
@@ -29,6 +31,7 @@ public class PlayMailService implements MailService {
 
   private final ObjectDatastore datastore;
 
+  @Inject
   public PlayMailService(ObjectDatastore datastore) {
     this.datastore = datastore;
   }
@@ -62,12 +65,12 @@ public class PlayMailService implements MailService {
     }
   }
 
-  public void save(Mailing newMailing) {
+  public Mailing save(Mailing newMailing) {
     if (newMailing.getId() != null) {
       Mailing existingMailing = datastore.load(Mailing.class, newMailing.getId());
       newMailing = Reflections.overlay(existingMailing, newMailing);
     }
-    datastore.store(newMailing);
+    return DatastoreUtils.storeOrUpdate(newMailing, datastore);
   }
 
   public List<Mailing> getAllMailings() {
@@ -75,6 +78,10 @@ public class PlayMailService implements MailService {
         .addSort("created", Query.SortDirection.DESCENDING)
         .returnAll()
         .now();
+  }
+
+  public Mailing getMailingBy(Long id) {
+    return datastore.load(Mailing.class, id);
   }
 
   public List<Mailing> mailingsFor(DateTime date) {

@@ -3,6 +3,8 @@ package controllers;
 import play.mvc.With;
 import play.data.validation.Validation;
 import play.data.validation.Required;
+import play.data.validation.Valid;
+import play.data.binding.As;
 import filters.AdminAuthorizationFilter;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.util.AccessLevel;
@@ -121,20 +123,22 @@ public class Admin extends SparkmuseController {
   //EMAIL
 
   public static void emails() {
-    render();
+    List<Mailing> mailings = mailService.getAllMailings();
+    render(mailings);
   }
 
   public static void createEmail() {
     renderTemplate("Admin/email.html");
   }
 
-  public static void editEmail() {
-    renderTemplate("Admin/email.html");
+  public static void editEmail(Long id) {
+    Mailing mailing = mailService.getMailingBy(id);
+    renderTemplate("Admin/email.html", mailing);
   }
 
-  public static void saveEmail(Mailing mailing) {
-    mailService.save(mailing);
-    Admin.emails();
+  public static void saveEmail(@Valid Mailing mailing) {
+    Mailing savedMailing = mailService.save(mailing);
+    Admin.editEmail(savedMailing.getId());
   }
 
 }

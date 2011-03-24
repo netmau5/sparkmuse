@@ -2,6 +2,7 @@ package extensions;
 
 import play.templates.JavaExtensions;
 import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
 
 import javax.swing.text.DateFormatter;
 
@@ -17,6 +18,10 @@ public class DateTimeExtensions extends JavaExtensions {
 
   public static String format(DateTime dateTime) {
     return DatePrinter.timeElapsedSince(dateTime);
+  }
+
+  public static String format(DateTime dateTime, String format) {
+    return DateTimeFormat.forPattern(format).print(dateTime);
   }
 
 }

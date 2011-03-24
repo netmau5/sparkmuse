@@ -2,8 +2,10 @@ package net.sparkmuse.data.entity;
 
 import org.joda.time.DateTime;
 import play.data.validation.Required;
+import play.data.binding.As;
 import com.google.appengine.api.datastore.Text;
 import com.google.code.twig.annotation.Type;
+import net.sparkmuse.client.DayDateTimeTypeBinder;
 
 /**
  * @author neteller

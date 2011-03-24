@@ -11,7 +11,7 @@
 
   <div class="title-bar span-22 first last">
     <h2>Manage Emails</h2>
-    <a href="@{Admin.home()}">Admin Home</a>
+    <div class="breadcrumbs"><a href="@{Admin.home()}">Admin Home</a> &rsaquo; Emails</div>
   </div>
 
 </div>
@@ -22,8 +22,15 @@
   <div class="content-inner">
   <div class="content-container">
 
-    <table class="users">
-      <!-- list here -->
+    <table>
+      #{list items: mailings, as: 'mailing'}
+        <tr>
+          <td class="column-1"><a href="@{Admin.editEmail(mailing.id)}">Edit</a></td>
+          <td class="column-6" style="white-space: normal;">${mailing.subject}</td>
+          <td class="column-2">${mailing?.sendDate?.format('MM/dd/yyyy')}</td>
+          <td class="column-1 last">${mailing.isSent ? "Sent" : "Unsent"}</td>
+        </tr>
+      #{/list}
     </table>
 
   </div>

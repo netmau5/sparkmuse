@@ -11,7 +11,7 @@
 
   <div class="title-bar span-22 first last">
     <h2>Email</h2>
-    <a href="@{Admin.home()}">Admin Home</a>
+    <div class="breadcrumbs"><a href="@{Admin.home()}">Admin Home</a> &rsaquo; <a href="@{Admin.emails()}">Emails</a> &rsaquo; Email</div>
   </div>
 
 </div>
@@ -24,7 +24,7 @@
 
     <form name="EmailForm" action="@{Admin.saveEmail()}" method="POST">
 
-      <input type="hidden" name="mailing.id" value="mailing?.id" />
+      <input type="hidden" name="mailing.id" value="${mailing?.id}" />
 
       #{if mailing?.isSent}
         <div class="notice">
@@ -43,7 +43,7 @@
           <div class="field">
             <label>Send Date</label>
             <div class="error-message" parameter="mailing.sendDate"></div>
-            <div class="input-wrapper"><input type="text" name="mailing.sendDate" maxlength="100" value="${mailing?.sendDate}"/></div>
+            <div class="input-wrapper"><input type="text" name="mailing.sendDate" maxlength="100" value="${mailing?.sendDate?.format('MM/dd/yyyy')}"/></div>
            </div>
         </fieldset>
 
@@ -84,10 +84,12 @@
       <h4>Controls</h4>
 
       <ul>
-        <li>
-          <a href='#'>Test Email</a>
-          <div class="subtext">Send a test email to see the final product. This email will ignore the <em>mail.send</em> option.</div>
-        </li>
+        #{if mailing?.id}
+          <li>
+            <a href='#'>Test Email</a>
+            <div class="subtext">Send a test email to see the final product. This email will ignore the <em>mail.send</em> option.</div>
+          </li>
+        #{/if}
       </ul>
 
     </div>
@@ -97,8 +99,13 @@
 </div>
 
 <script type="text/javascript" src="@{'public/javascripts/jquery/jquery.tinymce.js'}"></script>
+<script type="text/javascript" src="@{'public/javascripts/jqueryui/jquery-ui-1.8.11.custom.min.js'}"></script>
+<link type="text/css" href="@{'public/javascripts/jqueryui/css/ui-lightness/jquery-ui-1.8.11.custom.css'}" rel="stylesheet" />
 <script type="text/javascript">
   $(function() {
+
+    $(document.EmailForm["mailing.sendDate"]).datepicker();
+
     $(document.EmailForm["mailing.content"]).tinymce({
       // Location of TinyMCE script
       script_url : "@{'public/javascripts/tinymce/tiny_mce.js'}",
@@ -141,6 +148,16 @@
             "font-size": "14px",
             "font-family": "Helvetica, sans",
             "width": "600px"
+          }
+         },
+         {
+           title: "heading",
+           block: 'h3', styles: {
+            "margin-bottom": "1em",
+            "font-size": "16px",
+            "font-family": "Helvetica, sans",
+            "width": "600px",
+            color: "#444"
           }
         }
       ]

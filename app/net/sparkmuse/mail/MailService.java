@@ -17,9 +17,9 @@ public interface MailService {
 
   void prepareAndSendMessage(EmailTemplate template);
 
-  void save(Mailing mailing);
+  Mailing save(Mailing mailing);
   List<Mailing> getAllMailings();
   List<Mailing> mailingsFor(DateTime date);
   void sendMailing(Mailing mailing, UserVO user);
-  
+  Mailing getMailingBy(Long id);
 }

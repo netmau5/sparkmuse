@@ -25,7 +25,7 @@ public class PlayMailServiceTest extends UnitTest {
 
   @Test
   public void shouldPrepareEmail() {
-    PlayMailService service = new PlayMailService();
+    PlayMailService service = new PlayMailService(null);
     final EmailTemplate template = new EmailTemplate() {
       public String getToEmail() {
         return "peter.pan@xyz.com";
