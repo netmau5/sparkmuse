@@ -1,0 +1,50 @@
+#{extends 'bodytemplate.html' /}
+#{set title: 'Emails' /}
+
+<style type="text/css">
+  .content-container {
+    padding: 1em 10px 0 10px;
+  }
+</style>
+
+<div class="page-title prepend-1 span-22 append-1 first last">
+
+  <div class="title-bar span-22 first last">
+    <h2>Manage Emails</h2>
+    <a href="@{Admin.home()}">Admin Home</a>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1 first last">
+
+  <div class="span-13 content-wrapper first last">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <table class="users">
+      <!-- list here -->
+    </table>
+
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 last">
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>Controls</h4>
+
+      <ul>
+        <li>
+          <a href='@{Admin.createEmail()}'>Create Email</a>
+          <div class="subtext">Create a new mailing.</div>
+        </li>
+      </ul>
+
+    </div>
+    </div>
+  </div>
+
+</div>

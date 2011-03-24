@@ -53,7 +53,7 @@ public class Foundry extends SparkmuseController {
     UserVO user = Authorization.getUserFromSession();
     WishSearchResponse wishSearchResponse = foundryFacade.findTaggedWishes(tag, user, PageChangeRequest.newInstance(page, cache, user, Wish.class, "TaggedWish"));
     boolean isTagPage = true;
-    renderTemplate("foundry/index.html", wishSearchResponse, tag, isTagPage);
+    renderTemplate("Foundry/index.html", wishSearchResponse, tag, isTagPage);
   }
 
   public static void view(Long wishId) {

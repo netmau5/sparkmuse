@@ -116,4 +116,22 @@ public class Admin extends SparkmuseController {
     renderJSON(new JsonAjaxResponse(null != userProfile ? userProfile.getUser() : null));
   }
 
+  //EMAIL
+
+  public static void emails() {
+    render();
+  }
+
+  public static void createEmail() {
+    renderTemplate("Admin/email.html");
+  }
+
+  public static void editEmail() {
+    renderTemplate("Admin/email.html");
+  }
+
+  public static void saveEmail() {
+    Admin.emails();
+  }
+
 }
