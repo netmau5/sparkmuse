@@ -49,4 +49,9 @@
     <property name="created" direction="desc"/>
   </datastore-index>
 
+  <datastore-index kind="net_sparkmuse_data_entity_Mailing" ancestor="false">
+    <property name="isSent" direction="asc"/>
+    <property name="sendDate" direction="desc"/>
+  </datastore-index>
+
 </datastore-indexes>

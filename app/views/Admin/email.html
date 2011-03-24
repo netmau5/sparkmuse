@@ -86,7 +86,7 @@
       <ul>
         #{if mailing?.id}
           <li>
-            <a href='#'>Test Email</a>
+            <a href="/tasks/execute?taskClassName=${'net.sparkmuse.task.mailing.SendTestMailingTask'}&PARAMETER_MAILING_ID=${mailing.id}" target="_blank">Test Email</a>
             <div class="subtext">Send a test email to see the final product. This email will ignore the <em>mail.send</em> option.</div>
           </li>
         #{/if}

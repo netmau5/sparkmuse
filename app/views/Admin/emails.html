@@ -48,6 +48,10 @@
           <a href='@{Admin.createEmail()}'>Create Email</a>
           <div class="subtext">Create a new mailing.</div>
         </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.mailing.SendMailingsTransformationTask")}' target="_blank">Send Mailings</a>
+          <div class="subtext">Send mailings that have been dated for today or before now.</div>
+        </li>
       </ul>
 
     </div>

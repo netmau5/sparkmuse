@@ -1,0 +1,27 @@
+<div style="width: 600px; font-size: 14px; font-family: Helvetica, sans">
+  <table>
+    <tr>
+      <td>
+        <img src="@@{'/public/images/logocomplete_v2.png'}" alt="Sparkmuse" />
+      </td>
+      <td style="text-align: right;">
+        ${mailing.subject}
+      </td>
+    </tr>
+  </table>
+  <div style="border-bottom: 1px dotted #d1d1d1;margin-bottom: 1em;"></div>
+  <div style="font-size: 16px;margin-bottom: 1em;">
+    Hello ${recipient.name ?: recipient.user.userName},
+  </div>
+
+  ${mailing.content.raw()}
+
+  <div style="margin-bottom: 1em;">
+    Thanks, <br/>
+    Sparkmuse
+  </div>
+
+  <div style="font-size: 10px; color: #666">
+    Email updates can be disabled by removing the email address in your profile.
+  </div>
+</div>
