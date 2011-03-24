@@ -80,7 +80,7 @@
               </span>
             </a>
           </li>
-          #{if currentUser?.equals(wishResponse.wish.author)}
+          #{if currentUser?.equals(wishResponse.wish.author) || currentUser?.isAdmin()}
           <li>
             <a href="@{Foundry.edit(wishResponse.wish.id)}" class="button create-spark">
               <span>
