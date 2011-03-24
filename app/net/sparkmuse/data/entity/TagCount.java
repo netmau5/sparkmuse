@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 public class TagCount implements Serializable {
 
   public static String NAME_WISH_TAG_COUNTER = "WISH";
+  public static String CACKEKEY_WISH_TAG_COUNTER = "CacheWishTagCounter";
 
   @Id
   private String typeName;

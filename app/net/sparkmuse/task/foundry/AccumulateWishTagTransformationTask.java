@@ -53,6 +53,7 @@ public class AccumulateWishTagTransformationTask extends TransformationTask<Wish
     });
     
     datastore.store(new TagCount(TagCount.NAME_WISH_TAG_COUNTER, tags.size() > 10 ? tags.subList(0, 10) : tags));
+    cache.delete(TagCount.CACKEKEY_WISH_TAG_COUNTER); //reset cached value
   }
 
   protected Wish transform(Wish wish) {

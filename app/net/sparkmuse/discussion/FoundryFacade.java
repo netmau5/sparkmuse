@@ -43,10 +43,10 @@ public class FoundryFacade {
   }
 
   public List<String> getTopTags() {
-    TagCount count = cache.get("TopWishTags", TagCount.class);
+    TagCount count = cache.get(TagCount.CACKEKEY_WISH_TAG_COUNTER, TagCount.class);
     if (null == count) {
       count = foundryDao.load(TagCount.class, TagCount.NAME_WISH_TAG_COUNTER);
-      if (null != count) cache.set("TopWishTags", count);
+      if (null != count) cache.set(TagCount.CACKEKEY_WISH_TAG_COUNTER, count);
     }
     return null == count ? Lists.<String>newArrayList() : count.getTopTags();
   }
