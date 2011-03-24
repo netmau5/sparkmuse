@@ -24,50 +24,54 @@
 
     <form name="EmailForm" action="@{Admin.saveEmail()}" method="POST">
 
-    #{if email?.isSent}
-      <div class="notice">
-        This email was dispatched on ${email?.sendDate}
+      <input type="hidden" name="mailing.id" value="mailing?.id" />
+
+      #{if mailing?.isSent}
+        <div class="notice">
+          This email was dispatched on ${email?.sendDate}
+        </div>
+      #{/if}
+
+      <div>
+
+        <fieldset>
+          <div class="field">
+            <label>Subject</label>
+            <div class="error-message" parameter="mailing.subject"></div>
+            <div class="input-wrapper"><input type="text" name="mailing.subject" maxlength="100" value="${mailing?.subject}"/></div>
+           </div>
+          <div class="field">
+            <label>Send Date</label>
+            <div class="error-message" parameter="mailing.sendDate"></div>
+            <div class="input-wrapper"><input type="text" name="mailing.sendDate" maxlength="100" value="${mailing?.sendDate}"/></div>
+           </div>
+        </fieldset>
+
+        <hr/>
+
+        <fieldset>
+          <div class="field">
+            <label>
+              Message Content
+            </label>
+            <div class="error-message" parameter="mailing.content"></div>
+            <div class="input-wrapper"><textarea name="mailing.content">${mailing?.content}</textarea></div>
+           </div>
+        </fieldset>
+
       </div>
-    #{/if}
 
-    <div>
+      <div class="control-bar">
+        <a href="#" onclick="$(document.EmailForm).submit();" class="button positive">
+          <span>
+            <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
+            Save
+          </span>
+        </a>
+        <div class="clear"></div>
+      </div>
 
-      <fieldset>
-        <div class="field">
-          <label>Name</label>
-          <div class="error-message" parameter="name"></div>
-          <div class="input-wrapper"><input type="text" name="key" maxlength="100" value="${email?.name}"/></div>
-         </div>
-        <div class="field">
-          <label>Send Date</label>
-          <div class="error-message" parameter="key"></div>
-          <div class="input-wrapper"><input type="text" name="key" maxlength="100" value="${email?.sendDate}"/></div>
-         </div>
-      </fieldset>
-
-      <hr/>
-
-      <fieldset>
-        <div class="field">
-          <label>
-            Message Content
-          </label>
-          <div class="error-message" parameter="content"></div>
-          <div class="input-wrapper"><textarea name="content">${email?.content}</textarea></div>
-         </div>
-      </fieldset>
-
-    </div>
-
-    <div class="control-bar">
-      <a href="#" onclick="$(document.EmailForm).submit();" class="button positive">
-        <span>
-          <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
-          Save
-        </span>
-      </a>
-      <div class="clear"></div>
-    </div>
+    </form>
 
   </div>
   </div>

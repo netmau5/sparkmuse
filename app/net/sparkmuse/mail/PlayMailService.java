@@ -3,6 +3,7 @@ package net.sparkmuse.mail;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.EmailException;
+import org.joda.time.DateTime;
 import play.libs.Mail;
 import play.templates.Template;
 import play.templates.TemplateLoader;
@@ -10,15 +11,27 @@ import play.Play;
 import play.Logger;
 
 import java.util.Map;
+import java.util.List;
 
 import com.google.common.collect.Maps;
+import com.google.code.twig.ObjectDatastore;
+import com.google.appengine.api.datastore.Query;
 import net.sparkmuse.common.Templates;
+import net.sparkmuse.common.Reflections;
+import net.sparkmuse.data.entity.Mailing;
+import net.sparkmuse.data.entity.UserVO;
 
 /**
  * @author neteller
  * @created: Jan 23, 2011
  */
 public class PlayMailService implements MailService {
+
+  private final ObjectDatastore datastore;
+
+  public PlayMailService(ObjectDatastore datastore) {
+    this.datastore = datastore;
+  }
 
   public void sendMessage(Email message) {
     if ("true".equals(Play.configuration.getProperty("mail.send"))) {
@@ -49,4 +62,26 @@ public class PlayMailService implements MailService {
     }
   }
 
+  public void save(Mailing newMailing) {
+    if (newMailing.getId() != null) {
+      Mailing existingMailing = datastore.load(Mailing.class, newMailing.getId());
+      newMailing = Reflections.overlay(existingMailing, newMailing);
+    }
+    datastore.store(newMailing);
+  }
+
+  public List<Mailing> getAllMailings() {
+    return datastore.find().type(Mailing.class)
+        .addSort("created", Query.SortDirection.DESCENDING)
+        .returnAll()
+        .now();
+  }
+
+  public List<Mailing> mailingsFor(DateTime date) {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  public void sendMailing(Mailing mailing, UserVO user) {
+    //To change body of implemented methods use File | Settings | File Templates.
+  }
 }

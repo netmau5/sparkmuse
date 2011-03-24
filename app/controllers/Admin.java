@@ -10,6 +10,7 @@ import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.JsonAjaxResponse;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.common.Reflections;
+import net.sparkmuse.mail.MailService;
 
 import javax.inject.Inject;
 
@@ -32,6 +33,7 @@ public class Admin extends SparkmuseController {
 
   @Inject static ObjectDatastore datastore;
   @Inject static UserFacade userFacade;
+  @Inject static MailService mailService;
 
   public static void home() {
     render();
@@ -130,7 +132,8 @@ public class Admin extends SparkmuseController {
     renderTemplate("Admin/email.html");
   }
 
-  public static void saveEmail() {
+  public static void saveEmail(Mailing mailing) {
+    mailService.save(mailing);
     Admin.emails();
   }
 
