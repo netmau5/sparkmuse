@@ -33,7 +33,10 @@
               style="border:none; width: 80px; height: 20px; overflow:hidden;"></iframe>
         </span>
         <span class="detail twitter">
-          <a href="http://twitter.com/share" class="twitter-share-button" data-text="Sparkmuse, a community to discuss, refine, and act on innovative tech ideas. http://sparkmuse.com @sparkmuse" data-count="horizontal" data-via="sparkmuse">Tweet</a>
+          <a href="http://twitter.com/share" class="twitter-share-button"
+             data-text="${wishResponse.wish.title}"
+             data-url="@@{Foundry.view(wishResponse.wish.id)}"
+             data-count="horizontal" data-via="sparkmuse">Tweet</a>
         </span>
       </div>
 
