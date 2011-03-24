@@ -973,7 +973,13 @@ a.top-arrow {
 
   #signature .copyright { float: right; color: #999; }
 
-.partners { padding: 15px 0 0 0; margin-bottom: 25px; }
+.partners {
+  width: 730px;
+  height: 110px;
+  background: url("../images/partners.png") bottom center no-repeat;
+  margin-bottom: 25px;
+  padding: 15px 0 0 0;
+}
 
   .partner {
     cursor: pointer;
