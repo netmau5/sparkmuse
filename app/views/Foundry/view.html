@@ -80,6 +80,16 @@
               </span>
             </a>
           </li>
+          #{if currentUser?.equals(wishResponse.wish.author)}
+          <li>
+            <a href="@{Foundry.edit(wishResponse.wish.id)}" class="button create-spark">
+              <span>
+                <img src="@{'public/images/icons/silk/asterisk_yellow.png'}" alt="Edit Idea"/>
+                Edit Idea
+              </span>
+            </a>
+          </li>
+          #{/if}
         </ol>
       #{/if}
       #{else}

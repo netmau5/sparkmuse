@@ -66,6 +66,12 @@ public class Foundry extends SparkmuseController {
     render(isEditMode);
   }
 
+  public static void edit(Long wishId) {
+    boolean isEditMode = true;
+    Wish wish = foundryFacade.findWishBy(wishId);
+    renderTemplate("Foundry/create.html", isEditMode, wish);
+  }
+
   public static void howItWorks() {
     render();
   }
