@@ -14,8 +14,8 @@ import com.google.code.twig.ObjectDatastore;
  */
 public class SendMailingToUserTask extends Task {
 
-  public static String PARAMETER_MAILING_ID;
-  public static String PARAMETER_USER_ID;
+  public static final String PARAMETER_MAILING_ID = "PARAMETER_MAILING_ID";
+  public static final String PARAMETER_USER_ID = "PARAMETER_USER_ID";
 
   private final MailService mailService;
   private final UserFacade userFacade;
