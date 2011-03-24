@@ -22,4 +22,5 @@ public interface MailService {
   List<Mailing> mailingsFor(DateTime date);
   void sendMailing(Long mailingId, UserProfile userProfile);
   Mailing getMailingBy(Long id);
+  void markSent(List<Mailing> mailingList);
 }

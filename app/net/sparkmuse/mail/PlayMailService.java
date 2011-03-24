@@ -13,6 +13,9 @@ import java.util.List;
 import com.google.code.twig.ObjectDatastore;
 import com.google.appengine.api.datastore.Query;
 import com.google.inject.Inject;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
+import com.google.common.base.Function;
 import net.sparkmuse.common.Templates;
 import net.sparkmuse.common.Reflections;
 import net.sparkmuse.data.entity.Mailing;
@@ -97,5 +100,15 @@ public class PlayMailService implements MailService {
       Mailing mailing = getMailingBy(mailingId);
       prepareAndSendMessage(new MailingTemplate(mailing, userProfile));
     }
+  }
+
+  public void markSent(List<Mailing> mailingList) {
+    datastore.updateAll(Lists.newArrayList(Iterables.transform(mailingList, new Function<Mailing, Mailing>(){
+      public Mailing apply(Mailing mailing) {
+        mailing.setSent(true);
+        DatastoreUtils.associate(mailing, datastore);
+        return mailing;
+      }
+    })));
   }
 }

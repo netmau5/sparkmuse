@@ -13,6 +13,8 @@ import com.google.code.twig.ObjectDatastore;
 import com.google.code.twig.FindCommand;
 import com.google.inject.Inject;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
+import com.google.common.base.Function;
 
 import java.util.List;
 
@@ -60,6 +62,13 @@ public class SendMailingsTransformationTask extends TransformationTask<UserVO> {
     }
 
     return mailings;
+  }
+
+  @Override
+  protected void onEnd() {
+    List<Mailing> mailingList = getMailings();
+    cache.delete(CACHE_KEY_MAILINGS);
+    mailService.markSent(mailingList);
   }
 
   protected UserVO transform(UserVO user) {
