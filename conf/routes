@@ -34,6 +34,10 @@ GET         /user/view/{userName}             User.view
 GET         /spark/view/{sparkId}             Spark.view
 GET         /{<[0-9]+>sparkId}                Spark.view
 
+# TASKS
+
+*           /tasks/execute/{taskClassName}    Tasks.execute
+
 # MISC
 
 *           /activity/{action}                ActivityController.{action}
@@ -42,7 +46,6 @@ GET         /{<[0-9]+>sparkId}                Spark.view
 
 
 # APPLICATION
-
 
 GET         /feedback/{appName}               Application.feedback
 GET         /invitation/{groupName}           Application.invitation
