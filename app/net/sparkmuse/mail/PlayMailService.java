@@ -55,9 +55,10 @@ public class PlayMailService implements MailService {
     final String content = Templates.render(update);
 
     try {
+      Logger.info("Preparing email update to [" + update.getToEmail() + "] titled [" + update.getSubject() + "]");
       HtmlEmail email = new HtmlEmail();
       email.addTo(update.getToEmail());
-      email.addBcc("dave@sparkmuse.com");
+//      email.addBcc("dave@sparkmuse.com");
       email.setFrom("noreply@sparkmuse.com", "Sparkmuse");
       email.setSubject(update.getSubject());
       email.setHtmlMsg(content);
