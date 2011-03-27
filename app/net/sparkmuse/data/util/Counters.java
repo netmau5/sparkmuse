@@ -14,6 +14,7 @@ import net.sparkmuse.common.Cache;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.CounterModel;
 import net.sparkmuse.data.entity.Wish;
+import net.sparkmuse.data.twig.DatastoreUtils;
 
 import java.util.ConcurrentModificationException;
 import java.util.Collection;
@@ -74,6 +75,7 @@ public class Counters {
 
     try {
       updateCounter.setCount(updateCounter.getCount() + 1);
+      if (null != counter) DatastoreUtils.associate(updateCounter, datastore);
       datastore.store(updateCounter); // store must have same ancestor
       tx.commit();
     }
