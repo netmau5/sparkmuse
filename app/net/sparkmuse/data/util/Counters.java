@@ -75,8 +75,13 @@ public class Counters {
 
     try {
       updateCounter.setCount(updateCounter.getCount() + 1);
-      if (null != counter) DatastoreUtils.associate(updateCounter, datastore);
-      datastore.store(updateCounter); // store must have same ancestor
+      if (null != counter) {
+        DatastoreUtils.associate(updateCounter, datastore);
+        datastore.update(updateCounter);
+      }
+      else {
+        datastore.store(updateCounter); // store must have same ancestor
+      }
       tx.commit();
     }
     catch(ConcurrentModificationException e) { //data has been written since last read
