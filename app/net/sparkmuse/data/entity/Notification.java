@@ -3,11 +3,13 @@ package net.sparkmuse.data.entity;
 import org.joda.time.DateTime;
 import com.google.code.twig.annotation.Id;
 
+import java.io.Serializable;
+
 /**
  * @author neteller
  * @created: Mar 8, 2011
  */
-public class Notification {
+public class Notification implements Serializable {
 
   private Long id; //we generate this
   private String displayMessage;
