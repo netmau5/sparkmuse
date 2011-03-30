@@ -324,6 +324,7 @@ public class Activity extends Entity<Activity>
   public static class ItemSummary implements Serializable {
 
     private String userName; //twitter username
+    private UserVO updateAuthor; //prefer to user id as twitter username can be changed :(
     private String sparkTitle;
     private Long sparkId;
     private String note;
@@ -333,9 +334,18 @@ public class Activity extends Entity<Activity>
 
     public ItemSummary(SparkVO spark, UserVO updateAuthor, String note) {
       this.userName = updateAuthor.getUserName();
+      this.updateAuthor = updateAuthor;
       this.sparkTitle = spark.getTitle();
       this.sparkId = spark.getId();
       this.note = note;
+    }
+
+    public UserVO getUpdateAuthor() {
+      return updateAuthor;
+    }
+
+    public void setUpdateAuthor(UserVO updateAuthor) {
+      this.updateAuthor = updateAuthor;
     }
 
     public String getUserName() {

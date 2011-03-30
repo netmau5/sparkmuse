@@ -43,6 +43,7 @@ public class ActivityService {
     ActivityStream userActivity = ActivityStream.builder(daoProvider.getActivityDao())
         .forUser(user)
         .after(globalActivity.getOldestTime())
+        .fetch(50)
         .build();
     return globalActivity.overlay(userActivity);
   }
@@ -51,13 +52,23 @@ public class ActivityService {
     return ActivityStream.builder(daoProvider.getActivityDao())
         .forUser(user)
         .in(source)
+        .fetch(20)
+        .build();
+  }
+
+  public ActivityStream getProfileActivity(UserVO user) {
+    return ActivityStream.builder(daoProvider.getActivityDao())
+        .forUser(user)
+        .in(Activity.Source.LIKE)
+        .in(Activity.Source.PERSONAL)
+        .fetch(100)
         .build();
   }
 
   private ActivityStream getGlobalActivity() {
     ActivityStream everyone = cache.get(GLOBAL_ACTIVITY, ActivityStream.class);
     if (null == everyone) {
-      everyone = ActivityStream.builder(daoProvider.getActivityDao()).build();
+      everyone = ActivityStream.builder(daoProvider.getActivityDao()).fetch(50).build();
       cache.set(GLOBAL_ACTIVITY, everyone);
     }
     return everyone;

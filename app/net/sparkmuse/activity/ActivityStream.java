@@ -6,10 +6,12 @@ import net.sparkmuse.data.entity.UserVO;
 
 import java.util.List;
 import java.util.TreeSet;
+import java.util.Set;
 import java.io.Serializable;
 
 import org.joda.time.DateTime;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Sets;
@@ -65,10 +67,12 @@ public class ActivityStream implements Serializable {
 
     private UserVO user;
     private DateTime after;
-    private Activity.Source source;
+    private Set<Activity.Source> sources;
+    private int fetch = 50;
 
     private Builder(ActivityDao activityDao) {
       this.activityDao = activityDao;
+      this.sources = Sets.newHashSet();
     }
 
     public Builder forUser(UserVO user) {
@@ -82,22 +86,26 @@ public class ActivityStream implements Serializable {
     }
 
     public Builder in(Activity.Source source) {
-      this.source = source;
+      this.sources.add(source);
+      return this;
+    }
+
+    public Builder fetch(int count) {
+      this.fetch = count;
       return this;
     }
 
     public ActivityStream build() {
-      Preconditions.checkState(!(null != after && null != source), "Cannot query on both created and source.");
+      Preconditions.checkState(!(null != after && CollectionUtils.size(sources) != 0), "Cannot query on both created and source.");
       if (null == user) {
-        return new ActivityStream(activityDao.findEveryone(50));
+        return new ActivityStream(activityDao.findEveryone(fetch));
       }
       else if (null != after) {
         Preconditions.checkNotNull(after);
-        return new ActivityStream(mergeDuplicates(activityDao.findUser(user, after)));
+        return new ActivityStream(mergeDuplicates(activityDao.findUser(user, after, fetch)));
       }
-      else if (null != source) {
-        Preconditions.checkNotNull(source);
-        return new ActivityStream(mergeDuplicates(activityDao.findUser(user, source)));
+      else if (CollectionUtils.size(sources) != 0) {
+        return new ActivityStream(mergeDuplicates(activityDao.findUser(user, sources, fetch)));
       }
       else {
         throw new IllegalStateException("Invalid query");

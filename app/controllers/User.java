@@ -9,6 +9,8 @@ import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.FragmentAjaxResponse;
 import net.sparkmuse.common.Reflections;
+import net.sparkmuse.activity.ActivityService;
+import net.sparkmuse.activity.ActivityStream;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -40,11 +42,12 @@ import filters.AuthorizationFilter;
 public class User extends SparkmuseController {
 
   @Inject static UserFacade userFacade;
+  @Inject static ActivityService activityService;
 
   public static void view(String userName) {
     final UserProfile profile = userFacade.getUserProfile(userName);
-    boolean isView = true;
-    render(profile, isView);
+    ActivityStream profileActivities = activityService.getProfileActivity(profile.getUser());
+    render(profile, profileActivities);
   }
 
   public static void edit(String userName) {

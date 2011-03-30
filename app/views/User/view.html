@@ -1,21 +1,142 @@
-#{extends "User/user.template.html" /}
+#{extends 'bodytemplate.html' /}
 
-<div class="span-9 first">
-  <h3>Bio</h3>
-  <div class="markdown-container">${profile?.displayBio?.raw()}</div>
-  #{if !profile.displayBio}
-    User has not added a biography.
-  #{/if}
-</div>
+#{set title: profile.user.userName.toWords() + "'s Profile" /}
 
-<div class="span-5 last">
-  <h3>Expertise</h3>
-  <ul class="expertise-list">
-    #{list items: profile.expertises, as: "expertise"}
-      <li><span class="expertise ${expertise.toCss()}"></span> ${expertise.toDisplay()}</li>
-    #{/list}
-  </ul>
-  #{if !profile.expertises}
-    User has not added their expertise.
-  #{/if}
+<link rel="stylesheet" href="@{'/public/stylesheets/User/view-3.css'}" type="text/css" />
+
+<!--<div class="prepend-3 span-18 append-3 last">-->
+<div class="span-24 first last">
+  <div class="page-title span-16 prepend-4 append-4 first last">
+    <a href="" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
+    <table>
+      <tr>
+        <td>
+          <img class="avatar avatar-normal" src="http://api.twitter.com/1/users/profile_image/${profile.user.userName}.json?size=normal" alt="Twitter avatar"/>
+        </td>
+        <td>
+          <h2>
+            ${profile.user.userName.toWords()}'s Profile
+          </h2>
+          <div>
+            ${profile.name}
+            #{if profile.location} | ${profile.location}#{/if}
+            #{if profile.website} | <a href="${profile.website?.url()}" target="_blank" alt="Member's website">Website</a>#{/if}
+            #{if profile.user.userName} | <a href="http://www.twitter.com/${profile.user.userName}" target="_blank">@${profile.user.userName}</a>#{/if}
+            #{if profile.email && profile.showEmail} | <a href="mailto:${profile.email}" target="_blank">${profile.email}</a>#{/if}
+            #{if currentUser == profile.user} | <a href="@{User.edit(profile.user.userName)}">Edit&nbsp;Profile&nbsp; &rarr;</a>#{/if}
+          </div>
+        </td>
+      </tr>
+    </table>
+
+  </div>
+
+  <div class="page-canvas span-24 first last">
+  <div class="content-wrapper span-18 push-3 first last">
+  <div class="content-inner">
+  <div class="content-container">
+
+    #{if currentUser.id == profile.user.id && profile.invites}
+      <div class="invites">
+        <table class="span-12">
+          <tr>
+            <td class="column-4 first" style="white-space: nowrap;">
+              <label class="minor">You Have <span id="invitations">${profile.invites}</span> Invitations Remaining</label>
+            </td>
+            <td class="column-4">
+              <div class="error-message" parameter="friend"></div>
+              <form action="@{User.inviteFriend()}" method="POST" name="InviteFriend">
+                <div class="input-wrapper">
+                  <input type="text" name="inviteUser" value="@" />
+                </div>
+              </form>
+            </td>
+            <td class="column-2 last">
+              <a class="button positive" href="#" onclick="$(document.InviteFriend).submit();">
+                <span>
+                  <img src="@{'public/images/icons/silk/add.png'}" alt="Invite"/>
+                  Invite
+                </span>
+              </a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <script type="text/javascript">
+        $(document).ready(function(){
+          $(document.InviteFriend).formHandler(function(){
+            return {
+              friend: document.InviteFriend.inviteUser.value
+            };
+          }).bind(SM.Events.Submit, SM.formSubmitModal)
+            .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
+        });
+      </script>
+
+    #{/if}
+
+    <div class="bio-container clearfix">
+
+      <div class="details">
+
+        <div class="sidebox">
+        <div class="sidebox-inner">
+          <h4>Stats</h4>
+          <div class="rep">${profile.user.reputation} Reputation</div>
+          <div class="sparks">${profile.user.sparks} Spark${profile.user.sparks.pluralize()}</div>
+          <div class="posts">${profile.user.posts} Post${profile.user.posts.pluralize()}</div>
+        </div>
+        </div>
+
+        #{if profile.expertises}
+        <div class="sidebox">
+        <div class="sidebox-inner">
+          <h4>Expertise</h4>
+          <ul class="expertise-list">
+            #{list items: profile.expertises, as: "expertise"}
+              <li><span class="expertise ${expertise.toCss()}"></span> ${expertise.toDisplay()}</li>
+            #{/list}
+          </ul>
+        </div>
+        </div>
+        #{/if}
+
+        #{if profile.seekingConnections && profile.seekingExpertises}
+        <div class="sidebox">
+        <div class="sidebox-inner">
+          <h4>Seeking</h4>
+          <ul class="expertise-list">
+            #{list items: profile.seekingExpertises, as: "seekingExpertise"}
+              <li><span class="seeking-expertise ${seekingExpertise.toCss()}"></span> ${seekingExpertise.toDisplay()}</li>
+            #{/list}
+          </ul>
+        </div>
+        </div>
+        #{/if}
+
+      </div>
+
+      <div class="about">
+
+        <h3>Bio</h3>
+        <div class="markdown-container">${profile?.displayBio?.raw()}</div>
+        #{if !profile.displayBio}
+          User has not added a biography.
+        #{/if}
+
+        
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="clear"></div>
+
+  </div>
+  </div>
+  </div>
+
 </div>

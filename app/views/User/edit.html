@@ -1,145 +1,197 @@
-#{extends "User/user.template.html" /}
+#{extends 'bodytemplate.html' /}
 
-<div class="form-edit-user span-14">
-  <form name="EditProfile" action="@{User.saveProfile}" method="POST">
+#{set title: profile.user.userName.toWords() + "'s Profile" /}
+
+<link rel="stylesheet" href="@{'/public/stylesheets/User/view-3.css'}" type="text/css" />
+
+<!--<div class="prepend-3 span-18 append-3 last">-->
+<div class="span-24 first last">
+
+  <div class="page-title span-14 prepend-5 append-5 first last">
+    <a href="" id="follow-link" title="Follow (not implemented)">Follow (not implemented)</a>
     <table>
       <tr>
-        <td class="column-5 first">
-          <label>Name</label>
-          <div class="input-wrapper"><input type="text" name="name" value="${profile.name}" /></div>
+        <td>
+          <img class="avatar avatar-normal" src="http://api.twitter.com/1/users/profile_image/${profile.user.userName}.json?size=normal" alt="Twitter avatar"/>
         </td>
-        <td class="column-5 last">
-          <label>Location</label>
-          <div class="input-wrapper"><input type="text" name="location" value="${profile.location}" /></div>
-        </td>
-      </tr>
-      <tr>
-        <td class="column-5 first">
-          <label>Email #{tip}We will send activity updates to this email address, but we will never share it without your permission.#{/tip}</label>
-          <div class="error-message" parameter="profile.email"></div>
-          <div class="input-wrapper"><input type="text" name="email" value="${profile.email}" /></div>
-        </td>
-        <td class="column-5 last">
-          <label>Website</label>
-          <div class="error-message" parameter="profile.website"></div>
-          <div class="input-wrapper"><input type="text" name="website" value="${profile.website}" /></div>
-        </td>
-      </tr>
-      <tr style='display: ${profile.email ? "" : "none"}'>
-        <td colspan="2" class="column-10 first last">
-          <label>Email Settings</label>
-          <div class="field email-options">
-          <table>
-            <tr>
-              <td>
-                <input type="checkbox" name="showEmail" ${profile.showEmail && profile.email ? "checked" : ""} /> May we share your email address on your profile?
-              </td>
-            </tr>
-          </table>
+        <td>
+          <h2>
+            ${profile.user.userName.toWords()}'s Profile
+          </h2>
+          <div>
+            ${profile.name}
+            #{if profile.location} | ${profile.location}#{/if}
+            #{if profile.website} | <a href="${profile.website?.url()}" target="_blank" alt="Member's website">Website</a>#{/if}
+            #{if profile.user.userName} | <a href="http://www.twitter.com/${profile.user.userName}" target="_blank">@${profile.user.userName}</a>#{/if}
+            #{if profile.email && profile.showEmail} | <a href="mailto:${profile.email}" target="_blank">${profile.email}</a>#{/if}
           </div>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" class="column-10 first last">
-          <label>Your Expertise</label>
-          <div class="field expertise-options">
-            <table>
-              <tr>
-                #{list items: expertises, as: "expertise"}
-                  <td><input type="checkbox" value="${expertise}" ${profile.expertises.contains(expertise) ? "checked" : ""} /> ${expertise.toWords()}</td>
-                  #{if expertise_index % 2 == 0}</tr><tr>#{/if}
-                #{/list}
-              </tr>
-            </table>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" class="column-10 first last">
-          <label>Potential Partners</label>
-          <div class="field">
-            <table>
-              <tr>
-                <td><input type="checkbox" name="seekingConnections" ${profile.seekingConnections ? "checked" : ""} /> Are You Looking to Connect with Others?</td>
-              </tr>
-            </table>
-          </div>
-        </td>
-      </tr>
-      <tr style='display: ${profile.seekingConnections ? "" : "none"}'>
-        <td colspan="2" class="column-10 first last">
-          <label>What kind of expertise are you looking for?</label>
-          <div class="field seeking-expertise-options">
-            <table>
-              <tr>
-                #{list items: expertises, as: "expertise"}
-                  <td><input type="checkbox" value="${expertise}" ${profile.seekingExpertises.contains(expertise) ? "checked" : ""} /> ${expertise.toWords()}</td>
-                  #{if expertise_index % 2 == 0}</tr><tr>#{/if}
-                #{/list}
-              </tr>
-            </table>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2" class="column-10 first last">
-          <label>Biography #{markdownEnabled /}</label>
-          <div class="input-wrapper"><textarea name="bio">${profile.bio}</textarea></div>
         </td>
       </tr>
     </table>
-  </form>
-  <div class="control-bar">
-    <a href="#" onclick="$(document.EditProfile).submit();" class="button positive">
-      <span>
-        <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
-        Save Profile
-      </span>
-    </a>
-    <a href="@{User.view(profile.user.userName)}" class="button negative">
-      <span>
-        <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel"/>
-        Cancel
-      </span>
-    </a>
-    <div class="clear"></div>
   </div>
+
+  <div class="page-canvas span-24 first last">
+  <div class="content-wrapper span-16 push-4 first last">
+  <div class="content-inner">
+  <div class="content-container">
+
+
+    <div class="bio-container clearfix">
+
+      <div class="form-edit-user span-14">
+        <form name="EditProfile" action="@{User.saveProfile}" method="POST">
+          <table>
+            <tr>
+              <td class="column-5 first">
+                <label>Name</label>
+                <div class="input-wrapper"><input type="text" name="name" value="${profile.name}" /></div>
+              </td>
+              <td class="column-5 last">
+                <label>Location</label>
+                <div class="input-wrapper"><input type="text" name="location" value="${profile.location}" /></div>
+              </td>
+            </tr>
+            <tr>
+              <td class="column-5 first">
+                <label>Email #{tip}We will send activity updates to this email address, but we will never share it without your permission.#{/tip}</label>
+                <div class="error-message" parameter="profile.email"></div>
+                <div class="input-wrapper"><input type="text" name="email" value="${profile.email}" /></div>
+              </td>
+              <td class="column-5 last">
+                <label>Website</label>
+                <div class="error-message" parameter="profile.website"></div>
+                <div class="input-wrapper"><input type="text" name="website" value="${profile.website}" /></div>
+              </td>
+            </tr>
+            <tr style='display: ${profile.email ? "" : "none"}'>
+              <td colspan="2" class="column-10 first last">
+                <label>Email Settings</label>
+                <div class="field email-options">
+                <table>
+                  <tr>
+                    <td>
+                      <input type="checkbox" name="showEmail" ${profile.showEmail && profile.email ? "checked" : ""} /> May we share your email address on your profile?
+                    </td>
+                  </tr>
+                </table>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="column-10 first last">
+                <label>Your Expertise</label>
+                <div class="field expertise-options">
+                  <table>
+                    <tr>
+                      #{list items: expertises, as: "expertise"}
+                        <td><input type="checkbox" value="${expertise}" ${profile.expertises.contains(expertise) ? "checked" : ""} /> ${expertise.toWords()}</td>
+                        #{if expertise_index % 2 == 0}</tr><tr>#{/if}
+                      #{/list}
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="column-10 first last">
+                <label>Potential Partners</label>
+                <div class="field">
+                  <table>
+                    <tr>
+                      <td><input type="checkbox" name="seekingConnections" ${profile.seekingConnections ? "checked" : ""} /> Are You Looking to Connect with Others?</td>
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+            <tr style='display: ${profile.seekingConnections ? "" : "none"}'>
+              <td colspan="2" class="column-10 first last">
+                <label>What kind of expertise are you looking for?</label>
+                <div class="field seeking-expertise-options">
+                  <table>
+                    <tr>
+                      #{list items: expertises, as: "expertise"}
+                        <td><input type="checkbox" value="${expertise}" ${profile.seekingExpertises.contains(expertise) ? "checked" : ""} /> ${expertise.toWords()}</td>
+                        #{if expertise_index % 2 == 0}</tr><tr>#{/if}
+                      #{/list}
+                    </tr>
+                  </table>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2" class="column-10 first last">
+                <label>Biography #{markdownEnabled /}</label>
+                <div class="input-wrapper"><textarea name="bio">${profile.bio}</textarea></div>
+              </td>
+            </tr>
+          </table>
+        </form>
+        <div class="control-bar">
+        <div class="controls">
+          <a href="@{User.view(profile.user.userName)}" class="button negative">
+            <span>
+              <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel"/>
+              Cancel
+            </span>
+          </a>
+          <a href="#" onclick="$(document.EditProfile).submit();" class="button positive">
+            <span>
+              <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
+              Save Profile
+            </span>
+          </a>
+          <div class="clear"></div>
+        </div>
+        </div>
+      </div>
+
+      <script type="text/javascript">
+
+        $(document).ready(function(){
+
+          var converter = new Attacklab.showdown.converter(),
+              f = document.EditProfile;
+
+          $(f).formHandler(function() {
+            return {
+              profile: {
+                id: "${profile.id}",
+                name: f.name.value,
+                location: f.location.value,
+                email: f.email.value,
+                website: f.website.value,
+                showEmail: f.showEmail.checked,
+                expertises: $(".expertise-options input:checked").map(function() { return this.value; }),
+                seekingConnections: f.seekingConnections.checked,
+                seekingExpertises: $(".seeking-expertise-options input:checked").map(function() { return this.value; }),
+                bio: f.bio.value,
+                displayBio: converter.makeHtml(f.bio.value)
+              }
+            }
+          }).bind(SM.Events.Submit, SM.formSubmitModal)
+            .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
+
+          $(f.seekingConnections).click(function(){
+            $(".seeking-expertise-options").parents("tr").toggle();
+          });
+
+          $(f.email).keyup(function(){
+            $(".email-options").parents("tr").toggle(!!this.value);
+          });
+
+        });
+
+      </script>
+
+    </div>
+
+  </div>
+
+  <div class="clear"></div>
+
+  </div>
+  </div>
+  </div>
+
 </div>
-
-<script type="text/javascript">
-
-  $(document).ready(function(){
-
-    var converter = new Attacklab.showdown.converter(),
-        f = document.EditProfile;
-
-    $(f).formHandler(function() {
-      return {
-        profile: {
-          id: "${profile.id}",
-          name: f.name.value,
-          location: f.location.value,
-          email: f.email.value,
-          website: f.website.value,
-          showEmail: f.showEmail.checked,
-          expertises: $(".expertise-options input:checked").map(function() { return this.value; }),
-          seekingConnections: f.seekingConnections.checked,
-          seekingExpertises: $(".seeking-expertise-options input:checked").map(function() { return this.value; }),
-          bio: f.bio.value,
-          displayBio: converter.makeHtml(f.bio.value)
-        }
-      }
-    }).bind(SM.Events.Submit, SM.formSubmitModal)
-      .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose);
-
-    $(f.seekingConnections).click(function(){
-      $(".seeking-expertise-options").parents("tr").toggle();
-    });
-
-    $(f.email).keyup(function(){
-      $(".email-options").parents("tr").toggle(!!this.value);
-    });
-
-  });
-
-</script>

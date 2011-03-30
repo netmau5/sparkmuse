@@ -7,8 +7,10 @@ import com.google.inject.Inject;
 import com.google.appengine.api.datastore.Query;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
+import com.google.code.twig.FindCommand;
 
 import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTime;
 
@@ -30,19 +32,27 @@ public class TwigActivityDao extends TwigDao implements ActivityDao {
         .fetchMaximum(limit));
   }
 
-  public List<Activity> findUser(UserVO user, DateTime after) {
+  public List<Activity> findUser(UserVO user, DateTime after, int limit) {
     return helper.all(datastore.find().type(Activity.class)
         .addFilter("userId", Query.FilterOperator.EQUAL, user.getId())
         .addSort("created", Query.SortDirection.DESCENDING)
-        .addFilter("created", Query.FilterOperator.GREATER_THAN_OR_EQUAL, after.getMillis()));
+        .addFilter("created", Query.FilterOperator.GREATER_THAN_OR_EQUAL, after.getMillis())
+        .fetchMaximum(limit));
   }
 
-  public List<Activity> findUser(UserVO user, Activity.Source source) {
-    return helper.all(datastore.find().type(Activity.class)
+  public List<Activity> findUser(UserVO user, Set<Activity.Source> sources, int limit) {
+    FindCommand.RootFindCommand<Activity> findCommand = datastore.find().type(Activity.class)
         .addFilter("userId", Query.FilterOperator.EQUAL, user.getId())
         .addSort("created", Query.SortDirection.DESCENDING)
-        .addFilter("sources", Query.FilterOperator.EQUAL, source.toString())
-        .fetchMaximum(20));
+        .fetchMaximum(limit);
+
+    FindCommand.BranchFindCommand branchCommand = findCommand.branch(FindCommand.MergeOperator.OR);
+
+    for (Activity.Source source: sources) {
+      branchCommand.addChildCommand().addFilter("sources", Query.FilterOperator.EQUAL, source.toString());
+    }
+
+    return helper.all(findCommand);
   }
 
   public void deleteAll(Activity.Kind kind, Long contentKey) {
