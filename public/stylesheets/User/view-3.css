@@ -24,7 +24,6 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 .bio-container {
   padding: 10px 20px;
-  border-bottom: 1px solid #ccc;
 }
 
   .about {
@@ -76,7 +75,6 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 .invites {
   background: #eee url("../../images/textures/stripe-gray.jpg") top left;
-  /*border-top: 1px solid #fefffa;*/
   border-bottom: 1px solid #ccc;
   text-align: center;
   padding: 0.5em 0 0 0;
