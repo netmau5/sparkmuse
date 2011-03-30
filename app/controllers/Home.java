@@ -2,10 +2,7 @@ package controllers;
 
 import play.mvc.With;
 import filters.AuthorizationFilter;
-import net.sparkmuse.discussion.SparkSearchResponse;
-import net.sparkmuse.discussion.SparkFacade;
-import net.sparkmuse.discussion.SparkSearchRequest;
-import net.sparkmuse.discussion.SparkAssets;
+import net.sparkmuse.discussion.*;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votables;
 import net.sparkmuse.user.UserVotes;
@@ -31,6 +28,7 @@ import java.util.Set;
 public class Home extends SparkmuseController {
 
   @Inject static SparkFacade sparkFacade;
+  @Inject static FoundryFacade foundryFacade;
   @Inject static UserFacade userFacade;
   @Inject static Cache cache;
 
@@ -46,7 +44,8 @@ public class Home extends SparkmuseController {
 
     Set<SparkVO> sparks = sparkSearch.getSparks(pagingState);
     final UserVotes userVotes = userFacade.findUserVotesFor(Votables.collect(sparkSearch), currentUser);
-    render(sparks, filter, pagingState, userVotes);
+    TopWishes topWishes = foundryFacade.getTopWishes();
+    render(sparks, topWishes, filter, pagingState, userVotes);
   }
 
   public static void tagged(String tagged) {

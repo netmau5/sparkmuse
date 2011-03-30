@@ -2,6 +2,8 @@ package net.sparkmuse.common;
 
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.data.Cacheable;
+import net.sparkmuse.discussion.TopWishes;
+import org.joda.time.DateTime;
 
 /**
  * Created by IntelliJ IDEA.
@@ -76,5 +78,4 @@ public interface Cache {
   void decr(String key);
 
   void clear();
-
 }

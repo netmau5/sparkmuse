@@ -498,6 +498,13 @@ strong, .strong {
   color: #666;
 }
 
+.commitments {
+  display: inline-block;
+  background: url("../images/icons/silk/group.png") center left no-repeat;
+  padding: 0 6px 0 22px;
+  color: #444;
+}
+
 h2 a {
   font-size: inherit;
   color: inherit;

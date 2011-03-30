@@ -151,6 +151,22 @@
       </div>
     </div>
 
+    <div class="blurb">
+    <div class="blurb-inner">
+      <h4>Looking for Ideas?</h4>
+      <p>
+        Check out the popular ideas at <a href="@{Foundry.index}">The Spark Foundry</a> which already have committed users.
+      </p>
+      <ol>
+        #{list items: topWishes.wishes, as: "wish"}
+        <li>
+          <span class="commitments">${wish.votes}</span> <a href="@{Foundry.view(wish.id)}">${wish.title}</a>
+        </li>
+        #{/list}
+      </ol>
+    </div>
+    </div>
+
     #{include "standardBlurbs.html" /}
 
   </div>

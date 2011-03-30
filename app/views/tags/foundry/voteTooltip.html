@@ -1,7 +1,7 @@
 *{ _arg: userprofile }*
 #{if !_arg?.user || !_arg?.user?.hasFoundryAccess()}
-  Login to vote.
+  Must login to commit to a wish.
 #{/if}
 #{elseif !_arg?.email}
-  Must add valid email to profile.
+  Must add a valid email to your profile to commit.
 #{/elseif}

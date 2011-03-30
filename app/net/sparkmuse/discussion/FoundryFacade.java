@@ -149,6 +149,15 @@ public class FoundryFacade {
     userFacade.recordUpVote(newComment, newComment.getAuthor().getId());
 
     return newComment;
-
   }
+
+  public TopWishes getTopWishes() {
+    TopWishes topWishes = cache.get(TopWishes.CACHE_KEY);
+    if (null == topWishes || topWishes.hasExpired() || topWishes.isEmpty()) {
+      topWishes = new TopWishes(foundryDao.findTopWishes());
+      cache.set(topWishes);
+    }
+    return topWishes;
+  }
+
 }

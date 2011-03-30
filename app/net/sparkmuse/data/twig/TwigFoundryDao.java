@@ -52,4 +52,12 @@ public class TwigFoundryDao extends TwigDao implements FoundryDao {
         .addFilter("wishId", Query.FilterOperator.EQUAL, wishId);
     return helper.all(findCommand);
   }
+
+  public List<Wish> findTopWishes() {
+    FindCommand.RootFindCommand<Wish> findCommand = datastore.find().type(Wish.class)
+        .addSort("votes", Query.SortDirection.DESCENDING)
+        .fetchMaximum(5)
+        .fetchFirst(5);
+    return helper.all(findCommand);
+  }
 }

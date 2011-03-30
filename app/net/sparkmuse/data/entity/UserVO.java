@@ -4,8 +4,6 @@ import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.NullTo;
 import net.sparkmuse.user.UserLogin;
-import net.sparkmuse.data.entity.SaltedPassword;
-import net.sparkmuse.data.entity.Notification;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;

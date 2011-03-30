@@ -17,6 +17,7 @@ import net.sparkmuse.ajax.FragmentAjaxResponse;
 import net.sparkmuse.discussion.SparkFacade;
 import net.sparkmuse.discussion.LinkMetadata;
 import net.sparkmuse.discussion.Posts;
+import net.sparkmuse.discussion.FoundryFacade;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.user.Votables;
