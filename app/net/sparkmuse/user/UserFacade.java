@@ -152,16 +152,6 @@ public class UserFacade {
     userDao.deleteVotesFor(votable);
   }
 
-  public void recordNewSpark(UserVO user) {
-    user.setSparks(user.getSparks() + 1);
-    userDao.store(user);
-  }
-
-  public void recordNewPost(UserVO user) {
-    user.setPosts(user.getPosts() + 1);
-    userDao.store(user);
-  }
-
   public UserVotes findUserVotesFor(Set<Votable> votables, UserVO user) {
     if (null == user) return new UserVotes(Sets.<UserVote>newHashSet());
     final Set<UserVote> userVotes = userDao.findVotesFor(votables, user);
@@ -253,5 +243,27 @@ public class UserFacade {
   public UserVO addNotification(String userName, String displayNotification) {
     UserVO user = getUserProfile(userName).getUser();
     return addNotification(user.getId(), displayNotification);
+  }
+
+  public void recordNewSpark(UserVO user) {
+    user.setSparks(user.getSparks() + 1);
+    userDao.store(user);
+  }
+
+  public void incrementStatisticFor(Long userId, UserVO.Statistic statistic) {
+    UserVO user = findUserBy(userId);
+    if (UserVO.Statistic.WISH == statistic) {
+      user.setWishes(user.getWishes() + 1);
+    }
+    else if (UserVO.Statistic.SPARK == statistic) {
+      user.setSparks(user.getSparks() + 1);
+    }
+    else if (UserVO.Statistic.POST == statistic) {
+      user.setPosts(user.getPosts() + 1);
+    }
+    else {
+      Logger.error("Unsupported User Statistic.");
+    }
+    userDao.update(user);
   }
 }

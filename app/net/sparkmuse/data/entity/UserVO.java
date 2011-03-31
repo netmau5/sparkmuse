@@ -4,10 +4,13 @@ import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.CacheKey;
 import net.sparkmuse.common.NullTo;
 import net.sparkmuse.user.UserLogin;
+import net.sparkmuse.task.IncrementUserStatisticTask;
+import net.sparkmuse.task.IssueTaskService;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableMap;
 import com.google.code.twig.annotation.Embedded;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -24,7 +27,13 @@ import java.util.List;
  */
 public class UserVO extends Entity<UserVO> {
 
-  private static final long serialVersionUID = 1L; 
+  private static final long serialVersionUID = 1L;
+
+  public enum Statistic {
+    WISH,
+    SPARK,
+    POST
+  }
 
   private String userName;
   private String userNameLowercase; //used for queries on username
@@ -42,6 +51,7 @@ public class UserVO extends Entity<UserVO> {
   private int reputation;
   private int sparks;
   private int posts;
+  private int wishes;
 
   //email-based validation
   @Embedded
@@ -214,6 +224,14 @@ public class UserVO extends Entity<UserVO> {
     this.saltedPassword = saltedPassword;
   }
 
+  public int getWishes() {
+    return wishes;
+  }
+
+  public void setWishes(int wishes) {
+    this.wishes = wishes;
+  }
+
   public List<Notification> getNotifications() {
     return notifications;
   }
@@ -266,5 +284,12 @@ public class UserVO extends Entity<UserVO> {
       }
     });
     return this;
+  }
+
+  public void issueIncrementTask(IssueTaskService issueTaskService, Statistic type) {
+    issueTaskService.issue(IncrementUserStatisticTask.class, ImmutableMap.<String,Object>of(
+        IncrementUserStatisticTask.PARAMETER_USER_ID, this.getId(),
+        IncrementUserStatisticTask.PARAMETER_STATISTIC_TYPE, type
+    ), null);
   }
 }

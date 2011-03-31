@@ -4,11 +4,13 @@ import net.sparkmuse.data.*;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
+import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.Orderings;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.activity.ActivityService;
+import net.sparkmuse.task.IssueTaskService;
 
 import java.util.Collection;
 import java.util.TreeSet;
@@ -31,18 +33,21 @@ public class SparkFacade {
   private final Cache cache;
   private final UserFacade userFacade;
   private final ActivityService activityService;
+  private final IssueTaskService issueTaskService;
 
   @Inject
   public SparkFacade(DaoProvider daoProvider,
                      Cache cache,
                      UserFacade userFacade,
-                     ActivityService activityService
+                     ActivityService activityService,
+                     IssueTaskService issueTaskService
   ) {
     this.sparkDao = daoProvider.getSparkDao();
     this.postDao = daoProvider.getPostDao();
     this.cache = cache;
     this.userFacade = userFacade;
     this.activityService = activityService;
+    this.issueTaskService = issueTaskService;
   }
 
   public SparkSearchResponse search(final SparkSearchRequest request) {
@@ -136,7 +141,7 @@ public class SparkFacade {
     userFacade.recordUpVote(newSparkVO, newSparkVO.getAuthor().getId());
 
     if (isNew) {
-      userFacade.recordNewSpark(newSparkVO.getAuthor());
+      newSparkVO.getAuthor().issueIncrementTask(issueTaskService, UserVO.Statistic.SPARK);
     }
 
     return newSparkVO;
@@ -150,7 +155,7 @@ public class SparkFacade {
     final SparkVO spark = findSparkBy(post.getSparkId());
     spark.setPostCount(spark.getPostCount() + 1);
     sparkDao.store(spark);
-    userFacade.recordNewPost(newPost.getAuthor());
+    newPost.getAuthor().issueIncrementTask(issueTaskService, UserVO.Statistic.POST);
 
     //author implicitly votes for post; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newPost, newPost.getAuthor().getId());

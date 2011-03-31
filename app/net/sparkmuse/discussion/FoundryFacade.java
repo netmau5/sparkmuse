@@ -9,9 +9,11 @@ import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.task.IssueTaskService;
+import net.sparkmuse.task.IncrementUserStatisticTask;
 import com.google.inject.Inject;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Lists;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.base.Preconditions;
 
 import java.util.List;
@@ -99,6 +101,9 @@ public class FoundryFacade {
 
     //author implicitly votes for spark; thus, they will not be able to vote for it again
     userFacade.recordUpVote(wish, wish.getAuthor().getId());
+    if (isNew) {
+      wish.getAuthor().issueIncrementTask(issueTaskService, UserVO.Statistic.WISH);
+    }
 
     return wish;
   }
@@ -143,7 +148,7 @@ public class FoundryFacade {
     final Wish wish = findWishBy(comment.getWishId());
     wish.setCommentCount(wish.getCommentCount() + 1);
     foundryDao.store(wish);
-    userFacade.recordNewPost(newComment.getAuthor());
+    newComment.getAuthor().issueIncrementTask(issueTaskService, UserVO.Statistic.POST);
 
     //author implicitly votes for post; thus, they will not be able to vote for it again
     userFacade.recordUpVote(newComment, newComment.getAuthor().getId());
