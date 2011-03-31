@@ -122,10 +122,48 @@
         <h3>Bio</h3>
         <div class="markdown-container">${profile?.displayBio?.raw()}</div>
         #{if !profile.displayBio}
-          User has not added a biography.
+          <p>User has not added a biography.</p>
         #{/if}
 
-        
+        <h3>Activity</h3>
+        #{if profileActivities.activities}
+          <ol class="activities">
+            #{list items: profileActivities.activities, as:'activity'}
+
+              #{if activity.isSpark() && activity.isLike()}
+                <li class="like">
+                  ${profile.user.userName} liked the spark
+                  <a href="@{Spark.view(activity.summary.sparkId)}">${activity.summary.sparkTitle}</a> by #{nameTag user: activity.summary.updateAuthor, size: "mini" /}.
+                </li>
+              #{/if}
+
+              #{if activity.isSpark() && !activity.isLike()}
+                <li class="spark">
+                  ${activity.summary.userName} created the spark
+                  <a href="@{Spark.view(activity.summary.sparkId)}">${activity.summary.sparkTitle}</a>.
+                </li>
+              #{/if}
+
+              #{if activity.isPost() && activity.isLike()}
+                <li class="like">
+                  ${profile.user.userName} liked a post on
+                  <a href="@{Spark.view(activity.summary.sparkId)}">${activity.summary.sparkTitle}</a> by #{nameTag user: activity.summary.updateAuthor, size: "mini" /}.
+                </li>
+              #{/if}
+
+              #{if activity.isPost() && !activity.isLike()}
+                <li class="post">
+                  ${activity.summary.userName} posted a comment on
+                  <a href="@{Spark.view(activity.summary.sparkId)}">${activity.summary.sparkTitle}</a>.
+                </li>
+              #{/if}
+
+            #{/list}
+          </ol>
+        #{/if}
+        #{else}
+          <p>User has no activity.</p>
+        #{/else}
 
       </div>
 

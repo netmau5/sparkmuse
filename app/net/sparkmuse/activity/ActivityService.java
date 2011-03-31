@@ -61,7 +61,7 @@ public class ActivityService {
         .forUser(user)
         .in(Activity.Source.LIKE)
         .in(Activity.Source.PERSONAL)
-        .fetch(100)
+        .fetch(50)
         .build();
   }
 
