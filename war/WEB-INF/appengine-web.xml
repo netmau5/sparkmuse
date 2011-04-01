@@ -6,8 +6,10 @@
   <!--<application>sparkmuse-staging</application>-->
 	<!--<version>30</version>-->
 
+  <threadsafe>true</threadsafe>
+
   <static-files>
-    <include path="/public/**.*" />
+    <include path="/public/**.*" expiration="7d" />
   </static-files>
 
   <!-- used in caching -->
