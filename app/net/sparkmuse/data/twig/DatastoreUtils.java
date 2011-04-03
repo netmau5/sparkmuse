@@ -2,6 +2,7 @@ package net.sparkmuse.data.twig;
 
 import net.sparkmuse.data.entity.Entity;
 import com.google.code.twig.ObjectDatastore;
+import com.google.code.twig.FindCommand;
 import com.google.appengine.api.datastore.Key;
 
 /**
@@ -48,5 +49,4 @@ public class DatastoreUtils {
       return update(entity, datastore);
     }
   }
-  
 }

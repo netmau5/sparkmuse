@@ -222,4 +222,9 @@ public class SparkVO extends OwnedEntity<SparkVO>
     })));
     return this;
   }
+
+  @Override
+  public String toString() {
+    return "SparkVO[" + this.getId() + ", " + this.getTitle() + "]";
+  }
 }

@@ -19,6 +19,7 @@ import java.util.*;
 import java.util.concurrent.Future;
 
 import org.apache.commons.collections.CollectionUtils;
+import play.Logger;
 
 /**
  * Created by IntelliJ IDEA.
@@ -116,9 +117,16 @@ public class DatastoreService {
   }
 
   public final <U extends Entity<U>> List<U> all(FindCommand.RootFindCommand<U> findCommand) {
-    final QueryResultIterator<U> resultIterator = findCommand.fetchNextBy(200).now();
-    final List<U> toReturn = Lists.newArrayList(resultIterator);
-    return After.read(toReturn, this);
+    FindCommand.RootFindCommand<U> query = findCommand.fetchNextBy(200);
+    try {
+      final QueryResultIterator<U> resultIterator = query.now();
+      final List<U> toReturn = Lists.newArrayList(resultIterator);
+      return After.read(toReturn, this);
+    }
+    catch (IllegalStateException e) {
+      Logger.error(e, "Query state error: " + query);
+      throw e;
+    }
   }
 
   public final <U extends Entity<U>> List<U> all(PageChangeRequest pageChangeRequest, FindCommand.RootFindCommand<U> findCommand) {
