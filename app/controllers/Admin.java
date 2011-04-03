@@ -4,7 +4,6 @@ import play.mvc.With;
 import play.data.validation.Validation;
 import play.data.validation.Required;
 import play.data.validation.Valid;
-import play.data.binding.As;
 import filters.AdminAuthorizationFilter;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.util.AccessLevel;
@@ -12,7 +11,7 @@ import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.JsonAjaxResponse;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.common.Reflections;
-import net.sparkmuse.mail.MailService;
+import net.sparkmuse.mail.MailFacade;
 
 import javax.inject.Inject;
 
@@ -35,7 +34,7 @@ public class Admin extends SparkmuseController {
 
   @Inject static ObjectDatastore datastore;
   @Inject static UserFacade userFacade;
-  @Inject static MailService mailService;
+  @Inject static MailFacade mailFacade;
 
   public static void home() {
     render();
@@ -123,7 +122,7 @@ public class Admin extends SparkmuseController {
   //EMAIL
 
   public static void emails() {
-    List<Mailing> mailings = mailService.getAllMailings();
+    List<Mailing> mailings = mailFacade.getAllMailings();
     render(mailings);
   }
 
@@ -132,12 +131,12 @@ public class Admin extends SparkmuseController {
   }
 
   public static void editEmail(Long id) {
-    Mailing mailing = mailService.getMailingBy(id);
+    Mailing mailing = mailFacade.getMailingBy(id);
     renderTemplate("Admin/email.html", mailing);
   }
 
   public static void saveEmail(@Valid Mailing mailing) {
-    Mailing savedMailing = mailService.save(mailing);
+    Mailing savedMailing = mailFacade.save(mailing);
     Admin.editEmail(savedMailing.getId());
   }
 

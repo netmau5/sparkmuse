@@ -1,16 +1,10 @@
 package net.sparkmuse.mail;
 
 import play.test.UnitTest;
-import play.templates.TemplateLoader;
 import org.junit.Test;
-import static org.mockito.Mockito.*;
 import static org.hamcrest.Matchers.*;
 import org.hamcrest.MatcherAssert;
-import org.hamcrest.BaseMatcher;
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
 import org.apache.commons.mail.Email;
-import org.apache.commons.mail.HtmlEmail;
 import com.google.inject.internal.Maps;
 import com.google.common.base.Functions;
 import com.google.common.collect.Iterables;
@@ -25,7 +19,7 @@ public class PlayMailServiceTest extends UnitTest {
 
   @Test
   public void shouldPrepareEmail() {
-    PlayMailService service = new PlayMailService(null);
+    PlaySendMailService service = new PlaySendMailService(null);
     final EmailTemplate template = new EmailTemplate() {
       public String getToEmail() {
         return "peter.pan@xyz.com";

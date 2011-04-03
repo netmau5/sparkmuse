@@ -98,7 +98,7 @@ public class ActivityStream implements Serializable {
     public ActivityStream build() {
       Preconditions.checkState(!(null != after && CollectionUtils.size(sources) != 0), "Cannot query on both created and source.");
       if (null == user) {
-        return new ActivityStream(activityDao.findEveryone(fetch));
+        return new ActivityStream(activityDao.findEveryone(after, fetch));
       }
       else if (null != after) {
         Preconditions.checkNotNull(after);

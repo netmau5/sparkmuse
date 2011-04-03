@@ -11,16 +11,10 @@ import java.util.List;
  * @author neteller
  * @created: Jan 23, 2011
  */
-public interface MailService {
+public interface SendMailService {
 
   void sendMessage(Email message);
 
   void prepareAndSendMessage(EmailTemplate template);
 
-  Mailing save(Mailing mailing);
-  List<Mailing> getAllMailings();
-  List<Mailing> mailingsFor(DateTime date);
-  void sendMailing(Long mailingId, UserProfile userProfile);
-  Mailing getMailingBy(Long id);
-  void markSent(List<Mailing> mailingList);
 }

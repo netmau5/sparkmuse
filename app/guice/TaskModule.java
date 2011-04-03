@@ -5,8 +5,8 @@ import com.google.inject.Provides;
 import com.google.appengine.api.labs.taskqueue.QueueFactory;
 import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.task.gae.GaeIssueTaskService;
-import net.sparkmuse.mail.MailService;
-import net.sparkmuse.mail.PlayMailService;
+import net.sparkmuse.mail.SendMailService;
+import net.sparkmuse.mail.PlaySendMailService;
 
 /**
  * Configuration for tasks and cron jobs; these are typically run in background.
@@ -17,7 +17,7 @@ import net.sparkmuse.mail.PlayMailService;
 public class TaskModule extends AbstractModule {
 
   protected void configure() {
-    bind(MailService.class).to(PlayMailService.class);
+    bind(SendMailService.class).to(PlaySendMailService.class);
   }
 
   @Provides

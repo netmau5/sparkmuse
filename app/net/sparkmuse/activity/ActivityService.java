@@ -3,17 +3,22 @@ package net.sparkmuse.activity;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.DaoProvider;
 import net.sparkmuse.mail.ActivityUpdate;
-import net.sparkmuse.mail.MailService;
+import net.sparkmuse.mail.SendMailService;
 import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.discussion.Posts;
 import play.Logger;
 
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
+import org.joda.time.DateTime;
 import com.google.inject.Inject;
 import com.google.code.twig.ObjectDatastore;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Iterables;
+import com.google.common.base.Predicate;
 
 /**
  * Produces activity notifications for new events.
@@ -27,11 +32,11 @@ public class ActivityService {
 
   private final DaoProvider daoProvider;
   private final Cache cache;
-  private final MailService mailService;
+  private final SendMailService mailService;
   private final ObjectDatastore datastore;
 
   @Inject
-  public ActivityService(Cache cache, MailService mailService, DaoProvider daoProvider, ObjectDatastore datastore) {
+  public ActivityService(Cache cache, SendMailService mailService, DaoProvider daoProvider, ObjectDatastore datastore) {
     this.cache = cache;
     this.mailService = mailService;
     this.daoProvider = daoProvider;
@@ -72,6 +77,42 @@ public class ActivityService {
       cache.set(GLOBAL_ACTIVITY, everyone);
     }
     return everyone;
+  }
+
+  /**
+   * Finds top 8 contributors for the last 7 days.
+   *
+   * @return
+   */
+  public List<UserVO> determineTopContributors() {
+    ActivityStream stream = ActivityStream.builder(daoProvider.getActivityDao())
+        .fetch(500)
+        .after(new DateTime().minusDays(7))
+        .build();
+    List<Activity> activityList = stream.getActivities();
+
+    final Map<UserVO, Integer> activityCount = Maps.newHashMap();
+    for (Activity activity: activityList) {
+      UserVO author = activity.getSummary().getUpdateAuthor();
+      if (activityCount.get(author) == null) activityCount.put(author, 1);
+      else activityCount.put(author, activityCount.get(author) + 1);
+    }
+
+    List<UserVO> activeUsers = Lists.newArrayList(activityCount.keySet());
+    Collections.sort(activeUsers, new Comparator<UserVO>() {
+      public int compare(UserVO userVO, UserVO userVO1) {
+        return activityCount.get(userVO1) - activityCount.get(userVO);
+      }
+    });
+
+    //filter admins
+    activeUsers = Lists.newArrayList(Iterables.filter(activeUsers, new Predicate<UserVO>(){
+      public boolean apply(UserVO userVO) {
+        return !StringUtils.equalsIgnoreCase(userVO.getUserName(), "netmau5") &&
+            !StringUtils.equalsIgnoreCase(userVO.getUserName(), "sparkmuse");
+      }
+    }));
+    return activeUsers.size() > 8 ? activeUsers.subList(0, 8) : activeUsers;
   }
 
   public UserVote notify(UserVote userVote) {

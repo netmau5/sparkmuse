@@ -9,7 +9,7 @@ import net.sparkmuse.data.UserDao;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.ajax.InvalidRequestException;
-import net.sparkmuse.mail.MailService;
+import net.sparkmuse.mail.SendMailService;
 import net.sparkmuse.mail.InvitationEmail;
 import net.sparkmuse.mail.EmailTemplate;
 
@@ -31,10 +31,10 @@ public class UserFacade {
   private final UserDao userDao;
   private final Cache cache;
   private final TwitterService twitterService;
-  private final MailService mailService;
+  private final SendMailService mailService;
 
   @Inject
-  public UserFacade(UserDao userDao, MailService mailService, TwitterService twitterService, Cache cache) {
+  public UserFacade(UserDao userDao, SendMailService mailService, TwitterService twitterService, Cache cache) {
     this.userDao = userDao;
     this.cache = cache;
     this.twitterService = twitterService;

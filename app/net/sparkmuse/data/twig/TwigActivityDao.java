@@ -25,11 +25,15 @@ public class TwigActivityDao extends TwigDao implements ActivityDao {
     super(service);
   }
 
-  public List<Activity> findEveryone(int limit) {
-    return helper.all(datastore.find().type(Activity.class)
+  public List<Activity> findEveryone(DateTime after, int limit) {
+    FindCommand.RootFindCommand<Activity> findCommand = datastore.find().type(Activity.class)
         .addFilter("population", Query.FilterOperator.EQUAL, Activity.Population.EVERYONE.toString())
         .addSort("created", Query.SortDirection.DESCENDING)
-        .fetchMaximum(limit));
+        .fetchMaximum(limit);
+    if (null != after) {
+      findCommand.addFilter("created", Query.FilterOperator.GREATER_THAN_OR_EQUAL, after.getMillis());
+    }
+    return helper.all(findCommand);
   }
 
   public List<Activity> findUser(UserVO user, DateTime after, int limit) {

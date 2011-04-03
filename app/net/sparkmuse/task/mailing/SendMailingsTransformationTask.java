@@ -7,18 +7,15 @@ import net.sparkmuse.data.twig.BatchDatastoreService;
 import net.sparkmuse.task.TransformationTask;
 import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.common.Cache;
-import net.sparkmuse.mail.MailService;
+import net.sparkmuse.mail.MailFacade;
 import net.sparkmuse.user.UserFacade;
 import com.google.code.twig.ObjectDatastore;
 import com.google.code.twig.FindCommand;
 import com.google.inject.Inject;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
-import com.google.common.base.Function;
 
 import java.util.List;
 
-import org.joda.time.Days;
 import org.joda.time.DateTime;
 import org.joda.time.DateMidnight;
 
@@ -31,13 +28,13 @@ public class SendMailingsTransformationTask extends TransformationTask<UserVO> {
   private static String CACHE_KEY_MAILINGS = SendMailingsTransformationTask.class.getName() + "|Mailings";
 
   private final IssueTaskService issueTaskService;
-  private final MailService mailService;
+  private final MailFacade mailFacade;
   private final ObjectDatastore datastore;
   private final Cache cache;
   private final UserFacade userFacade;
 
   @Inject
-  public SendMailingsTransformationTask(MailService mailService,
+  public SendMailingsTransformationTask(MailFacade mailFacade,
                                         IssueTaskService issueTaskService,
                                         UserFacade userFacade,
                                         Cache cache,
@@ -45,7 +42,7 @@ public class SendMailingsTransformationTask extends TransformationTask<UserVO> {
                                         ObjectDatastore datastore) {
     super(cache, batchService, datastore);
     this.datastore = datastore;
-    this.mailService = mailService;
+    this.mailFacade = mailFacade;
     this.issueTaskService = issueTaskService;
     this.cache = cache;
     this.userFacade = userFacade;
@@ -57,7 +54,7 @@ public class SendMailingsTransformationTask extends TransformationTask<UserVO> {
     if (null == mailings) {
       DateTime currentDate = new DateTime();
       DateMidnight midnight = new DateMidnight(currentDate.year().get(), currentDate.monthOfYear().get(), currentDate.dayOfMonth().get());
-      mailings = mailService.mailingsFor(new DateTime(midnight.plusDays(1)));
+      mailings = mailFacade.mailingsFor(new DateTime(midnight.plusDays(1)));
       cache.set(CACHE_KEY_MAILINGS, mailings);
     }
 
@@ -68,7 +65,7 @@ public class SendMailingsTransformationTask extends TransformationTask<UserVO> {
   protected void onEnd() {
     List<Mailing> mailingList = getMailings();
     cache.delete(CACHE_KEY_MAILINGS);
-    mailService.markSent(mailingList);
+    mailFacade.markSent(mailingList);
   }
 
   protected UserVO transform(UserVO user) {

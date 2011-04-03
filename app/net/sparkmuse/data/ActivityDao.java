@@ -15,7 +15,13 @@ import org.joda.time.DateTime;
  */
 public interface ActivityDao extends CrudDao {
 
-  List<Activity> findEveryone(int limit);
+  /**
+   *
+   * @param after nullable
+   * @param limit
+   * @return
+   */
+  List<Activity> findEveryone(DateTime after, int limit);
 
   List<Activity> findUser(UserVO user, DateTime after, int limit);
 
