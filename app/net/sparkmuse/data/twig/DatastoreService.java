@@ -93,8 +93,8 @@ public class DatastoreService {
     final QueryResultIterator<T> resultsIterator = findCommand.now();
     if (resultsIterator.hasNext()) {
       final T toReturn = resultsIterator.next();
-      Preconditions.checkState(!resultsIterator.hasNext(), "Only one result requested but more than one returned. Only [" + 
-          toReturn + "], Next [" + resultsIterator.next() + "]");
+      Preconditions.checkState(!resultsIterator.hasNext(), "Only one result requested but more than one returned. Only [" +
+          toReturn + "], Next [" + (resultsIterator.hasNext() ? resultsIterator.next() : null) + "]");
       return After.read(toReturn, this);
     }
     else return null;
