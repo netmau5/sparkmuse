@@ -1,0 +1,250 @@
+#{extends 'outsider.template.html' /}
+#{set title: "Founding Partners" /}
+
+<link  href="http://fonts.googleapis.com/css?family=Irish+Grover:regular" rel="stylesheet" type="text/css" >
+
+<style type="text/css">
+
+  .title h2, .title h3 { text-align: center; }
+
+  .title {
+    padding: 10px 0;
+  }
+
+  .title h2 {
+    font-family: 'Irish Grover', serif;
+    font-size: 54px;
+    font-style: normal;
+    font-weight: 700;
+    text-shadow: 2px 2px 2px #ddd;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  .title h3 {
+    color: #666;
+  }
+
+  .offers {}
+
+    .offers h3 {
+      text-indent: -9999px;
+      width: 580px;
+      height: 50px;
+      background-image: url("@{'public/images/partners/partners.jpg'}");
+      background-repeat: no-repeat;
+    }
+
+    .offers .microsoft-bizspark h3 {
+      background-position: left -50px;
+    }
+
+    .offers .balsamiq h3 {
+      background-position: left -200px;
+    }
+
+    .offers .beta-list h3 {
+      background-position: left -300px;
+    }
+
+    .offers .ginzametrics h3 {
+      background-position: left 0px;
+    }
+
+    .offers .unbounce h3 {
+      background-position: left -150px;
+    }
+
+    .offers .visual-website-optimizer h3 {
+      background-position: left -250px;
+    }
+
+    .offers .wufoo h3 {
+      background-position: left -100px;
+    }
+
+    .offers section {
+      margin-bottom: 1.5em;
+    }
+
+    .offers .benefits {
+      font-style: italic;
+    }
+
+</style>
+
+<div class="page-canvas">
+
+  <div class="prepend-1 span-22 append-1 last heading">
+
+    <div class="breadcrumbs"><a href="@{Application.home()}">Home</a> &rsaquo; Founding Partners</div>
+
+    <div class="title">
+      <h2>Founding Partners</h2>
+      <h3>Entrepreneurs Helping Entrepreneurs Succeed</h3>
+    </div>
+
+    <hr/>
+    
+  </div>
+
+  <div class="prepend-1 span-14 first offers">
+    
+    <section class="microsoft-bizspark">
+      <h3>Microsoft BizSpark</h3>
+      <p>
+        Microsoft BizSpark gives you fast, easy access to current, full-featured Microsoft
+        development tools and production licenses of server products, professional technical
+        and expert business support, plus global visibility to new markets. Visit the
+        <a href="http://www.microsoftstartupzone.com/BizSpark/Pages/At_a_Glance.aspx">Microsoft Startup Zone</a>
+        to learn more!
+      </p>
+      <p class="benefits">
+        As a network partner, Sparkmuse can help enter your startup into this great program.
+        To qualify, your startup must be actively developing software, be privately held, have
+        been in business for less than three years, and have less than US $1 million in revenue.
+      </p>
+    </section>
+
+    <section class="balsamiq">
+      <h3>Balsamiq</h3>
+      <p>
+        <a href="http://www.balsamiq.com">Balsamiq Mockups</a> reproduces the experience of sketching
+        interfaces on a whiteboard, but using your computer, so they're easier to share, modify, and
+        get honest feedback on.
+      </p>
+      <p class="benefits">
+        Get a single license of Mockups for <em>$40</em>, $39 off the total price. Teams can get the 5-user
+        volume pack for <em>$250</em>, a savings of $129.
+      </p>
+    </section>
+
+    <section class="beta-list">
+      <h3>Beta List</h3>
+      <p>
+        <a href="http://betali.st">Beta List</a> offers early adopters the chance to discover and
+        get access to the latest internet startups. Their loyal audience drives loves to check out
+        new apps giving you access to valuable beta users.
+      </p>
+      <p class="benefits">
+        Get your pre-launch startup featured on BetaLi.st exposing you to an audience of thousands
+        of early adopters.
+      </p>
+    </section>
+
+    <section class="ginzametrics">
+      <h3>GinzaMetrics</h3>
+      <p>
+        <a href="http://www.ginzametrics.com">Ginzametrics</a> is SEO software to help you grow your business.
+        Used by enterprise customers and small startups alike, this service will help you outrank competitors
+        on search engines and optimize your pages for conversions.
+      </p>
+      <p class="benefits">
+        <em>Free</em> access to the Starter plan for four months, a $76 value.
+      </p>
+    </section>
+
+    <section class="unbounce">
+      <h3>Unbounce</h3>
+      <p>
+        <a href="http://www.unbounce.com">Unbounce</a> offers the fastest and most powerful way to create,
+        publish, and optimize landing pages. Designed with conversion in mind at every step, Unbounce enhances
+        your ability to create landing pages that drive new user acquisition.
+      </p>
+      <p class="benefits">
+        Get the Standard plan for an entire year for <em>$50</em>, a savings of $550.
+      </p>
+    </section>
+
+    <section class="visual-website-optimizer">
+      <h3>Visual Website Optimizer</h3>
+      <p>
+        <a href="http://www.visualwebsiteoptimizer.com">Visual Website Optimizer</a> is a service giving
+        you the best in A/B, split, and multivariate testing. Their tool increases sales and conversions by
+        segmenting your users and showing you what's working.
+      </p>
+      <p class="benefits">
+        <em>Free</em> access to the Small Business plan for three months, a $147 value.
+      </p>
+    </section>
+
+    <section class="wufoo">
+      <h3>Wufoo</h3>
+      <p>
+        <a href="http://www.wufoo.com">Wufoo's</a> ubiquitous form building tool makes creating contact forms,
+        online surveys, and invitations easy, fast, and fun. Without writing a single line of code, you can collect
+        data, registrations, and online payments without hassle.
+      </p>
+      <p class="benefits">
+        Get <em>50%</em> off the first month of any paid plan.
+      </p>
+    </section>
+
+  </div>
+
+  <div class="span-8 append-1 last">
+
+    <div class="sidebox">
+    <div class="sidebox-inner">
+      <h4>About the Program</h4>
+      <p>
+        The Founding Partners program is a way for successful companies to give back to
+        a community of aspiring entrepreneurs in order to help them to turn big ideas
+        into successful companies. These offers are only available to members of the Sparkmuse
+        community who are actively working on projects.
+      </p>
+    </div>
+    </div>
+
+    #{if !currentUser}
+    <div class="sidebox">
+    <div class="sidebox-inner">
+      <h4>Join Sparkmuse</h4>
+      <p>
+        Are you an entrepreneur interested in creating a software-based startup? Join a community
+        of thousands of likeminded people by applying today!
+      </p>
+      <p class="actions">
+        <a href="http://www.sparkmuse.com/about">About & Apply &rarr;</a>
+      </p>
+    </div>
+    </div>
+    #{/if}
+
+    #{if currentUser}
+    <div class="sidebox">
+    <div class="sidebox-inner">
+      <h4>Get Hooked Up</h4>
+      <p>
+        Are you interested in getting in on these deals? Simply shoot us an email at
+        <a href="mailto:offers@sparkmuse.com">offers@sparkmuse.com</a>
+        and tell us which ones you'd like to get. We'll contact you shortly with the details
+        you'll need to take advantage of them.
+      </p>
+      <p>
+        In order to qualify, you must be an eligible member. You must have a complete profile
+        and have earned at least ${play.configuration.getProperty("people-page.min-rep")}
+        reputation by helping others.
+      </p>
+    </div>
+    </div>
+    #{/if}
+
+    <div class="sidebox">
+    <div class="sidebox-inner">
+      <h4>Partner with Us</h4>
+      <p>
+        Do you have a product, service, or organization that is focused on helping
+        tech entrepreneurs create exciting new startups? We'd love to hear from you! Drop
+        us a line anytime at
+        <a href="mailto:partners@sparkmuse.com">partners@sparkmuse.com</a>.
+      </p>
+    </div>
+    </div>
+
+  </div>
+
+  <div class="clear"></div>
+
+</div>

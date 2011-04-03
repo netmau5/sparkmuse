@@ -72,6 +72,10 @@ public class Application extends SparkmuseController {
     }
   }
 
+  public static void partners() {
+    render();
+  }
+
   public static void feedback(String appName) {
     if (appName.equals("Gift.io") || appName.equals("Digest.io") || appName.equals("TextMunch") || appName.equals("Invincibilitee")) {
       render(appName);
