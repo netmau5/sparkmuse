@@ -70,6 +70,8 @@ public class SparkVO extends OwnedEntity<SparkVO>
 
   private boolean notified;
 
+  private int correction; //used in task to fix corrupted data
+
   public enum Stage {
     NEW,
     PROTOTYPE,
@@ -212,6 +214,14 @@ public class SparkVO extends OwnedEntity<SparkVO>
 
   public void setNotified(boolean notified) {
     this.notified = notified;
+  }
+
+  public int getCorrection() {
+    return correction;
+  }
+
+  public void setCorrection(int correction) {
+    this.correction = correction;
   }
 
   public SparkVO lowercaseTags() {

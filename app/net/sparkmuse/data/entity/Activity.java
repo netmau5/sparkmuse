@@ -379,6 +379,11 @@ public class Activity extends Entity<Activity>
     public void setNote(String note) {
       this.note = note;
     }
+
+    @Override
+    public String toString() {
+      return "[" + this.getSparkTitle() + ", " + this.getUserName() + "]";
+    }
   }
 
   public static Predicate<Activity> isKind(final Kind kind) {
@@ -389,4 +394,8 @@ public class Activity extends Entity<Activity>
     };
   }
 
+  @Override
+  public String toString() {
+    return "[" + this.getPopulation() + ", " + this.getKind() + "(" + this.getContentKey() + "), User(" + this.getUserId() + "), " + this.getSummary() + "]";
+  }
 }

@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
-  <cron>
-    <url>/Tasks/execute?taskClassName=net.sparkmuse.task.DataIntegrityMultiTask</url>
-    <description>Monitors for data integrity issues and fixes them when possible.</description>
-    <schedule>every 2 hours</schedule>
-  </cron>
+  <!--<cron>-->
+    <!--<url>/Tasks/execute?taskClassName=net.sparkmuse.task.DataIntegrityMultiTask</url>-->
+    <!--<description>Monitors for data integrity issues and fixes them when possible.</description>-->
+    <!--<schedule>every 2 hours</schedule>-->
+  <!--</cron>-->
+
   <cron>
     <url>/Tasks/execute?taskClassName=net.sparkmuse.task.ActivityUpdateMultiTask</url>
     <description>Send activity update emails</description>
     <schedule>every 5 minutes</schedule>
   </cron>
-  <cron>
-    <url>/Tasks/execute?taskClassName=net.sparkmuse.task.PeoplePageElgibilityTransformationTask</url>
-    <description>Determine if a user is elgible for placement on the people page</description>
-    <schedule>every 30 minutes</schedule>
-  </cron>
+
+  <!--temporarily disabled -->
+  <!--<cron>-->
+    <!--<url>/Tasks/execute?taskClassName=net.sparkmuse.task.PeoplePageElgibilityTransformationTask</url>-->
+    <!--<description>Determine if a user is elgible for placement on the people page</description>-->
+    <!--<schedule>every 30 minutes</schedule>-->
+  <!--</cron>-->
   <cron>
     <url>/Tasks/execute?taskClassName=net.sparkmuse.task.GatherAppStatisticsTask</url>
     <description>Stats on system activity</description>

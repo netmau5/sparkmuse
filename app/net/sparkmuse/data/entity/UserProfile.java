@@ -170,5 +170,18 @@ public class UserProfile extends Entity<UserProfile> {
   public boolean canVoteOnFoundry() {
     return null != user && user.hasFoundryAccess() && StringUtils.isNotBlank(email);
   }
-  
+
+  @Override
+  public String toString() {
+    return "UserProfile{" +
+        "user=" + user +
+        ", name='" + name + '\'' +
+        ", location='" + location + '\'' +
+        ", website='" + website + '\'' +
+        ", email='" + email + '\'' +
+        ", bio='" + bio + '\'' +
+        ", displayBio='" + displayBio + '\'' +
+        ", invites=" + invites +
+        '}';
+  }
 }

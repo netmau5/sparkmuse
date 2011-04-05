@@ -12,8 +12,6 @@ import com.google.common.base.Preconditions;
 import play.Logger;
 import play.Play;
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.DateTime;
-import org.joda.time.Seconds;
 
 /**
  * @author neteller
@@ -70,7 +68,7 @@ public class JCache implements Cache {
     Preconditions.checkNotNull(key);
     Preconditions.checkNotNull(clazz);
 
-    Logger.info("Key [" + key + "], Type [" + clazz + "]");
+//    Logger.info("Key [" + key + "], Type [" + clazz + "]");
 
     return clazz.cast(get(key));
   }
@@ -89,7 +87,7 @@ public class JCache implements Cache {
       return key.getImplementingClass().cast(o);
     }
     else {
-      Logger.debug("Cache miss [" + key.toString() + "], got [" + o + "]");
+//      Logger.debug("Cache miss [" + key.toString() + "], got [" + o + "]");
       return null;
     }
   }
