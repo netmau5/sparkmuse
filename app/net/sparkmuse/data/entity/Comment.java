@@ -13,62 +13,10 @@ import net.sparkmuse.task.IssueTaskService;
  * @author neteller
  * @created: Mar 15, 2011
  */
-public class Comment extends OwnedEntity<Comment> implements Votable {
-
-  @Type(Text.class)
-  @Required
-  private String content;
-
-  @Type(Text.class)
-  @Required
-  @CheckWith(value= NoScriptCheck.class, message="validation.noscript")
-  private String displayContent;
-
-  private DateTime created;
-  private DateTime edited;
-
-  private boolean notified;
+public class Comment extends AbstractComment<Comment> {
 
   @Required
   private Long wishId;
-
-  private int votes;
-
-  public Comment() {
-    this.created = new DateTime();
-  }
-
-  public String getContent() {
-    return content;
-  }
-
-  public void setContent(String content) {
-    this.content = content;
-  }
-
-  public String getDisplayContent() {
-    return displayContent;
-  }
-
-  public void setDisplayContent(String displayContent) {
-    this.displayContent = displayContent;
-  }
-
-  public DateTime getCreated() {
-    return created;
-  }
-
-  public void setCreated(DateTime created) {
-    this.created = created;
-  }
-
-  public DateTime getEdited() {
-    return edited;
-  }
-
-  public void setEdited(DateTime edited) {
-    this.edited = edited;
-  }
 
   public Long getWishId() {
     return wishId;
@@ -78,28 +26,4 @@ public class Comment extends OwnedEntity<Comment> implements Votable {
     this.wishId = wishId;
   }
 
-  public boolean isNotified() {
-    return notified;
-  }
-
-  public void setNotified(boolean notified) {
-    this.notified = notified;
-  }
-
-  public int getVotes() {
-    return votes;
-  }
-
-  public void setVotes(int votes) {
-    this.votes = votes;
-  }
-
-  public void upVote(UserVote userVote, IssueTaskService issueTaskService) {
-    this.votes++;
-  }
-
-  public void downVote() {
-    this.votes--;
-  }
-  
 }
