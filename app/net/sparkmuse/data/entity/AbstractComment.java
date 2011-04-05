@@ -3,7 +3,9 @@ package net.sparkmuse.data.entity;
 import com.google.code.twig.annotation.Type;
 import com.google.code.twig.annotation.Store;
 import com.google.appengine.api.datastore.Text;
-import com.google.common.collect.Lists;
+import com.google.common.collect.*;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import play.data.validation.Required;
 import play.data.validation.CheckWith;
 import org.joda.time.DateTime;
@@ -37,7 +39,7 @@ public class AbstractComment<T> extends OwnedEntity<T>
   @CheckWith(value= NoScriptCheck.class, message="validation.noscript")
   private String displayContent;
 
-  @Store(false) private List<Post> replies; //underlying types must not be immutable for Play validation
+  @Store(false) private List<T> replies; //underlying types must not be immutable for Play validation
   private Long inReplyToId;
 
   public AbstractComment() {
@@ -58,7 +60,7 @@ public class AbstractComment<T> extends OwnedEntity<T>
   }
 
   //AccessControlException thrown on GAE when this returned immutablelist...
-  public List<Post> getReplies() {
+  public List<T> getReplies() {
     return Lists.newArrayList(replies);
   }
 
@@ -86,7 +88,7 @@ public class AbstractComment<T> extends OwnedEntity<T>
     return inReplyToId;
   }
 
-  public void setReplies(List<Post> replies) {
+  public void setReplies(List<T> replies) {
     this.replies = replies;
   }
 
@@ -118,5 +120,29 @@ public class AbstractComment<T> extends OwnedEntity<T>
     this.notified = notified;
   }
 
+  public static <T extends AbstractComment> List<T> applyHierarchy(final List<T> comments) {
+    ImmutableMap<Long, T> postById = Maps.uniqueIndex(comments, new Function<T, Long>() {
+      public Long apply(T comment) {
+        return comment.getId();
+      }
+    });
+
+    //append any post with an inReplyToId property as a reply to its parent
+    for (final T comment: comments) {
+      if (null != comment.getInReplyToId()) {
+        T parent = postById.get(comment.getInReplyToId());
+        if (!parent.getReplies().contains(comment)) {
+          parent.setReplies(ImmutableList.<T>builder().addAll(parent.getReplies()).add(comment).build());
+        }
+      }
+    }
+
+    //posts are traversed recursively (getReplies), remove any non-root posts from the returned list
+    return Lists.newArrayList(Iterables.filter(comments, new Predicate<T>(){
+      public boolean apply(T comment) {
+        return null == comment.getInReplyToId();
+      }
+    }));
+  }
 
 }

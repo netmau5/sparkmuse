@@ -6,5 +6,7 @@ package net.sparkmuse.common;
  */
 public enum DiscussionType {
 
+  DISCUSS,
+  LINK
 
 }
