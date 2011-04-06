@@ -261,6 +261,9 @@ public class UserFacade {
     else if (UserVO.Statistic.POST == statistic) {
       user.setPosts(user.getPosts() + 1);
     }
+    else if (UserVO.Statistic.DISCUSSION == statistic) {
+      user.setDiscussions(user.getDiscussions() + 1);
+    }
     else {
       Logger.error("Unsupported User Statistic.");
     }

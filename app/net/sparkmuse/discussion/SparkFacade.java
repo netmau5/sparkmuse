@@ -183,7 +183,7 @@ public class SparkFacade {
 
   private void deletePosts(Posts posts) {
     activityService.deleteActivitiesFor(posts);
-    for (Post post: posts.getAllPosts()) {
+    for (Post post: posts.getAllComments()) {
       userFacade.deleteVotesFor(post);
     }
     postDao.deleteAll(posts);

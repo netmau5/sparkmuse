@@ -47,6 +47,6 @@ public class TwigPostDao extends TwigDao implements PostDao {
     datastore.deleteAll(posts.getResources());
     datastore.deleteAll(posts.getVisuals());
     datastore.deleteAll(posts.getOffers());
-    datastore.deleteAll(posts.getAllPosts());
+    datastore.deleteAll(posts.getAllComments());
   }
 }

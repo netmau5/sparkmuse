@@ -41,6 +41,7 @@ public class DataModule extends AbstractModule {
     bind(UserDao.class).to(TwigUserDao.class);
     bind(ActivityDao.class).to(TwigActivityDao.class);
     bind(FoundryDao.class).to(TwigFoundryDao.class);
+    bind(DiscussionDao.class).to(TwigDiscussionDao.class);
     bind(ObjectDatastore.class).toInstance(datastore);
     if (Play.mode == Play.Mode.PROD) {
       bind(Cache.class).to(JCache.class);

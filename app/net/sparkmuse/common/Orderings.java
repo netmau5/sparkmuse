@@ -3,6 +3,7 @@ package net.sparkmuse.common;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
+import net.sparkmuse.data.entity.AbstractComment;
 import net.sparkmuse.user.Votable;
 
 import com.google.common.collect.Ordering;
@@ -22,13 +23,13 @@ public class Orderings {
 
   private static abstract class SerializableOrdering<T> extends Ordering<T> implements Serializable {}
 
-  public static List<Post> sort(Collection<Post> posts) {
+  public static <T extends AbstractComment> List<T> sort(Collection<T> posts) {
     final ByRecency recency = new ByRecency();
     return sortReplies(Lists.newArrayList(recency.sortedCopy(posts)), reverse(recency));
   }
 
-  private static List<Post> sortReplies(List<Post> posts, Ordering ordering) {
-    for (final Post post: posts) {
+  private static <T extends AbstractComment> List<T> sortReplies(List<T> posts, Ordering ordering) {
+    for (final T post: posts) {
       post.setReplies(ordering.sortedCopy(post.getReplies()));
       sortReplies(post.getReplies(), ordering);
     }

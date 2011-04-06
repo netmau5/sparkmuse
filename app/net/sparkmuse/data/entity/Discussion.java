@@ -42,7 +42,7 @@ public class Discussion extends OwnedEntity<Discussion>
   private DateTime edited;
   private int votes;
   private boolean notified;
-
+  private int commentCount;
 
   public Discussion() {
     this.created = new DateTime();
@@ -128,4 +128,11 @@ public class Discussion extends OwnedEntity<Discussion>
     votes -= 1;
   }
 
+  public int getCommentCount() {
+    return commentCount;
+  }
+
+  public void setCommentCount(int commentCount) {
+    this.commentCount = commentCount;
+  }
 }

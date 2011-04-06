@@ -2,7 +2,9 @@ package net.sparkmuse.user;
 
 import net.sparkmuse.discussion.SparkSearchResponse;
 import net.sparkmuse.discussion.Posts;
+import net.sparkmuse.discussion.Comments;
 import net.sparkmuse.data.entity.SparkVO;
+import net.sparkmuse.data.entity.AbstractComment;
 
 import java.util.Set;
 import java.util.HashSet;
@@ -37,9 +39,9 @@ public class Votables {
     return Sets.<Votable>newHashSet(spark);
   }
 
-  public static Set<Votable> collect(SparkVO spark, Posts posts) {
+  public static Set<Votable> collect(SparkVO spark, Comments comments) {
     final HashSet<Votable> voteables = Sets.<Votable>newHashSet(spark);
-    voteables.addAll(posts.getAllPosts());
+    voteables.addAll(comments.getAllComments());
     return voteables;
   }
 

@@ -48,10 +48,10 @@ public class PlayMailServiceTest extends UnitTest {
         (Iterable<String>) Iterables.transform(email.getToAddresses(), Functions.toStringFunction()),
         contains(containsString(template.getToEmail()))
     );
-    MatcherAssert.assertThat(
-        (Iterable<String>) Iterables.transform(email.getBccAddresses(), Functions.toStringFunction()),
-        contains(containsString("dave@sparkmuse.com"))
-    );
+//    MatcherAssert.assertThat(
+//        (Iterable<String>) Iterables.transform(email.getBccAddresses(), Functions.toStringFunction()),
+//        contains(containsString("dave@sparkmuse.com"))
+//    );
     MatcherAssert.assertThat(email.getFromAddress().getAddress(), equalTo("noreply@sparkmuse.com"));
     MatcherAssert.assertThat(email.getSubject(), equalTo(template.getSubject()));
   }

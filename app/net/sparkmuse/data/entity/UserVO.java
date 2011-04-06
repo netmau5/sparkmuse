@@ -32,7 +32,8 @@ public class UserVO extends Entity<UserVO> {
   public enum Statistic {
     WISH,
     SPARK,
-    POST
+    POST,
+    DISCUSSION
   }
 
   private String userName;
@@ -50,8 +51,9 @@ public class UserVO extends Entity<UserVO> {
   //statistics
   private int reputation;
   private int sparks;
-  private int posts;
   private int wishes;
+  private int discussions;
+  private int posts; //comment + discussioncomment + post
 
   //email-based validation
   @Embedded
@@ -230,6 +232,14 @@ public class UserVO extends Entity<UserVO> {
 
   public void setWishes(int wishes) {
     this.wishes = wishes;
+  }
+
+  public int getDiscussions() {
+    return discussions;
+  }
+
+  public void setDiscussions(int discussions) {
+    this.discussions = discussions;
   }
 
   public List<Notification> getNotifications() {

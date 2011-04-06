@@ -8,6 +8,7 @@ import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import play.data.validation.Required;
 import play.data.validation.CheckWith;
+import play.data.binding.NoBinding;
 import org.joda.time.DateTime;
 import net.sparkmuse.client.NoScriptCheck;
 import net.sparkmuse.activity.Notifiable;
@@ -21,7 +22,7 @@ import java.util.List;
  * @author neteller
  * @created: Apr 4, 2011
  */
-public class AbstractComment<T> extends OwnedEntity<T>
+public abstract class AbstractComment<T extends AbstractComment> extends OwnedEntity<T>
     implements Votable, Dateable, Notifiable {
 
   private DateTime created;
@@ -39,7 +40,10 @@ public class AbstractComment<T> extends OwnedEntity<T>
   @CheckWith(value= NoScriptCheck.class, message="validation.noscript")
   private String displayContent;
 
-  @Store(false) private List<T> replies; //underlying types must not be immutable for Play validation
+  //underlying types must not be immutable for Play validation
+  //also, because the way play does object binding, we cannot use a generic type on the setter, so it is abstract
+  @Store(false)
+  protected List<T> replies; 
   private Long inReplyToId;
 
   public AbstractComment() {
@@ -59,10 +63,11 @@ public class AbstractComment<T> extends OwnedEntity<T>
     return votes;
   }
 
-  //AccessControlException thrown on GAE when this returned immutablelist...
   public List<T> getReplies() {
-    return Lists.newArrayList(replies);
+    return replies;
   }
+
+  public abstract void setReplies(List<T> replies);
 
   public boolean isNotified() {
     return notified;
@@ -86,10 +91,6 @@ public class AbstractComment<T> extends OwnedEntity<T>
 
   public Long getInReplyToId() {
     return inReplyToId;
-  }
-
-  public void setReplies(List<T> replies) {
-    this.replies = replies;
   }
 
   public void setInReplyToId(Long inReplyToId) {

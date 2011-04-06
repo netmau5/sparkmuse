@@ -20,18 +20,17 @@ import java.util.Set;
  * @author neteller
  * @created: Jul 5, 2010
  */
-public class Posts {
+public class Posts extends Comments<Post> {
 
   private final SparkVO spark;
-  private final ImmutableList<Post> posts;
 
   private final List<Entry<Post, Resource>> resources;
   private final List<Entry<Post, Visual>> visuals;
   private final List<Entry<Post, Offer>> offers;
 
   public Posts(SparkVO spark, List<Post> posts) {
+    super(posts);
     this.spark = spark;
-    this.posts = ImmutableList.copyOf(posts);
 
     List<Entry<Post, Resource>> resources = collectResources(posts);
     final List<Entry<Post, Visual>> visuals = collectVisuals(posts);
@@ -82,37 +81,6 @@ public class Posts {
 
   public SparkVO getSpark() {
     return spark;
-  }
-
-  //AccessControlException thrown on GAE when this returned immutablelist...
-  public List<Post> getPosts() {
-    return Lists.newArrayList(posts);
-  }
-
-  public ImmutableSet<Post> getAllPosts() {
-    ImmutableSet.Builder<Post> builder = ImmutableSet.builder();
-    for (Post post: posts) {
-      builder.add(post);
-      builder.addAll(getRepliesOf(post));
-    }
-    return builder.build();
-  }
-
-  public int countRootPosts() {
-    return posts.size();
-  }
-
-  public int countTotalPosts() {
-    return getAllPosts().size();
-  }
-
-  private static Set<Post> getRepliesOf(final Post post) {
-    final Set<Post> toReturn = Sets.newHashSet();
-    toReturn.addAll(post.getReplies());
-    for (final Post reply: post.getReplies()) {
-      toReturn.addAll(getRepliesOf(reply));
-    }
-    return toReturn;
   }
 
   public List<Resource> getSimilarIdeas() {

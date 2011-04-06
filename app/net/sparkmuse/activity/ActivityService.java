@@ -259,7 +259,7 @@ public class ActivityService {
   }
 
   public void deleteActivitiesFor(Posts posts) {
-    for (Post post: posts.getAllPosts()) {
+    for (Post post: posts.getAllComments()) {
       daoProvider.getActivityDao().deleteAll(Activity.Kind.POST, post.getId());
     }
   }

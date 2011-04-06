@@ -5,6 +5,7 @@ import net.sparkmuse.common.NullTo;
 import java.util.List;
 
 import play.data.validation.Required;
+import com.google.common.collect.Lists;
 
 /**
  * Created by IntelliJ IDEA.
@@ -65,4 +66,8 @@ public class Post extends AbstractComment<Post> {
     this.leadingQuestion = leadingQuestion;
   }
 
+  //AccessControlException thrown on GAE when this returned immutablelist...
+  public void setReplies(List<Post> replies) {
+    this.replies = Lists.newArrayList(replies);
+  }
 }

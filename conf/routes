@@ -34,6 +34,14 @@ GET         /user/view/{userName}             User.view
 GET         /spark/view/{sparkId}             Spark.view
 GET         /{<[0-9]+>sparkId}                Spark.view
 
+# DISCUSS
+
+GET         /discuss                          Discuss.index
+GET         /discuss/{discussionId}           Discuss.view
+POST        /discuss/create                   Discuss.submit
+POST        /discuss/edit                     Discuss.submit
+POST        /discuss/reply                    Discuss.reply
+
 # TASKS
 
 *           /tasks/execute/{taskClassName}    Tasks.execute

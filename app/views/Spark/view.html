@@ -164,11 +164,11 @@
 
     <div id="comments-container">
 
-      #{list items: posts.posts, as: "post"}
+      #{list items: posts.comments, as: "post"}
         #{post post: post, userVotes: userVotes /}
       #{/list}
 
-      #{if posts.posts?.size() == 0}
+      #{if posts.comments?.size() == 0}
         <div id="no-posts">
           <em>No Comments</em>
           <a href="#" onclick="SM.Spark.newReply(); $('#no-posts').remove();">Be the first!</a>

@@ -86,22 +86,22 @@ public class SparkFacadeTest extends PluginFunctionalTest {
   @Test
   public void shouldFindPostsBySpark() {
     Posts posts = sparkFacade.findPostsFor(sparkFacade.findSparkBy(sparkId));
-    assertTrue(posts.countRootPosts() == 2);
-    assertTrue(posts.countTotalPosts() == 3);
+    assertTrue(posts.sizeRootComments() == 2);
+    assertTrue(posts.sizeTotalComments() == 3);
 
-    Post p1 = Iterables.find(posts.getPosts(), new Predicate<Post>(){
+    Post p1 = Iterables.find(posts.getComments(), new Predicate<Post>(){
       public boolean apply(Post post) {
         return post.getId().equals(post1Id);
       }
     });
-    Post p2 = Iterables.find(posts.getPosts(), new Predicate<Post>(){
+    Post p2 = Iterables.find(posts.getComments(), new Predicate<Post>(){
       public boolean apply(Post post) {
         return post.getId().equals(post2Id);
       }
     });
 
     assertTrue(p2.getReplies().size() == 1);
-    assertTrue(posts.getPosts().iterator().next() == p2); //first post should be p2 (higher votes)
+    assertTrue(posts.getComments().iterator().next() == p2); //first post should be p2 (higher votes)
   }
 
   @Test
