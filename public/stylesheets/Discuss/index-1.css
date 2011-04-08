@@ -1,0 +1,190 @@
+$LOGO_LIGHT_YELLOW: #fdf9d2;
+$LOGO_YELLOW: #f5e21f;
+$LOGO_DARK_YELLOW: #FFC91F;
+$LOGO_BLUE: #69D2E7;
+$LOGO_LIGHT_BLUE: #A7DBD8;
+$LOGO_DARK_BLUE: #007160;
+$LOGO_ORANGE: #FA6900;
+$LOGO_LIGHT_ORANGE: #F38630;
+$COLOR_NEUTRAL: #E0E4CC;
+$COLOR_LIGHT_NEUTRAL: #fefffa;
+$COLOR_DARK_NEUTRAL: #d1d9a9;
+$COLOR_ALT: #666;
+
+$FONT_FAMILY_TITLE: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_CONTROLS: "Tahoma", "Geneva", sans-serif;
+$FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
+
+/* HEADER */
+
+/* CREATE TOPIC */
+
+.create-topic {
+  border: 1px solid #bbb;
+  -moz-box-shadow: 1px 1px 3px #b2b2b2;
+  -webkit-box-shadow: 1px 1px 3px #b2b2b2;
+  box-shadow: 1px 1px 3px #b2b2b2;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background: #F6F6F6;
+  margin-bottom: 2em;
+}
+
+  .create-topic-inner {
+    padding:10px;
+    -webkit-box-shadow: inset 1px 1px 1px #ffffff;
+    -moz-box-shadow: inset 1px 1px 1px #ffffff;
+    box-shadow: inset 1px 1px 1px #ffffff;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+  }
+
+  .create-topic label {
+    position: absolute;
+    left:10px;
+    top: 4px;
+    font-family: $FONT_FAMILY_CONTROLS;
+    font-size: 14px;
+    color: #ccc;
+    z-index: 1;
+  }
+
+  .create-topic .input-wrapper {
+    position: relative;
+  }
+
+  .create-topic input, .create-topic textarea {
+    z-index: 2;
+    position: relative;
+    background-color: transparent;
+  }
+
+  .create-topic .title,
+  .create-topic .title .input-wrapper {
+    margin-bottom: 0;
+  }
+
+    .create-topic .title .character-count {
+      font-family: $FONT_FAMILY_CONTROLS;
+      font-size: 14px;
+      font-weight: bold;
+      color: #ccc;
+      position: absolute;
+      right: 10px;
+      top: 4px;
+    }
+
+      .create-topic .title .character-count.negative {
+        color: red;
+      }
+
+  .create-topic textarea {
+    height: 100px;  
+  }
+
+  .create-topic .alt { padding-left: 10px; margin-bottom: 0.5em; }
+
+  .create-topic .details { margin-top: 0.5em; }
+
+    .create-topic .details .control-bar { text-align: right; }
+
+#discussions-container {
+
+}
+
+/* CONTENT AREAS */
+
+.groups ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+/* INDIVIDUAL WISHES */
+
+.discussion {
+  color: #666666;
+}
+
+.discussion:hover { background-image: none; }
+
+.discussion-inner {
+  margin-left: 75px;
+  padding: 0 0 0 10px;
+}
+
+  .discussion h3 {
+    font-size: 1.5em;
+    margin-bottom: 8px;
+  }
+
+  .discussion p {
+    margin-bottom: 8px;
+  }
+
+  .discussion .alt {
+    font-size: 14px;
+  }
+
+  .discussion .details {
+    vertical-align: top;
+    float: left;
+    margin: 0 15px 0 5px;
+    padding: 0 0px 0 0px;
+    background: transparent;
+    text-align: left;
+    line-height: 24px;
+  }
+
+    .discussion .details .detail { margin-bottom: 6px; line-height: 16px; }
+
+    .discussion .details .comments {
+      display: block;
+      background: url("../../images/icons/silk/comments_faded.png") no-repeat;
+
+      background-color: #FEFFFA;
+      border: 1px solid #cccccc;
+      -moz-border-radius: 3px;
+      border-radius: 3px;
+      width: 20px;
+      padding: 2px 2px 2px 28px;
+      height: 16px;
+      color: $COLOR_ALT;
+      background-position: 8px 2px;
+
+      font-size: 12px;
+      font-family: $FONT_FAMILY_CONTROLS;
+    }
+
+      .discussion .details a.comments:hover {
+        text-decoration: none;
+        background-color:#dff4ff;
+        border:1px solid #c2e1ef;
+        color:#336699;
+      }
+
+      .discussion .details a.comments:active {
+        text-decoration: none;
+        background-color:#6299c5;
+        border:1px solid #6299c5;
+        color:#fff;
+      }
+
+    .discussion .details .likes {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+
+      font-size: 12px;
+      font-family: $FONT_FAMILY_CONTROLS;
+    }
+
+  .discussion .alt {
+    margin-bottom: 8px;
+  }
+
+  .discussion .tags {
+    margin-bottom: 8px;
+  }
+
+
+

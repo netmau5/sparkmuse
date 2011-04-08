@@ -1,0 +1,92 @@
+#{extends "bodytemplate.html" /}
+#{set title: discussionResponse.discussion.title /}
+#{set nav:'DISCUSS' /}
+
+<link rel="stylesheet" href="@{'/public/stylesheets/Discuss/view-1.css'}" type="text/css" />
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <div class="breadcrumbs"><a href="@{Discuss.index()}">Discuss</a> &rsaquo; Discussion</div>
+
+  <div class="discussion-info">
+
+    <h2>
+      <a href="@{Discuss.view(discussionResponse.discussion.id)}">${discussionResponse.discussion.title}</a>
+    </h2>
+
+    #{if discussionResponse.discussion.discussionType.toString() == "LINK"}
+      <p>
+        <a href="${discussionResponse.discussion.url}" target="_new">${discussionResponse.discussion.url}</a> <img src="@{'public/images/icons/silk/link_go.png'}" alt="External Link"/>
+      </p>
+    #{/if}
+
+    #{if discussionResponse.discussion.displayContent}
+    <div class="markdown-container">
+      ${discussionResponse.discussion.displayContent.raw()}
+    </div>
+    #{/if}
+
+    #{if discussionResponse.content?.embed && discussionResponse.content.embed.html}
+    <div class="embed-container">
+      ${discussionResponse.content.embed.html.raw()}
+    </div>
+    #{/if}
+
+    <div class="details">
+      <span class="detail">
+        Created ${discussionResponse.discussion.created.format()}
+        by #{nameTag user: discussionResponse.discussion.author, size: "mini"/}
+      </span>
+    </div>
+  </div>
+
+  <div class="comments-panel-wrapper wrapper last">
+  <div class="comments-panel inner">
+
+    <div class="header-wrapper">
+      <div class="header">
+        <div class="controls">
+          <a class="button positive" href="#" onclick="SM.CommentManagerInstance.newReply();">
+            <span>
+              <img src="/public/images/icons/silk/add.png" alt="Post">
+              Add Comment
+            </span>
+          </a>
+        </div>
+        <h3><span class="detail comment">${discussionResponse.discussion.commentCount} Comment${discussionResponse.discussion.commentCount.pluralize()}</span></h3>
+      </div>
+    </div>
+
+    <div id="comments-container">
+
+      #{list items: discussionResponse.comments.comments, as: "comment"}
+        #{comment comment: comment, userVotes: discussionResponse.userVotes /}
+      #{/list}
+
+      #{if discussionResponse.comments?.sizeTotalComments() == 0}
+        <div id="no-posts">
+          <em>No Comments</em>
+          <a href="#" onclick="SM.CommentManagerInstance.newReply(); $('#no-posts').remove();">Be the first!</a>
+        </div>
+      #{/if}
+
+    </div>
+
+  </div>
+  </div>
+
+</div>
+
+#{include 'CommentManager.html' /}
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+    SM.CommentManagerInstance = new SM.CommentManager(
+        "@{Discuss.reply()}",
+        "discussionId",
+        "${discussionResponse.discussion.id}"
+    );
+  });
+
+</script>

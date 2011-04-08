@@ -13,13 +13,13 @@ public class DiscussionResponse {
   private final Discussion discussion;
   private final DiscussionContent content;
   private final Comments comments;
-  private final UserVotes votes;
+  private final UserVotes userVotes;
 
-  public DiscussionResponse(Discussion discussion, DiscussionContent content, Comments comments, UserVotes votes) {
+  public DiscussionResponse(Discussion discussion, DiscussionContent content, Comments comments, UserVotes userVotes) {
     this.discussion = discussion;
     this.content = content;
     this.comments = comments;
-    this.votes = votes;
+    this.userVotes = userVotes;
   }
 
   public Discussion getDiscussion() {
@@ -34,7 +34,7 @@ public class DiscussionResponse {
     return comments;
   }
 
-  public UserVotes getVotes() {
-    return votes;
+  public UserVotes getUserVotes() {
+    return userVotes;
   }
 }

@@ -2,6 +2,7 @@ package net.sparkmuse.discussion;
 
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.CommitmentType;
+import net.sparkmuse.common.Orderings;
 import net.sparkmuse.data.FoundryDao;
 import net.sparkmuse.data.DaoProvider;
 import net.sparkmuse.data.entity.*;
@@ -137,7 +138,7 @@ public class FoundryFacade {
   }
 
   private List<Comment> findWishCommentsBy(Long wishId) {
-    return foundryDao.findWishCommentsBy(wishId);
+    return Orderings.sort(foundryDao.findWishCommentsBy(wishId));
   }
 
   public Comment createComment(Comment comment) {

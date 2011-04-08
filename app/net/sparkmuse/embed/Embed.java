@@ -46,6 +46,7 @@ public class Embed {
   private Integer thumbnailHeight;
 
   @JsonProperty("description")
+  @Type(Text.class)
   private String description;
 
   @JsonProperty("url")

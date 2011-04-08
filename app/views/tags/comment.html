@@ -16,7 +16,32 @@
     </div>
 
     <div class="post-actions alt">
+      <a class="icon-button positive"
+          href="#"
+          *{ only go 1 deep }*
+          #{if (!_comment.inReplyToId)}
+            onclick="SM.CommentManagerInstance.newReply('${_comment.id}');"
+          #{/if}
+          #{else}
+            onclick="SM.CommentManagerInstance.newReply('${_comment.inReplyToId}');"
+          #{/else}
+          title="Reply to this comment.">
+        <img src="@{'public/images/icons/silk/comment_add.png'}" />
+      </a>
+      <a href="#"
+         #{if (!_comment.inReplyToId)}
+            onclick="SM.CommentManagerInstance.newReply('${_comment.id}');"
+          #{/if}
+          #{else}
+            onclick="SM.CommentManagerInstance.newReply('${_comment.inReplyToId}');"
+          #{/else}
+         style="font-style: normal;">Reply</a> &nbsp;
       <label class="minor">Posted ${_comment.created.format()}</label>
     </div>
   </blockquote>
+  <div class="replies">
+    #{list items: _comment.replies, as: "reply"}
+      #{comment comment: reply, userVotes: _userVotes /}
+    #{/list}
+  </div>
 </div>

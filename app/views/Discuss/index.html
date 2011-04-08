@@ -1,0 +1,176 @@
+#{extends "bodytemplate.html" /}
+#{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
+#{set nav:'DISCUSS' /}
+
+<link rel="stylesheet" href="@{'/public/stylesheets/Discuss/index-1.css'}" type="text/css" />
+
+<div class="page-canvas prepend-1 span-22 append-1">
+
+  <div class="span-16 first">
+
+    #{if isGroupPage}
+      <div class="tagname">
+        <h2>Group Name</h2>
+      </div>
+      <hr/>
+    #{/if}
+
+    <div class="create-topic">
+      <div class="create-topic-inner">
+        <form action="@{Discuss.submit()}" method="POST" name="CreatePostForm">
+          <div class="error-message" parameter="discussion"></div>
+          <div class="field title">
+            <div class="error-message" parameter="discussion.title"></div>
+            <div class="input-wrapper">
+              <label>New Topic Title</label>
+              <input type="text" name="title"/>
+              <div class="character-count">120</div>
+            </div>
+          </div>
+          <div class="details" style="display:none;">
+            <div class="field">
+              <div class="error-message" parameter="discussion.url"></div>
+              <div class="input-wrapper">
+                <label>URL</label>
+                <input type="text" name="url"/>
+              </div>
+            </div>
+            <div class="alt">or</div>
+            <div class="field">
+              <div class="error-message" parameter="discussion.content"></div>
+              <div class="input-wrapper">
+                <label>Content</label>
+                <textarea name="content"></textarea>
+              </div>
+            </div>
+            <div class="control-bar">
+              <a href="#" onclick="SM.Discuss.cancelPost();" class="button negative">
+                <span>
+                  <img src="@{'public/images/icons/silk/cancel.png'}" alt="Cancel"/>
+                  Cancel
+                </span>
+              </a>
+              <a href="#" onclick="$(document.CreatePostForm).submit();" class="button positive">
+                <span>
+                  <img src="@{'public/images/icons/silk/accept.png'}" alt="Create Spark"/>
+                  Post
+                </span>
+              </a>
+              <div class="clear"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="discussions-container">
+      <hr/>
+      #{list items: discussionsResponse.discussions, as: 'discussion'}
+        #{discuss/discussionInfo discussion: discussion, userVotes: discussionsResponse.userVotes, userProfile: currentUserProfile /}
+      #{/list}
+    </div>
+
+  </div>
+
+  <div class="span-6 wish-info-wrapper wrapper last">
+
+    <div class="sidebox">
+    <div class="sidebox-inner">
+      <h4>General Discussion</h4>
+      <p>centered around technology and the disciplines involved in creating it</p>
+      <div class="actions">
+        <a href="#">Guidelines &rarr;</a>
+      </div>
+    </div>
+    </div>
+
+    <div class="sidebox groups">
+    <div class="sidebox-inner">
+      <h4>Groups</h4>
+      <ul>
+        <li>
+          <a href="#">Entrepreneurship</a>
+        </li>
+        <li>
+          <a href="#">Engineering</a>
+        </li>
+        <li>
+          <a href="#">Marketing</a>
+        </li>
+        <li>
+          <a href="#">Meta</a>
+        </li>
+      </ul>
+      <div class="clear"></div>
+    </div>
+    </div>
+
+  </div>
+
+  <div class="clear"></div>
+
+</div>
+
+<script type="text/javascript">
+
+  $(document).ready(function(){
+
+    //inline labels
+    $(".create-topic input, .create-topic textarea").keyup(function(){
+      if (this.value.length > 0) {
+        $(this).parent().find("label").hide();
+      }
+      else {
+        $(this).parent().find("label").show();
+      }
+    });
+
+    $(".create-topic .title input").keyup(function(){
+      var details = $(this).parents(".create-topic").find(".details"),
+          counter = $(".character-count", this.parentNode.parentNode),
+          count = 120 - this.value.length;
+
+      counter.html("" + count);
+      if (count < 0) { counter.addClass("negative"); }
+      else { counter.removeClass("negative"); }
+
+      if (this.value.length > 0) {
+        details.slideDown();
+      }
+      else {
+        details.slideUp();
+      }
+    });
+
+    SM.Discuss = {};
+
+    SM.Discuss.cancelPost = function() {
+      $(".create-topic").find(".details").slideUp();
+      $(".create-topic input, .create-topic textarea").val("").trigger("keyup");
+    };
+
+    SM.Discuss.addPost = function(r) {
+      if (r.fragment) {
+        $("#discussions-container").prepend(r.fragment);
+      }
+    }
+
+    var converter = new Attacklab.showdown.converter();
+    $(document.CreatePostForm).formHandler(function(){
+      return {
+        discussion : {
+          title: this.title.value,
+          url: this.url.value,
+          content: this.content.value,
+          displayContent: converter.makeHtml(this.content.value)
+        },
+
+        _fragment: SM.Discuss.addPost
+      };
+    }).bind(SM.Events.Submit, SM.formSubmitModal)
+      .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose)
+      .bind(SM.Events.SubmitEnd, SM.Discuss.cancelPost);
+
+  });
+
+</script>

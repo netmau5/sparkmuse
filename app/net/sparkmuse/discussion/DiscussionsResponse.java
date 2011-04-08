@@ -12,15 +12,15 @@ import java.util.List;
 public class DiscussionsResponse {
 
   private final List<Discussion> discussions;
-  private final UserVotes votes;
+  private final UserVotes userVotes;
 
-  public DiscussionsResponse(List<Discussion> discussions, UserVotes votes) {
+  public DiscussionsResponse(List<Discussion> discussions, UserVotes userVotes) {
     this.discussions = discussions;
-    this.votes = votes;
+    this.userVotes = userVotes;
   }
 
-  public UserVotes getVotes() {
-    return votes;
+  public UserVotes getUserVotes() {
+    return userVotes;
   }
 
   public List<Discussion> getDiscussions() {

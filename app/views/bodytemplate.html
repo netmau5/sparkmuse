@@ -26,11 +26,12 @@
 <div id="header-container-wrapper">
 <div id="header-container">
   <div class="page-container clearfix" id="header">
-    <div class="span-16">
+    <div class="span-19">
       <a class="logo #{if nav=='FOUNDRY'}foundry#{/if}" href="@{Application.home()}"></a>
       #{if currentUser.isUser() }
         <ol class="nav">
           <li><a href="@{Home.index()}" class="#{if nav=='SPARKS'}active#{/if}">SPARKS</a></li>
+          <li><a href="@{Discuss.index()}" class="#{if nav=='DISCUSS'}active#{/if}">DISCUSS</a></li>
           <li><a href="@{People.view()}" class="#{if nav=='PEOPLE'}active#{/if}">PEOPLE</a></li>
           <li><a href="@{ActivityController.view()}" class="#{if nav=='ACTIVITY'}active#{/if}">ACTIVITY</a></li>
           <li><a href="@{Foundry.index()}" class="#{if nav=='FOUNDRY'}active#{/if}">FOUNDRY</a></li>
@@ -40,7 +41,7 @@
         <span class="foundry-title">The Spark Foundry</span>
       #{/else}
     </div>
-    <div class="span-8 last">
+    <div class="user-details">
       <ul>
         <li><a href="@{Application.logout()}">Logout</a></li>
         <li>#{nameTag user: currentUser /} <img src="@{'public/images/icons/silk/lightbulb.png'}" alt="Reputation" /> ${currentUser.reputation}</li>

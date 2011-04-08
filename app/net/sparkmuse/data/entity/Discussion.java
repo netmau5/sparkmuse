@@ -10,6 +10,7 @@ import com.google.code.twig.annotation.Type;
 import com.google.appengine.api.datastore.Text;
 import play.data.validation.Required;
 import play.data.validation.CheckWith;
+import play.data.validation.URL;
 import org.joda.time.DateTime;
 
 /**
@@ -19,20 +20,20 @@ import org.joda.time.DateTime;
 public class Discussion extends OwnedEntity<Discussion> 
     implements Votable, Dateable, Notifiable {
 
+  @Required
   private String title;
 
   //for DiscussionType.LINK
 
+  @URL
   private String url;
 
   //for DiscussionType.DISCUSS
 
   @Type(Text.class)
-  @Required
   private String content;
 
   @Type(Text.class)
-  @Required
   @CheckWith(value= NoScriptCheck.class, message="validation.noscript")
   private String displayContent;
 

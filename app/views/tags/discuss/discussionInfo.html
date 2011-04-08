@@ -1,0 +1,42 @@
+*{ args: 1- discussion, 2- userVotes, 3-userProfile }*
+
+<div class='discussion'>
+
+  <div class="details">
+    <div class="detail">
+
+      #{if _userProfile?.canVoteOnFoundry()}
+        %{ isLiked = _userVotes.hasUpVoted(_discussion) }%
+        <a href="#!%{ if(!isLiked){ }%@{User.vote(_discussion.class.name, _discussion.id)}%{ } }%"
+           callback="SM.LikedCallback"
+           class='likes likes-medium ${isLiked ? "liked" : ""}'
+           title='#{if isLiked}You liked this.#{/if}#{else}Click to like.#{/else}'>${_discussion.votes}</a>
+      #{/if}
+      #{else}
+        <a href="#"
+           title="#{foundry/voteTooltip _userProfile /}"
+           class='likes likes-medium'>${_discussion.votes}</a>
+      #{/else}
+
+    </div>
+    <div class="detail"><a href="@{Discuss.view(_discussion.id)}" class="comments" title="View comments">${_discussion.commentCount}</a></div>
+  </div>
+
+  <div class="discussion-inner">
+    <h3>
+      #{if _discussion.discussionType.toString() == "LINK"}
+        <a href="${_discussion.url}" target="_new">${_discussion.title}</a> <img src="@{'public/images/icons/silk/link_go.png'}" alt="External Link"/>
+      #{/if}
+      #{else}
+        <a href="@{Discuss.view(_discussion.id)}">${_discussion.title}</a>
+      #{/else}
+    </h3>
+    <div class="alt">
+      Created ${_discussion.created.format()}
+      by #{nameTag user: _userProfile?.user, size: "mini"/}
+    </div>
+  </div>
+
+  <hr/>
+
+</div>

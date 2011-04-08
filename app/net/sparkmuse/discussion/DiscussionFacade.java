@@ -3,14 +3,17 @@ package net.sparkmuse.discussion;
 import net.sparkmuse.data.DiscussionDao;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.task.IssueTaskService;
+import net.sparkmuse.task.discussion.NewDiscussionEmbedTask;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.Orderings;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.user.UserVotes;
+import net.sparkmuse.embed.Embed;
 import com.google.inject.Inject;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
+import com.google.common.collect.ImmutableMap;
 import org.joda.time.DateTime;
 
 import java.util.List;
@@ -76,6 +79,10 @@ public class DiscussionFacade {
       newDiscussion.getAuthor().issueIncrementTask(issueTaskService, UserVO.Statistic.DISCUSSION);
     }
 
+    issueTaskService.issue(NewDiscussionEmbedTask.class, ImmutableMap.of(
+        NewDiscussionEmbedTask.PARAMETER_DISCUSSION_ID, newDiscussion.getId()
+    ), null);
+
     return newDiscussion;
   }
 
@@ -99,12 +106,27 @@ public class DiscussionFacade {
     return discussionDao.findDiscussionContentBy(discussionId);
   }
 
-  private Discussion findDiscussionBy(Long discussionId) {
+  private DiscussionContent findOrCreateDiscussionContent(Discussion discussion) {
+    DiscussionContent content = findDiscussionContentBy(discussion.getId());
+    if (null == content) {
+      return DiscussionContent.fromNewDiscussion(discussion);
+    }
+    else {
+      return content;
+    }
+  }
+
+  public Discussion findDiscussionBy(Long discussionId) {
     return discussionDao.findDiscussionBy(discussionId);
   }
 
   private Comments findCommentsFor(Long discussionId) {
     return new Comments(Orderings.sort(discussionDao.findCommentsFor(discussionId)));
   }
-  
+
+  public void addEmbed(Discussion discussion, Embed embed) {
+    DiscussionContent content = findOrCreateDiscussionContent(discussion);
+    content.setEmbed(embed);
+    discussionDao.store(content);
+  }
 }

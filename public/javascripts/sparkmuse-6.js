@@ -365,4 +365,5 @@ $(document).ready(function() {
 
   //form submit error
   $("form").live(SM.Events.SubmitEndError, SM.formSubmitModalClose);
+
 });
