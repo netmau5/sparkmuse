@@ -987,16 +987,15 @@ a.top-arrow {
 
   #signature .copyright { float: right; color: #999; }
 
-.partners {
+a.partners {
+  display: block;
   width: 730px;
   height: 110px;
-  background: url("../images/partners.png") bottom center no-repeat;
+  background: url("../images/partners/partners-banner.jpg") bottom 30px no-repeat;
   margin-bottom: 25px;
   padding: 15px 0 0 0;
-  opacity: 0.5;
+  text-indent: -9999px;
 }
-
-  .partners:hover { opacity: 1; }
 
 /* END <FOOTER> */
 
