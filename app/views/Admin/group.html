@@ -1,0 +1,95 @@
+#{extends 'bodytemplate.html' /}
+#{set title: 'Emails' /}
+
+<style type="text/css">
+  .content-container {
+    padding: 1em 10px 0 10px;
+  }
+</style>
+
+<div class="page-title prepend-1 span-22 append-1 first last">
+
+  <div class="title-bar span-22 first last">
+    <h2>Discussion Group</h2>
+    <div class="breadcrumbs"><a href="@{Admin.home()}">Admin Home</a> &rsaquo; <a href="@{Admin.groups()}">Discussion Groups</a> &rsaquo; Discussion Group</div>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1 first last">
+
+  <div class="span-13 content-wrapper first last">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <form name="GroupForm" action="@{Admin.saveGroup()}" method="POST">
+
+      <input type="hidden" name="group.id" value="${group?.id}" />
+      <input type="hidden" name="group.displayInfo" value="" />
+
+      <div>
+
+        <fieldset>
+          <div class="field">
+            <label>Name</label>
+            <div class="error-message" parameter="group.name"></div>
+            <div class="input-wrapper"><input type="text" name="group.name" maxlength="100" value="${group?.name}"/></div>
+           </div>
+        </fieldset>
+
+        <hr/>
+
+        <fieldset>
+          <div class="field">
+            <label>
+              Group Information
+            </label>
+            <div class="error-message" parameter="group.info"></div>
+            <div class="input-wrapper"><textarea name="group.info">${group?.info}</textarea></div>
+           </div>
+        </fieldset>
+
+      </div>
+
+      <div class="control-bar">
+        <a href="#" onclick="$(document.GroupForm).submit();" class="button positive">
+          <span>
+            <img src="@{'public/images/icons/silk/accept.png'}" alt="Save"/>
+            Save
+          </span>
+        </a>
+        <div class="clear"></div>
+      </div>
+
+    </form>
+
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 last">
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>Controls</h4>
+
+      <ul>
+
+      </ul>
+
+    </div>
+    </div>
+  </div>
+
+</div>
+
+<script type="text/javascript">
+  $(function() {
+
+    var converter = new Attacklab.showdown.converter();
+    $(document.GroupForm).bind("submit", function(){
+      this["group.displayInfo"].value = (converter.makeHtml(this["group.info"].value));
+    })
+
+  });
+</script>

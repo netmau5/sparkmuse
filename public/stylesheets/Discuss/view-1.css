@@ -34,9 +34,22 @@ $FONT_FAMILY_STANDARD: "Georgia", "Times New Roman", Times, serif;
 
   .discussion-info .markdown-container,
   .discussion-info .embed-container,
-  .discussion-info .details {
+  .discussion-info .sub-details {
     margin-bottom: 0.5em;
   }
+
+  .discussion-info .discussion-inner {
+    margin-left: 75px;
+  }
+
+  .discussion-info .details {
+    float: left;
+  }
+
+    .discussion-info .details .detail {
+      margin-bottom: 6px;
+      line-height: 16px;
+    }
 
 /* COMMENTS */
 

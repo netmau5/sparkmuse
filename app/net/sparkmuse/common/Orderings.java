@@ -1,5 +1,5 @@
-package net.sparkmuse.common;
 
+package net.sparkmuse.common;
 import net.sparkmuse.data.entity.Entity;
 import net.sparkmuse.data.entity.SparkVO;
 import net.sparkmuse.data.entity.Post;
@@ -21,7 +21,7 @@ import java.io.Serializable;
  */
 public class Orderings {
 
-  private static abstract class SerializableOrdering<T> extends Ordering<T> implements Serializable {}
+  public static abstract class SerializableOrdering<T> extends Ordering<T> implements Serializable {}
 
   public static <T extends AbstractComment> List<T> sort(Collection<T> posts) {
     final ByRecency recency = new ByRecency();

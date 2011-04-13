@@ -535,6 +535,34 @@ label {
 
   label.minor { color: #666; display: inline-block; font-weight: normal; margin-bottom: 0; }
 
+#loading-indicator {
+  padding: 5px 10px 5px 31px;
+  font-size: 18px;
+  font-family: $FONT_FAMILY_CONTROLS;
+  background: #fdf5ce url("../images/spinner.gif") 10px center no-repeat;
+  color:#c77405;
+  border: 2px solid #fbcb09;
+  border-top: none;
+
+  -webkit-box-shadow: 0px 2px 2px #000000;
+  -moz-box-shadow: 0px 2px 2px #000000;
+  box-shadow: 0px 2px 2px #000000;
+
+  -moz-border-radius-topleft: 0px;
+  -moz-border-radius-topright: 0px;
+  -moz-border-radius-bottomright: 5px;
+  -moz-border-radius-bottomleft: 5px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 50%;
+}
+
 img { vertical-align: middle; }
 
 a {
@@ -633,27 +661,34 @@ table { margin-bottom: 0.5em; }
   position: relative;
 }
 
-#header * {
-  z-index: 2;
-  position: relative;
-}
+  #header * {
+    z-index: 2;
+    position: relative;
+  }
 
-#header ul {
-  font-size: 14px;
-  font-variant: small-caps;
-  letter-spacing: 1px;
-  text-transform: lowercase;
-  list-style-type: none;
-  float: right;
-  height: 50px;
-  margin: 0;
-  padding-left: 0;
-}
+  #header ul {
+    font-size: 14px;
+    font-variant: small-caps;
+    letter-spacing: 1px;
+    text-transform: lowercase;
+    list-style-type: none;
+    float: right;
+    height: 50px;
+    margin: 0;
+    padding-left: 0;
+  }
 
-#header ul li {
-  float: right;
-  padding-left: 1em;
-}
+  #header ul li {
+    float: right;
+    padding-left: 1em;
+  }
+
+  #header .user-details {
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 10px;
+  }
 
 .logo {
   float: left;
@@ -707,13 +742,6 @@ ol.nav {
   ol.nav li a.active {
     color: $LOGO_ORANGE;
   }
-
-.user-details {
-  position: absolute;
-  right: 0;
-  top: 0;
-  margin-right: 10px;
-}
 
 /* END <HEADER> */
 

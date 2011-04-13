@@ -88,6 +88,10 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
     .create-topic .details .control-bar { text-align: right; }
 
+  .create-topic .control-bar { margin-bottom: 0; }
+
+/* DISCUSSIONS */
+
 #discussions-container {
 
 }

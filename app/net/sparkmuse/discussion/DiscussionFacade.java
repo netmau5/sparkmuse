@@ -6,6 +6,7 @@ import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.task.discussion.NewDiscussionEmbedTask;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.Orderings;
+import net.sparkmuse.common.CacheKeyFactory;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votable;
 import net.sparkmuse.user.UserVotes;
@@ -15,6 +16,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
 import com.google.common.collect.ImmutableMap;
 import org.joda.time.DateTime;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 import java.util.Set;
@@ -38,11 +40,17 @@ public class DiscussionFacade {
     this.userFacade = userFacade;
   }
 
-  public DiscussionsResponse findRecentDiscussions(UserVO requestingUser) {
-    List<Discussion> discussions = discussionDao.findMostRecentDiscussions();
+  public DiscussionsResponse getRecentDiscussions(DiscussionsRequest request) {
+    List<Discussion> discussions = discussionDao.findMostRecentDiscussions(
+        getGroups().findGroupNamed(request.getGroupName()).getId()
+    );
     Set<Votable> votables = Sets.<Votable>newHashSet(discussions);
-    UserVotes votes = userFacade.findUserVotesFor(votables, requestingUser);
-    return new DiscussionsResponse(discussions, votes);
+    UserVotes votes = userFacade.findUserVotesFor(votables, request.getRequestingUser());
+    return new DiscussionsResponse(
+        discussions,
+        votes,
+        getGroups().findGroupNamed(request.getGroupName())
+    );
   }
 
   public DiscussionResponse getDiscussionBy(Long discussionId, UserVO requestingUser) {
@@ -68,6 +76,10 @@ public class DiscussionFacade {
 
     if (!isNew) {
       discussion.setEdited(new DateTime());
+    }
+    //dont set group for general discussion
+    if (null != discussion.getGroupId()) {
+      discussion.setGroup(getGroups().findGroupBy(discussion.getGroupId()));
     }
 
     final Discussion newDiscussion = discussionDao.store(discussion);
@@ -129,4 +141,22 @@ public class DiscussionFacade {
     content.setEmbed(embed);
     discussionDao.store(content);
   }
+
+  public DiscussionGroups getGroups() {
+    DiscussionGroups discussionGroups = cache.get(CacheKeyFactory.newDiscussionGroupsKey());
+    if (null == discussionGroups) {
+      discussionGroups = new DiscussionGroups(findGroups());
+      cache.set(discussionGroups);
+    }
+    return discussionGroups;
+  }
+
+  public List<DiscussionGroup> findGroups() {
+    return discussionDao.findDiscussionGroups();
+  }
+
+  public void storeGroup(DiscussionGroup group) {
+    discussionDao.store(group);
+  }
+
 }

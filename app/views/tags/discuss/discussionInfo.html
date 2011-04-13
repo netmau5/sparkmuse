@@ -1,22 +1,11 @@
 *{ args: 1- discussion, 2- userVotes, 3-userProfile }*
 
-<div class='discussion'>
+<div class='discussion' created="${_discussion.created.getMillis()}">
 
   <div class="details">
     <div class="detail">
 
-      #{if _userProfile?.canVoteOnFoundry()}
-        %{ isLiked = _userVotes.hasUpVoted(_discussion) }%
-        <a href="#!%{ if(!isLiked){ }%@{User.vote(_discussion.class.name, _discussion.id)}%{ } }%"
-           callback="SM.LikedCallback"
-           class='likes likes-medium ${isLiked ? "liked" : ""}'
-           title='#{if isLiked}You liked this.#{/if}#{else}Click to like.#{/else}'>${_discussion.votes}</a>
-      #{/if}
-      #{else}
-        <a href="#"
-           title="#{foundry/voteTooltip _userProfile /}"
-           class='likes likes-medium'>${_discussion.votes}</a>
-      #{/else}
+      #{likeButton votable: _discussion, userVotes: _userVotes, size: "medium" /}
 
     </div>
     <div class="detail"><a href="@{Discuss.view(_discussion.id)}" class="comments" title="View comments">${_discussion.commentCount}</a></div>
@@ -33,7 +22,15 @@
     </h3>
     <div class="alt">
       Created ${_discussion.created.format()}
-      by #{nameTag user: _userProfile?.user, size: "mini"/}
+      by #{nameTag user: _discussion?.author, size: "mini"/}
+      in
+      #{if _discussion.group}
+      <a href="#${_discussion.group.name}" class="group">/discuss/${_discussion.group.name}</a>
+      #{/if}
+      #{else}
+      <a href="#" class="group">/discuss</a>
+      #{/else}
+
     </div>
   </div>
 

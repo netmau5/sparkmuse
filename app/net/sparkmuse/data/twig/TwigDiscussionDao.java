@@ -21,11 +21,16 @@ public class TwigDiscussionDao extends TwigDao implements DiscussionDao {
     super(service);
   }
 
-  public List<Discussion> findMostRecentDiscussions() {
+  public List<Discussion> findMostRecentDiscussions(Long groupId) {
     FindCommand.RootFindCommand<Discussion> find = datastore.find().type(Discussion.class)
         .addSort("created", Query.SortDirection.DESCENDING)
         .fetchMaximum(100)
         .fetchFirst(100);
+
+    if (null != groupId) {
+      find.addFilter("groupId", Query.FilterOperator.EQUAL, groupId);
+    }
+
     return helper.all(find);
   }
 
@@ -48,5 +53,9 @@ public class TwigDiscussionDao extends TwigDao implements DiscussionDao {
     return AbstractComment.applyHierarchy(helper.all(
         datastore.find().type(DiscussionComment.class).addFilter("discussionId", EQUAL, discussionId)
     ));
+  }
+
+  public List<DiscussionGroup> findDiscussionGroups() {
+    return helper.all(datastore.find().type(DiscussionGroup.class));
   }
 }

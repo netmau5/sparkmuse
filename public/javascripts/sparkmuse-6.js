@@ -3,7 +3,8 @@ SM.Events = {
   TagRemoved: "TagRemoved",
   Submit: "Submit",
   SubmitEnd: "SubmitEnd",
-  SubmitEndError: "SubmitEndError"
+  SubmitEndError: "SubmitEndError",
+  SubmitEndSuccess: "SubmitEndSuccess"
 };
 
 SM.newId = (function(){
@@ -28,6 +29,20 @@ SM.formSubmitModalClose = function(){
   $.modal.close(); 
 };
 
+//loading indicator
+SM.LoadingIndicator = {
+  show: function() {
+    var indicator = $("#loading-indicator");
+    if (!$("#loading-indicator").size()) {
+      indicator = $("<div id='loading-indicator'>Loading</div>");
+      $(document.body).append(indicator);
+    }
+    indicator.slideDown();
+  },
+  hide: function() {
+    $("#loading-indicator").slideUp();
+  }
+};
 
 //response handler
 (function($){
@@ -112,6 +127,7 @@ SM.formSubmitModalClose = function(){
         SM.enable(form);
         var handler = params["_" + response.type.toLowerCase()] || FormHandler.determineCorrectHandler(response);
         form.trigger(SM.Events.SubmitEnd);
+        form.trigger(FormHandler.determineCorrectEndEvent(response));
         handler.call(this, response);
       }
     },
@@ -131,6 +147,20 @@ SM.formSubmitModalClose = function(){
       }
     },
 
+    determineCorrectEndEvent: function(response) {
+      if (!response.type) throw "Unknown response format.";
+      switch(response.type){
+        case "SUCCESS": return SM.Events.SubmitEndSuccess;
+        case "JSON": return SM.Events.SubmitEndSuccess;
+        case "VALIDATION_ERROR": return SM.Events.SubmitEndError;
+        case "SYSTEM_ERROR": return SM.Events.SubmitEndError;
+        case "REDIRECT": return SM.Events.SubmitEndSuccess;
+        case "FRAGMENT": return SM.Events.SubmitEndSuccess;
+        case "INVALID_REQUEST_ERROR": return SM.Events.SubmitEndError;
+        default: throw "Unknown response type.";
+      }
+    },
+
     newFailureResponseHandler: function(form) {
       return function() {
         SM.enable(form);
@@ -141,7 +171,6 @@ SM.formSubmitModalClose = function(){
     },
 
     handleSuccessResponse: function(response) {
-
     },
 
     handleFragmentResponse: function(response) {

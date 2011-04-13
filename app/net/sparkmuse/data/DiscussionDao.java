@@ -3,6 +3,7 @@ package net.sparkmuse.data;
 import net.sparkmuse.data.entity.Discussion;
 import net.sparkmuse.data.entity.DiscussionContent;
 import net.sparkmuse.data.entity.DiscussionComment;
+import net.sparkmuse.data.entity.DiscussionGroup;
 
 import java.util.List;
 
@@ -12,11 +13,17 @@ import java.util.List;
  */
 public interface DiscussionDao extends CrudDao {
 
-  List<Discussion> findMostRecentDiscussions();
+  /**
+   * @param groupId Nullable for general discussion
+   * @return
+   */
+  List<Discussion> findMostRecentDiscussions(Long groupId);
 
   DiscussionContent findDiscussionContentBy(Long discussionId);
 
   Discussion findDiscussionBy(Long discussionId);
 
   List<DiscussionComment> findCommentsFor(Long discussionId);
+
+  List<DiscussionGroup> findDiscussionGroups();
 }

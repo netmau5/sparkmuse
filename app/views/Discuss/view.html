@@ -6,38 +6,56 @@
 
 <div class="page-canvas prepend-1 span-22 append-1">
 
-  <div class="breadcrumbs"><a href="@{Discuss.index()}">Discuss</a> &rsaquo; Discussion</div>
+  <div class="breadcrumbs">
+    <a href="@{Discuss.index()}">Discuss</a>
+    #{if discussionResponse.discussion.group}
+      &rsaquo; <a href="@{Discuss.index(discussionResponse.discussion.group.name)}">${discussionResponse.discussion.group.name}</a>
+    #{/if}
+    &rsaquo; Discussion
+  </div>
 
   <div class="discussion-info">
 
-    <h2>
-      <a href="@{Discuss.view(discussionResponse.discussion.id)}">${discussionResponse.discussion.title}</a>
-    </h2>
-
-    #{if discussionResponse.discussion.discussionType.toString() == "LINK"}
-      <p>
-        <a href="${discussionResponse.discussion.url}" target="_new">${discussionResponse.discussion.url}</a> <img src="@{'public/images/icons/silk/link_go.png'}" alt="External Link"/>
-      </p>
-    #{/if}
-
-    #{if discussionResponse.discussion.displayContent}
-    <div class="markdown-container">
-      ${discussionResponse.discussion.displayContent.raw()}
-    </div>
-    #{/if}
-
-    #{if discussionResponse.content?.embed && discussionResponse.content.embed.html}
-    <div class="embed-container">
-      ${discussionResponse.content.embed.html.raw()}
-    </div>
-    #{/if}
-
     <div class="details">
-      <span class="detail">
-        Created ${discussionResponse.discussion.created.format()}
-        by #{nameTag user: discussionResponse.discussion.author, size: "mini"/}
-      </span>
+      <div class="detail">
+        #{avatar discussionResponse.discussion.author.userName /}
+      </div>
+      <div class="detail">
+        #{likeButton votable: discussionResponse.discussion, userVotes: discussionResponse.userVotes, size: "medium" /}
+      </div>
     </div>
+
+    <div class="discussion-inner">
+      <h2>
+        <a href="@{Discuss.view(discussionResponse.discussion.id)}">${discussionResponse.discussion.title}</a>
+      </h2>
+
+      #{if discussionResponse.discussion.discussionType.toString() == "LINK"}
+        <p>
+          <a href="${discussionResponse.discussion.url}" target="_new">${discussionResponse.discussion.url}</a> <img src="@{'public/images/icons/silk/link_go.png'}" alt="External Link"/>
+        </p>
+      #{/if}
+
+      #{if discussionResponse.discussion.displayContent}
+      <div class="markdown-container">
+        ${discussionResponse.discussion.displayContent.raw()}
+      </div>
+      #{/if}
+
+      #{if discussionResponse.content?.embed && discussionResponse.content.embed.html}
+      <div class="embed-container">
+        ${discussionResponse.content.embed.html.raw()}
+      </div>
+      #{/if}
+
+      <div class="sub-details">
+        <span class="detail">
+          Created ${discussionResponse.discussion.created.format()}
+          by #{nameTag user: discussionResponse.discussion.author, size: "mini"/}
+        </span>
+      </div>
+    </div>
+
   </div>
 
   <div class="comments-panel-wrapper wrapper last">
@@ -53,7 +71,11 @@
             </span>
           </a>
         </div>
-        <h3><span class="detail comment">${discussionResponse.discussion.commentCount} Comment${discussionResponse.discussion.commentCount.pluralize()}</span></h3>
+        <h3>
+          <span class="detail comment" count="${discussionResponse.discussion.commentCount}">
+            ${discussionResponse.discussion.commentCount ? discussionResponse.discussion.commentCount : "No"} Comment${discussionResponse.discussion.commentCount.pluralize()}
+          </span>
+        </h3>
       </div>
     </div>
 
@@ -87,6 +109,20 @@
         "discussionId",
         "${discussionResponse.discussion.id}"
     );
+    SM.CommentManagerInstance.bind(SM.Events.SubmitEndSuccess, function() {
+      var countEl = $(".header .comment"),
+          count = parseInt(countEl.attr('count')) + 1;
+      countEl.attr("count", count);
+      if (count === 1) {
+        countEl.html("1 Comment");
+      }
+      else if (count === 0) {
+        countEl.html("No Comments");
+      }
+      else {
+        countEl.html(count + " Comments");
+      }
+    });
   });
 
 </script>

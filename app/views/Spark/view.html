@@ -285,7 +285,7 @@
             }
           }).bind(SM.Events.Submit, SM.formSubmitModal)
             .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose)
-            .bind(SM.Events.SubmitEnd, s.endReply);
+            .bind(SM.Events.SubmitEndSuccess, s.endReply);
         }
         else {
           alert("Finish current reply");
@@ -419,7 +419,7 @@
           <div class="offers"></div>
 
           <label>Comment #{markdownEnabled /}</label>
-          <div class="error-message" parameter="post.displayContent"></div>
+          <div class="error-message" parameter="post.content"></div>
           <div class="input-wrapper"><textarea name="content"></textarea></div>
 
           <div class="error-message" parameter="post.visuals"></div>

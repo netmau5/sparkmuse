@@ -1,15 +1,15 @@
 package controllers;
 
 import net.sparkmuse.data.entity.*;
-import net.sparkmuse.discussion.DiscussionFacade;
-import net.sparkmuse.discussion.DiscussionsResponse;
-import net.sparkmuse.discussion.DiscussionResponse;
+import net.sparkmuse.discussion.*;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.FragmentAjaxResponse;
 import net.sparkmuse.common.Reflections;
 import net.sparkmuse.common.DiscussionType;
 import net.sparkmuse.user.UserVotes;
+import net.sparkmuse.client.discussions.DiscussionModel;
+import net.sparkmuse.client.discussions.DiscussionPageModel;
 import play.data.validation.Valid;
 import play.data.validation.Validation;
 import play.mvc.Router;
@@ -21,11 +21,9 @@ import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
-import com.google.common.collect.ImmutableMap;
 
 /**
  * @author neteller
@@ -35,9 +33,19 @@ public class Discuss extends SparkmuseController {
 
   @Inject static DiscussionFacade discussionFacade;
 
-  public static void index() {
-    DiscussionsResponse discussionsResponse = discussionFacade.findRecentDiscussions(Authorization.getUserFromSession());
-    render(discussionsResponse);
+  public static void index(String groupName) {
+    DiscussionsRequest discussionsRequest = new DiscussionsRequest(Authorization.getUserFromSession())
+        .forGroup(groupName);
+    DiscussionsResponse discussionsResponse = discussionFacade.getRecentDiscussions(discussionsRequest);
+    DiscussionPageModel discussionPageModel = DiscussionPageModel.newInstance(discussionsResponse, (UserProfile) renderArgs.get("currentUserProfile"));
+    DiscussionGroups discussionGroups = discussionFacade.getGroups();
+
+    if (request.isAjax()) {
+      renderJSON(discussionPageModel);
+    }
+    else {
+      render(discussionsResponse, discussionPageModel, discussionGroups); //@todo dont render discussionsResponse
+    }
   }
 
   public static void view(Long discussionId) {
@@ -111,7 +119,7 @@ public class Discuss extends SparkmuseController {
     renderJSON(new RedirectAjaxResponse(Router.reverse("Discuss.view", parameters).url));
   }
 
-  public static void reply(DiscussionComment comment) {
+  public static void reply(@Valid DiscussionComment comment) {
     final UserVO author = Authorization.getUserFromSessionOrAuthenticate(true);
     comment.setAuthor(author);
     comment = discussionFacade.createComment(comment);

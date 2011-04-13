@@ -38,6 +38,8 @@ public class Discussion extends OwnedEntity<Discussion>
   private String displayContent;
 
   private DiscussionType discussionType;
+  private Long groupId;
+  private DiscussionGroup group;
 
   private DateTime created;
   private DateTime edited;
@@ -136,4 +138,21 @@ public class Discussion extends OwnedEntity<Discussion>
   public void setCommentCount(int commentCount) {
     this.commentCount = commentCount;
   }
+
+  public Long getGroupId() {
+    return groupId;
+  }
+
+  public void setGroupId(Long groupId) {
+    this.groupId = groupId;
+  }
+
+  public DiscussionGroup getGroup() {
+    return group;
+  }
+
+  public void setGroup(DiscussionGroup group) {
+    this.group = group;
+  }
+  
 }

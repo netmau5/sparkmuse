@@ -36,8 +36,9 @@ GET         /{<[0-9]+>sparkId}                Spark.view
 
 # DISCUSS
 
+GET         /discuss/view/{discussionId}      Discuss.view
+GET         /discuss/{groupName}              Discuss.index
 GET         /discuss                          Discuss.index
-GET         /discuss/{discussionId}           Discuss.view
 POST        /discuss/create                   Discuss.submit
 POST        /discuss/edit                     Discuss.submit
 POST        /discuss/reply                    Discuss.reply

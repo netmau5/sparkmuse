@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Comments<T extends AbstractComment<T>> {
 
-  private final ImmutableList<T> comments;
+  private final List<T> comments; //wtf is with ImmutableList on appengine?
   private final ImmutableSet<T> allComments;
 
   public Comments(List<T> comments) {
@@ -25,12 +25,12 @@ public class Comments<T extends AbstractComment<T>> {
       builder.addAll(getRepliesOf(post));
     }
     this.allComments = builder.build();
-    this.comments = ImmutableList.copyOf(comments);
+    this.comments = Lists.newArrayList(comments);
   }
 
   //AccessControlException thrown on GAE when this returned immutablelist...
   public List<T> getComments() {
-    return Lists.newArrayList(comments);
+    return comments;
   }
 
   public ImmutableSet<T> getAllComments() {

@@ -1,5 +1,5 @@
 #{extends "bodytemplate.html" /}
-#{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
+#{set title:'Sparkmuse Discussions' /}
 #{set nav:'DISCUSS' /}
 
 <link rel="stylesheet" href="@{'/public/stylesheets/Discuss/index-1.css'}" type="text/css" />
@@ -8,12 +8,7 @@
 
   <div class="span-16 first">
 
-    #{if isGroupPage}
-      <div class="tagname">
-        <h2>Group Name</h2>
-      </div>
-      <hr/>
-    #{/if}
+    <div id="breadcrumbs-container"></div>
 
     <div class="create-topic">
       <div class="create-topic-inner">
@@ -63,43 +58,40 @@
       </div>
     </div>
 
+    <hr/>
     <div id="discussions-container">
-      <hr/>
-      #{list items: discussionsResponse.discussions, as: 'discussion'}
-        #{discuss/discussionInfo discussion: discussion, userVotes: discussionsResponse.userVotes, userProfile: currentUserProfile /}
-      #{/list}
+
     </div>
 
   </div>
 
-  <div class="span-6 wish-info-wrapper wrapper last">
+  <div class="span-6 discussion-sidebar-wrapper wrapper last">
 
-    <div class="sidebox">
+    <div class="sidebox" id="groupinfo-general">
     <div class="sidebox-inner">
       <h4>General Discussion</h4>
-      <p>centered around technology and the disciplines involved in creating it</p>
+      <p>
+        Open forum for technology, startups, and the disciplines involved in creating them. 
+      </p>
       <div class="actions">
-        <a href="#">Guidelines &rarr;</a>
+        <a href="@{Application.guidelines()}#Groups">Guidelines &rarr;</a>
       </div>
     </div>
+    </div>
+
+    <div id="groupinfo-other">
+
     </div>
 
     <div class="sidebox groups">
     <div class="sidebox-inner">
       <h4>Groups</h4>
       <ul>
-        <li>
-          <a href="#">Entrepreneurship</a>
-        </li>
-        <li>
-          <a href="#">Engineering</a>
-        </li>
-        <li>
-          <a href="#">Marketing</a>
-        </li>
-        <li>
-          <a href="#">Meta</a>
-        </li>
+        #{list items: discussionGroups.groups, as: "group" }
+          <li>
+            <a class="group" href="#${group.name}">${group.name}</a>
+          </li>
+        #{/list}
       </ul>
       <div class="clear"></div>
     </div>
@@ -111,9 +103,31 @@
 
 </div>
 
+<script type="text/javascript" src="@{'public/javascripts/discuss-1.js'}"></script>
+
 <script type="text/javascript">
 
   $(document).ready(function(){
+
+    // === navigation
+
+    if (!SM.Discuss) { SM.Discuss = {}; }
+    var D = SM.Discuss;
+
+    var page = new D.DiscussionPageModel(${discussionPageModel.toJson().raw()}),
+        controller = new D.Controller({
+          pageModel: page,
+          currentGroup: page.group.get("name")
+        }),
+        view = new D.PageView({
+          model: page,
+          el: $("div.page-canvas").first()
+        });
+
+    if ((window.location + "").indexOf("#") < 0) {
+      window.location += "#${discussionsResponse.group?.name}";
+    }
+    Backbone.history.start({silent: true});
 
     //inline labels
     $(".create-topic input, .create-topic textarea").keyup(function(){
@@ -125,6 +139,7 @@
       }
     });
 
+    // === create topic
     $(".create-topic .title input").keyup(function(){
       var details = $(this).parents(".create-topic").find(".details"),
           counter = $(".character-count", this.parentNode.parentNode),
@@ -142,14 +157,12 @@
       }
     });
 
-    SM.Discuss = {};
-
-    SM.Discuss.cancelPost = function() {
+    D.cancelPost = function() {
       $(".create-topic").find(".details").slideUp();
       $(".create-topic input, .create-topic textarea").val("").trigger("keyup");
     };
 
-    SM.Discuss.addPost = function(r) {
+    D.addPost = function(r) {
       if (r.fragment) {
         $("#discussions-container").prepend(r.fragment);
       }
@@ -157,20 +170,37 @@
 
     var converter = new Attacklab.showdown.converter();
     $(document.CreatePostForm).formHandler(function(){
-      return {
-        discussion : {
-          title: this.title.value,
-          url: this.url.value,
-          content: this.content.value,
-          displayContent: converter.makeHtml(this.content.value)
-        },
+      var discussion = {
+        title: this.title.value,
+        url: this.url.value,
+        content: this.content.value,
+        displayContent: converter.makeHtml(this.content.value)
+      };
+      if (page.group.id) {
+        discussion.groupId = page.group.id;
+      }
 
-        _fragment: SM.Discuss.addPost
+      return {
+        discussion : discussion,
+        _fragment: D.addPost
       };
     }).bind(SM.Events.Submit, SM.formSubmitModal)
       .bind(SM.Events.SubmitEnd, SM.formSubmitModalClose)
-      .bind(SM.Events.SubmitEnd, SM.Discuss.cancelPost);
+      .bind(SM.Events.SubmitEndSuccess, D.cancelPost);
 
   });
 
+</script>
+
+<script type="text/html" id="template-breadcrumbs">
+  <a href="#" class="group">General</a> &rsaquo; {{name}}
+</script>
+
+<script type="text/html" id="template-groupinfo">
+  <div class="sidebox">
+  <div class="sidebox-inner">
+    <h4>{{name}}</h4>
+    <p>{{displayInfo}}</p>
+  </div>
+  </div>
 </script>

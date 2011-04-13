@@ -7,6 +7,7 @@ import net.sparkmuse.data.paging.PagingState;
 import net.sparkmuse.discussion.PopularSparks;
 import net.sparkmuse.discussion.RecentSparks;
 import net.sparkmuse.discussion.MostDiscussedSparks;
+import net.sparkmuse.discussion.DiscussionGroups;
 
 /**
  * Created by IntelliJ IDEA.
@@ -49,6 +50,10 @@ public class CacheKeyFactory {
    */
   public static CacheKey<PagingState> newPagingState(UserVO user, Class type, String uniqueId){
     return PagingState.newKey(user, type, uniqueId);
+  }
+
+  public static CacheKey<DiscussionGroups> newDiscussionGroupsKey() {
+    return new CacheKey(DiscussionGroups.class);
   }
 
 }

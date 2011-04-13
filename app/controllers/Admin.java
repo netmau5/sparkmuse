@@ -12,6 +12,7 @@ import net.sparkmuse.ajax.JsonAjaxResponse;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.common.Reflections;
 import net.sparkmuse.mail.MailFacade;
+import net.sparkmuse.discussion.DiscussionFacade;
 
 import javax.inject.Inject;
 
@@ -35,6 +36,7 @@ public class Admin extends SparkmuseController {
   @Inject static ObjectDatastore datastore;
   @Inject static UserFacade userFacade;
   @Inject static MailFacade mailFacade;
+  @Inject static DiscussionFacade discussionFacade;
 
   public static void home() {
     render();
@@ -138,6 +140,32 @@ public class Admin extends SparkmuseController {
   public static void saveEmail(@Valid Mailing mailing) {
     Mailing savedMailing = mailFacade.save(mailing);
     Admin.editEmail(savedMailing.getId());
+  }
+
+  //GROUPS
+
+  public static void groups() {
+    List<DiscussionGroup> groups = discussionFacade.findGroups();
+    render(groups);
+  }
+
+  public static void createGroup() {
+    renderTemplate("Admin/group.html");
+  }
+
+  public static void editGroup(final Long id) {
+    List<DiscussionGroup> groups = discussionFacade.findGroups();
+    DiscussionGroup group = Iterables.find(groups, new Predicate<DiscussionGroup>() {
+      public boolean apply(DiscussionGroup discussionGroup) {
+        return discussionGroup.getId().equals(id);
+      }
+    });
+    renderTemplate("Admin/group.html", group);
+  }
+
+  public static void saveGroup(@Valid DiscussionGroup group) {
+    discussionFacade.storeGroup(group);
+    Admin.groups();
   }
 
 }

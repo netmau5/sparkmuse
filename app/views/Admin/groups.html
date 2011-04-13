@@ -1,0 +1,67 @@
+#{extends 'bodytemplate.html' /}
+#{set title: 'Groups' /}
+
+<style type="text/css">
+  .content-container {
+    padding: 1em 10px 0 10px;
+  }
+</style>
+
+<div class="page-title prepend-1 span-22 append-1 first last">
+
+  <div class="title-bar span-22 first last">
+    <h2>Manage Groups</h2>
+    <div class="breadcrumbs"><a href="@{Admin.home()}">Admin Home</a> &rsaquo; Groups</div>
+  </div>
+
+</div>
+
+<div class="page-canvas prepend-1 span-22 append-1 first last">
+
+  <div class="span-13 content-wrapper first last">
+  <div class="content-inner">
+  <div class="content-container">
+
+    <table>
+      #{list items: groups, as: 'group'}
+        <tr>
+          <td class="column-1"><a href="@{Admin.editGroup(group.id)}">Edit</a></td>
+          <td class="column-3" style="white-space: normal;">${group.name}</td>
+          <td class="column-3">
+            ${group.displayInfo.raw()}
+          </td>
+          <td class="column-3 last">
+            #{list items: group.admins, as: "admin"}
+              ${admin.userName}#{if !admin_isLast}, #{/if}
+            #{/list}
+          </td>
+        </tr>
+      #{/list}
+    </table>
+
+  </div>
+  </div>
+  </div>
+
+  <div class="span-9 last">
+    <div class="blurb">
+    <div class="blurb-inner">
+
+      <h4>Controls</h4>
+
+      <ul>
+        <li>
+          <a href='@{Admin.createGroup()}'>Create Group</a>
+          <div class="subtext">Create a new discussion group.</div>
+        </li>
+        <li>
+          <a href='@{Tasks.execute("net.sparkmuse.task.ResetCacheTask")}' target="_blank">Clear Cache</a>
+          <div class="subtext">Clear cache to update groups displayed to user.</div>
+        </li>
+      </ul>
+
+    </div>
+    </div>
+  </div>
+
+</div>
