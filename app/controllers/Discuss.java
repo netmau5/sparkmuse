@@ -13,6 +13,7 @@ import net.sparkmuse.client.discussions.DiscussionPageModel;
 import play.data.validation.Valid;
 import play.data.validation.Validation;
 import play.mvc.Router;
+import play.mvc.With;
 import play.Logger;
 import play.templates.Template;
 import play.templates.TemplateLoader;
@@ -24,11 +25,13 @@ import org.apache.commons.lang.StringUtils;
 import java.util.Map;
 
 import com.google.common.collect.Maps;
+import filters.AuthorizationFilter;
 
 /**
  * @author neteller
  * @created: Apr 5, 2011
  */
+@With(AuthorizationFilter.class)
 public class Discuss extends SparkmuseController {
 
   @Inject static DiscussionFacade discussionFacade;

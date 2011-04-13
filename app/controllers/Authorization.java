@@ -14,6 +14,7 @@ import net.sparkmuse.data.entity.UserApplication;
 import net.sparkmuse.data.entity.Invitation;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.Constants;
+import net.sparkmuse.common.Cache;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.InvalidRequestException;
@@ -30,6 +31,7 @@ import controllers.Foundry;
 public class Authorization extends SparkmuseController {
 
   @Inject static UserFacade userFacade;
+  @Inject static Cache cache;
 
   public static UserVO getUserFromSession(){
     String s = session.get(Constants.SESSION_USER_ID);
@@ -82,7 +84,13 @@ public class Authorization extends SparkmuseController {
     session.put(Constants.SESSION_USER_ID, user.getId());
 
     if (user.isAuthorizedFor(AccessLevel.FOUNDRY)) {
-      if (user.isNewUser()) {
+      String cacheKey = Constants.AFTER_LOGIN_REDIRECT_PATH_CACHE_PREFIX + session.getId();
+      String redirectPath = cache.get(cacheKey, String.class);
+      if (StringUtils.isNotBlank(redirectPath)) {
+        cache.delete(cacheKey);
+        redirect(redirectPath);
+      }
+      else if (user.isNewUser()) {
         Home.welcome();
       }
       else if (user.isUser()) {

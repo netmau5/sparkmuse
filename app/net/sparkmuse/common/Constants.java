@@ -14,8 +14,10 @@ public class Constants {
   public static final String REQUEST_TOKEN = "REQUEST_TOKEN"; //used during twitter login
   public static final String REQUEST_TOKEN_SECRET = "REQUEST_TOKEN_SECRET"; //used during twitter login
   public static final String INVITATION_CODE = "INVITATION_CODE";
+  public static final String AFTER_LOGIN_REDIRECT_PATH_CACHE_PREFIX = "AFTER_LOGIN_REDIRECT_PATH_CACHE_PREFIX|";
 
   //blob server
   public static final String BLOB_SERVER_SERVE = "BLOB_SERVER_SERVE";
   public static final String BLOB_SERVER_CREATE_UPLOAD_URL = "BLOB_SERVER_CREATE_UPLOAD_URL";
+
 }
