@@ -3,14 +3,13 @@ package net.sparkmuse.ajax;
 import java.util.List;
 import java.util.Map;
 import java.util.Iterator;
+import java.util.Arrays;
 
 import play.data.validation.Error;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Iterators;
 import com.google.common.base.Function;
-import com.google.common.base.Splitter;
 import com.google.common.base.Joiner;
 import com.google.appengine.repackaged.com.google.common.collect.ImmutableMap;
 import net.sparkmuse.common.ResponseCode;
@@ -62,7 +61,7 @@ public class ValidationErrorAjaxResponse extends AjaxResponse {
     public String apply(Error error) {
       String s = error.message();
       if (StringUtils.isNotBlank(s)) {
-        final Iterable<String> words = Splitter.on(" ").split(s);
+        final Iterable<String> words = Arrays.asList(StringUtils.split(s, " "));
         final Iterator<String> wordsIterator = words.iterator();
 
         //get rid of any dot notation on variables, newSpark.message should just be message

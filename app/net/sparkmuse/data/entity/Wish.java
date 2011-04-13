@@ -8,9 +8,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.base.Function;
-import com.google.common.base.Splitter;
 
 import java.util.List;
+import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
@@ -167,7 +167,7 @@ public class Wish extends OwnedEntity<Wish> implements Votable {
   }
 
   public Wish updateTitleTokens() {
-    this.setTitleWordsLowercase(Lists.newArrayList(Iterables.transform(Splitter.onPattern("\\s+").split(this.title), new Function<String, String>(){
+    this.setTitleWordsLowercase(Lists.newArrayList(Iterables.transform(Arrays.asList(this.title.replaceAll("\\s+", ",").split(",")), new Function<String, String>(){
       public String apply(String s) {
         return StringUtils.lowerCase(s);
       }
