@@ -1,0 +1,8 @@
+[diff]
+	tool = chdiff
+
+[difftool]
+	prompt = false
+
+[difftool "chdiff"]
+	cmd = /usr/bin/env chdiff "$LOCAL" "$REMOTE"
