@@ -607,8 +607,8 @@ input, textarea {
   font-size: 12px;
 }
 
-.section {
-  margin-bottom: 1em;
+.section, section {
+  margin-bottom: 1.5em;
 }
 
 
@@ -634,6 +634,27 @@ input, textarea {
 }
 
 table { margin-bottom: 0.5em; }
+
+.title h2, .title h3 { text-align: center; }
+
+  .title {
+    padding: 10px 0;
+  }
+
+  .title h2 {
+    font-family: 'Irish Grover', serif;
+    font-size: 54px;
+    font-style: normal;
+    font-weight: 700;
+    text-shadow: 2px 2px 2px #ddd;
+    letter-spacing: 2px;
+    line-height: 1.2;
+    margin-bottom: 0;
+  }
+
+  .title h3 {
+    color: #666;
+  }
 
 /* END <LIBRARY> */
 

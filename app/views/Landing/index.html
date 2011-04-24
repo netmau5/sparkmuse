@@ -123,16 +123,19 @@
  <div class="content span-14 last">
    <div class="span-7 first">
      <div class="inner">
-       <h3>Welcome</h3>
+       <h3>Starting Up?</h3>
+
        <p>
-         Sparkmuse is an invite-only community where
-         <strong><a href="@{Application.about()}">entrepreneurial technologists can share and refine innovative ideas</a></strong>
-         with one another.
-         Learn more at our <a href="http://blog.sparkmuse.com/">blog</a> or login now if you are a member:
+         We're a great community of technology folks just like you. We support one another,
+         provide honest feedback, share resources, and help each other grow. Learn more
+         <a href="@{Application.about()}">about us</a>,
+         see our <a href="@{Application.partners()}">awesome partners</a>,
+         or login now if you are a member:
        </p>
        <div class="control-bar">
          <a href="@{Authorization.authenticate()}" class="twitter-login">Sign in with Twitter</a>
        </div>
+
      </div>
    </div>
    <div class="span-7 last" id="application">

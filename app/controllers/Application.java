@@ -62,6 +62,10 @@ public class Application extends SparkmuseController {
     render();
   }
 
+  public static void why() {
+    render();
+  }
+
   public static void invitation(String groupName) {
     if (StringUtils.isNotEmpty(groupName)) {
       Invitation invitation = userFacade.findInvitationBy(groupName.replaceAll("-", " ")); //url encoding

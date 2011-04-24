@@ -1,67 +1,99 @@
 #{extends 'outsider.template.html' /}
 #{set title:'About Sparkmuse' /}
 
-<div class="page-canvas push-6 prepend-1 span-10 append-1">
+<style type="text/css">
+  .guide {
+    width: 850px;
+    height: 1236px;
+    background: url("@{'/public/images/how-it-works.png'}") no-repeat;
+  }
+</style>
+
+<div class="page-canvas push-1 prepend-1 span-20 append-1">
 
     <div class="breadcrumbs"><a href="@{Application.home()}">Home</a> &rsaquo; How It Works</div>
 
-    <h2>How It Works</h2>
+    <div class="title">
+      <h2>How It Works</h2>
+      <h3>
+        Do you want a problem solved? Do you wish an app existed? Convince a community of entrepreneurs to build it just by telling them what you wish you had.
+      </h3>
+    </div>
+    <hr/>
 
-    <p>
-      Do you want a problem solved? Do you wish an app existed? Convince a
-      community of entrepreneurs to build it just by telling them what you wish
-      you had.
-    </p>
+    <div class="guide">
 
-    <h3>Have Problems?</h3>
+    </div>
 
-    <p>
-      Lets take Sue, a sweet lady recently diagnosed with diabetes. The doctor gives
-      her the bad news, some advice, and sends on her on her way. She gets home and looks
-      in her cupboard in paralyzing fear, what can she eat! It's a new world for her and
-      everything she knew about food has been turned upside down.
-    </p>
+    <hr/>
 
-    <p>
-      Sue starts looking up information on the internet. General guides on what to avoid,
-      specifics about things in her pantry, and groups that can give her advice. There has got
-      to be a better way! She mozies over to Google to pop the big question and Google
-      spends all of 0.00001 seconds to say, "No, there is no better way."
-    </p>
+    <h3>Frequently Asked Questions</h3>
 
-    <p>
-      Sue's story isn't unique, she has one of the thousands of problems that modern tech
-      hasn't helped solve yet. But now she isn't powerless to do anything. Come to The Spark
-      Foundry and tell us what ails you!
-    </p>
-
-    <h3>Let Us Know</h3>
-
-    <p>
-      All you have to do is give us a brief description of your problem and why you think
-      it would be valuable to solve. You can ask for anything your heart desires: information services,
-      mobile apps, productivity tools, or even games. We'll present your wish to our community
-      of entrepreneurs giving them an exciting new idea to work on.
-    </p>
-
-    <h3>Convince Them To Work For You</h3>
-
-    <p>
-      Voting for an idea is a promise of attention. The biggest risk for an
-      entrepreneur is that no one will care about the product or service they
-      are building. We change that by using your email address as currency. The
-      more votes an idea gets, the more attention it will bring to our community.
-      So share your wish with everyone you can and convince them to take up the
-      cause. The power is in your hands to get problems solved and help build exciting
-      new businesses.
-    </p>
-
-    <p>
-      When the pot gets attractive enough, you can be sure there will be plenty of
-      buzz. Entrepreneurs will debate how to best solve your need and work together
-      to build it. Once they have built a working prototype, we will give them the
-      opportunity to send you an email to sell you on what they've built. But don't worry,
-      we will never sell or give away your email!
-    </p>
+    <section>
+      <div>
+        <em>Q:</em> How do I vote on ideas?
+      </div>
+      <div>
+        <em>A:</em> Voting is committing to be a part of an idea in some form. In order to do so,
+        we'll need your email address.
+      </div>
+    </section>
+    <section>
+      <div>
+        <em>Q:</em> Who do you mean by commit?
+      </div>
+      <div>
+        <em>A:</em> Commitments are giving permission to let entrepreneur's communicate their solution to you.
+      </div>
+    </section>
+    <section>
+      <div>
+        <em>Q:</em> What will you do with my email address?
+      </div>
+      <div>
+        <em>A:</em> We will never release or sell your email address. All communications to you have to come
+        through us and will be vetted to make sure you're getting what you expect. The only exception is when
+        you commit to a beta. In that case, we will send you an email with an opt-out option 24 hours before
+        enrolling you.
+      </div>
+    </section>
+    <section>
+      <div>
+        <em>Q:</em> What is a "Commit to See"?
+      </div>
+      <div>
+        <em>A:</em> This is the simplist level of commitment. We let entrepreneurs send you one, and only one,
+        email to show you their product solving your problem.
+      </div>
+    </section>
+    <section>
+      <div>
+        <em>Q:</em> What is a "Commit to Try"?
+      </div>
+      <div>
+        <em>A:</em> If you choose this commitment, we will automatically enroll you into the beta of any product
+        which solves your problem. Before releasing your email address, we will send you an email to allow you
+        to opt-out 24 hours before.
+      </div>
+    </section>
+    <section>
+      <div>
+        <em>Q:</em> What is a "Commit to Survey"?
+      </div>
+      <div>
+        <em>A:</em> You want to make sure a solution gets built the right way. Surveys are a way entrepreneurs
+        can poll their prospective users to learn more about the nature of the problem they are solving.
+      </div>
+    </section>
+    <section>
+      <div>
+        <em>Q:</em> What is a "Commit to Buy"?
+      </div>
+      <div>
+        <em>A:</em> You needed this solved like yesterday. You want it so bad that you're confident you'd be
+        willing to pay a fair price to get it. This level of commitment shows entrepreneurs how serious you are
+        and that they have the best chance of building a stable business around you.
+      </div>
+    </section>
 
 </div>

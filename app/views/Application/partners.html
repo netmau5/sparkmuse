@@ -1,30 +1,7 @@
 #{extends 'outsider.template.html' /}
 #{set title: "Founding Partners" /}
 
-<link  href="http://fonts.googleapis.com/css?family=Irish+Grover:regular" rel="stylesheet" type="text/css" >
-
 <style type="text/css">
-
-  .title h2, .title h3 { text-align: center; }
-
-  .title {
-    padding: 10px 0;
-  }
-
-  .title h2 {
-    font-family: 'Irish Grover', serif;
-    font-size: 54px;
-    font-style: normal;
-    font-weight: 700;
-    text-shadow: 2px 2px 2px #ddd;
-    letter-spacing: 2px;
-    line-height: 1.2;
-    margin-bottom: 0;
-  }
-
-  .title h3 {
-    color: #666;
-  }
 
   .offers {}
 
@@ -48,12 +25,20 @@
       background-position: left -300px;
     }
 
+    .offers .chargify h3 {
+      background-position: left -550px;
+    }
+
     .offers .crowdspring h3 {
       background-position: left -450px;
     }
 
     .offers .ginzametrics h3 {
       background-position: left 0px;
+    }
+
+    .offers .postmark h3 {
+      background-position: left -500px;
     }
 
     .offers .pressdoc h3 {
@@ -74,10 +59,6 @@
 
     .offers .wufoo h3 {
       background-position: left -100px;
-    }
-
-    .offers section {
-      margin-bottom: 1.5em;
     }
 
     .offers .benefits {
@@ -145,6 +126,18 @@
       </p>
     </section>
 
+    <section class="chargify">
+      <h3>Chargify</h3>
+      <p>
+        <a href="http://www.chargify.com">Chargify's</a> recurring billing management lets you focus
+        on building your business instead of your billing process.
+      </p>
+      <p class="benefits">
+        Show the Chargify logo on your site and get the <em>$39/mo</em> Bootstrapper plan for a year. Compared
+        to the Launch plan of the same price, you'll get 10x the subscribers and 24/7 phone support.
+      </p>
+    </section>
+
     <section class="crowdspring">
       <h3>CrowdSpring</h3>
       <p>
@@ -165,6 +158,18 @@
       </p>
       <p class="benefits">
         <em>Free</em> access to the Starter plan for four months, a $76 value.
+      </p>
+    </section>
+
+    <section class="postmark">
+      <h3>Postmark</h3>
+      <p>
+        Deliver and track email with <a href="http://www.postmarkapp.com">Postmark's</a> incredibly fast and
+        easy to implement web service. 
+      </p>
+      <p class="benefits">
+        Get <em>5000</em> free credits worth just as many emails to get your started, a whopping
+        value of 4000 over their free trial.
       </p>
     </section>
 
@@ -253,7 +258,7 @@
         of thousands of likeminded people by applying today!
       </p>
       <p class="actions">
-        <a href="http://www.sparkmuse.com/about">About & Apply &rarr;</a>
+        <a href="@{Application.about()}">About & Apply &rarr;</a>
       </p>
     </div>
     </div>

@@ -1,0 +1,55 @@
+#{extends 'outsider.template.html' /}
+#{set title:'Why Join Sparkmuse?' /}
+
+<div class="page-canvas push-5 prepend-1 span-12 append-1">
+
+  <div class="breadcrumbs"><a href="@{Application.home()}">Home</a> &rsaquo; Why Join?</div>
+  <div class="title">
+    <h2>Why Join?</h2>
+  </div>
+  <hr/>
+
+  <p>
+    Sparkmuse is a community for early-stage technology entrepreneurs. Find out
+    more <a href="@{Application.about()}">about us</a> and our <a href="@{Application.guidelines()}">core values</a>.
+  </p>
+
+  <h3>Feedback</h3>
+
+  <p>
+    Our community of entrepreneurs is committed to giving you the honest feedback
+    you need to take your idea to the next level. To get started, weigh in on other
+    peoples' ideas or show us your own.
+  </p>
+
+  <h3>Inspiration</h3>
+
+  <p>
+    Our environment lets creative ideas mingle, letting new ideas develop naturally.
+    Plus, our <a href="@{Foundry.index}">Spark Foundry</a> (soon to be public!)
+    brings the power of social media to you - giving you an
+    opportunity to use ideas with built-in markets attached to them already.
+  </p>
+
+  <h3>Networking</h3>
+
+  <p>
+    As you interact with other members, you rub shoulders with the future movers
+    and shakers of the world in our discussion areas. Plus, you have opportunities
+    to connect for anything from advice to future business ventures. Our members have a diverse range of 
+    skillsets to help you get where you need to go.
+  </p>
+
+  <h3>Resources</h3>
+
+  <p>
+    Our community <a href="@{Application.partners()}">partners</a>,
+    resources (coming soon!), and <a href="http://blog.sparkmuse.com">blog</a> are
+    designed specifically to help you succeed. Plus, our membership shares
+    resources and feedback freely.
+  </p>
+
+  #{if !currentUser}
+  #{applyForInvitation /}
+  #{/if}
+</div>
