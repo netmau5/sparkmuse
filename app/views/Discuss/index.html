@@ -2,7 +2,7 @@
 #{set title:'Sparkmuse Discussions' /}
 #{set nav:'DISCUSS' /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/Discuss/index-1.css'}" type="text/css" />
+<link rel="stylesheet" href="@{'/public/stylesheets/Discuss/index-2.css'}" type="text/css" />
 
 <div class="page-canvas prepend-1 span-22 append-1">
 
@@ -14,7 +14,7 @@
       <div class="create-topic-inner">
         <form action="@{Discuss.submit()}" method="POST" name="CreatePostForm">
           <div class="error-message" parameter="discussion"></div>
-          <div class="field title">
+          <div class="field discussion-title">
             <div class="error-message" parameter="discussion.title"></div>
             <div class="input-wrapper">
               <label>New Topic Title</label>
@@ -71,7 +71,7 @@
     <div class="sidebox-inner">
       <h4>General Discussion</h4>
       <p>
-        Now we’re talking. Start a discussion, weigh in on ideas, and connect 
+        Now we're talking. Start a discussion, weigh in on ideas, and connect 
         with other entrepreneurs here.
       </p>
       <div class="actions">
@@ -141,7 +141,7 @@
     });
 
     // === create topic
-    $(".create-topic .title input").keyup(function(){
+    $(".create-topic .discussion-title input").keyup(function(){
       var details = $(this).parents(".create-topic").find(".details"),
           counter = $(".character-count", this.parentNode.parentNode),
           count = 120 - this.value.length;

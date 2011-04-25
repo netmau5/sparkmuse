@@ -59,12 +59,12 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
     background-color: transparent;
   }
 
-  .create-topic .title,
-  .create-topic .title .input-wrapper {
+  .create-topic .discussion-title,
+  .create-topic .discussion-title .input-wrapper {
     margin-bottom: 0;
   }
 
-    .create-topic .title .character-count {
+    .create-topic .discussion-title .character-count {
       font-family: $FONT_FAMILY_CONTROLS;
       font-size: 14px;
       font-weight: bold;
@@ -74,7 +74,7 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
       top: 4px;
     }
 
-      .create-topic .title .character-count.negative {
+      .create-topic .discussion-title .character-count.negative {
         color: red;
       }
 
