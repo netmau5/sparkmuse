@@ -1,18 +1,42 @@
 #{extends "bodytemplate.html" /}
 #{set title:'Sparkmuse, a community to discuss, refine, and act on innovative tech ideas.' /}
-#{set nav:'FOUNDRY' /}
 
-<link rel="stylesheet" href="@{'/public/stylesheets/Foundry/index-1.css'}" type="text/css" />
+#{if filter}
+  #{set nav: filter.toString() /}
+#{/if}
+#{if currentUser?.isUser()}
+  #{set nav:'FOUNDRY' /}
+#{/if}
 
-<div class="page-title prepend-1 span-22 append-1">
-
-  <h2>
-    Tell us the <em class="problem">problems</em> you want solved,
-    inspire entrepreneurs to <em class="action">act</em> on them,
-    and find out when your dream becomes a <em class="solution">reality</em>.
-  </h2>
-
+<link rel="stylesheet" href="@{'/public/stylesheets/Foundry/index-2.css'}" type="text/css" />
+    
+#{if !currentUser}
+<div class="logged-out page-title prepend-1 span-22 append-1">
+  <div class="title">
+    <h2>The Spark Foundry</h2>
+    <h3>
+      Where your problems are inspiring entrepreneurs to create the next<br/>big adventure in technology.
+    </h3>
+    <a class="button sign-up" href="@{Authorization.authenticateFoundry()}">
+      <span>
+        <img src="@{'public/images/twitter/twitter-48x48.png'}" alt="Sign In or Sign Up"/>
+        Login
+      </span>
+    </a>
+    <div class="subtext">(It's huge because we care)</div>
+  </div>
 </div>
+#{/if}
+#{else}
+<div class="logged-in page-title prepend-1 span-22 append-1">
+  <div class="title">
+    <h2>The Spark Foundry</h2>
+    <h3>
+      Where your problems are inspiring entrepreneurs to create the next big adventure in technology.
+    </h3>
+  </div>
+</div>
+#{/else}
 
 <div class="page-canvas prepend-1 span-22 append-1">
 
@@ -53,13 +77,6 @@
     </div>
     </div>
 
-    <p>
-      <div class="notice alt">
-        This is a preview of The Spark Foundry, an area of the site where the public can interact with our community.
-        We haven't released it to the outside world so you're getting a first look while we build it. We'd love to hear your feedback!
-      </div>
-    </p>
-
     <!--<ol class="controls">-->
       <!--<li>-->
         <!--<a href="#" class="button">-->
@@ -95,6 +112,37 @@
       <div class="clear"></div>
     </div>
     </div>
+
+    #{if !currentUser || !currentUser.isUser()}
+    <div class="sidebox">
+    <div class="sidebox-inner">
+      <h4>Starting Up?</h4>
+      <p>
+        We're a great community of technology folks. We support one another,
+        provide honest feedback, share resources, and help each other grow. Learn more
+        <a href="@{Application.about()}">about us</a>,
+        see our <a href="@{Application.partners()}">awesome partners</a>.
+      </p>
+      <div class="clear"></div>
+    </div>
+    </div>
+    #{/if}
+
+    #{if currentUser?.isUser()}
+    <div class="sidebox">
+    <div class="sidebox-inner">
+      <h4>Get Validated Ideas</h4>
+      <p>
+        We're helping to connect ideas, people who want them, and entrepreneurs
+        who can build them. As a member, we'll let you email those who have
+        committed to the ideas here. Just shoot a mail to
+        <a href="mailto:dave@sparkmuse.com">dave@sparkmuse.com</a>
+        if you're enticed.
+      </p>
+      <div class="clear"></div>
+    </div>
+    </div>
+    #{/if}
 
 
   </div>

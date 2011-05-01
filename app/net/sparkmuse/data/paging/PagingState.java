@@ -16,7 +16,7 @@ import java.io.Serializable;
  */
 public class PagingState implements Cacheable, Serializable {
 
-  private final UserVO user;
+  private final String sessionId;
   private final Class type;
   private final String uniqueId;
 
@@ -27,8 +27,8 @@ public class PagingState implements Cacheable, Serializable {
   //use the last page's cursor located at index 0 (1st item)
   private Map<Integer, Cursor> cursors;
 
-  PagingState(UserVO user, Class type, String uniqueId) {
-    this.user = user;
+  PagingState(String sessionId, Class type, String uniqueId) {
+    this.sessionId = sessionId;
     this.type = type;
     this.cursors = Maps.newHashMap();
     this.uniqueId = uniqueId;
@@ -91,13 +91,13 @@ public class PagingState implements Cacheable, Serializable {
   }
 
   public CacheKey getKey() {
-    return newKey(user, type, uniqueId);
+    return newKey(sessionId, type, uniqueId);
   }
 
-  public static CacheKey<PagingState> newKey(UserVO user, Class type, String uniqueId) {
+  public static CacheKey<PagingState> newKey(String sessionId, Class type, String uniqueId) {
     return new CacheKey(
         PagingState.class,
-        "User" + user.getId(),
+        sessionId,
         type,
         uniqueId
     );
@@ -107,15 +107,15 @@ public class PagingState implements Cacheable, Serializable {
    * Retrieves the PagingState from the cache.  If null, creates a new one at page 1.
    *
    * @param cache
-   * @param user
+   * @param sessionId
    * @param type
    * @param uniqueId      nullable; if there is more than one paging mechanism applied to this object type,
    *                      this is distinguishes (ie, multiple types of entity results to be paged through)
    * @return
    */
-  static PagingState retrieve(Cache cache, UserVO user, Class type, String uniqueId) {
-    PagingState state = cache.get(newKey(user, type, uniqueId));
-    if (null == state) return new PagingState(user, type, uniqueId);
+  static PagingState retrieve(Cache cache, String sessionId, Class type, String uniqueId) {
+    PagingState state = cache.get(newKey(sessionId, type, uniqueId));
+    if (null == state) return new PagingState(sessionId, type, uniqueId);
     else return state;
   }
 

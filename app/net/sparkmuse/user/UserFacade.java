@@ -60,7 +60,7 @@ public class UserFacade {
   public UserVO registerAuthentication(OAuthAuthenticationResponse response, @Nullable String invitationCode) {
     UserVO user = userDao.findOrCreateUserBy(twitterService.registerAuthentication(response));
 
-    if (user.isUnauthorized() && StringUtils.isNotBlank(invitationCode)) {
+    if (!user.isAuthorizedFor(AccessLevel.USER) && StringUtils.isNotBlank(invitationCode)) {
       Invitation invitation = verifyInvitationCode(invitationCode);
       if (Invitation.isValid(invitation)) {
         UserVO newUser = updateUser(user.getId(), AccessLevel.USER, 1);
@@ -104,6 +104,13 @@ public class UserFacade {
     userProfile.setInvites(invites);
     userDao.store(userProfile);
 
+    return user;
+  }
+
+  public UserVO updateEmail(UserVO user, String email) {
+    UserProfile profile = findUserProfileBy(user.getId());
+    profile.setEmail(email);
+    userDao.store(profile);
     return user;
   }
 

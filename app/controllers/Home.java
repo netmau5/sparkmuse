@@ -38,7 +38,7 @@ public class Home extends SparkmuseController {
 
   public static void search(SparkSearchRequest.Filter filter, int page) {
     UserVO currentUser = Authorization.getUserFromSession();
-    PageChangeRequest pageChangeRequest = PageChangeRequest.newInstance(page, cache, currentUser, SparkVO.class, filter.toString());
+    PageChangeRequest pageChangeRequest = PageChangeRequest.newInstance(page, cache, session.getId(), SparkVO.class, filter.toString());
     PagingState pagingState = pageChangeRequest.getState(); //@todo this gets transitioned in facade; updated state on object by reference = :(
     SparkSearchResponse sparkSearch = sparkFacade.search(new SparkSearchRequest(filter, pageChangeRequest));
 

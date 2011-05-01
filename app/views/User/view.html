@@ -84,12 +84,15 @@
         <div class="sidebox-inner">
           <h4>Stats</h4>
           <div class="rep">${profile.user.reputation} Reputation</div>
+          #{if profile.user.isUser()}
           <div class="sparks">${profile.user.sparks} Spark${profile.user.sparks.pluralize()}</div>
+          #{/if}
+          <div class="sparks">${profile.user.wishes} Wish${profile.user.wishes.pluralize('es')}</div>
           <div class="posts">${profile.user.posts} Post${profile.user.posts.pluralize()}</div>
         </div>
         </div>
 
-        #{if profile.expertises}
+        #{if profile.user.isUser() && profile.expertises}
         <div class="sidebox">
         <div class="sidebox-inner">
           <h4>Expertise</h4>
@@ -102,7 +105,7 @@
         </div>
         #{/if}
 
-        #{if profile.seekingConnections && profile.seekingExpertises}
+        #{if profile.user.isUser() && profile.seekingConnections && profile.seekingExpertises}
         <div class="sidebox">
         <div class="sidebox-inner">
           <h4>Seeking</h4>
@@ -125,6 +128,7 @@
           <p>User has not added a biography.</p>
         #{/if}
 
+        #{if profile.user.isUser()}
         <h3>Activity</h3>
         #{if profileActivities.activities}
           <ol class="activities">
@@ -164,6 +168,7 @@
         #{else}
           <p>User has no activity.</p>
         #{/else}
+        #{/if}
 
       </div>
 

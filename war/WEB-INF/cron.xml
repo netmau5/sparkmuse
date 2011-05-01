@@ -26,6 +26,6 @@
   <cron>
     <url>/Tasks/execute?taskClassName=net.sparkmuse.task.foundry.AccumulateWishTagTransformationTask</url>
     <description>Popular tags for Wishes</description>
-    <schedule>every 24 hours</schedule>
+    <schedule>every 6 hours</schedule>
   </cron>
 </cronentries>

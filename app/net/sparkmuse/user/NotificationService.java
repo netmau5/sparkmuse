@@ -6,6 +6,9 @@ import com.google.inject.Inject;
 import com.google.common.collect.ImmutableMap;
 
 /**
+ * Allows asynchronous creation of notifications. If they must be synchronous,
+ * please use UserFacade directly.
+ *
  * @author neteller
  * @created: Mar 8, 2011
  */

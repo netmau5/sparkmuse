@@ -1,0 +1,66 @@
+#{extends 'bodytemplate.html' /}
+#{set title:'Welcome to The Spark Foundry' /}
+
+<style type="text/css">
+
+  .page-canvas {
+    margin: 30px 0;
+  }
+
+  .title h2 {
+    font-size: 24px;
+  }
+
+  .carry-on {
+    padding-right: 64px;
+    background: url("@{'/public/images/hand.png'}") right 50% no-repeat;
+    height: 50px;
+    line-height: 50px;
+    width: 95px;
+    margin: 0 auto;
+  }
+
+  .carry-on a { font-size: 24px; }
+
+</style>
+
+<div class="page-canvas push-6 prepend-1 span-10 append-1">
+
+  <div class="title">
+    <h2>Welcome @${currentUser.userName}!</h2>
+  </div>
+
+  <p>
+    Hello and welcome to The Spark Foundry by <a href="@{Application.about()}">Sparkmuse</a>!
+    We help turn your ideas into reality by proving to entrepreneurs that
+    they are worth building.
+  </p>
+
+  <p>
+    In order to commit to ideas, we'll need a valid email address from you. Have questions?
+    Check out <a href="@{Foundry.howItWorks()}" target="_blank">How it Works!</a>
+  </p>
+
+  <form name="EmailForm" action="@{User.addEmail()}" method="POST">
+    <div class="field">
+      <label>Email</label>
+      <div class="error-message" parameter="email"></div>
+      <div class="input-wrapper"><input type="text" name="email" value=""/></div>
+    </div>
+  </form>
+
+  <div class="carry-on">
+    <a href="#" onclick="$(document.EmailForm).submit();">Let's Go!</a>
+  </div>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      $(document.EmailForm).formHandler(function(){
+        return {
+          email: this.email.value
+        }
+      })
+    });
+  </script>
+
+</div>

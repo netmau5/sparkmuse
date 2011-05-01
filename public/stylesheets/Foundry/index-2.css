@@ -17,18 +17,59 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 
 /* HEADER */
 
-.page-title h2 {
-  text-align: justify;
-  color: #444;
-  font-size: 2em;
-  line-height: 1.5em;
-  font-weight: bold;
+.logged-out .title {
+  background: transparent url("../../images/foundry_masthead_image.png") -10px right no-repeat;
+  height: 290px;
+  margin-right: 10px;
+  text-align: center;
 }
 
-  .page-title h2 em { }
-  .page-title h2 em.problem { color: #c77405; }
-  .page-title h2 em.action { color: #915200; }
-  .page-title h2 em.solution { color: #336699; }
+  .logged-out .title > * {
+    margin-right: 378px;
+  }
+
+  .logged-out .title h2 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+
+  .logged-out .title h3 {
+    color: #444;
+    font-size: 24px;
+    line-height: 32px;
+    text-shadow: 0 1px 1px white;
+  }
+
+.logged-in .title {
+  text-align: center;
+  padding: 0;
+}
+
+  .logged-in .title > * {
+  }
+
+  .logged-in .title h2 {
+  }
+
+  .logged-in .title h3 {
+    color: #444;
+    font-size: 16px;
+    line-height: 24px;
+    text-shadow: 0 1px 1px white;
+  }
+
+.page-title .button {
+  font-size: 32px;
+  line-height: 46px;
+  display: inline-block;
+}
+
+  .page-title .button img {
+    width: auto;
+    height: auto;
+    vertical-align: middle;
+    margin: -3px 3px 0 0 !important;
+  }
 
 .tagname > * { display: inline; }
 

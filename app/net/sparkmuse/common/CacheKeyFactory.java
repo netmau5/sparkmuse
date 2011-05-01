@@ -42,14 +42,14 @@ public class CacheKeyFactory {
   }
 
   /**
-   * @param user          user this paging state belongs to
+   * @param sessionId     user this paging state belongs to
    * @param type          type of entity being paged through
    * @param uniqueId      nullable; if there is more than one paging mechanism applied to this object type,
    *                      this is distinguishes (ie, multiple types of entity results to be paged through)
    * @return
    */
-  public static CacheKey<PagingState> newPagingState(UserVO user, Class type, String uniqueId){
-    return PagingState.newKey(user, type, uniqueId);
+  public static CacheKey<PagingState> newPagingState(String sessionId, Class type, String uniqueId){
+    return PagingState.newKey(sessionId, type, uniqueId);
   }
 
   public static CacheKey<DiscussionGroups> newDiscussionGroupsKey() {

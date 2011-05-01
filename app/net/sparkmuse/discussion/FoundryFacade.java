@@ -54,6 +54,21 @@ public class FoundryFacade {
     return null == count ? Lists.<String>newArrayList() : count.getTopTags();
   }
 
+  public WishSearchResponse search(final WishSearchRequest request) {
+    if (request.getFilter() == WishSearchRequest.Filter.TAGGED) {
+      return findTaggedWishes(request.getTagName(), request.getUser(), request.getPageChangeRequest());
+    }
+    if (request.getFilter() == WishSearchRequest.Filter.POPULAR) {
+      return findRecentWishes(request.getUser(), request.getPageChangeRequest());
+    }
+    if (request.getFilter() == WishSearchRequest.Filter.RECENT) {
+      return findPopularWishes(request.getUser(), request.getPageChangeRequest());
+    }
+    else {
+      throw new IllegalStateException("Unknown wish search filter.");
+    }
+  }
+
   /**
    * Find recent wishes.
    *
@@ -61,8 +76,25 @@ public class FoundryFacade {
    * @param request
    * @return
    */
-  public WishSearchResponse findRecentWishes(UserVO user, PageChangeRequest request) {
+  private WishSearchResponse findRecentWishes(UserVO user, PageChangeRequest request) {
     List<Wish> wishes = foundryDao.findRecentWishes(request);
+    return new WishSearchResponse(
+        wishes,
+        userFacade.findUserVotesFor(Sets.<Votable>newHashSet(wishes), user),
+        getTopTags(),
+        request.getState()
+    );
+  }
+
+  /**
+   * Find recent wishes.
+   *
+   * @param user      user performing the search, can be null
+   * @param request
+   * @return
+   */
+  private WishSearchResponse findPopularWishes(UserVO user, PageChangeRequest request) {
+    List<Wish> wishes = foundryDao.findPopularWishes(request);
     return new WishSearchResponse(
         wishes,
         userFacade.findUserVotesFor(Sets.<Votable>newHashSet(wishes), user),
@@ -78,7 +110,7 @@ public class FoundryFacade {
    * @param request
    * @return
    */
-  public WishSearchResponse findTaggedWishes(String tag, UserVO user, PageChangeRequest request) {
+  private WishSearchResponse findTaggedWishes(String tag, UserVO user, PageChangeRequest request) {
     List<Wish> wishes = foundryDao.findTaggedWishes(tag, request);
     return new WishSearchResponse(
         wishes,

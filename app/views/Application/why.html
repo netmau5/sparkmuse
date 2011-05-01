@@ -49,7 +49,7 @@
     resources and feedback freely.
   </p>
 
-  #{if !currentUser}
+  #{if !currentUser?.isUser()}
   #{applyForInvitation /}
   #{/if}
 </div>

@@ -2,6 +2,10 @@
 
 <style type="text/css">
 
+  .title h2 {
+    font-size: 24px;
+  }
+
   .carry-on {
     padding-right: 64px;
     background: url("@{'/public/images/hand.png'}") right 50% no-repeat;
@@ -17,7 +21,9 @@
 
 <div class="page-canvas push-6 prepend-1 span-10 append-1">
 
-  <h2>Welcome @${user.userName}!</h2>
+  <div class="title">
+    <h2>Welcome @${user.userName}!</h2>
+  </div>
 
   <p>
     Hello and welcome to the beta release of Sparkmuse.  I wanted to take a moment

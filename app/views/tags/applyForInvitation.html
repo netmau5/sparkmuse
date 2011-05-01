@@ -6,20 +6,20 @@
 <div id="application">
   <h3>Apply for an Invitation</h3>
   <form name="application-form" action="@{Authorization.applyForInvitation()}" method="POST">
-    <p>
+    <div class="field">
       <label>Twitter Username</label>
        <div class="input-wrapper"><input type="text" name="userName" value="@"/></div>
-    </p>
+    </div>
 
-    <p>
+    <div class="field">
       <label>Where can we learn about you?</label>
       <div class="input-wrapper"><input type="text" name="url" value="http://"/></div>
-    </p>
+    </div>
 
-    <p>
+    <div class="field">
       <label>Email <span class="subtext">(Optional, we will cc your invitation here)</span></label>
       <div class="input-wrapper"><input type="text" name="email" value=""/></div>
-    </p>
+    </div>
 
     <button type="submit" class="create-spark">
       <img src="@{'public/images/favicon.png'}" alt="Apply"/>

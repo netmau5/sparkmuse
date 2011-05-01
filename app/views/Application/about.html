@@ -55,7 +55,7 @@
     honesty policy at our <a href="@{Application.guidelines()}">Guidelines</a> page.
   </p>
 
-  #{if !currentUser}
+  #{if !currentUser?.isUser()}
 
     <p>
       Excited about Sparkmuse? Find out <a href="@{Application.why()}">why you should join today</a>.

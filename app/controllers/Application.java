@@ -19,6 +19,7 @@ import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.BlobService;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.ajax.AjaxResponse;
+import net.sparkmuse.discussion.WishSearchRequest;
 import org.apache.commons.lang.StringUtils;
 
 public class Application extends SparkmuseController {
@@ -38,7 +39,7 @@ public class Application extends SparkmuseController {
       Home.index();
     }
     else if (user.hasFoundryAccess()) {
-      Foundry.index(1);
+      Foundry.index(WishSearchRequest.Filter.RECENT, 1);
     }
     else {
       Landing.index();
@@ -46,8 +47,10 @@ public class Application extends SparkmuseController {
   }
 
   public static void logout() {
+    UserVO user = Authorization.getUserFromSession();
     session.clear();
-    Landing.index();
+    if (user.isUser()) Landing.index();
+    else Foundry.index(WishSearchRequest.Filter.RECENT, 1);
   }
   
   public static void credits(){

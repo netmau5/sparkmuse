@@ -95,14 +95,14 @@ public class PageChangeRequest {
    *
    * @param newPage       page requested
    * @param cache
-   * @param currentUser
+   * @param sessionId
    * @param type          underlying object type that is being paged
    * @param uniqueId      nullable; if there is more than one paging mechanism applied to this object type,
    *                      this is distinguishes (ie, multiple types of entity results to be paged through)
    * @return
    */
-  public static PageChangeRequest newInstance(int newPage, Cache cache, UserVO currentUser, Class type, String uniqueId) {
-    PagingState state = PagingState.retrieve(cache, currentUser, type, uniqueId);
+  public static PageChangeRequest newInstance(int newPage, Cache cache, String sessionId, Class type, String uniqueId) {
+    PagingState state = PagingState.retrieve(cache, sessionId, type, uniqueId);
     return new PageChangeRequest(new Target(state.currentPage(), newPage), state, cache);
   }
 

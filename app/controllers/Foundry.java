@@ -4,12 +4,15 @@ import controllers.SparkmuseController;
 import controllers.Authorization;
 import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.paging.PageChangeRequest;
+import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.discussion.FoundryFacade;
 import net.sparkmuse.discussion.WishSearchResponse;
 import net.sparkmuse.discussion.WishResponse;
+import net.sparkmuse.discussion.WishSearchRequest;
 import net.sparkmuse.common.Cache;
 import net.sparkmuse.common.Reflections;
 import net.sparkmuse.common.CommitmentType;
+import net.sparkmuse.common.AccessibleBy;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.AjaxResponse;
@@ -37,21 +40,30 @@ import filters.AuthorizationFilter;
  * @author neteller
  * @created: Mar 10, 2011
  */
-@With(AuthorizationFilter.class) //@todo need to change for open access
+@With(AuthorizationFilter.class)
+@AccessibleBy(AccessLevel.UNAUTHORIZED)
 public class Foundry extends SparkmuseController {
 
   @Inject static FoundryFacade foundryFacade;
   @Inject static Cache cache;
 
-  public static void index(int page) {
+  public static void index(WishSearchRequest.Filter filter, int page) {
     UserVO user = Authorization.getUserFromSession();
-    WishSearchResponse wishSearchResponse = foundryFacade.findRecentWishes(user, PageChangeRequest.newInstance(page, cache, user, Wish.class, "Wish"));
-    render(wishSearchResponse);
+    WishSearchResponse wishSearchResponse = foundryFacade.search(WishSearchRequest.newSearch(
+        user,
+        filter,
+        PageChangeRequest.newInstance(page, cache, session.getId(), Wish.class, "Wish")
+    ));
+    render(wishSearchResponse, filter);
   }
 
   public static void tagged(String tag, int page) {
     UserVO user = Authorization.getUserFromSession();
-    WishSearchResponse wishSearchResponse = foundryFacade.findTaggedWishes(tag, user, PageChangeRequest.newInstance(page, cache, user, Wish.class, "TaggedWish"));
+    WishSearchResponse wishSearchResponse = foundryFacade.search(WishSearchRequest.newTagSearch(
+        user,
+        tag,
+        PageChangeRequest.newInstance(page, cache, session.getId(), Wish.class, "TaggedWish")
+    ));
     boolean isTagPage = true;
     renderTemplate("Foundry/index.html", wishSearchResponse, tag, isTagPage);
   }
@@ -61,21 +73,24 @@ public class Foundry extends SparkmuseController {
     render(wishResponse);
   }
 
+  public static void howItWorks() {
+    render();
+  }
+
+  @AccessibleBy(AccessLevel.FOUNDRY)
   public static void create() {
     boolean isEditMode = false;
     render(isEditMode);
   }
 
+  @AccessibleBy(AccessLevel.FOUNDRY)
   public static void edit(Long wishId) {
     boolean isEditMode = true;
     Wish wish = foundryFacade.findWishBy(wishId);
     renderTemplate("Foundry/create.html", isEditMode, wish);
   }
 
-  public static void howItWorks() {
-    render();
-  }
-
+  @AccessibleBy(AccessLevel.FOUNDRY)
   public static void submit(@Valid Wish wish, String userName) {
     final UserVO currentUser = Authorization.getUserFromSessionOrAuthenticate(true);
 
@@ -110,11 +125,18 @@ public class Foundry extends SparkmuseController {
     renderJSON(new RedirectAjaxResponse(Router.reverse("Foundry.view", parameters).url));
   }
 
+  @AccessibleBy(AccessLevel.FOUNDRY)
+  public static void welcome() {
+    render();
+  }
+
+  @AccessibleBy(AccessLevel.FOUNDRY)
   public static void commit(@Required Long wishId, @Required CommitmentType commitmentType) {
     foundryFacade.commit(foundryFacade.findWishBy(wishId), commitmentType, Authorization.getUserFromSessionOrAuthenticate(true));
     renderJSON(new AjaxResponse());
   }
 
+  @AccessibleBy(AccessLevel.FOUNDRY)
   public static void reply(@Valid Comment comment) {
     final UserVO author = Authorization.getUserFromSessionOrAuthenticate(true);
     comment.setAuthor(author);

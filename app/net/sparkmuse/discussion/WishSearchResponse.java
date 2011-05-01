@@ -19,10 +19,6 @@ public class WishSearchResponse {
   private final List<String> topTags;
   private final PagingState pagingState;
 
-  public WishSearchResponse(List<Wish> wishes, UserVotes userVotes, PagingState pagingState) {
-    this(wishes, userVotes, Lists.<String>newArrayList(), pagingState);
-  }
-
   public WishSearchResponse(List<Wish> wishes, UserVotes userVotes, List<String> topTags, PagingState pagingState) {
     this.userVotes = userVotes;
     this.wishes = wishes;

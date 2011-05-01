@@ -17,11 +17,11 @@ GET         /home/index                               Home.search(filter:'RECENT
 
 # FOUNDRY
 
-GET         /foundry                                              Foundry.index(page:'1')
-GET         /foundry/index                                        Foundry.index(page:'1')
-GET         /foundry/index/{page}                                 Foundry.index
-GET         /foundry/tagged/{tagged}/{page}                       Foundry.tagged(page:'1')
-GET         /foundry/tagged/{tagged}                              Foundry.tagged
+GET         /foundry/index/{<[A-Za-z]+>filter}/{page}             Foundry.index
+GET         /foundry                                              Foundry.index(filter:'RECENT', page:'1')
+GET         /foundry/index                                        Foundry.index(filter:'RECENT', page:'1')
+GET         /foundry/tagged/{tag}                                 Foundry.tagged
+GET         /foundry/tagged/{tag}/{page}                          Foundry.tagged
 GET         /foundry/view/{wishId}                                Foundry.view
 
 # USER

@@ -29,6 +29,12 @@ public class TwigFoundryDao extends TwigDao implements FoundryDao {
     return helper.all(pageChangeRequest, findCommand);
   }
 
+  public List<Wish> findPopularWishes(PageChangeRequest pageChangeRequest) {
+    FindCommand.RootFindCommand<Wish> findCommand = datastore.find().type(Wish.class)
+        .addSort("votes", Query.SortDirection.DESCENDING);
+    return helper.all(pageChangeRequest, findCommand);
+  }
+
   public List<Wish> findTaggedWishes(String tag, PageChangeRequest pageChangeRequest) {
     FindCommand.RootFindCommand<Wish> findCommand = datastore.find().type(Wish.class)
         .addFilter("tags", Query.FilterOperator.EQUAL, tag)

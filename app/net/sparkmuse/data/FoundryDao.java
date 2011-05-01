@@ -16,6 +16,8 @@ public interface FoundryDao extends CrudDao {
 
   List<Wish> findRecentWishes(PageChangeRequest pageChangeRequest);
 
+  List<Wish> findPopularWishes(PageChangeRequest request);
+
   List<Wish> findTaggedWishes(String tag, PageChangeRequest pageChangeRequest);
 
   List<Comment> findWishCommentsBy(Long wishId);

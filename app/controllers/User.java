@@ -4,13 +4,17 @@ import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.data.entity.Expertise;
+import net.sparkmuse.data.entity.UserVO;
+import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.ValidationErrorAjaxResponse;
 import net.sparkmuse.ajax.FragmentAjaxResponse;
 import net.sparkmuse.common.Reflections;
+import net.sparkmuse.common.AccessibleBy;
 import net.sparkmuse.activity.ActivityService;
 import net.sparkmuse.activity.ActivityStream;
+import net.sparkmuse.discussion.WishSearchRequest;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -25,6 +29,7 @@ import play.templates.TemplateLoader;
 import play.data.validation.Valid;
 import play.data.validation.Validation;
 import play.data.validation.Required;
+import play.data.validation.Email;
 import play.mvc.Router;
 import play.mvc.With;
 import com.google.common.collect.Maps;
@@ -39,6 +44,7 @@ import filters.AuthorizationFilter;
  * @created: Nov 24, 2010
  */
 @With(AuthorizationFilter.class)
+@AccessibleBy(AccessLevel.FOUNDRY)
 public class User extends SparkmuseController {
 
   @Inject static UserFacade userFacade;
@@ -92,6 +98,7 @@ public class User extends SparkmuseController {
     renderJSON(new AjaxResponse());
   }
 
+  @AccessibleBy(AccessLevel.USER)
   public static void inviteFriend(@Required String friend) {
     final int remainingInvites = userFacade.inviteFriend(Authorization.getUserFromSessionOrAuthenticate(true), friend);
 
@@ -104,6 +111,7 @@ public class User extends SparkmuseController {
     renderJSON(new FragmentAjaxResponse(content));
   }
 
+  @AccessibleBy(AccessLevel.USER)
   public static void tweet(String message) {
     if (StringUtils.isNotBlank(message)) {
       userFacade.tweet(Authorization.getUserFromSessionOrAuthenticate(true), message);
@@ -114,6 +122,16 @@ public class User extends SparkmuseController {
   public static void clearNotification(Long notificationId) {
     userFacade.clearNotification(Authorization.getUserFromSessionOrAuthenticate(true), notificationId);
     renderJSON(new AjaxResponse());
+  }
+
+  public static void addEmail(@Required @Email String email) {
+    UserVO user = Authorization.getUserFromSessionOrAuthenticate(true);
+    userFacade.updateEmail(user, email);
+
+    Map<String, Object> params = Maps.newHashMap();
+    params.put("filter", WishSearchRequest.Filter.RECENT);
+    params.put("page", 1);
+    renderJSON(new RedirectAjaxResponse(Router.reverse("Foundry.index", params).url));
   }
 
 }

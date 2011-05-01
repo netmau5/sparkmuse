@@ -14,6 +14,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.code.twig.annotation.Embedded;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.Minutes;
 import org.apache.commons.collections.CollectionUtils;
 import twitter4j.http.AccessToken;
 
@@ -87,7 +88,7 @@ public class UserVO extends Entity<UserVO> {
   }
 
   public boolean isNewUser() {
-    return Days.daysBetween(NullTo.now(firstLogin), new DateTime()).getDays() <= 1;
+    return Minutes.minutesBetween(NullTo.now(firstLogin), new DateTime()).getMinutes() <= 5;
   }
 
 
@@ -95,7 +96,7 @@ public class UserVO extends Entity<UserVO> {
     UserVO user = new UserVO();
     user.setUserName(userName);
     user.setUserNameLowercase(userName.toLowerCase());
-    user.setAccessLevel(AccessLevel.UNAUTHORIZED);
+    user.setAccessLevel(AccessLevel.FOUNDRY);
     user.setReputation(0);
 
     if (userName.equalsIgnoreCase("Sparkmuse")) user.setAccessLevel(AccessLevel.DIETY);
@@ -108,6 +109,10 @@ public class UserVO extends Entity<UserVO> {
     this.setLastLogin(new DateTime());
     this.setOauthToken(login.getToken());
     this.setOauthTokenSecret(login.getTokenSecret());
+
+    if (AccessLevel.UNAUTHORIZED == this.getAccessLevel()) {
+      this.setAccessLevel(AccessLevel.FOUNDRY); //new minimum
+    }
 
     if (null == firstLogin) this.setFirstLogin(new DateTime());
 

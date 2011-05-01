@@ -9,6 +9,7 @@ import javax.inject.Inject;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.OAuthAuthenticationRequest;
 import net.sparkmuse.user.OAuthAuthenticationResponse;
+import net.sparkmuse.user.NotificationService;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.UserApplication;
 import net.sparkmuse.data.entity.Invitation;
@@ -18,6 +19,7 @@ import net.sparkmuse.common.Cache;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.ajax.RedirectAjaxResponse;
 import net.sparkmuse.ajax.InvalidRequestException;
+import net.sparkmuse.discussion.WishSearchRequest;
 import org.apache.commons.lang.StringUtils;
 import twitter4j.http.RequestToken;
 import controllers.Foundry;
@@ -56,6 +58,11 @@ public class Authorization extends SparkmuseController {
     return null;
   }
 
+  public static void authenticateFoundry() {
+    session.put(Constants.FOUNDRY_LOGIN, "TRUE");
+    authenticate();
+  }
+
 
   public static void authenticate() {
     final OAuthAuthenticationRequest request = userFacade.beginAuthentication();
@@ -88,16 +95,25 @@ public class Authorization extends SparkmuseController {
       String redirectPath = cache.get(cacheKey, String.class);
       if (StringUtils.isNotBlank(redirectPath)) {
         cache.delete(cacheKey);
+        flash.put(Constants.REDIRECTING, "TRUE");
         redirect(redirectPath);
       }
-      else if (user.isNewUser()) {
-        Home.welcome();
-      }
       else if (user.isUser()) {
-        Home.index();
+        if (user.isNewUser()) {
+          Home.welcome();
+        }
+        else {
+          Home.index();
+        }
       }
-      else {
-        Foundry.index(1);
+      else if (StringUtils.equals(session.get(Constants.FOUNDRY_LOGIN), "TRUE")) {
+        session.remove(Constants.FOUNDRY_LOGIN);
+        if (user.isNewUser()) {
+          Foundry.welcome();
+        }
+        else {
+          Foundry.index(WishSearchRequest.Filter.RECENT, 1);
+        }
       }
     }
     else {
