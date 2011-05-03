@@ -13,6 +13,7 @@ import net.sparkmuse.user.NotificationService;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.UserApplication;
 import net.sparkmuse.data.entity.Invitation;
+import net.sparkmuse.data.entity.UserProfile;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.common.Constants;
 import net.sparkmuse.common.Cache;
@@ -108,7 +109,8 @@ public class Authorization extends SparkmuseController {
       }
       else if (StringUtils.equals(session.get(Constants.FOUNDRY_LOGIN), "TRUE")) {
         session.remove(Constants.FOUNDRY_LOGIN);
-        if (user.isNewUser()) {
+        UserProfile profile = userFacade.findUserProfileBy(user.getId());
+        if (user.isNewUser() && StringUtils.isBlank(profile.getEmail())) {
           Foundry.welcome();
         }
         else {

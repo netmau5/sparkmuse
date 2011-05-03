@@ -50,6 +50,7 @@ public class User extends SparkmuseController {
   @Inject static UserFacade userFacade;
   @Inject static ActivityService activityService;
 
+  @AccessibleBy(AccessLevel.UNAUTHORIZED)
   public static void view(String userName) {
     final UserProfile profile = userFacade.getUserProfile(userName);
     ActivityStream profileActivities = activityService.getProfileActivity(profile.getUser());

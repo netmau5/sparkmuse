@@ -4,8 +4,9 @@
 #{if filter}
   #{set nav: filter.toString() /}
 #{/if}
-#{if currentUser?.isUser()}
-  #{set nav:'FOUNDRY' /}
+#{set area:'FOUNDRY' /}
+#{if !currentUser}
+  #{set hideHeader: true /}
 #{/if}
 
 <link rel="stylesheet" href="@{'/public/stylesheets/Foundry/index-2.css'}" type="text/css" />
@@ -48,11 +49,7 @@
   <div class="wishes-panel inner">
 
     #{if isTagPage}
-      <div class="tagname">
-        <h2>Tagged</h2>
-        <h3>[${tag}]</h3>
-      </div>
-      <hr/>
+    <div class="breadcrumbs"><a href="@{Foundry.index('RECENT', 1)}">Foundry</a> &rsaquo; ${tag}</div>
     #{/if}
 
     #{list items: wishSearchResponse.wishes, as: 'wish'}
@@ -77,19 +74,7 @@
     </div>
     </div>
 
-    <!--<ol class="controls">-->
-      <!--<li>-->
-        <!--<a href="#" class="button">-->
-          <!--<span>Sign Up</span>-->
-        <!--</a>-->
-      <!--</li>-->
-      <!--<li>-->
-        <!--<a href="#" class="button">-->
-          <!--<span>Login</span>-->
-        <!--</a>-->
-      <!--</li>-->
-    <!--</ol>-->
-
+    #{if currentUser}
     <ol class="controls">
       <li>
         <a href="#{if currentUserProfile?.canVoteOnFoundry()}@{Foundry.create()}#{/if}#"
@@ -102,6 +87,7 @@
         </a>
       </li>
     </ol>
+    #{/if}
 
     <div class="sidebox">
     <div class="sidebox-inner">

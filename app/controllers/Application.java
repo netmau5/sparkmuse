@@ -1,23 +1,18 @@
 package controllers;
 
 import com.google.code.twig.ObjectDatastore;
-import com.google.common.collect.Lists;
-import com.google.inject.name.Named;
-import com.google.appengine.api.datastore.Query;
 
 import javax.inject.Inject;
 import java.io.FileNotFoundException;
 import java.io.File;
 import java.io.InputStream;
 import java.io.FileInputStream;
-import java.util.List;
 
 import net.sparkmuse.data.entity.Feedback;
 import net.sparkmuse.data.entity.UserVO;
 import net.sparkmuse.data.entity.Invitation;
 import net.sparkmuse.data.util.AccessLevel;
 import net.sparkmuse.data.BlobService;
-import net.sparkmuse.common.Constants;
 import net.sparkmuse.ajax.AjaxResponse;
 import net.sparkmuse.discussion.WishSearchRequest;
 import org.apache.commons.lang.StringUtils;
@@ -32,7 +27,7 @@ public class Application extends SparkmuseController {
     UserVO user = Authorization.getUserFromSession();
 
     if (null == user) {
-      Landing.index();
+      Foundry.index(WishSearchRequest.Filter.RECENT, 1);
     }
 
     if (user.isUser()) {
@@ -49,7 +44,7 @@ public class Application extends SparkmuseController {
   public static void logout() {
     UserVO user = Authorization.getUserFromSession();
     session.clear();
-    if (user.isUser()) Landing.index();
+    if (null != user && user.isUser()) Landing.index();
     else Foundry.index(WishSearchRequest.Filter.RECENT, 1);
   }
   

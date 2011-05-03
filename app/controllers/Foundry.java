@@ -34,6 +34,7 @@ import play.data.validation.Required;
 import play.data.validation.Validation;
 import play.templates.Template;
 import play.templates.TemplateLoader;
+import play.Logger;
 import filters.AuthorizationFilter;
 
 /**
@@ -48,6 +49,7 @@ public class Foundry extends SparkmuseController {
   @Inject static Cache cache;
 
   public static void index(WishSearchRequest.Filter filter, int page) {
+    Logger.info("page: " + page);
     UserVO user = Authorization.getUserFromSession();
     WishSearchResponse wishSearchResponse = foundryFacade.search(WishSearchRequest.newSearch(
         user,

@@ -18,24 +18,24 @@
   <meta property="fb:admins" content="davejafari"/> 
   #{includes /}
 </head>
-<body>
+<body class="#{if !currentUser}no-user#{/if}">
 
 #{include 'notifications.html' /}
 
-#{if currentUser}
+#{if !hideHeader}
 <div id="dickbar"></div>
 <div id="header-container-wrapper">
 <div id="header-container">
   <div class="page-container clearfix" id="header">
     <div class="span-19">
-      <a class="logo #{if nav=='FOUNDRY'}foundry#{/if}" href="@{Application.home()}"></a>
+      <a class="logo #{if area=='FOUNDRY' || !currentUser || !currentUser.isUser()}foundry#{/if}" href="@{Application.home()}"></a>
         <ol class="nav">
           #{if currentUser?.isUser() }
           <li><a href="@{Home.index()}" class="#{if nav=='SPARKS'}active#{/if}">SPARKS</a></li>
           <li><a href="@{Discuss.index()}" class="#{if nav=='DISCUSS'}active#{/if}">DISCUSS</a></li>
           <li><a href="@{People.view()}" class="#{if nav=='PEOPLE'}active#{/if}">PEOPLE</a></li>
           <li><a href="@{ActivityController.view()}" class="#{if nav=='ACTIVITY'}active#{/if}">ACTIVITY</a></li>
-          <li><a href="@{Foundry.index()}" class="#{if nav=='FOUNDRY'}active#{/if}">FOUNDRY</a></li>
+          <li><a href="@{Foundry.index('RECENT', 1)}" class="#{if nav=='FOUNDRY'}active#{/if}">FOUNDRY</a></li>
           #{/if}
           #{else}
           <li><a href="@{Foundry.index('RECENT', 1)}" class="#{if nav=='RECENT'}active#{/if}">RECENT</a></li>
@@ -45,8 +45,13 @@
     </div>
     <div class="user-details">
       <ul>
+        #{if currentUser}
         <li><a href="@{Application.logout()}">Logout</a></li>
         <li>#{nameTag user: currentUser /} <img src="@{'public/images/icons/silk/lightbulb.png'}" alt="Reputation" /> ${currentUser.reputation}</li>
+        #{/if}
+        #{else}
+        <li><a href="@{Authorization.authenticateFoundry()}">Login</a></li>
+        #{/else}
       </ul>
     </div>
   </div>

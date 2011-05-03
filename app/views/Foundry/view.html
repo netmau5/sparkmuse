@@ -10,7 +10,7 @@
 
   <div class="span-14 first">
 
-    <div class="breadcrumbs"><a href="@{Foundry.index()}">Foundry</a> &rsaquo; Problem</div>
+    <div class="breadcrumbs"><a href="@{Foundry.index('RECENT', 1)}">Foundry</a> &rsaquo; Problem</div>
 
     <div class="sidebox wishbox">
 
@@ -54,7 +54,7 @@
         #{if wishResponse.comments?.size() == 0}
           <div id="no-posts">
             <em>No Comments</em>
-            <a href="#" onclick="SM.CommentManagerInstance.newReply(); $('#no-posts').remove();">Be the first!</a>
+            #{if currentUser}<a href="#" onclick="SM.CommentManagerInstance.newReply(); $('#no-posts').remove();">Be the first!</a>#{/if}
           </div>
         #{/if}
 
@@ -95,23 +95,6 @@
           #{/if}
         </ol>
       #{/if}
-      #{else}
-        <div class="sidebox">
-          <h4>Login to Comment</h4>
-          <ol class="controls">
-            <li>
-              <a href="#" class="button">
-                <span>Sign Up</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="button">
-                <span>Login</span>
-              </a>
-            </li>
-          </ol>
-        </div>
-      #{/else}
 
       %{
         committedToSeeCount = wishResponse.committedToSeeCount

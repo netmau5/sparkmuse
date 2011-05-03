@@ -18,14 +18,14 @@ $FONT_FAMILY_STANDARD: Georgia, "Times New Roman", Times, serif;
 /* HEADER */
 
 .logged-out .title {
-  background: transparent url("../../images/foundry_masthead_image.png") -10px right no-repeat;
+  background: transparent url("../../images/foundry_masthead_image.png") right -10px no-repeat;
   height: 290px;
   margin-right: 10px;
   text-align: center;
 }
 
   .logged-out .title > * {
-    margin-right: 378px;
+    margin-right: 368px;
   }
 
   .logged-out .title h2 {

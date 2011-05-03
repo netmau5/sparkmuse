@@ -44,6 +44,12 @@ $FONT_FAMILY_STANDARD: "Georgia", "Times New Roman", Times, serif;
   margin-top: 40px; 
 }
 
+  .no-user #no-posts {
+    padding-top: 50px;
+    height: 100px;
+  }
+
+
 /* SIDEBAR */
 
 .content-inner {

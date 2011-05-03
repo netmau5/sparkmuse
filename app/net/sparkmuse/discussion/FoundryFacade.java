@@ -9,6 +9,7 @@ import net.sparkmuse.data.entity.*;
 import net.sparkmuse.data.paging.PageChangeRequest;
 import net.sparkmuse.user.UserFacade;
 import net.sparkmuse.user.Votable;
+import net.sparkmuse.user.UserVotes;
 import net.sparkmuse.task.IssueTaskService;
 import net.sparkmuse.task.IncrementUserStatisticTask;
 import com.google.inject.Inject;
@@ -57,11 +58,11 @@ public class FoundryFacade {
   public WishSearchResponse search(final WishSearchRequest request) {
     if (request.getFilter() == WishSearchRequest.Filter.TAGGED) {
       return findTaggedWishes(request.getTagName(), request.getUser(), request.getPageChangeRequest());
-    }
-    if (request.getFilter() == WishSearchRequest.Filter.POPULAR) {
+    } 
+    if (request.getFilter() == WishSearchRequest.Filter.RECENT) {
       return findRecentWishes(request.getUser(), request.getPageChangeRequest());
     }
-    if (request.getFilter() == WishSearchRequest.Filter.RECENT) {
+    if (request.getFilter() == WishSearchRequest.Filter.POPULAR) {
       return findPopularWishes(request.getUser(), request.getPageChangeRequest());
     }
     else {
@@ -145,6 +146,11 @@ public class FoundryFacade {
     return foundryDao.load(Wish.class, id);
   }
 
+  /**
+   * @param wishId
+   * @param requestingUser  Nullable
+   * @return
+   */
   public WishResponse findWishContent(Long wishId, UserVO requestingUser) {
     Wish wish = findWishBy(wishId);
     List<Comment> comments = findWishCommentsBy(wishId);
@@ -152,12 +158,22 @@ public class FoundryFacade {
     Set<Votable> votables = Sets.<Votable>newHashSet(comments);
     votables.add(wish);
     
-    return new WishResponse(
-        wish,
-        comments,
-        userFacade.findUserVotesFor(votables, requestingUser),
-        findCommitmentsFor(requestingUser.getId(), wishId)
-    );
+    if (null != requestingUser) {
+      return new WishResponse(
+          wish,
+          comments,
+          userFacade.findUserVotesFor(votables, requestingUser),
+          findCommitmentsFor(requestingUser.getId(), wishId)
+      );
+    }
+    else {
+      return new WishResponse(
+          wish,
+          comments,
+          UserVotes.empty(),
+          Lists.<Commitment>newArrayList()
+      );
+    }
   }
 
   public void commit(Wish wish, CommitmentType type, UserVO requestingUser) {

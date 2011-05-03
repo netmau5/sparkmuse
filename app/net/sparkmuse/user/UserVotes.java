@@ -44,4 +44,7 @@ public class UserVotes {
     return new UserVotes(Sets.newHashSet(UserVote.newUpVote(votable, voter)));
   }
 
+  public static UserVotes empty() {
+    return new UserVotes(Sets.<UserVote>newHashSet());
+  }
 }

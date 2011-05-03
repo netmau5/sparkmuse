@@ -17,9 +17,8 @@ GET         /home/index                               Home.search(filter:'RECENT
 
 # FOUNDRY
 
-GET         /foundry/index/{<[A-Za-z]+>filter}/{page}             Foundry.index
-GET         /foundry                                              Foundry.index(filter:'RECENT', page:'1')
-GET         /foundry/index                                        Foundry.index(filter:'RECENT', page:'1')
+GET         /foundry                                              Foundry.index(filter:'RECENT',page:'1')
+GET         /foundry/index/{<[A-Za-z]+>filter}/{page}             Foundry.index 
 GET         /foundry/tagged/{tag}                                 Foundry.tagged
 GET         /foundry/tagged/{tag}/{page}                          Foundry.tagged
 GET         /foundry/view/{wishId}                                Foundry.view

@@ -129,7 +129,9 @@
       <div class="comment">
         <div class="author">
           <cite>
-            #{nameTag user:currentUser /}
+            #{if currentUser}
+              #{nameTag user:currentUser /}
+            #{/if}
           </cite>
         </div>
         <blockquote>
